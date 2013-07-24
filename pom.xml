@@ -8,5 +8,19 @@
     <artifactId>radiate</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    
+    <repositories>
+        <repository>
+            <id>bad.robot</id>
+            <name>bad.robot repository for robotooling</name>
+            <url>http://www.robotooling.com/maven/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>bad.robot</groupId>
+            <artifactId>simple-http</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
