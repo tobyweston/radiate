@@ -1,0 +1,14 @@
+{
+    "project": [
+        {
+            "id": "_Root",
+            "name": "<Root project>",
+            "href": "/guestAuth/app/rest/projects/id:_Root"
+        },
+        {
+            "id": "simple_excel",
+            "name": "simple-excel",
+            "href": "/guestAuth/app/rest/projects/id:simple_excel"
+        }
+    ]
+}
