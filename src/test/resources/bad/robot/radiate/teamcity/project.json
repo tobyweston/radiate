@@ -1,0 +1,69 @@
+{
+    "id": "example",
+    "name": "example",
+    "href": "/guestAuth/app/rest/projects/id:example",
+    "description": "",
+    "archived": false,
+    "webUrl": "http://localhost:8111/project.html?projectId=example",
+    "parentProject": {
+        "id": "_Root",
+        "name": "<Root project>",
+        "href": "/guestAuth/app/rest/projects/id:_Root"
+    },
+    "buildTypes": {
+        "buildType": [
+            {
+                "id": "example_Qa",
+                "name": "QA",
+                "href": "/guestAuth/app/rest/buildTypes/id:example_Qa",
+                "projectName": "example",
+                "projectId": "example",
+                "webUrl": "http://localhost:8111/viewType.html?buildTypeId=example_Qa"
+            },
+            {
+                "id": "example_1",
+                "name": "example1",
+                "href": "/guestAuth/app/rest/buildTypes/id:example_1",
+                "projectName": "example",
+                "projectId": "example",
+                "webUrl": "http://localhost:8111/viewType.html?buildTypeId=example_1"
+            },
+            {
+                "id": "example_2",
+                "name": "example2",
+                "href": "/guestAuth/app/rest/buildTypes/id:example_2",
+                "projectName": "example",
+                "projectId": "example",
+                "webUrl": "http://localhost:8111/viewType.html?buildTypeId=example_2"
+            },
+            {
+                "id": "example_Trunk",
+                "name": "Trunk",
+                "href": "/guestAuth/app/rest/buildTypes/id:example_Trunk",
+                "projectName": "example",
+                "projectId": "example",
+                "webUrl": "http://localhost:8111/viewType.html?buildTypeId=example_Trunk"
+            },
+            {
+                "id": "example_Uat",
+                "name": "UAT",
+                "href": "/guestAuth/app/rest/buildTypes/id:example_Uat",
+                "projectName": "example",
+                "projectId": "example",
+                "webUrl": "http://localhost:8111/viewType.html?buildTypeId=example_Uat"
+            }
+        ]
+    },
+    "templates": {
+        "buildType": []
+    },
+    "parameters": {
+        "property": []
+    },
+    "vcsRoots": {
+        "href": "/guestAuth/app/rest/vcs-roots?locator=project:(id:example)"
+    },
+    "projects": {
+        "project": []
+    }
+}

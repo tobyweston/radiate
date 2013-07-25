@@ -1,0 +1,29 @@
+{
+    "id": "_Root",
+    "name": "<Root project>",
+    "href": "/guestAuth/app/rest/projects/id:_Root",
+    "description": "Contains all other projects",
+    "archived": false,
+    "webUrl": "http://localhost:8111/project.html?projectId=_Root",
+    "buildTypes": {
+        "buildType": []
+    },
+    "templates": {
+        "buildType": []
+    },
+    "parameters": {
+        "property": []
+    },
+    "vcsRoots": {
+        "href": "/guestAuth/app/rest/vcs-roots?locator=project:(id:_Root)"
+    },
+    "projects": {
+        "project": [
+            {
+                "id": "Example",
+                "name": "Example",
+                "href": "/guestAuth/app/rest/projects/id:example"
+            }
+        ]
+    }
+}

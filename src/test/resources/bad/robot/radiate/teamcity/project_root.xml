@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project id="_Root" name="&lt;Root project&gt;" href="/guestAuth/app/rest/projects/id:_Root" description="Contains all other projects" archived="false" webUrl="http://localhost:8111/project.html?projectId=_Root">
+    <buildTypes/>
+    <templates/>
+    <parameters/>
+    <vcsRoots href="/guestAuth/app/rest/vcs-roots?locator=project:(id:_Root)"/>
+    <projects>
+        <project id="example" name="example" href="/guestAuth/app/rest/projects/id:example"/>
+    </projects>
+</project>
