@@ -1,6 +1,6 @@
 package bad.robot.radiate;
 
-public interface Unmarshaller<T> {
+public interface Unmarshaller<F, T> {
 
-    T unmarshall();
+    T unmarshall(F raw);
 }

@@ -33,7 +33,7 @@ public class JsonProjectsUnmarshallerTest {
                 "        }" +
                 "    ]" +
                 "}";
-        Iterable<Project> projects = new JsonProjectsUnmarshaller(responseReturning(json)).unmarshall();
+        Iterable<Project> projects = new JsonProjectsUnmarshaller().unmarshall(responseReturning(json));
         assertThat(projects, containsInAnyOrder(
             new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root"),
             new Project("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel")
@@ -42,7 +42,7 @@ public class JsonProjectsUnmarshallerTest {
 
     @Test
     public void unmarshallEmptyHttpResponseWithoutShittingItself() {
-        new JsonProjectsUnmarshaller(responseReturning("")).unmarshall();
+        new JsonProjectsUnmarshaller().unmarshall(responseReturning(""));
     }
 
 

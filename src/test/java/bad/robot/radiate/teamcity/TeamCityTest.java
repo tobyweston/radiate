@@ -16,17 +16,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TeamCityTest {
 
-    private final String host = "http://localhost:8111";
+    private final String host = "localhost";
     private final CommonHttpClient http = anApacheClient();
+    private final JsonProjectsUnmarshaller unmarshaller = new JsonProjectsUnmarshaller();
 
     @Test
     public void getBuildsForAProject() throws MalformedURLException {
-        URL url = new URL(host + TeamCityEndpoint.projectsEndpoint + "_Root");
-        HttpResponse response = http.get(url, headers(
-                header("Accept", "application/json")
-        ));
-        assertThat(response, has(status(200)));
-        System.out.println(response.getContent());
+        TeamCity teamcity = new TeamCity(new Server(host, 8111), http, unmarshaller);
+        Iterable<Project> projects = teamcity.retrieveProjects();
+        for (Project project : projects) {
+            System.out.println(project);
+        }
     }
 
     private URL proxy() {
@@ -36,6 +36,5 @@ public class TeamCityTest {
             throw new RuntimeException(e);
         }
     }
-
 
 }

@@ -1,8 +1,18 @@
 package bad.robot.radiate.teamcity;
 
-class TeamCityEndpoint {
+enum TeamCityEndpoint {
 
-    public static final String projectsEndpoint = "/guestAuth/app/rest/projects";
+    projectsEndpoint("/guestAuth/app/rest/projects");
 
+    private String endpoint;
+
+    TeamCityEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    @Override
+    public String toString() {
+        return endpoint;
+    }
 }
 

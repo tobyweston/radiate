@@ -4,16 +4,10 @@ import bad.robot.http.HttpResponse;
 import bad.robot.radiate.Unmarshaller;
 import com.google.gson.Gson;
 
-class JsonProjectsUnmarshaller implements Unmarshaller<Iterable<Project>> {
-
-    private final HttpResponse response;
-
-    public JsonProjectsUnmarshaller(HttpResponse response) {
-        this.response = response;
-    }
+class JsonProjectsUnmarshaller implements Unmarshaller<HttpResponse, Iterable<Project>> {
 
     @Override
-    public Iterable<Project> unmarshall() {
+    public Iterable<Project> unmarshall(HttpResponse response) {
         return new Gson().fromJson(response.getContent().asString(), Projects.class);
     }
 }
