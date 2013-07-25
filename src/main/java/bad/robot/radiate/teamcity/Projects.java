@@ -14,10 +14,6 @@ class Projects implements Iterable<Project> {
 
     private Collection<Project> project = new ArrayList<Project>();
 
-    public void add(Project project) {
-        this.project.add(project);
-    }
-
     @Override
     public Iterator<Project> iterator() {
         return project.iterator();

@@ -35,8 +35,8 @@ public class JsonProjectsUnmarshallerTest {
                 "}";
         Iterable<Project> projects = new JsonProjectsUnmarshaller(responseReturning(json)).unmarshall();
         assertThat(projects, containsInAnyOrder(
-                new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root"),
-                new Project("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel")
+            new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root"),
+            new Project("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel")
         ));
     }
 
