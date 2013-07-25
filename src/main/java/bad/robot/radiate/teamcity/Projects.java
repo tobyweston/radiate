@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -12,11 +13,12 @@ import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 class Projects implements Iterable<Project> {
 
-    private Collection<Project> project = new ArrayList<Project>();
+    @SerializedName("project")
+    private Collection<Project> projects = new ArrayList<Project>();
 
     @Override
     public Iterator<Project> iterator() {
-        return project.iterator();
+        return projects.iterator();
     }
 
     @Override
