@@ -1,6 +1,8 @@
 package bad.robot.radiate.teamcity;
 
-import java.net.MalformedURLException;
+import bad.robot.radiate.Hypermedia;
+import bad.robot.radiate.Url;
+
 import java.net.URL;
 
 import static java.lang.String.format;
@@ -17,14 +19,8 @@ public class Server {
         this.port = port;
     }
 
-    public URL urlFor(TeamCityEndpoint endpoint) {
-        try {
-            URL url = new URL(url() + endpoint.toString());
-            System.out.println(url);
-            return url;
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+    public URL urlFor(Hypermedia endpoint) {
+        return Url.url(url() + endpoint.getHref());
     }
 
     private String url() {

@@ -1,18 +1,15 @@
 package bad.robot.radiate.teamcity;
 
-enum TeamCityEndpoint {
+import bad.robot.radiate.Hypermedia;
 
-    projectsEndpoint("/guestAuth/app/rest/projects");
+enum TeamCityEndpoint implements Hypermedia {
 
-    private String endpoint;
-
-    TeamCityEndpoint(String endpoint) {
-        this.endpoint = endpoint;
+    projectsEndpoint(){
+        @Override
+        public String getHref() {
+            return "/guestAuth/app/rest/projects";
+        }
     }
 
-    @Override
-    public String toString() {
-        return endpoint;
-    }
 }
 

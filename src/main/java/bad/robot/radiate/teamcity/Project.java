@@ -1,12 +1,13 @@
 package bad.robot.radiate.teamcity;
 
+import bad.robot.radiate.Hypermedia;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
-class Project {
+class Project implements Hypermedia {
 
     private final String id;
     private final String name;
@@ -26,6 +27,7 @@ class Project {
         return name;
     }
 
+    @Override
     public String getHref() {
         return href;
     }
