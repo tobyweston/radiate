@@ -10,7 +10,6 @@ import java.net.URL;
 import static bad.robot.http.HeaderList.headers;
 import static bad.robot.http.HeaderPair.header;
 import static bad.robot.radiate.teamcity.TeamCityEndpoint.projectsEndpoint;
-import static java.lang.String.format;
 
 class TeamCity {
 
@@ -30,7 +29,7 @@ class TeamCity {
         HttpResponse response = http.get(url, headers);
         if (response.ok())
             return unmarshaller.unmarshall(response);
-        throw new RuntimeException(format("Unexpected HTTP response from %s (%d, %s)", url, response.getStatusCode(), response.getStatusMessage()));
+        throw new UnexpectedResponse(url, response);
     }
 
     public void retrieveBuildTypes(Iterable<Project> projects) {
