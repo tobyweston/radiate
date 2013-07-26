@@ -3,19 +3,17 @@ package bad.robot.radiate.teamcity;
 import bad.robot.http.HttpResponse;
 import bad.robot.http.MessageContent;
 import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
-@RunWith(JMock.class)
 public class JsonProjectsUnmarshallerTest {
 
-    private final Mockery context = new JUnit4Mockery();
+    @Rule public final JUnit4Mockery context = new JUnit4Mockery();
+
     private final JsonProjectsUnmarshaller unmarshaller = new JsonProjectsUnmarshaller();
 
     @Test

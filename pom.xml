@@ -14,9 +14,19 @@
             <name>bad.robot repository for robotooling</name>
             <url>http://www.robotooling.com/maven/</url>
         </repository>
+        <repository>
+            <id>repo.bodar.com</id>
+            <url>http://repo.bodar.com</url>
+        </repository>
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jmock</groupId>
+            <artifactId>jmock-junit4</artifactId>
+            <version>2.6.0</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>bad.robot</groupId>
             <artifactId>simple-http</artifactId>
@@ -28,10 +38,9 @@
             <version>2.2.4</version>
         </dependency>
         <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock-junit4</artifactId>
-            <version>2.6.0</version>
-            <scope>test</scope>
+            <groupId>com.googlecode.totallylazy</groupId>
+            <artifactId>totallylazy</artifactId>
+            <version>1098</version>
         </dependency>
     </dependencies>
 </project>
