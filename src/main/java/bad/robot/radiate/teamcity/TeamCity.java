@@ -32,11 +32,11 @@ class TeamCity {
         throw new UnexpectedResponse(url, response);
     }
 
-    public void retrieveBuildTypes(Iterable<Project> projects) {
+    public void retrieveFullProjectInformation(Iterable<Project> projects) {
         for (Project project : projects) {
             URL url = server.urlFor(project);
             HttpResponse response = http.get(url, headers);
-            System.out.println(response);
+            System.out.println(response.getContent().asString() +"\n\n");
         }
     }
 

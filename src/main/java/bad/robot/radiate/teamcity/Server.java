@@ -13,6 +13,8 @@ public class Server {
     private final Integer port;
 
     public Server(String host, Integer port) {
+        if (host == null || port == null)
+            throw new IllegalArgumentException("please supply a host name and port");
         if (host.contains("http"))
             throw new IllegalArgumentException("no need to specify a protocol, just give me a hostname");
         this.host = host;

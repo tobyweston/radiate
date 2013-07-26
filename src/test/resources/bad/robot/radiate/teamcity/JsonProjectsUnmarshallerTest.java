@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 public class JsonProjectsUnmarshallerTest {
 
     private final Mockery context = new JUnit4Mockery();
+    private final JsonProjectsUnmarshaller unmarshaller = new JsonProjectsUnmarshaller();
 
     @Test
     public void unmarshallHttpResponse() {
@@ -33,7 +34,7 @@ public class JsonProjectsUnmarshallerTest {
                 "        }" +
                 "    ]" +
                 "}";
-        Iterable<Project> projects = new JsonProjectsUnmarshaller().unmarshall(responseReturning(json));
+        Iterable<Project> projects = unmarshaller.unmarshall(stubResponseReturning(json));
         assertThat(projects, containsInAnyOrder(
             new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root"),
             new Project("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel")
@@ -42,17 +43,16 @@ public class JsonProjectsUnmarshallerTest {
 
     @Test
     public void unmarshallEmptyHttpResponseWithoutShittingItself() {
-        new JsonProjectsUnmarshaller().unmarshall(responseReturning(""));
+        unmarshaller.unmarshall(stubResponseReturning(""));
     }
 
-
-    private HttpResponse responseReturning(final String content) {
+    private HttpResponse stubResponseReturning(final String content) {
         final HttpResponse response = context.mock(HttpResponse.class);
         context.checking(new Expectations() {{
             allowing(response).getContent(); will(returnValue(new MessageContent() {
                 @Override
                 public String asString() {
-                return content;
+                    return content;
                 }
             }));
         }});

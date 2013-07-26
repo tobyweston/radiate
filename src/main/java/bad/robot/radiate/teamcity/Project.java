@@ -1,22 +1,26 @@
 package bad.robot.radiate.teamcity;
 
 import bad.robot.radiate.Hypermedia;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.google.gson.annotations.SerializedName;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
-
-class Project implements Hypermedia {
+class Project extends TeamCityObject implements Hypermedia {
 
     private final String id;
     private final String name;
     private final String href;
 
-    public Project(String id, String name, String href) {
+    @SerializedName("buildTypes")
+    private final BuildTypes buildTypes;
+
+    public Project(String id, String name, String href, BuildTypes buildTypes) {
         this.id = id;
         this.name = name;
         this.href = href;
+        this.buildTypes = buildTypes;
+    }
+
+    public Project(String id, String name, String href) {
+        this(id, name, href, null);
     }
 
     public String getId() {
@@ -32,18 +36,8 @@ class Project implements Hypermedia {
         return href;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return reflectionEquals(this, o);
+    BuildTypes getBuildTypes() {
+        return buildTypes;
     }
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, SHORT_PREFIX_STYLE);
-    }
 }
