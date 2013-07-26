@@ -2,7 +2,15 @@ package bad.robot.radiate.teamcity;
 
 class BuildLocatorBuilder {
 
-    StringBuilder locator = new StringBuilder();
+    private final StringBuilder locator = new StringBuilder();
+
+    public static BuildLocatorBuilder latest(BuildType buildType) {
+        return new BuildLocatorBuilder().with(buildType);
+    }
+
+    public static BuildLocatorBuilder running(BuildType buildType) {
+        return new BuildLocatorBuilder().with(buildType).running();
+    }
 
     BuildLocatorBuilder with(BuildType type) {
         withSeperator().append("buildType:").append(type.getName());

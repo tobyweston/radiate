@@ -27,7 +27,7 @@ public class TeamCityTest {
         Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
         for (BuildType buildType : buildTypes) {
             Build build = teamcity.retrieveLatestBuild(buildType);
-            System.out.printf("%s: %s (%s) - %s%n", build.getBuildType(), build.getNumber(), build.getId(), build.getStatusText());
+            System.out.printf("%s: %s (%s) - %s%n", build.getBuildType().getName(), build.getNumber(), build.getId(), build.getStatusText());
         }
     }
 

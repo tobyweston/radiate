@@ -8,6 +8,9 @@ class JsonBuildUnmarshaller implements Unmarshaller<HttpResponse, Build> {
 
     @Override
     public Build unmarshall(HttpResponse response) {
-        return new Gson().fromJson(response.getContent().asString(), Build.class);
+        RunningBuild build = new Gson().fromJson(response.getContent().asString(), RunningBuild.class);
+        if (build.getRunInformation() == null)
+            return new Build(build.getId(), build.getNumber(), build.getHref(), build.getStatusText(), build.getStartDate(), build.getFinishDate(), build.getBuildType());
+        return build;
     }
 }

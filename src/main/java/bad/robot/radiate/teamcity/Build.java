@@ -34,8 +34,16 @@ public class Build extends TeamCityObject implements Hypermedia {
         return statusText;
     }
 
-    public String getBuildType() {
-        return buildType.getName();
+    public BuildType getBuildType() {
+        return buildType;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getFinishDate() {
+        return finishDate;
     }
 
     @Override
