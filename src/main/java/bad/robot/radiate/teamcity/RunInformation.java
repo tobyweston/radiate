@@ -1,6 +1,6 @@
 package bad.robot.radiate.teamcity;
 
-public class RunInformation extends TeamCityObject {
+class RunInformation extends TeamCityObject {
 
     private final Integer percentageComplete;
     private final Integer elapsedSeconds;
@@ -10,5 +10,17 @@ public class RunInformation extends TeamCityObject {
         this.percentageComplete = percentageComplete;
         this.elapsedSeconds = elapsedSeconds;
         this.estimatedTotalSeconds = estimatedTotalSeconds;
+    }
+
+    public Integer getPercentageComplete() {
+        return percentageComplete;
+    }
+
+    Integer getElapsedSeconds() {
+        return elapsedSeconds;
+    }
+
+    Integer getEstimatedTotalSeconds() {
+        return estimatedTotalSeconds;
     }
 }
