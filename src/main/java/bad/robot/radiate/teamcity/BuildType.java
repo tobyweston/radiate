@@ -2,7 +2,7 @@ package bad.robot.radiate.teamcity;
 
 import bad.robot.radiate.Hypermedia;
 
-public class BuildType extends TeamCityObject implements Hypermedia {
+class BuildType extends TeamCityObject implements Hypermedia {
 
     private final String id;
     private final String name;

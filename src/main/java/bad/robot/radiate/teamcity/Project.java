@@ -3,7 +3,9 @@ package bad.robot.radiate.teamcity;
 import bad.robot.radiate.Hypermedia;
 import com.google.gson.annotations.SerializedName;
 
-class Project extends TeamCityObject implements Hypermedia {
+import java.util.Iterator;
+
+class Project extends TeamCityObject implements Hypermedia, Iterable<BuildType> {
 
     private final String id;
     private final String name;
@@ -36,8 +38,8 @@ class Project extends TeamCityObject implements Hypermedia {
         return href;
     }
 
-    BuildTypes getBuildTypes() {
-        return buildTypes;
+    @Override
+    public Iterator<BuildType> iterator() {
+        return buildTypes.iterator();
     }
-
 }
