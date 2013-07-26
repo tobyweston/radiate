@@ -1,9 +1,5 @@
 package bad.robot.radiate.teamcity;
 
-import bad.robot.http.HttpResponse;
-import bad.robot.http.MessageContent;
-import org.jmock.Expectations;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -12,7 +8,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 
 public class JsonProjectsUnmarshallerTest {
 
-    @Rule public final JUnit4Mockery context = new JUnit4Mockery();
+    @Rule public final HttpResponseStubMockery context = new HttpResponseStubMockery();
 
     private final JsonProjectsUnmarshaller unmarshaller = new JsonProjectsUnmarshaller();
 
@@ -32,7 +28,7 @@ public class JsonProjectsUnmarshallerTest {
                 "        }" +
                 "    ]" +
                 "}";
-        Iterable<Project> projects = unmarshaller.unmarshall(stubResponseReturning(json));
+        Iterable<Project> projects = unmarshaller.unmarshall(context.stubResponseReturning(json));
         assertThat(projects, containsInAnyOrder(
             new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root"),
             new Project("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel")
@@ -41,20 +37,7 @@ public class JsonProjectsUnmarshallerTest {
 
     @Test
     public void unmarshallEmptyHttpResponseWithoutShittingItself() {
-        unmarshaller.unmarshall(stubResponseReturning(""));
-    }
-
-    private HttpResponse stubResponseReturning(final String content) {
-        final HttpResponse response = context.mock(HttpResponse.class);
-        context.checking(new Expectations() {{
-            allowing(response).getContent(); will(returnValue(new MessageContent() {
-                @Override
-                public String asString() {
-                    return content;
-                }
-            }));
-        }});
-        return response;
+        unmarshaller.unmarshall(context.stubResponseReturning(""));
     }
 
 }

@@ -23,4 +23,7 @@ class BuildType extends TeamCityObject implements Hypermedia {
         return href;
     }
 
+    public String getName() {
+        return name;
+    }
 }

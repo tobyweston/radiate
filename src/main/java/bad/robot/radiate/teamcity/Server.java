@@ -25,6 +25,10 @@ public class Server {
         return Url.url(url() + endpoint.getHref());
     }
 
+    public URL urlFor(Hypermedia endpoint, BuildLocatorBuilder locator) {
+        return Url.url(url() + endpoint.getHref() + locator.build());
+    }
+
     private String url() {
         return format("http://%s:%d/", host, port);
     }

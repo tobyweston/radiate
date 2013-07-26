@@ -1,9 +1,5 @@
 package bad.robot.radiate.teamcity;
 
-import bad.robot.http.HttpResponse;
-import bad.robot.http.MessageContent;
-import org.jmock.Expectations;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -13,13 +9,13 @@ import static org.hamcrest.Matchers.is;
 
 public class JsonProjectUnmarshallerTest {
 
-    @Rule public final JUnit4Mockery context = new JUnit4Mockery();
+    @Rule public final HttpResponseStubMockery context = new HttpResponseStubMockery();
 
     private final JsonProjectUnmarshaller unmarshaller = new JsonProjectUnmarshaller();
 
     @Test
     public void unmarshallProject() {
-        Project project = unmarshaller.unmarshall(responseReturning("{" +
+        Project project = unmarshaller.unmarshall(context.stubResponseReturning("{" +
                 "    \"id\": \"example\"," +
                 "    \"name\": \"example\"," +
                 "    \"href\": \"/guestAuth/app/rest/projects/id:example\"," +
@@ -69,19 +65,6 @@ public class JsonProjectUnmarshallerTest {
             new BuildType("example_2", "Second", "/guestAuth/app/rest/buildTypes/id:example_2", "example", "example")
         );
         assertThat(project, is(new Project("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes)));
-    }
-
-    private HttpResponse responseReturning(final String content) {
-        final HttpResponse response = context.mock(HttpResponse.class);
-        context.checking(new Expectations() {{
-            allowing(response).getContent(); will(returnValue(new MessageContent() {
-                @Override
-                public String asString() {
-                return content;
-                }
-            }));
-        }});
-        return response;
     }
 
 }

@@ -25,8 +25,10 @@ public class TeamCityTest {
         TeamCity teamcity = new TeamCity(new Server(host, 8111), http, projects, project);
         Iterable<Project> projects = teamcity.retrieveProjects();
         Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
-        for (BuildType buildType : buildTypes)
-            System.out.println(buildType);
+        for (BuildType buildType : buildTypes) {
+            Build build = teamcity.retrieveLatestBuild(buildType);
+            System.out.printf("%s: %s (%s) - %s%n", build.getBuildType(), build.getNumber(), build.getNumber(), build.getStatusText());
+        }
     }
 
     private URL proxy() {

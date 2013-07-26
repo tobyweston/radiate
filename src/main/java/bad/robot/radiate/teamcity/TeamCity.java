@@ -24,6 +24,7 @@ class TeamCity {
     private final HttpClient http;
     private final Unmarshaller<HttpResponse, Iterable<Project>> projects;
     private final Unmarshaller<HttpResponse, Project> project;
+    private final Unmarshaller<HttpResponse, Build> build = new JsonBuildUnmarshaller();
 
     public TeamCity(Server server, HttpClient http, Unmarshaller<HttpResponse, Iterable<Project>> projects, Unmarshaller<HttpResponse, Project> project) {
         this.server = server;
@@ -46,6 +47,14 @@ class TeamCity {
         if (!exceptions.isEmpty())
             throw exceptions.head();
         return expanded.filter(isRight()).map(right()).flatMap(buildTypes());
+    }
+
+    public Build retrieveLatestBuild(BuildType buildType) {
+        URL url = server.urlFor(TeamCityEndpoint.buildsEndpint, new BuildLocatorBuilder().with(buildType));
+        HttpResponse response = http.get(url, headers);
+        if (response.ok())
+            return build.unmarshall(response);
+        throw new UnexpectedResponse(url, response);
     }
 
     private Callable1<Project, Either<? extends TeamCityException, Project>> expandingToFullProject() {
