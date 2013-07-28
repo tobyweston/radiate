@@ -100,13 +100,13 @@ public class TeamCityTest {
     public void shouldHandleHttpErrorWhenRetrievingLatestRunningBuild() throws MalformedURLException {
         final BuildType buildType = Any.buildType();
         context.checking(new Expectations() {{
-            oneOf(http).get(with(containsPath(buildType.getName() + ",running:true")), with(any(Headers.class))); will(returnValue(ok)); will(returnValue(error));
+            oneOf(http).get(with(containsPath(buildType.getName() + ",running:true")), with(any(Headers.class))); will(returnValue(error));
         }});
         teamcity.retrieveLatestBuild(buildType);
     }
 
     @Test
-    public void shouldRetrieveLatestNonRunningBuild() throws MalformedURLException {
+    public void shouldRetrieveLatestLatestNonRunningBuild() throws MalformedURLException {
         final BuildType buildType = Any.buildType();
         final Build build = Any.build();
         context.checking(new Expectations() {{
@@ -117,5 +117,15 @@ public class TeamCityTest {
         assertThat(teamcity.retrieveLatestBuild(buildType), is(build));
     }
 
+    @Test (expected = UnexpectedResponse.class)
+    public void shouldHandleHttpErrorWhenRetrievingLatestNonRunningBuild() throws MalformedURLException {
+        final BuildType buildType = Any.buildType();
+        final Build build = Any.build();
+        context.checking(new Expectations() {{
+            oneOf(http).get(with(containsPath("running:true")), with(any(Headers.class))); will(returnValue(notFound));
+            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getName()), accept); will(returnValue(error));
+        }});
+        teamcity.retrieveLatestBuild(buildType);
+    }
 
 }
