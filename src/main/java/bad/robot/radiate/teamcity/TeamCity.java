@@ -14,7 +14,6 @@ import static bad.robot.http.HeaderList.headers;
 import static bad.robot.http.HeaderPair.header;
 import static bad.robot.radiate.teamcity.BuildLocatorBuilder.latest;
 import static bad.robot.radiate.teamcity.BuildLocatorBuilder.running;
-import static bad.robot.radiate.teamcity.TeamCityEndpoint.buildsEndpint;
 import static bad.robot.radiate.teamcity.TeamCityEndpoint.projectsEndpoint;
 import static com.googlecode.totallylazy.Predicates.isLeft;
 import static com.googlecode.totallylazy.Predicates.isRight;
@@ -56,7 +55,7 @@ class TeamCity implements Monitor {
 
     @Override
     public Build retrieveLatestBuild(BuildType buildType) {
-        URL url = server.urlFor(buildsEndpint, running(buildType)); // tidy this up in terms of api (running could return hypermedia directly)
+        URL url = server.urlFor(running(buildType));
         HttpResponse response = http.get(url, headers);
         if (response.ok())
             return build.unmarshall(response);
@@ -66,7 +65,7 @@ class TeamCity implements Monitor {
     }
 
     private Build retrieveBuild(BuildLocatorBuilder locator) {
-        URL url = server.urlFor(buildsEndpint, locator);
+        URL url = server.urlFor(locator);
         HttpResponse response = http.get(url, headers);
         if (response.ok())
             return build.unmarshall(response);

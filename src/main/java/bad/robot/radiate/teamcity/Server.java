@@ -5,6 +5,7 @@ import bad.robot.radiate.Url;
 
 import java.net.URL;
 
+import static bad.robot.radiate.teamcity.TeamCityEndpoint.buildsEndpint;
 import static java.lang.String.format;
 
 public class Server {
@@ -25,11 +26,11 @@ public class Server {
     }
 
     public URL urlFor(Hypermedia endpoint) {
-        return Url.url(url() + endpoint.getHref());
+        return Url.url(baseUrl() + endpoint.getHref());
     }
 
-    public URL urlFor(Hypermedia endpoint, BuildLocatorBuilder locator) {
-        return Url.url(url() + endpoint.getHref() + locator.build());
+    public URL urlFor(BuildLocatorBuilder locator) {
+        return Url.url(baseUrl() + buildsEndpint.getHref() + locator.build());
     }
 
     private static void validate(String host, Integer port) {
@@ -39,7 +40,7 @@ public class Server {
             throw new IllegalArgumentException("no need to specify a protocol, just give me a hostname");
     }
 
-    private String url() {
-        return format("http://%s:%d/", host, port);
+    private String baseUrl() {
+        return format("http://%s:%d", host, port);
     }
 }
