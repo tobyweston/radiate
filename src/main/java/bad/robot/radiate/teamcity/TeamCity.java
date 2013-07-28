@@ -26,13 +26,14 @@ class TeamCity implements Monitor {
     private final HttpClient http;
     private final Unmarshaller<HttpResponse, Iterable<Project>> projects;
     private final Unmarshaller<HttpResponse, Project> project;
-    private final Unmarshaller<HttpResponse, Build> build = new JsonBuildUnmarshaller();
+    private final Unmarshaller<HttpResponse, Build> build;
 
-    public TeamCity(Server server, HttpClient http, Unmarshaller<HttpResponse, Iterable<Project>> projects, Unmarshaller<HttpResponse, Project> project) {
+    public TeamCity(Server server, HttpClient http, Unmarshaller<HttpResponse, Iterable<Project>> projects, Unmarshaller<HttpResponse, Project> project, Unmarshaller<HttpResponse, Build> build) {
         this.server = server;
         this.http = http;
         this.projects = projects;
         this.project = project;
+        this.build = build;
     }
 
     @Override

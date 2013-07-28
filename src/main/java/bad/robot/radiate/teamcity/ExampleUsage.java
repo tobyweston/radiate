@@ -17,7 +17,9 @@ public class ExampleUsage {
         CommonHttpClient http = anApacheClient();
         Unmarshaller<HttpResponse, Iterable<Project>> projectsUnmarshaller = new JsonProjectsUnmarshaller();
         Unmarshaller<HttpResponse, Project> projectUnmarshaller = new JsonProjectUnmarshaller();
-        TeamCity teamcity = new TeamCity(new Server(host), http, projectsUnmarshaller, projectUnmarshaller);
+        JsonBuildUnmarshaller buildUnmarshaller = new JsonBuildUnmarshaller();
+
+        TeamCity teamcity = new TeamCity(new Server(host), http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller);
 
         Iterable<Project> projects = teamcity.retrieveProjects();
         Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
