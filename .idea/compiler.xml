@@ -25,6 +25,9 @@
         <module name="radiate" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="radiate" target="1.6" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 
