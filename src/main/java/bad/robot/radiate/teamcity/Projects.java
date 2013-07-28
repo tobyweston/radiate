@@ -9,10 +9,14 @@ import java.util.Iterator;
 class Projects extends TeamCityObject implements Iterable<Project> {
 
     @SerializedName("project")
-    private Collection<Project> project = new ArrayList<Project>();
+    private Collection<Project> projects = new ArrayList<Project>();
+
+    Projects(Collection<Project> projects) {
+        this.projects = projects;
+    }
 
     @Override
     public Iterator<Project> iterator() {
-        return project.iterator();
+        return projects.iterator();
     }
 }
