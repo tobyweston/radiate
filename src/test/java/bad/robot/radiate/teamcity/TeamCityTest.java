@@ -22,7 +22,7 @@ public class TeamCityTest {
 
     @Test
     public void getBuildsTypes() throws MalformedURLException {
-        TeamCity teamcity = new TeamCity(new Server(host, 8111), http, projects, project);
+        TeamCity teamcity = new TeamCity(new Server(host), http, projects, project);
         Iterable<Project> projects = teamcity.retrieveProjects();
         Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
         for (BuildType buildType : buildTypes) {
