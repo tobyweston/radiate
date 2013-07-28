@@ -16,7 +16,7 @@ public class JsonBuildUnmarshallerTest {
     public void unmarshalls() {
         Build build = unmarshaller.unmarshall(context.stubResponseReturning(buildJson));
         BuildType buildType = new BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example");
-        assertThat(build, is(new Build("465", "159", "/guestAuth/app/rest/builds/id:465", "Success", "20130726T150432+0100", "20130726T150541+0100", buildType)));
+        assertThat(build, is(new Build("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Success", "20130726T150432+0100", "20130726T150541+0100", buildType)));
     }
 
     @Test
@@ -24,7 +24,7 @@ public class JsonBuildUnmarshallerTest {
         RunningBuild build = (RunningBuild) unmarshaller.unmarshall(context.stubResponseReturning(runningBuildJson));
         BuildType buildType = new BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example");
         RunInformation runInformation = new RunInformation(9, 7, 85);
-        assertThat(build, is(new RunningBuild("465", "159", "/guestAuth/app/rest/builds/id:465", "Step 1/1", "20130726T161108+0100", null, buildType, runInformation)));
+        assertThat(build, is(new RunningBuild("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Step 1/1", "20130726T161108+0100", null, buildType, runInformation)));
     }
 
     private String buildJson = "{" +

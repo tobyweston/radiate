@@ -5,7 +5,7 @@ import bad.robot.radiate.Url;
 
 import java.net.URL;
 
-import static bad.robot.radiate.teamcity.TeamCityEndpoint.buildsEndpint;
+import static bad.robot.radiate.teamcity.TeamCityEndpoint.buildsEndpoint;
 import static java.lang.String.format;
 
 public class Server {
@@ -30,7 +30,7 @@ public class Server {
     }
 
     public URL urlFor(BuildLocatorBuilder locator) {
-        return Url.url(baseUrl() + buildsEndpint.getHref() + locator.build());
+        return Url.url(baseUrl() + buildsEndpoint.getHref() + locator.build());
     }
 
     private static void validate(String host, Integer port) {

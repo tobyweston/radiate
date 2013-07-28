@@ -29,12 +29,12 @@ public class Any {
     }
 
     public static Build build() {
-        return new Build(anyId(), incrementingNumber(), anyHref(), "Success", anyString(10), anyString(10), buildType());
+        return new Build(anyId(), incrementingNumber(), anyHref(), "SUCCESS", "Success", anyString(10), anyString(10), buildType());
     }
 
     public static Build runningBuild() {
         RunInformation runInformation = new RunInformation(74, 12, 23);
-        return new RunningBuild(anyId(), incrementingNumber(), anyHref(), "Success", anyString(10), anyString(10), buildType(), runInformation);
+        return new RunningBuild(anyId(), incrementingNumber(), anyHref(), "SUCCESS", "Success", anyString(10), anyString(10), buildType(), runInformation);
     }
 
     private static String incrementingNumber() {

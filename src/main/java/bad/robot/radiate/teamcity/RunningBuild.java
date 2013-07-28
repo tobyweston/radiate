@@ -7,8 +7,8 @@ class RunningBuild extends Build {
     @SerializedName("running-info")
     private final RunInformation runInformation;
 
-    public RunningBuild(String id, String number, String href, String statusText, String startDate, String finishDate, BuildType buildType, RunInformation runInformation) {
-        super(id, number, href, statusText, startDate, finishDate, buildType);
+    public RunningBuild(String id, String number, String href, String status, String statusText, String startDate, String finishDate, BuildType buildType, RunInformation runInformation) {
+        super(id, number, href, status, statusText, startDate, finishDate, buildType);
         this.runInformation = runInformation;
     }
 

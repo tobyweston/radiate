@@ -10,7 +10,7 @@ enum TeamCityEndpoint implements Hypermedia {
             return "/guestAuth/app/rest/projects";
         }
     },
-    buildsEndpint() {
+    buildsEndpoint() {
         @Override
         public String getHref() {
             return "/guestAuth/app/rest/builds/";
