@@ -58,8 +58,8 @@ public class TeamCityTest {
     @Test
     public void shouldRetrieveBuildTypes() throws MalformedURLException {
         final BuildTypes buildTypes = new BuildTypes(Any.buildType());
-        final Project project = Any.project(buildTypes);
         final BuildTypes anotherBuildTypes = new BuildTypes(Any.buildType());
+        final Project project = Any.project(buildTypes);
         final Project anotherProject = Any.project(anotherBuildTypes);
 
         context.checking(new Expectations() {{
@@ -72,6 +72,15 @@ public class TeamCityTest {
         Iterable<BuildType> actual = teamcity.retrieveBuildTypes(projects);
         assertThat(actual, Matchers.<Iterable<BuildType>>is(sequence(first(buildTypes), first(anotherBuildTypes))));
     }
+
+    @Test (expected = UnexpectedResponse.class)
+    public void shouldHandleHttpErrorWhenRetrievingBuildTypes() {
+        context.checking(new Expectations() {{
+            exactly(2).of(http).get(with(any(URL.class)), with(any(Headers.class))); will(returnValue(error));
+        }});
+        teamcity.retrieveBuildTypes(projects);
+    }
+
 
     private URL proxy() {
         return url("http://localhost:8888");
