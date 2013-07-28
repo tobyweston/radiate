@@ -18,6 +18,7 @@ import java.net.URL;
 import static bad.robot.http.EmptyHeaders.emptyHeaders;
 import static bad.robot.http.HeaderList.headers;
 import static bad.robot.http.HeaderPair.header;
+import static bad.robot.http.matchers.Matchers.containsPath;
 import static com.googlecode.totallylazy.Sequences.*;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -32,6 +33,8 @@ public class TeamCityTest {
     private final HttpResponse ok = new StringHttpResponse(200, "OK", "", emptyHeaders());
     private final HttpResponse anotherOk = new StringHttpResponse(200, "OK", "", emptyHeaders());
     private final HttpResponse error = new StringHttpResponse(500, "Yuk", "", emptyHeaders());
+    private final HttpResponse notFound = new StringHttpResponse(404, "Not Found", "", emptyHeaders());
+
     private final Iterable<Project> projects = Any.projects();
 
     private final Unmarshaller<HttpResponse, Iterable<Project>> projectsUnmarshaller = context.mock(Unmarshaller.class, "projects unmarshaller");
@@ -83,9 +86,9 @@ public class TeamCityTest {
     }
 
     @Test
-    public void shouldRetrieveLatestBuild() throws MalformedURLException {
+    public void shouldRetrieveLatestRunningBuild() throws MalformedURLException {
         final BuildType buildType = Any.buildType();
-        final Build build = Any.build();
+        final Build build = Any.runningBuild();
         context.checking(new Expectations() {{
             oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getName() + ",running:true"), accept); will(returnValue(ok));
             oneOf(buildUnmarshaller).unmarshall(ok); will(returnValue(build));
@@ -94,12 +97,25 @@ public class TeamCityTest {
     }
 
     @Test (expected = UnexpectedResponse.class)
-    public void shouldHandleHttpErrorWhenRetrievingLatestBuild() throws MalformedURLException {
+    public void shouldHandleHttpErrorWhenRetrievingLatestRunningBuild() throws MalformedURLException {
         final BuildType buildType = Any.buildType();
         context.checking(new Expectations() {{
-            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getName() + ",running:true"), accept); will(returnValue(error));
+            oneOf(http).get(with(containsPath(buildType.getName() + ",running:true")), with(any(Headers.class))); will(returnValue(ok)); will(returnValue(error));
         }});
         teamcity.retrieveLatestBuild(buildType);
     }
+
+    @Test
+    public void shouldRetrieveLatestNonRunningBuild() throws MalformedURLException {
+        final BuildType buildType = Any.buildType();
+        final Build build = Any.build();
+        context.checking(new Expectations() {{
+            oneOf(http).get(with(containsPath("running:true")), with(any(Headers.class))); will(returnValue(notFound));
+            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getName()), accept); will(returnValue(ok));
+            oneOf(buildUnmarshaller).unmarshall(ok); will(returnValue(build));
+        }});
+        assertThat(teamcity.retrieveLatestBuild(buildType), is(build));
+    }
+
 
 }
