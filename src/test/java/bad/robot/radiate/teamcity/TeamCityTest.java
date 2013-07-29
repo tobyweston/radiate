@@ -67,10 +67,10 @@ public class TeamCityTest {
         final Project anotherProject = Any.project(anotherBuildTypes);
 
         context.checking(new Expectations() {{
-            exactly(2).of(http).get(new URL("http://example.com:8111" + first(projects).getHref()), accept); will(returnValue(ok));
-            exactly(2).of(http).get(new URL("http://example.com:8111" + second(projects).getHref()), accept); will(returnValue(anotherOk));
-            exactly(2).of(projectUnmarshaller).unmarshall(ok); will(returnValue(project));
-            exactly(2).of(projectUnmarshaller).unmarshall(anotherOk); will(returnValue(anotherProject));
+            oneOf(http).get(new URL("http://example.com:8111" + first(projects).getHref()), accept); will(returnValue(ok));
+            oneOf(http).get(new URL("http://example.com:8111" + second(projects).getHref()), accept); will(returnValue(anotherOk));
+            oneOf(projectUnmarshaller).unmarshall(ok); will(returnValue(project));
+            oneOf(projectUnmarshaller).unmarshall(anotherOk); will(returnValue(anotherProject));
         }});
 
         Iterable<BuildType> actual = teamcity.retrieveBuildTypes(projects);

@@ -18,12 +18,16 @@ public class Main {
     private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());
 
     public static void main(String... args) {
-        if (args.length != 1)
-            System.out.println("usage: java jar radiate <host>");
+        verifyArguments(args);
         Monitor monitor = new Monitor(threadPool, new TeamCityMonitoring());
         monitor.beginMonitoring();
         new SwingUi().start();
         monitor.shutdown();
+    }
+
+    private static void verifyArguments(String[] args) {
+        if (args.length != 1)
+            System.out.println("usage: java jar radiate <host>");
     }
 
     private static class TeamCityMonitoring implements MonitoringTasksFactory {

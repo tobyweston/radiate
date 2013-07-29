@@ -16,7 +16,10 @@ public class StatusPanel extends Canvas {
     private static final Color Amber  = new Color(220, 150, 0);
     private static final Color Grey  = new Color(64, 64, 64);
 
-    public StatusPanel() {
+    private final Status status;
+
+    public StatusPanel(Status status) {
+        this.status = status;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class StatusPanel extends Canvas {
 
     private void fill(Graphics graphix, int x, int y, int width, int height) {
         Graphics2D graphics = (Graphics2D) graphix;
-        Color colour = getColorFrom(Broken);
+        Color colour = getColorFrom(status);
         graphics.setPaint(new GradientPaint(x, y, colour, x + width, y + height, colour.brighter()));
         graphics.fill(new Rectangle2D.Double(x, y, width, height));
 
