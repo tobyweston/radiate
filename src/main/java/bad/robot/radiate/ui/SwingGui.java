@@ -4,11 +4,8 @@ import bad.robot.radiate.Status;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import static bad.robot.radiate.Status.Unknown;
-import static java.awt.event.KeyEvent.VK_ESCAPE;
 
 public class SwingGui extends JFrame implements Ui {
 
@@ -19,9 +16,8 @@ public class SwingGui extends JFrame implements Ui {
         setUndecorated(true);
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
         setLookAndFeel();
-        addKeyListener(exitOnClose());
+        addKeyListener(new ExitOnEscape());
         add(statusPanel);
-        setSize(600, 400);
     }
 
     private void setLookAndFeel() {
@@ -30,16 +26,6 @@ public class SwingGui extends JFrame implements Ui {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static KeyAdapter exitOnClose() {
-        return new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == VK_ESCAPE)
-                    System.exit(0);
-            }
-        };
     }
 
     @Override
