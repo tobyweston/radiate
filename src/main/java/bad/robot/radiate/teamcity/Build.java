@@ -1,11 +1,12 @@
 package bad.robot.radiate.teamcity;
 
 import bad.robot.radiate.Hypermedia;
+import bad.robot.radiate.Monitorable;
 import bad.robot.radiate.Status;
 
 import static bad.robot.radiate.Status.*;
 
-public class Build extends TeamCityObject implements Hypermedia {
+public class Build extends TeamCityObject implements Hypermedia, Monitorable {
 
     private final String id;
     private final String number;
@@ -35,6 +36,7 @@ public class Build extends TeamCityObject implements Hypermedia {
         return number;
     }
 
+    @Override
     public Status getStatus() {
         if (status.equalsIgnoreCase("SUCCESS"))
             return Ok;
