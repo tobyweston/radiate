@@ -32,7 +32,7 @@ public class Monitor {
     }
 
     private ScheduledFuture<?> schedule(MonitoringTask task) {
-        return executor.scheduleWithFixedDelay(runnable(task), 0, 30, SECONDS);
+        return executor.scheduleWithFixedDelay(runnable(task), 0, 15, SECONDS);
     }
 
 }

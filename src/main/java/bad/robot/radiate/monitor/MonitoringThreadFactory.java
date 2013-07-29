@@ -9,17 +9,6 @@ public class MonitoringThreadFactory implements ThreadFactory {
 
     @Override
     public Thread newThread(Runnable runnable) {
-        Thread thread = new Thread(runnable, "monitoring-thread-" + threadCount.getAndIncrement()) {
-            @Override
-            public void interrupt() {
-                super.interrupt();
-            }
-        };
-        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            public void uncaughtException(Thread t, Throwable e) {
-                // do something smart
-            }
-        });
-        return thread;
+        return new Thread(runnable, "monitoring-thread-" + threadCount.getAndIncrement());
     }
 }

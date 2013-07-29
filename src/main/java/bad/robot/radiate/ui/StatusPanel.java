@@ -16,10 +16,15 @@ public class StatusPanel extends Canvas {
     private static final Color Amber  = new Color(220, 150, 0);
     private static final Color Grey  = new Color(64, 64, 64);
 
-    private final Status status;
+    private Status status;
 
     public StatusPanel(Status status) {
         this.status = status;
+    }
+
+    public void update(Status status) {
+        this.status = status;
+        repaint();
     }
 
     @Override
@@ -46,5 +51,4 @@ public class StatusPanel extends Canvas {
             return Red;
         return Grey;
     }
-
 }
