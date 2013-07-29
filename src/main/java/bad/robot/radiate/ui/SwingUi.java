@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static bad.robot.radiate.Status.Unknown;
+import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
 public class SwingUi extends JFrame implements Ui {
 
@@ -22,7 +23,7 @@ public class SwingUi extends JFrame implements Ui {
 
     private void setLookAndFeel() {
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(getSystemLookAndFeelClassName());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -36,10 +37,6 @@ public class SwingUi extends JFrame implements Ui {
     @Override
     public void update(Status status) {
         statusPanel.update(status);
-    }
-
-    public static void main(String... args) {
-        new SwingUi().start();
     }
 
 }
