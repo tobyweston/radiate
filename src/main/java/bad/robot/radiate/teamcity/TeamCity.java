@@ -19,7 +19,7 @@ import static com.googlecode.totallylazy.Predicates.isLeft;
 import static com.googlecode.totallylazy.Predicates.isRight;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-class TeamCity implements Monitor {
+class TeamCity {
 
     private final Headers headers = headers(header("Accept", "application/json"));
     private final Server server;
@@ -36,7 +36,6 @@ class TeamCity implements Monitor {
         this.build = build;
     }
 
-    @Override
     public Iterable<Project> retrieveProjects() {
         URL url = server.urlFor(projectsEndpoint);
         HttpResponse response = http.get(url, headers);
@@ -45,7 +44,6 @@ class TeamCity implements Monitor {
         throw new UnexpectedResponse(url, response);
     }
 
-    @Override
     public Iterable<BuildType> retrieveBuildTypes(Iterable<Project> projects) {
         Sequence<Either<? extends TeamCityException, Project>> expanded = sequence(projects).map(expandingToFullProject());
         Sequence<TeamCityException> exceptions = expanded.filter(isLeft()).map(left());
@@ -54,7 +52,6 @@ class TeamCity implements Monitor {
         return expanded.filter(isRight()).map(right()).flatMap(buildTypes());
     }
 
-    @Override
     public Build retrieveLatestBuild(BuildType buildType) {
         URL url = server.urlFor(running(buildType));
         HttpResponse response = http.get(url, headers);
