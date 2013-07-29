@@ -9,6 +9,7 @@ import org.hamcrest.Matchers;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -25,7 +26,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TeamCityTest {
 
-    @Rule public Mockery context = new JUnit4Mockery();
+    @Rule public Mockery context = new JUnit4Mockery() {{
+        setThreadingPolicy(new Synchroniser());
+    }};
 
     private final Headers accept = headers(header("Accept", "application/json"));
     private final HttpClient http = context.mock(HttpClient.class);

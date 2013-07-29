@@ -45,7 +45,7 @@ class TeamCity {
     }
 
     public Iterable<BuildType> retrieveBuildTypes(Iterable<Project> projects) {
-        Sequence<Either<? extends TeamCityException, Project>> expanded = sequence(projects).map(expandingToFullProject()).memorise();
+        Sequence<Either<? extends TeamCityException, Project>> expanded = sequence(projects).mapConcurrently(expandingToFullProject()).memorise();
         Sequence<TeamCityException> exceptions = expanded.filter(isLeft()).map(left());
         if (!exceptions.isEmpty())
             throw exceptions.head();
