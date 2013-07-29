@@ -22,7 +22,6 @@ public class Main {
         Monitor monitor = new Monitor(threadPool, new TeamCityMonitoring(ui));
         monitor.beginMonitoring();
         ui.start();
-        System.out.println("Thanks for coming!");
 //        monitor.shutdown();
     }
 

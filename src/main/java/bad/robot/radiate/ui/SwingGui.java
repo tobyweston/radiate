@@ -14,7 +14,7 @@ public class SwingGui extends JFrame implements Ui {
     public SwingGui() throws HeadlessException {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setUndecorated(true);
-        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         setLookAndFeel();
         addKeyListener(new ExitOnEscape());
         add(statusPanel);
