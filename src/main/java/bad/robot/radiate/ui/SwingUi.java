@@ -7,11 +7,11 @@ import java.awt.*;
 
 import static bad.robot.radiate.Status.Unknown;
 
-public class SwingGui extends JFrame implements Ui {
+public class SwingUi extends JFrame implements Ui {
 
     private final StatusPanel statusPanel = new StatusPanel(Unknown);
 
-    public SwingGui() throws HeadlessException {
+    public SwingUi() throws HeadlessException {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setUndecorated(true);
         setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
@@ -39,7 +39,7 @@ public class SwingGui extends JFrame implements Ui {
     }
 
     public static void main(String... args) {
-        new SwingGui().start();
+        new SwingUi().start();
     }
 
 }

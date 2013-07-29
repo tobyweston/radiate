@@ -5,7 +5,7 @@ import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.MonitoringTasksFactory;
 import bad.robot.radiate.monitor.MonitoringThreadFactory;
 import bad.robot.radiate.teamcity.TeamcityMonitoringTask;
-import bad.robot.radiate.ui.SwingGui;
+import bad.robot.radiate.ui.SwingUi;
 
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -18,7 +18,7 @@ public class Main {
     private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());
 
     public static void main(String... args) {
-        SwingGui ui = new SwingGui();
+        SwingUi ui = new SwingUi();
         Monitor monitor = new Monitor(threadPool, new TeamCityMonitoring(ui));
         monitor.beginMonitoring();
         ui.start();
@@ -26,9 +26,9 @@ public class Main {
     }
 
     private static class TeamCityMonitoring implements MonitoringTasksFactory {
-        private final SwingGui ui;
+        private final SwingUi ui;
 
-        public TeamCityMonitoring(SwingGui ui) {
+        public TeamCityMonitoring(SwingUi ui) {
             this.ui = ui;
         }
 
