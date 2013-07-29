@@ -15,18 +15,11 @@ public class SwingUi extends JFrame implements Ui {
     public SwingUi() throws HeadlessException {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setUndecorated(true);
-        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         setLookAndFeel();
         addKeyListener(new ExitOnEscape());
-        add(statusPanel);
-    }
-
-    private void setLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        addKeyListener(new MaximiseToggle(this));
+        setResizable(true);
+        setSize(800, 600);
     }
 
     @Override
@@ -37,6 +30,14 @@ public class SwingUi extends JFrame implements Ui {
     @Override
     public void update(Status status) {
         statusPanel.update(status);
+    }
+
+    private void setLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
