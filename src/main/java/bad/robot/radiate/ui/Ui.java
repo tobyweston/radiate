@@ -6,4 +6,6 @@ public interface Ui {
     void start();
 
     void update(Status status);
+
+    void update(Exception exception);
 }
