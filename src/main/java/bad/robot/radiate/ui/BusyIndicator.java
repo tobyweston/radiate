@@ -40,7 +40,8 @@ class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
     }
 
     private void drawBusyIndicator(int width, int height, Graphics2D graphics, float fade) {
-        int size = Math.min(width, height) / 20;
+        int reductionPercentage = 20;
+        int size = Math.min(width, height) / reductionPercentage;
         int x = width / 2;
         int y = height / 2;
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
@@ -57,7 +58,7 @@ class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
 
     private void grayOutPanel(int width, int height, Graphics2D graphics, float fade) {
         Composite urComposite = graphics.getComposite();
-        graphics.setComposite(getInstance(SRC_OVER, .5f * fade));
+        graphics.setComposite(getInstance(SRC_OVER, .3f * fade));
         graphics.fillRect(0, 0, width, height);
         graphics.setComposite(urComposite);
     }
