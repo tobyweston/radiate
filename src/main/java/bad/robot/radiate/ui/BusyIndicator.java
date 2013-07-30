@@ -35,22 +35,22 @@ class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
         Graphics2D graphics = (Graphics2D) g.create();
         float fade = (float) fadeCount / (float) fadeLimit;
         grayOutPanel(width, height, graphics, fade);
-        drawWaitIndicator(width, height, graphics, fade);
+        drawBusyIndicator(width, height, graphics, fade);
         graphics.dispose();
     }
 
-    private void drawWaitIndicator(int width, int height, Graphics2D graphics, float fade) {
-        int s = Math.min(width, height) / 5;
-        int cx = width / 2;
-        int cy = height / 2;
+    private void drawBusyIndicator(int width, int height, Graphics2D graphics, float fade) {
+        int size = Math.min(width, height) / 20;
+        int x = width / 2;
+        int y = height / 2;
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-        graphics.setStroke(new BasicStroke(s / 4, CAP_ROUND, JOIN_ROUND));
+        graphics.setStroke(new BasicStroke(size / 4, CAP_ROUND, JOIN_ROUND));
         graphics.setPaint(white);
-        graphics.rotate(Math.PI * angle / 180, cx, cy);
+        graphics.rotate(Math.PI * angle / 180, x, y);
         for (int i = 0; i < 12; i++) {
             float scale = (11.0f - (float) i) / 11.0f;
-            graphics.drawLine(cx + s, cy, cx + s * 2, cy);
-            graphics.rotate(-Math.PI / 6, cx, cy);
+            graphics.drawLine(x + size, y, x + size * 2, y);
+            graphics.rotate(-Math.PI / 6, x, y);
             graphics.setComposite(getInstance(SRC_OVER, scale * fade));
         }
     }
