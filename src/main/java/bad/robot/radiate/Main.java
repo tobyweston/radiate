@@ -34,7 +34,7 @@ public class Main {
 
         @Override
         public List<? extends MonitoringTask> create() {
-            return list(new UiErrorHandlingMonitoringTask(ui, new TeamcityMonitoringTask(ui)));
+            return list(new TeamcityMonitoringTask(ui));
         }
 
     }

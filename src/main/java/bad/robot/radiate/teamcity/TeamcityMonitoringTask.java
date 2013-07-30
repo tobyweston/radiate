@@ -8,6 +8,7 @@ import bad.robot.radiate.ui.Ui;
 import com.googlecode.totallylazy.Callable1;
 
 import static bad.robot.http.HttpClients.anApacheClient;
+import static bad.robot.radiate.Status.Unknown;
 import static bad.robot.radiate.teamcity.StatusAggregator.statusAggregator;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
@@ -21,17 +22,20 @@ public class TeamcityMonitoringTask implements MonitoringTask {
 
     @Override
     public Status call() throws Exception {
-        String host = Environment.getEnvironmentVariable("teamcity.host");
-
-        CommonHttpClient http = anApacheClient();
-        TeamCity teamcity = new TeamCity(new Server(host), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
-
-        Iterable<Project> projects = teamcity.retrieveProjects();
-        Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
-        Iterable<Status> statuses = sequence(buildTypes).map(toStatuses(teamcity));
-        Status status = statusAggregator(statuses).getStatus();
-        ui.update(status);
-        return status;
+        try {
+            String host = Environment.getEnvironmentVariable("teamcity.host");
+            CommonHttpClient http = anApacheClient();
+            TeamCity teamcity = new TeamCity(new Server(host), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
+            Iterable<Project> projects = teamcity.retrieveProjects();
+            Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
+            Iterable<Status> statuses = sequence(buildTypes).map(toStatuses(teamcity));
+            Status status = statusAggregator(statuses).getStatus();
+            ui.update(status);
+            return status;
+        } catch (Exception e) {
+            ui.update(e);
+            return Unknown;
+        }
     }
 
     private static Callable1<BuildType, Status> toStatuses(final TeamCity teamcity) {
