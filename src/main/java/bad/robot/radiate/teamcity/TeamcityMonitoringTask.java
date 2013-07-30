@@ -1,6 +1,6 @@
 package bad.robot.radiate.teamcity;
 
-import bad.robot.http.CommonHttpClient;
+import bad.robot.http.HttpClient;
 import bad.robot.radiate.Environment;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.MonitoringTask;
@@ -25,8 +25,9 @@ public class TeamcityMonitoringTask implements MonitoringTask {
         try {
             String host = Environment.getEnvironmentVariable("teamcity.host");
             String port = Environment.getEnvironmentVariable("teamcity.port", "8111");
-            CommonHttpClient http = anApacheClient();
-            TeamCity teamcity = new TeamCity(new Server(host, Integer.valueOf(port)), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
+            Server server = new Server(host, Integer.valueOf(port));
+            HttpClient http = anApacheClient();
+            TeamCity teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
             Iterable<Project> projects = teamcity.retrieveProjects();
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Iterable<Status> statuses = sequence(buildTypes).map(toStatuses(teamcity));
