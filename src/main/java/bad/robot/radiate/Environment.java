@@ -9,4 +9,10 @@ public class Environment {
             throw new IllegalArgumentException(format("Please set environment variable '%s'", variable));
         return System.getenv(variable);
     }
+
+    public static String getEnvironmentVariable(String variable, String defaultValue) {
+        if (System.getenv(variable) == null)
+            return defaultValue;
+        return System.getenv(variable);
+    }
 }

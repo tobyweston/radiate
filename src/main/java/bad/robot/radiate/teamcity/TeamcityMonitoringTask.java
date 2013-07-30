@@ -24,8 +24,9 @@ public class TeamcityMonitoringTask implements MonitoringTask {
     public Status call() throws Exception {
         try {
             String host = Environment.getEnvironmentVariable("teamcity.host");
+            String port = Environment.getEnvironmentVariable("teamcity.port", "8111");
             CommonHttpClient http = anApacheClient();
-            TeamCity teamcity = new TeamCity(new Server(host), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
+            TeamCity teamcity = new TeamCity(new Server(host, Integer.valueOf(port)), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
             Iterable<Project> projects = teamcity.retrieveProjects();
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Iterable<Status> statuses = sequence(buildTypes).map(toStatuses(teamcity));
