@@ -38,7 +38,6 @@ public class SwingUi extends JFrame implements Ui {
         statusPanel.update(exception);
     }
 
-
     private void setLookAndFeel() {
         try {
             UIManager.setLookAndFeel(getSystemLookAndFeelClassName());
