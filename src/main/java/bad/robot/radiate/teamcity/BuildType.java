@@ -18,12 +18,24 @@ class BuildType extends TeamCityObject implements Hypermedia {
         this.projectId = projectId;
     }
 
+    String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String getHref() {
         return href;
     }
 
-    public String getName() {
-        return name;
+    String getProjectName() {
+        return projectName;
+    }
+
+    String getProjectId() {
+        return projectId;
     }
 }
