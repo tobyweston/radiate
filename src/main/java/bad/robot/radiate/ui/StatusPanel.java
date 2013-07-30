@@ -2,6 +2,7 @@ package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Status;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -10,9 +11,7 @@ import static bad.robot.radiate.ui.UiText.createTextRegion;
 import static bad.robot.radiate.ui.UiText.drawText;
 import static java.awt.Color.BLACK;
 
-public class StatusPanel extends Canvas {
-
-    private static final int padding = 20;
+public class StatusPanel extends JPanel {
 
     private static final Color Red = new Color(200, 0, 0);
     private static final Color Green = new Color(0, 200, 0);
@@ -55,7 +54,7 @@ public class StatusPanel extends Canvas {
     }
 
     @Override
-    public void paint(Graphics graphics) {
+    protected void paintComponent(Graphics graphics) {
         setBackground(BLACK);
         fill(graphics, 0, 0, getWidth(), getHeight());
         if (text != null) {
