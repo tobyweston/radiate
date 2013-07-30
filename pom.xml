@@ -111,13 +111,13 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <jar>${project.build.directory}/${artifactId}-${version}-shaded.jar</jar>
-                            <outfile>${project.build.directory}/${artifactId}-${version}.scr</outfile>
+                            <outfile>${project.build.directory}/${artifactId}-${version}.exe</outfile>
                             <downloadUrl>http://java.com/download</downloadUrl>
                             <classPath>
                                 <mainClass>bad.robot.radiate.Main</mainClass>
                                 <preCp>anything</preCp>
                             </classPath>
-                            <!--<icon>src/main/resources/icon/application.ico</icon>-->
+                            <icon>src/main/resources/bulb_32x32.ico</icon>
                             <jre>
                                 <minVersion>1.6.0</minVersion>
                                 <jdkPreference>preferJre</jdkPreference>
