@@ -23,7 +23,6 @@ public class SwingUi extends JFrame implements Ui {
 
         getToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
         getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
-        add(statusPanel);
         setTitle("Radiate");
         setSize(400, 300);
     }
