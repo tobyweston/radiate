@@ -19,7 +19,7 @@ class MaximiseToggle extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == VK_F11 || e.getKeyChar() == VK_M) {
+        if (e.getKeyCode() == VK_F11 || e.getKeyCode() == VK_M) {
             if (frame.getExtendedState() == NORMAL)
                 frame.setExtendedState(frame.getExtendedState() | MAXIMIZED_BOTH);
             else

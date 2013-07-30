@@ -20,7 +20,7 @@ public class SwingUi extends JFrame implements Ui {
         addKeyListener(new ExitOnEscape());
         addKeyListener(new MaximiseToggle(this));
         add(statusPanel);
-        setSize(800, 600);
+        setSize(400, 300);
     }
 
     @Override
