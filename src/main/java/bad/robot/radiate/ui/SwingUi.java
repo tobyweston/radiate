@@ -5,6 +5,7 @@ import bad.robot.radiate.Status;
 import javax.swing.*;
 import java.awt.*;
 
+import static java.awt.AWTEvent.KEY_EVENT_MASK;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
 public class SwingUi extends JFrame implements Ui {
@@ -16,8 +17,8 @@ public class SwingUi extends JFrame implements Ui {
         setUndecorated(true);
         setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         setLookAndFeel();
-        addKeyListener(new ExitOnEscape());
-        addKeyListener(new MaximiseToggle(this));
+        getToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
+        getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
         add(statusPanel);
         setSize(400, 300);
     }
