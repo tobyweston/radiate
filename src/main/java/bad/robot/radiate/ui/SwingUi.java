@@ -15,6 +15,12 @@ public class SwingUi extends JFrame implements Ui {
     public SwingUi() throws HeadlessException {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLookAndFeel();
+
+        BusyIndicator busyIndicator = new BusyIndicator();
+        JLayer<JPanel> layer = new JLayer<JPanel>(statusPanel, busyIndicator);
+        add(layer);
+        busyIndicator.start();
+
         getToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
         getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
         add(statusPanel);

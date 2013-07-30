@@ -21,6 +21,9 @@ public class StatusPanel extends JPanel {
     private Status status = Unknown;
     private String text = "loading...";
 
+    public StatusPanel() {
+    }
+
     public void update(Status status) {
         this.status = status;
         this.text = null;
