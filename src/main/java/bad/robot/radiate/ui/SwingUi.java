@@ -5,12 +5,11 @@ import bad.robot.radiate.Status;
 import javax.swing.*;
 import java.awt.*;
 
-import static bad.robot.radiate.Status.Unknown;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
 public class SwingUi extends JFrame implements Ui {
 
-    private final StatusPanel statusPanel = new StatusPanel(Unknown);
+    private final StatusPanel statusPanel = new StatusPanel();
 
     public SwingUi() throws HeadlessException {
         setDefaultCloseOperation(EXIT_ON_CLOSE);

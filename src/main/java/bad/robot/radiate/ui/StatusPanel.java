@@ -5,8 +5,7 @@ import bad.robot.radiate.Status;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import static bad.robot.radiate.Status.Broken;
-import static bad.robot.radiate.Status.Ok;
+import static bad.robot.radiate.Status.*;
 import static bad.robot.radiate.ui.UiText.createTextRegion;
 import static bad.robot.radiate.ui.UiText.drawText;
 import static java.awt.Color.BLACK;
@@ -20,15 +19,12 @@ public class StatusPanel extends Canvas {
     private static final Color Amber = new Color(220, 150, 0);
     private static final Color Grey = new Color(64, 64, 64);
 
-    private Status status;
-    private String text;
-
-    public StatusPanel(Status status) {
-        this.status = status;
-    }
+    private Status status = Unknown;
+    private String text = "loading...";
 
     public void update(Status status) {
         this.status = status;
+        this.text = null;
         repaint();
     }
 
