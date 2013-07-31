@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 
+import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_ROUND;
@@ -89,9 +90,7 @@ class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
         running = true;
         fadingOut = false;
         fadeCount = 0;
-        int framesPerSecond = 24;
-        int frequency = 1000 / framesPerSecond;
-        timer = new Timer(frequency, this);
+        timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
         timer.start();
     }
 
