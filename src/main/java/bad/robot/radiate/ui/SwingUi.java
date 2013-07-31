@@ -10,17 +10,12 @@ import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
 public class SwingUi extends JFrame implements Ui {
 
-    private final StatusPanel statusPanel = new StatusPanel();
+    private final StatusPanel statusPanel;
 
     public SwingUi() throws HeadlessException {
+        statusPanel = new StatusPanel(this);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLookAndFeel();
-
-        BusyIndicator busyIndicator = new BusyIndicator();
-        JLayer<JPanel> layer = new JLayer<JPanel>(statusPanel, busyIndicator);
-        add(layer);
-        busyIndicator.start();
-
         getToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
         getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
         setTitle("Radiate");

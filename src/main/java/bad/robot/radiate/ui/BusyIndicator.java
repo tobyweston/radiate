@@ -104,5 +104,4 @@ class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
         if ("tick".equals(event.getPropertyName()))
             layer.repaint();
     }
-
 }

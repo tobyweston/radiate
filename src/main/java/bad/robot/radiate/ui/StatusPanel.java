@@ -18,8 +18,15 @@ public class StatusPanel extends JPanel {
     private static final Color Amber = new Color(220, 150, 0);
     private static final Color Grey = new Color(64, 64, 64);
 
-    private Status status = Unknown;
-    private String text = "loading...";
+    private final BusyIndicator busyIndicator = new BusyIndicator();
+
+    private Status status = Busy;
+    private String text;
+
+    public StatusPanel(JFrame parent) {
+        JLayer<JPanel> layer = new JLayer<JPanel>(this, busyIndicator);
+        parent.add(layer);
+    }
 
     public void update(Status status) {
         this.status = status;
@@ -55,11 +62,27 @@ public class StatusPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics graphics) {
+        fillBackground(graphics);
+        updateBusyIndicator();
+        updateText(graphics);
+    }
+
+    private void fillBackground(Graphics graphics) {
         setBackground(BLACK);
         fill(graphics, 0, 0, getWidth(), getHeight());
+    }
+
+    private void updateText(Graphics graphics) {
         if (text != null) {
             Rectangle region = createTextRegion(0, 0, getWidth(), getHeight());
             drawText(graphics, region, text);
         }
+    }
+
+    private void updateBusyIndicator() {
+        if (status == Busy)
+            busyIndicator.start();
+        else
+            busyIndicator.stop();
     }
 }
