@@ -7,7 +7,7 @@ TeamCity build monitor. Run as a Windows **screensaver** or from the desktop.
 
 Set the environment property `teamcity.host` and optionally `teamcity.port` (the port defaults to `8111` if you don't set it).
 
-Currently, TeamCity must have [guest login enabled](http://confluence.jetbrains.com/display/TCD8/Enabling+Guest+Login).
+Currently, TeamCity must have guest login enabled (see instructions for [TeamCity 8](http://confluence.jetbrains.com/display/TCD8/Enabling+Guest+Login) and [TeamCity 7](http://confluence.jetbrains.com/display/TCD7/Enabling+Guest+Login)).
 
 ### Download
 
