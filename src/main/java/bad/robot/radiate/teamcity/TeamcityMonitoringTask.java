@@ -30,7 +30,7 @@ public class TeamcityMonitoringTask implements MonitoringTask {
             TeamCity teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
             Iterable<Project> projects = teamcity.retrieveProjects();
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
-            Iterable<Status> statuses = sequence(buildTypes).map(toStatuses(teamcity));
+            Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
             Status status = statusAggregator(statuses).getStatus();
             ui.update(status);
             return status;
