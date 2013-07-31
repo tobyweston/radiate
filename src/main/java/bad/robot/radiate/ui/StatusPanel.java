@@ -24,7 +24,7 @@ public class StatusPanel extends JPanel {
     private String text;
 
     public StatusPanel(JFrame parent) {
-        JLayer<JPanel> layer = new JLayer<JPanel>(this, busyIndicator);
+        JLayer<JPanel> layer = new JLayer<>(this, busyIndicator);
         parent.add(layer);
     }
 
