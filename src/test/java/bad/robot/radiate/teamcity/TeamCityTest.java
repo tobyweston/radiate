@@ -93,7 +93,7 @@ public class TeamCityTest {
         final BuildType buildType = Any.buildType();
         final Build build = Any.runningBuild();
         context.checking(new Expectations() {{
-            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getName() + ",running:true"), accept); will(returnValue(ok));
+            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getId() + ",running:true"), accept); will(returnValue(ok));
             oneOf(buildUnmarshaller).unmarshall(ok); will(returnValue(build));
         }});
         assertThat(teamcity.retrieveLatestBuild(buildType), is(build));
@@ -103,7 +103,7 @@ public class TeamCityTest {
     public void shouldHandleHttpErrorWhenRetrievingLatestRunningBuild() throws MalformedURLException {
         final BuildType buildType = Any.buildType();
         context.checking(new Expectations() {{
-            oneOf(http).get(with(containsPath(buildType.getName() + ",running:true")), with(any(Headers.class))); will(returnValue(error));
+            oneOf(http).get(with(containsPath(buildType.getId() + ",running:true")), with(any(Headers.class))); will(returnValue(error));
         }});
         teamcity.retrieveLatestBuild(buildType);
     }
@@ -114,7 +114,7 @@ public class TeamCityTest {
         final Build build = Any.build();
         context.checking(new Expectations() {{
             oneOf(http).get(with(containsPath("running:true")), with(any(Headers.class))); will(returnValue(notFound));
-            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getName()), accept); will(returnValue(ok));
+            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getId()), accept); will(returnValue(ok));
             oneOf(buildUnmarshaller).unmarshall(ok); will(returnValue(build));
         }});
         assertThat(teamcity.retrieveLatestBuild(buildType), is(build));
@@ -125,7 +125,7 @@ public class TeamCityTest {
         final BuildType buildType = Any.buildType();
         context.checking(new Expectations() {{
             oneOf(http).get(with(containsPath("running:true")), with(any(Headers.class))); will(returnValue(notFound));
-            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getName()), accept); will(returnValue(error));
+            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getId()), accept); will(returnValue(error));
         }});
         teamcity.retrieveLatestBuild(buildType);
     }

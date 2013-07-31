@@ -13,7 +13,7 @@ class BuildLocatorBuilder {
     }
 
     BuildLocatorBuilder with(BuildType type) {
-        withSeperator().append("buildType:").append(type.getName());
+        withSeperator().append("buildType:").append(type.getId());
         return this;
     }
 

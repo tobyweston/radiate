@@ -18,7 +18,7 @@ class BuildType extends TeamCityObject implements Hypermedia {
         this.projectId = projectId;
     }
 
-    String getId() {
+    public String getId() {
         return id;
     }
 
@@ -31,11 +31,11 @@ class BuildType extends TeamCityObject implements Hypermedia {
         return href;
     }
 
-    String getProjectName() {
+    public String getProjectName() {
         return projectName;
     }
 
-    String getProjectId() {
+    public String getProjectId() {
         return projectId;
     }
 }
