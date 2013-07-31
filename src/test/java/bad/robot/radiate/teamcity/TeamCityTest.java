@@ -130,4 +130,14 @@ public class TeamCityTest {
         teamcity.retrieveLatestBuild(buildType);
     }
 
+    @Test
+    public void shouldHandleProjectsWithNoBuildHistory() throws MalformedURLException {
+        final BuildType buildType = Any.buildType();
+        context.checking(new Expectations() {{
+            oneOf(http).get(with(containsPath("running:true")), with(any(Headers.class))); will(returnValue(notFound));
+            oneOf(http).get(new URL("http://example.com:8111/guestAuth/app/rest/builds/buildType:" + buildType.getId()), accept); will(returnValue(notFound));
+        }});
+        assertThat(teamcity.retrieveLatestBuild(buildType), is(((Build) new NoBuild())));
+    }
+
 }

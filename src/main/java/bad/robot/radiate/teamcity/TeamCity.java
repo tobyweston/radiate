@@ -67,6 +67,8 @@ class TeamCity {
         HttpResponse response = http.get(url, headers);
         if (response.ok())
             return build.unmarshall(response);
+        if (response.getStatusCode() == 404)
+            return new NoBuild();
         throw new UnexpectedResponse(url, response);
     }
 

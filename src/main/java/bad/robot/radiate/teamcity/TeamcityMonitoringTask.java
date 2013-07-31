@@ -45,7 +45,7 @@ public class TeamcityMonitoringTask implements MonitoringTask {
             @Override
             public Status call(BuildType buildType) throws Exception {
                 Build build = teamcity.retrieveLatestBuild(buildType);
-                System.out.printf("%s: #%s (id:%s) - %s (%s) %s%n", build.getBuildType().getName(), build.getNumber(), build.getId(), build.getStatus(), build.getStatusText(), build.getBuildType().getProjectName());
+                System.out.printf("%s: #%s (id:%s) - %s (%s) %s %s%n", build.getBuildType().getName(), build.getNumber(), build.getId(), build.getStatus(), build.getStatusText(), build.getBuildType().getProjectName(), Thread.currentThread());
                 return build.getStatus();
             }
         };
