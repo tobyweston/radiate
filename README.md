@@ -1,4 +1,4 @@
-# radiate
+# Radiate
 [![](https://travis-ci.org/tobyweston/radiate.png?branch=master)](https://travis-ci.org/tobyweston/radiate)
 
 TeamCity build monitor. Run as a Windows **screensaver** or from the desktop.
