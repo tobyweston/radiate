@@ -14,12 +14,22 @@ public class SwingUi extends JFrame implements Ui {
 
     public SwingUi() throws HeadlessException {
         statusPanel = new StatusPanel(this);
+        setupWindowing();
+        setupEventListeners();
+    }
+
+    private void setupWindowing() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLookAndFeel();
-        getToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
-        getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
         setTitle("Radiate");
         setSize(400, 300);
+        setUndecorated(true);
+        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+    }
+
+    private void setupEventListeners() {
+        getToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
+        getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
     }
 
     @Override
