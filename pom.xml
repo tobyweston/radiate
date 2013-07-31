@@ -7,6 +7,14 @@
     <name>radiate</name>
     <version>1.0-SNAPSHOT</version>
 
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>internal.repo</name>
+            <url>???</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>bad.robot</id>
