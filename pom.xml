@@ -7,6 +7,57 @@
     <name>radiate</name>
     <version>1.0-SNAPSHOT</version>
 
+    <profiles>
+        <profile>
+            <id>platform-windows</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                        <artifactId>launch4j-maven-plugin</artifactId>
+                        <version>1.5.1</version>
+                        <executions>
+                            <execution>
+                                <id>l4j-clui</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>launch4j</goal>
+                                </goals>
+                                <configuration>
+                                    <headerType>gui</headerType>
+                                    <jar>${project.build.directory}/${artifactId}-${version}.jar</jar>
+                                    <outfile>${project.build.directory}/${artifactId}-${version}.exe</outfile>
+                                    <downloadUrl>http://java.com/download</downloadUrl>
+                                    <classPath>
+                                        <mainClass>bad.robot.radiate.Main</mainClass>
+                                        <preCp>anything</preCp>
+                                    </classPath>
+                                    <icon>src/main/resources/bulb.ico</icon>
+                                    <jre>
+                                        <minVersion>1.7.0</minVersion>
+                                        <jdkPreference>preferJre</jdkPreference>
+                                    </jre>
+                                    <versionInfo>
+                                        <fileVersion>1.0.0.0</fileVersion>
+                                        <txtFileVersion>${project.version}</txtFileVersion>
+                                        <fileDescription>${project.name}</fileDescription>
+                                        <copyright>bad robot (london) ltd</copyright>
+                                        <productVersion>1.0.0.0</productVersion>
+                                        <txtProductVersion>1.0.0.0</txtProductVersion>
+                                        <productName>${project.name}</productName>
+                                        <companyName>bad robot (london) ltd</companyName>
+                                        <internalName>radiate</internalName>
+                                        <originalFilename>${project.name}.exe</originalFilename>
+                                    </versionInfo>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <distributionManagement>
         <repository>
             <id>internal.repo</id>
@@ -101,47 +152,6 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.5.1</version>
-                <executions>
-                    <execution>
-                        <id>l4j-clui</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>launch4j</goal>
-                        </goals>
-                        <configuration>
-                            <headerType>gui</headerType>
-                            <jar>${project.build.directory}/${artifactId}-${version}.jar</jar>
-                            <outfile>${project.build.directory}/${artifactId}-${version}.exe</outfile>
-                            <downloadUrl>http://java.com/download</downloadUrl>
-                            <classPath>
-                                <mainClass>bad.robot.radiate.Main</mainClass>
-                                <preCp>anything</preCp>
-                            </classPath>
-                            <icon>src/main/resources/bulb.ico</icon>
-                            <jre>
-                                <minVersion>1.7.0</minVersion>
-                                <jdkPreference>preferJre</jdkPreference>
-                            </jre>
-                            <versionInfo>
-                                <fileVersion>1.0.0.0</fileVersion>
-                                <txtFileVersion>${project.version}</txtFileVersion>
-                                <fileDescription>${project.name}</fileDescription>
-                                <copyright>bad robot (london) ltd</copyright>
-                                <productVersion>1.0.0.0</productVersion>
-                                <txtProductVersion>1.0.0.0</txtProductVersion>
-                                <productName>${project.name}</productName>
-                                <companyName>bad robot (london) ltd</companyName>
-                                <internalName>radiate</internalName>
-                                <originalFilename>${project.name}.exe</originalFilename>
-                            </versionInfo>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
