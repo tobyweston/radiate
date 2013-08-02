@@ -60,9 +60,13 @@ public class StatusPanel extends JPanel {
         int width = getWidth();
         int height = getHeight();
         Color colour = getColorFrom(status);
-        graphics.setPaint(new GradientPaint(0, 0, colour.darker(), 0 + width, 0 + height, colour.brighter()));
+        graphics.setPaint(calculateGradient(width, height, colour));
         graphics.fill(new Rectangle2D.Double(0, 0, width, height));
         addBorder(0, 0, width, height, graphics, colour);
+    }
+
+    private GradientPaint calculateGradient(int width, int height, Color colour) {
+        return new GradientPaint(0, 0, colour.darker(), 0 + width, 0 + height, colour.brighter());
     }
 
     private void updateText(Graphics graphics) {
