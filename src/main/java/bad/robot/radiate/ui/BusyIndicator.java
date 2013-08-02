@@ -59,9 +59,20 @@ class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
 
     private void grayOutPanel(int width, int height, Graphics2D graphics, float fade) {
         Composite urComposite = graphics.getComposite();
-        graphics.setComposite(getInstance(SRC_OVER, .3f * fade));
+        float alpha = .3f * fade;
+        graphics.setComposite(getInstance(SRC_OVER, alpha));
         graphics.fillRect(0, 0, width, height);
         graphics.setComposite(urComposite);
+    }
+
+    public void start() {
+        if (running)
+            return;
+        running = true;
+        fadingOut = false;
+        fadeCount = 0;
+        timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
+        timer.start();
     }
 
     @Override
@@ -83,24 +94,13 @@ class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
         }
     }
 
-    public void start() {
-        if (running)
-            return;
-
-        running = true;
-        fadingOut = false;
-        fadeCount = 0;
-        timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
-        timer.start();
-    }
-
-    public void stop() {
-        fadingOut = true;
-    }
-
     @Override
     public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
         if ("tick".equals(event.getPropertyName()))
             layer.repaint();
+    }
+
+    public void stop() {
+        fadingOut = true;
     }
 }
