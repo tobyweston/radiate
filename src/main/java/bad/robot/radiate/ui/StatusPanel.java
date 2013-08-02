@@ -14,7 +14,6 @@ public class StatusPanel extends JPanel {
 
     private static final Color Red = new Color(200, 0, 0);
     private static final Color Green = new Color(0, 200, 0);
-    private static final Color Amber = new Color(220, 150, 0);
     private static final Color Grey = new Color(64, 64, 64);
 
     private final BusyIndicator busyIndicator = new BusyIndicator();
