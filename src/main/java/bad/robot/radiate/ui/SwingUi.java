@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
+import static javax.swing.SwingUtilities.invokeLater;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
 public class SwingUi extends JFrame implements Ui {
@@ -38,13 +39,23 @@ public class SwingUi extends JFrame implements Ui {
     }
 
     @Override
-    public void update(Status status) {
-        statusPanel.update(status);
+    public void update(final Status status) {
+        invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                statusPanel.update(status);
+            }
+        });
     }
 
     @Override
-    public void update(Exception exception) {
-        statusPanel.update(exception);
+    public void update(final Exception exception) {
+        invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                statusPanel.update(exception);
+            }
+        });
     }
 
     private void setLookAndFeel() {
