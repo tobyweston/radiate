@@ -36,6 +36,7 @@ public class TeamcityMonitoringTask implements MonitoringTask {
             return status;
         } catch (Exception e) {
             ui.update(e);
+            e.printStackTrace(System.err);
             return Unknown;
         }
     }

@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Status;
+import bad.robot.radiate.teamcity.SanitisedException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +33,7 @@ public class StatusPanel extends JPanel {
     }
 
     public void update(Exception exception) {
-        this.text = exception.getMessage();
+        this.text = new SanitisedException(exception).getMessage();
         repaint();
     }
 
