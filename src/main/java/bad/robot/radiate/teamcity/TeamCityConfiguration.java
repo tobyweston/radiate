@@ -1,6 +1,6 @@
 package bad.robot.radiate.teamcity;
 
-public interface TeamCityConfigurationRenameToAvoidCaseInsensativeOss {
+public interface TeamCityConfiguration {
 
     String host();
     Integer port();

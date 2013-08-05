@@ -11,14 +11,14 @@ import static java.util.Arrays.asList;
 public class TeamCityMonitoring implements MonitoringTasksFactory {
 
     private final SwingUi ui;
-    private final TeamCityConfigurationRenameToAvoidCaseInsensativeOss configuration;
+    private final TeamCityConfiguration configuration;
 
     public TeamCityMonitoring(SwingUi ui) {
         this.ui = ui;
         this.configuration = loadConfigurationOrDefault(new BootstrapTeamCity());
     }
 
-    private static TeamCityConfigurationRenameToAvoidCaseInsensativeOss loadConfigurationOrDefault(TeamCity teamcity) {
+    private static TeamCityConfiguration loadConfigurationOrDefault(TeamCity teamcity) {
         try {
             YmlConfigurationFile file = new YmlConfigurationFile();
             file.initialise(teamcity);

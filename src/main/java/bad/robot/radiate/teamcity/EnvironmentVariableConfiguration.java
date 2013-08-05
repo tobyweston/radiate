@@ -3,7 +3,7 @@ package bad.robot.radiate.teamcity;
 import static bad.robot.radiate.Environment.getEnvironmentVariable;
 import static java.lang.Integer.valueOf;
 
-public class EnvironmentVariableConfiguration implements TeamCityConfigurationRenameToAvoidCaseInsensativeOss {
+public class EnvironmentVariableConfiguration implements TeamCityConfiguration {
 
     @Override
     public String host() {

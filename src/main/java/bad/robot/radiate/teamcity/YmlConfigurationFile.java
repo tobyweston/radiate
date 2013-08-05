@@ -14,7 +14,7 @@ import static org.apache.commons.io.FileUtils.writeStringToFile;
 
 public class YmlConfigurationFile extends File {
 
-    private final TeamCityConfigurationRenameToAvoidCaseInsensativeOss fallback = new EnvironmentVariableConfiguration();
+    private final TeamCityConfiguration fallback = new EnvironmentVariableConfiguration();
 
     public YmlConfigurationFile() {
         super(System.getProperty("user.home") + File.separator + ".radiate" + File.separator + "config.yml");
