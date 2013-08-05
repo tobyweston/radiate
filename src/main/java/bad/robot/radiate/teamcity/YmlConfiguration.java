@@ -1,11 +1,12 @@
 package bad.robot.radiate.teamcity;
 
 import bad.robot.http.HttpClient;
-import bad.robot.radiate.configuration.Configuration;
 import com.googlecode.totallylazy.Callable1;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -17,13 +18,14 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.Integer.valueOf;
 import static org.apache.commons.io.FileUtils.writeStringToFile;
 
-public class YmlConfiguration implements Configuration {
+public class YmlConfiguration implements TeamcityConfiguration {
 
     private final HttpClient http = anApacheClient();
+    private final Map<String, Object> configuration;
 
     public YmlConfiguration() throws IOException {
-        File configuration = createFileIfRequired("config.yml");
-        load(configuration);
+        File file = createFileIfRequired("config.yml");
+        this.configuration = load(file);
     }
 
     private File createFileIfRequired(String file) throws IOException {
@@ -36,8 +38,8 @@ public class YmlConfiguration implements Configuration {
         return configuration;
     }
 
-    private void load(File configuration) {
-
+    private Map load(File configuration) throws FileNotFoundException {
+        return (Map) new Yaml().load(new FileReader(configuration));
     }
 
     private void initialise(File configuration) throws IOException {
@@ -50,20 +52,27 @@ public class YmlConfiguration implements Configuration {
     }
 
     private List<String> getProjectIds() {
-        Server server = new Server(host(), port());
-        TeamCity teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
+        TeamCity teamcity = new TeamCity(new Server(this), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
         Iterable<Project> projects = teamcity.retrieveProjects();
         return sequence(projects).map(projectAsId()).toList();
     }
 
     @Override
     public String host() {
-        return getEnvironmentVariable("teamcity.host");
+        String host = getEnvironmentVariable("teamcity.host");
+        if (host.startsWith("http"))
+            throw new IllegalArgumentException("no need to specify a protocol, just a hostname");
+        return host;
     }
 
     @Override
     public Integer port() {
         return valueOf(getEnvironmentVariable("teamcity.port", "8111"));
+    }
+
+    @Override
+    public List<Project> projects() {
+        return (List<Project>) configuration.get("projects");
     }
 
     private static Callable1<Project, String> projectAsId() {

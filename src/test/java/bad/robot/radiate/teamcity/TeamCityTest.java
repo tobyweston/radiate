@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import static bad.robot.http.EmptyHeaders.emptyHeaders;
 import static bad.robot.http.HeaderList.headers;
@@ -43,7 +44,8 @@ public class TeamCityTest {
     private final Unmarshaller<HttpResponse, Iterable<Project>> projectsUnmarshaller = context.mock(Unmarshaller.class, "projects unmarshaller");
     private final Unmarshaller<HttpResponse, Project> projectUnmarshaller = context.mock(Unmarshaller.class, "project unmarshaller");
     private final Unmarshaller<HttpResponse, Build> buildUnmarshaller = context.mock(Unmarshaller.class, "build unmarshaller");
-    private final TeamCity teamcity = new TeamCity(new Server("example.com"), http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller);
+    private final TeamcityConfiguration configuration = new StubConfiguration();
+    private final TeamCity teamcity = new TeamCity(new Server(configuration), http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller);
 
     @Test
     public void shouldRetrieveProjects() throws MalformedURLException {
@@ -140,4 +142,20 @@ public class TeamCityTest {
         assertThat(teamcity.retrieveLatestBuild(buildType), is(((Build) new NoBuild())));
     }
 
+    private static class StubConfiguration implements TeamcityConfiguration {
+        @Override
+        public String host() {
+            return "example.com";
+        }
+
+        @Override
+        public Integer port() {
+            return 8111;
+        }
+
+        @Override
+        public List<Project> projects() {
+            throw new UnsupportedOperationException();
+        }
+    }
 }
