@@ -10,6 +10,7 @@ import bad.robot.radiate.teamcity.Server;
 import bad.robot.radiate.teamcity.TeamcityMonitoringTask;
 import bad.robot.radiate.ui.SwingUi;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -20,7 +21,7 @@ public class Main {
 
     private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         Configuration configuration = new YmlConfiguration();
         SwingUi ui = new SwingUi();
         Monitor monitor = new Monitor(threadPool, new TeamCityMonitoring(ui, new Server(configuration.host(), configuration.port())));
