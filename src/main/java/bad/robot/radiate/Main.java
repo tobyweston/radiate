@@ -18,7 +18,16 @@ public class Main {
         Monitor monitor = new Monitor(threadPool, new TeamCityMonitoring(ui));
         monitor.beginMonitoring();
         ui.start();
-//        monitor.shutdown();
+        addShutdown(monitor);
+    }
+
+    private static void addShutdown(final Monitor monitor) {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                monitor.shutdown();
+            }
+        });
     }
 
 }
