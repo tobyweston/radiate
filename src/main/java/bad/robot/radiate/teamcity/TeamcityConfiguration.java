@@ -4,6 +4,6 @@ public interface TeamcityConfiguration {
 
     String host();
     Integer port();
-    Iterable<Project> projects();
+    Iterable<Project> projects(TeamCity teamcity);
 
 }

@@ -7,6 +7,8 @@ import bad.robot.radiate.Unmarshaller;
 import java.io.IOException;
 
 import static bad.robot.http.HttpClients.anApacheClient;
+import static bad.robot.radiate.Environment.getEnvironmentVariable;
+import static java.lang.Integer.valueOf;
 
 public class ExampleUsage {
 
@@ -16,10 +18,12 @@ public class ExampleUsage {
         Unmarshaller<HttpResponse, Project> projectUnmarshaller = new JsonProjectUnmarshaller();
         JsonBuildUnmarshaller buildUnmarshaller = new JsonBuildUnmarshaller();
 
-        YmlConfiguration configuration = new YmlConfiguration();
-        TeamCity teamcity = new TeamCity(new Server(configuration), http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller);
+        String host = getEnvironmentVariable("teamcity.host");
+        Integer port = valueOf(getEnvironmentVariable("teamcity.port", "8111"));
 
-        Iterable<Project> projects = configuration.projects();
+        TeamCity teamcity = new TeamCity(new Server(host, port), http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller);
+
+        Iterable<Project> projects = teamcity.retrieveProjects();
         Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
         for (BuildType buildType : buildTypes) {
             Build build = teamcity.retrieveLatestBuild(buildType);

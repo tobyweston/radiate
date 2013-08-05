@@ -17,18 +17,19 @@ public class TeamcityMonitoringTask implements MonitoringTask {
     private final TeamcityConfiguration configuration;
     private final CommonHttpClient http = anApacheClient();
     private final Server server;
+    private final TeamCity teamcity;
 
     public TeamcityMonitoringTask(Ui ui, TeamcityConfiguration configuration) {
         this.ui = ui;
         this.configuration = configuration;
-        this.server = new Server(configuration);
+        this.server = new Server(configuration.host(), configuration.port());
+        this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
 
     @Override
     public Status call() throws Exception {
         try {
-            TeamCity teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
-            Iterable<Project> projects = configuration.projects();
+            Iterable<Project> projects = configuration.projects(teamcity);
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
             Status status = statusAggregator(statuses).getStatus();
