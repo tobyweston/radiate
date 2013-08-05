@@ -14,19 +14,21 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 public class TeamcityMonitoringTask implements MonitoringTask {
 
     private final Ui ui;
+    private final TeamcityConfiguration configuration;
     private final CommonHttpClient http = anApacheClient();
     private final Server server;
 
-    public TeamcityMonitoringTask(Ui ui, Server server) {
+    public TeamcityMonitoringTask(Ui ui, TeamcityConfiguration configuration) {
         this.ui = ui;
-        this.server = server;
+        this.configuration = configuration;
+        this.server = new Server(configuration);
     }
 
     @Override
     public Status call() throws Exception {
         try {
             TeamCity teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
-            Iterable<Project> projects = teamcity.retrieveProjects();
+            Iterable<Project> projects = configuration.projects();
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
             Status status = statusAggregator(statuses).getStatus();

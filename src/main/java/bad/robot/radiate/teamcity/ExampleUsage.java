@@ -16,9 +16,10 @@ public class ExampleUsage {
         Unmarshaller<HttpResponse, Project> projectUnmarshaller = new JsonProjectUnmarshaller();
         JsonBuildUnmarshaller buildUnmarshaller = new JsonBuildUnmarshaller();
 
-        TeamCity teamcity = new TeamCity(new Server(new YmlConfiguration()), http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller);
+        YmlConfiguration configuration = new YmlConfiguration();
+        TeamCity teamcity = new TeamCity(new Server(configuration), http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller);
 
-        Iterable<Project> projects = teamcity.retrieveProjects();
+        Iterable<Project> projects = configuration.projects();
         Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
         for (BuildType buildType : buildTypes) {
             Build build = teamcity.retrieveLatestBuild(buildType);

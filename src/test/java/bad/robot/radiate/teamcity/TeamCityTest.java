@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 import static bad.robot.http.EmptyHeaders.emptyHeaders;
 import static bad.robot.http.HeaderList.headers;
@@ -154,7 +153,7 @@ public class TeamCityTest {
         }
 
         @Override
-        public List<Project> projects() {
+        public Iterable<Project> projects() {
             throw new UnsupportedOperationException();
         }
     }

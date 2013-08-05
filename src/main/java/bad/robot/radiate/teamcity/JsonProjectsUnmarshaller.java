@@ -8,6 +8,6 @@ class JsonProjectsUnmarshaller implements Unmarshaller<HttpResponse, Iterable<Pr
 
     @Override
     public Iterable<Project> unmarshall(HttpResponse response) {
-        return new Gson().fromJson(response.getContent().asString(), Projects.class);
+        return new Gson().fromJson(new JsonResponse(response).body(), Projects.class);
     }
 }

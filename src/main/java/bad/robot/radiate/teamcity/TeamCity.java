@@ -6,6 +6,7 @@ import bad.robot.http.HttpResponse;
 import bad.robot.radiate.Unmarshaller;
 import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Either;
+import com.googlecode.totallylazy.Predicate;
 import com.googlecode.totallylazy.Sequence;
 
 import java.net.URL;
@@ -42,6 +43,15 @@ class TeamCity {
         if (response.ok())
             return projects.unmarshall(response);
         throw new UnexpectedResponse(url, response);
+    }
+
+    public Iterable<Project> retrieveProjects(final Iterable<String> ids) {
+        return sequence(retrieveProjects()).filter(new Predicate<Project>() {
+            @Override
+            public boolean matches(Project other) {
+                return sequence(ids).contains(other.getId());
+            }
+        });
     }
 
     public Iterable<BuildType> retrieveBuildTypes(Iterable<Project> projects) {

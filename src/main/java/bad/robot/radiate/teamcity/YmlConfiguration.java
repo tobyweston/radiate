@@ -22,6 +22,7 @@ public class YmlConfiguration implements TeamcityConfiguration {
 
     private final HttpClient http = anApacheClient();
     private final Map<String, Object> configuration;
+    private final TeamCity teamcity = new TeamCity(new Server(this), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
 
     public YmlConfiguration() throws IOException {
         File file = createFileIfRequired("config.yml");
@@ -52,7 +53,6 @@ public class YmlConfiguration implements TeamcityConfiguration {
     }
 
     private List<String> getProjectIds() {
-        TeamCity teamcity = new TeamCity(new Server(this), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
         Iterable<Project> projects = teamcity.retrieveProjects();
         return sequence(projects).map(projectAsId()).toList();
     }
@@ -71,8 +71,9 @@ public class YmlConfiguration implements TeamcityConfiguration {
     }
 
     @Override
-    public List<Project> projects() {
-        return (List<Project>) configuration.get("projects");
+    public Iterable<Project> projects() {
+        List<String> ids = (List<String>) configuration.get("projects");
+        return teamcity.retrieveProjects(ids);
     }
 
     private static Callable1<Project, String> projectAsId() {
