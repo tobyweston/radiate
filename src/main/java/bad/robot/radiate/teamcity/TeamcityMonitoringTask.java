@@ -1,6 +1,6 @@
 package bad.robot.radiate.teamcity;
 
-import bad.robot.http.HttpClient;
+import bad.robot.http.CommonHttpClient;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.ui.Ui;
@@ -14,7 +14,8 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 public class TeamcityMonitoringTask implements MonitoringTask {
 
     private final Ui ui;
-    private Server server;
+    private final CommonHttpClient http = anApacheClient();
+    private final Server server;
 
     public TeamcityMonitoringTask(Ui ui, Server server) {
         this.ui = ui;
@@ -24,7 +25,6 @@ public class TeamcityMonitoringTask implements MonitoringTask {
     @Override
     public Status call() throws Exception {
         try {
-            HttpClient http = anApacheClient();
             TeamCity teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
             Iterable<Project> projects = teamcity.retrieveProjects();
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);

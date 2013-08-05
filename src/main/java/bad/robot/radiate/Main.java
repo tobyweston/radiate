@@ -1,13 +1,13 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.configuration.Configuration;
-import bad.robot.radiate.configuration.YmlConfiguration;
 import bad.robot.radiate.monitor.Monitor;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.MonitoringTasksFactory;
 import bad.robot.radiate.monitor.MonitoringThreadFactory;
 import bad.robot.radiate.teamcity.Server;
 import bad.robot.radiate.teamcity.TeamcityMonitoringTask;
+import bad.robot.radiate.teamcity.YmlConfiguration;
 import bad.robot.radiate.ui.SwingUi;
 
 import java.io.IOException;
