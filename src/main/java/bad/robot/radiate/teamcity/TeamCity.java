@@ -15,8 +15,8 @@ import static bad.robot.http.HeaderPair.header;
 import static bad.robot.radiate.teamcity.BuildLocatorBuilder.latest;
 import static bad.robot.radiate.teamcity.BuildLocatorBuilder.running;
 import static bad.robot.radiate.teamcity.TeamCityEndpoint.projectsEndpoint;
-import static com.googlecode.totallylazy.Predicates.isLeft;
-import static com.googlecode.totallylazy.Predicates.isRight;
+import static com.googlecode.totallylazy.Monad.methods.sequenceE;
+import static com.googlecode.totallylazy.Sequences.flatten;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 class TeamCity {
@@ -45,11 +45,10 @@ class TeamCity {
     }
 
     public Iterable<BuildType> retrieveBuildTypes(Iterable<Project> projects) {
-        Sequence<Either<? extends TeamCityException, Project>> expanded = sequence(projects).mapConcurrently(expandingToFullProject()).memorise();
-        Sequence<TeamCityException> exceptions = expanded.filter(isLeft()).map(left());
-        if (!exceptions.isEmpty())
-            throw exceptions.head();
-        return expanded.filter(isRight()).map(right()).flatMap(buildTypes());
+        Either<TeamCityException, Sequence<Project>> expanded = sequenceE(sequence(projects).mapConcurrently(expandingToFullProject()));
+        if (expanded.isLeft())
+            throw expanded.left();
+        return flatten(expanded.right());
     }
 
     public Build retrieveLatestBuild(BuildType buildType) {
@@ -72,42 +71,15 @@ class TeamCity {
         throw new UnexpectedResponse(url, response);
     }
 
-    private Callable1<Project, Either<? extends TeamCityException, Project>> expandingToFullProject() {
-        return new Callable1<Project, Either<? extends TeamCityException, Project>>() {
+    private Callable1<Project, Either<TeamCityException, Project>> expandingToFullProject() {
+        return new Callable1<Project, Either<TeamCityException, Project>>() {
             @Override
-            public Either<? extends TeamCityException, Project> call(Project project) throws Exception {
+            public Either<TeamCityException, Project> call(Project project) throws Exception {
                 URL url = server.urlFor(project);
                 HttpResponse response = http.get(url, headers);
                 if (response.ok())
-                    return Either.<TeamCityException, Project>right(TeamCity.this.project.unmarshall(response));;
-                return Either.left(new UnexpectedResponse(url, response));
-            }
-        };
-    }
-
-    private Callable1<Either<? extends TeamCityException, Project>, TeamCityException> left() {
-        return new Callable1<Either<? extends TeamCityException, Project>, TeamCityException>() {
-            @Override
-            public TeamCityException call(Either<? extends TeamCityException, Project> project) throws Exception {
-                return project.left();
-            }
-        };
-    }
-
-    private Callable1<Either<? extends TeamCityException, Project>, Project> right() {
-        return new Callable1<Either<? extends TeamCityException, Project>, Project>() {
-            @Override
-            public Project call(Either<? extends TeamCityException, Project> project) throws Exception {
-                return project.right();
-            }
-        };
-    }
-
-    private Callable1<Project, Iterable<? extends BuildType>> buildTypes() {
-        return new Callable1<Project, Iterable<? extends BuildType>>() {
-            @Override
-            public Iterable<? extends BuildType> call(Project project) throws Exception {
-                return project;
+                    return Either.right(TeamCity.this.project.unmarshall(response));;
+                return Either.<TeamCityException, Project>left(new UnexpectedResponse(url, response));
             }
         };
     }
