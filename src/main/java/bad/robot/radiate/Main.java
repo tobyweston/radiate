@@ -1,9 +1,12 @@
 package bad.robot.radiate;
 
+import bad.robot.radiate.configuration.Configuration;
+import bad.robot.radiate.configuration.YmlConfiguration;
 import bad.robot.radiate.monitor.Monitor;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.MonitoringTasksFactory;
 import bad.robot.radiate.monitor.MonitoringThreadFactory;
+import bad.robot.radiate.teamcity.Server;
 import bad.robot.radiate.teamcity.TeamcityMonitoringTask;
 import bad.robot.radiate.ui.SwingUi;
 
@@ -18,8 +21,9 @@ public class Main {
     private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());
 
     public static void main(String... args) {
+        Configuration configuration = new YmlConfiguration();
         SwingUi ui = new SwingUi();
-        Monitor monitor = new Monitor(threadPool, new TeamCityMonitoring(ui));
+        Monitor monitor = new Monitor(threadPool, new TeamCityMonitoring(ui, new Server(configuration.host(), configuration.port())));
         monitor.beginMonitoring();
         ui.start();
 //        monitor.shutdown();
@@ -27,14 +31,16 @@ public class Main {
 
     private static class TeamCityMonitoring implements MonitoringTasksFactory {
         private final SwingUi ui;
+        private final Server server;
 
-        public TeamCityMonitoring(SwingUi ui) {
+        public TeamCityMonitoring(SwingUi ui, Server server) {
+            this.server = server;
             this.ui = ui;
         }
 
         @Override
         public List<? extends MonitoringTask> create() {
-            return list(new TeamcityMonitoringTask(ui));
+            return list(new TeamcityMonitoringTask(ui, server));
         }
 
     }
