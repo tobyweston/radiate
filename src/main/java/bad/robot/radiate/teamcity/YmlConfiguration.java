@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class YmlConfiguration implements TeamcityConfiguration {
+public class YmlConfiguration implements TeamCityConfiguration {
 
     private final Map<String, Object> configuration;
 

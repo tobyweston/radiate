@@ -14,12 +14,12 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 public class TeamcityMonitoringTask implements MonitoringTask {
 
     private final Ui ui;
-    private final TeamcityConfiguration configuration;
+    private final TeamCityConfiguration configuration;
     private final CommonHttpClient http = anApacheClient();
     private final Server server;
     private final TeamCity teamcity;
 
-    public TeamcityMonitoringTask(Ui ui, TeamcityConfiguration configuration) {
+    public TeamcityMonitoringTask(Ui ui, TeamCityConfiguration configuration) {
         this.ui = ui;
         this.configuration = configuration;
         this.server = new Server(configuration.host(), configuration.port());
