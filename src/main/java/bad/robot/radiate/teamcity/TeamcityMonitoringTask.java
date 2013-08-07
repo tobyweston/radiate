@@ -29,7 +29,7 @@ public class TeamcityMonitoringTask implements MonitoringTask {
     @Override
     public Status call() throws Exception {
         try {
-            Iterable<Project> projects = configuration.projects(teamcity);
+            Iterable<Project> projects = configuration.filter(teamcity.retrieveProjects());
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
             Status status = statusAggregator(statuses).getStatus();
@@ -47,7 +47,7 @@ public class TeamcityMonitoringTask implements MonitoringTask {
             @Override
             public Status call(BuildType buildType) throws Exception {
                 Build build = teamcity.retrieveLatestBuild(buildType);
-                System.out.printf("%s: #%s (id:%s) - %s (%s) %s %s%n", build.getBuildType().getName(), build.getNumber(), build.getId(), build.getStatus(), build.getStatusText(), build.getBuildType().getProjectName(), Thread.currentThread());
+                System.out.printf("%s: #%s (id:%s) - %s (%s) %s %n", build.getBuildType().getName(), build.getNumber(), build.getId(), build.getStatus(), build.getStatusText(), build.getBuildType().getProjectName());
                 return build.getStatus();
             }
         };

@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+import com.googlecode.totallylazy.Predicate;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -8,6 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class YmlConfiguration implements TeamCityConfiguration {
 
@@ -32,9 +35,17 @@ public class YmlConfiguration implements TeamCityConfiguration {
     }
 
     @Override
-    public Iterable<Project> projects(TeamCity teamcity) {
+    public Iterable<Project> filter(Iterable<Project> projects) {
         List<String> ids = (List<String>) configuration.get("projects");
-        return teamcity.retrieveProjects(ids);
+        return sequence(projects).filter(by(ids));
     }
 
+    private static Predicate<Project> by(final List<String> ids) {
+        return new Predicate<Project>() {
+            @Override
+            public boolean matches(Project other) {
+                return sequence(ids).contains(other.getId());
+            }
+        };
+    }
 }

@@ -152,8 +152,8 @@ public class TeamCityTest {
         }
 
         @Override
-        public Iterable<Project> projects(TeamCity unused) {
-            throw new UnsupportedOperationException();
+        public Iterable<Project> filter(Iterable<Project> projects) {
+            return projects;
         }
     }
 }

@@ -16,7 +16,7 @@ public class EnvironmentVariableConfiguration implements TeamCityConfiguration {
     }
 
     @Override
-    public Iterable<Project> projects(TeamCity teamcity) {
-        return teamcity.retrieveProjects();
+    public Iterable<Project> filter(Iterable<Project> projects) {
+        return projects; // no filtering
     }
 }
