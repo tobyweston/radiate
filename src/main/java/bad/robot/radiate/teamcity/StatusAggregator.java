@@ -16,7 +16,7 @@ public class StatusAggregator implements Monitorable {
         this.statuses = statuses;
     }
 
-    public static StatusAggregator statusAggregator(Iterable<Status> statuses) {
+    public static StatusAggregator aggregated(Iterable<Status> statuses) {
         return new StatusAggregator(statuses);
     }
 

@@ -8,7 +8,7 @@ import com.googlecode.totallylazy.Callable1;
 
 import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.radiate.Status.Unknown;
-import static bad.robot.radiate.teamcity.StatusAggregator.statusAggregator;
+import static bad.robot.radiate.teamcity.StatusAggregator.aggregated;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class TeamcityMonitoringTask implements MonitoringTask {
@@ -32,7 +32,7 @@ public class TeamcityMonitoringTask implements MonitoringTask {
             Iterable<Project> projects = configuration.filter(teamcity.retrieveProjects());
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
-            Status status = statusAggregator(statuses).getStatus();
+            Status status = aggregated(statuses).getStatus();
             ui.update(status);
             return status;
         } catch (Exception e) {
