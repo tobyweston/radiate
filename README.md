@@ -3,6 +3,8 @@
 
 TeamCity build monitor. Run as a Windows **screensaver** or from the desktop.
 
+It will auto detect your TeamCity projects and aggregate the builds to an overall RED or GREEN. Job done.
+
 ### Configuration
 
 Set the environment property `teamcity.host` and optionally `teamcity.port` (the port defaults to `8111` if you don't set it).
