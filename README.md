@@ -3,7 +3,7 @@
 
 TeamCity build monitor. Run as a Windows **screensaver** or from the desktop.
 
-It will auto detect your TeamCity projects and aggregate the builds to an overall RED or GREEN. Job done.
+It will auto detect your TeamCity projects and aggregate the builds to an overall RED or GREEN. Job done. See an introduction video [here](http://www.youtube.com/watch?v=uy5eP-1Pg3M)
 
 ### Configuration
 
