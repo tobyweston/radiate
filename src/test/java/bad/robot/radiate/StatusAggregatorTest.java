@@ -1,12 +1,11 @@
-package bad.robot.radiate.teamcity;
+package bad.robot.radiate;
 
-import bad.robot.radiate.Status;
 import org.junit.Test;
 
 import java.util.Collections;
 
 import static bad.robot.radiate.Status.*;
-import static bad.robot.radiate.teamcity.StatusAggregator.aggregated;
+import static bad.robot.radiate.StatusAggregator.aggregated;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThat;

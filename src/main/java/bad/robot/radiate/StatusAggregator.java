@@ -1,7 +1,5 @@
-package bad.robot.radiate.teamcity;
+package bad.robot.radiate;
 
-import bad.robot.radiate.Monitorable;
-import bad.robot.radiate.Status;
 import com.googlecode.totallylazy.Callable2;
 import com.googlecode.totallylazy.Sequence;
 

@@ -1,26 +1,24 @@
 package bad.robot.radiate.teamcity;
 
-import bad.robot.http.CommonHttpClient;
+import bad.robot.http.HttpClient;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.MonitoringTask;
-import bad.robot.radiate.ui.Ui;
+import bad.robot.radiate.monitor.ThreadSafeObservable;
 import com.googlecode.totallylazy.Callable1;
 
 import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.radiate.Status.Unknown;
-import static bad.robot.radiate.teamcity.StatusAggregator.aggregated;
+import static bad.robot.radiate.StatusAggregator.aggregated;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-public class TeamcityMonitoringTask implements MonitoringTask {
+public class TeamcityMonitoringTask extends ThreadSafeObservable implements MonitoringTask {
 
-    private final Ui ui;
     private final TeamCityConfiguration configuration;
-    private final CommonHttpClient http = anApacheClient();
+    private final HttpClient http = anApacheClient();
     private final Server server;
     private final TeamCity teamcity;
 
-    public TeamcityMonitoringTask(Ui ui, TeamCityConfiguration configuration) {
-        this.ui = ui;
+    public TeamcityMonitoringTask(TeamCityConfiguration configuration) {
         this.configuration = configuration;
         this.server = new Server(configuration.host(), configuration.port());
         this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
@@ -33,10 +31,10 @@ public class TeamcityMonitoringTask implements MonitoringTask {
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
             Status status = aggregated(statuses).getStatus();
-            ui.update(status);
+            notifyObservers(status);
             return status;
         } catch (Exception e) {
-            ui.update(e);
+            notifyObservers(e);
             e.printStackTrace(System.err);
             return Unknown;
         }

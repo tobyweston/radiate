@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Status;
+import bad.robot.radiate.monitor.Observer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import static java.awt.AWTEvent.KEY_EVENT_MASK;
 import static javax.swing.SwingUtilities.invokeLater;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
-public class SwingUi extends JFrame implements Ui {
+public class SwingUi extends JFrame implements Ui, Observer {
 
     private final StatusPanel statusPanel;
 
