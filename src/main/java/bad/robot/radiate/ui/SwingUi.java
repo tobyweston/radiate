@@ -25,8 +25,8 @@ public class SwingUi extends JFrame implements Ui {
         setLookAndFeel();
         setTitle("Radiate");
         setSize(400, 300);
-        setUndecorated(true);
-        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+//        setUndecorated(true);
+//        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
     }
 
     private void setupEventListeners() {

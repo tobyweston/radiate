@@ -40,7 +40,7 @@ public class Main {
         @Override
         public List<MonitoringTask> create() {
             ArrayList<MonitoringTask> tasks = new ArrayList<>();
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 39; i++)
                 tasks.add(createMonitoringTask());
             return tasks;
         }
