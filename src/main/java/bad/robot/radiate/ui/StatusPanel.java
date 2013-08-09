@@ -40,11 +40,6 @@ public class StatusPanel extends JPanel implements Observer {
         repaint();
     }
 
-    private void addBorder(int x, int y, int width, int height, Graphics2D graphics, Color colour) {
-        graphics.setColor(colour);
-        graphics.draw3DRect(x + 1, y - 1, width, height, true);
-    }
-
     private Color getColorFrom(Status status) {
         if (status == Ok)
             return Green;
@@ -66,7 +61,6 @@ public class StatusPanel extends JPanel implements Observer {
         Color colour = getColorFrom(status);
         graphics.setPaint(new GradientPaint(0, 0, colour.darker(), 0 + width, 0 + height, colour.brighter()));
         graphics.fill(new Rectangle2D.Double(0, 0, width, height));
-        addBorder(0, 0, width, height, graphics, colour);
     }
 
     private void updateText(Graphics graphics) {
