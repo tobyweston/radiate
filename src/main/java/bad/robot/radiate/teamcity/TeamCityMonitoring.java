@@ -2,7 +2,7 @@ package bad.robot.radiate.teamcity;
 
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.MonitoringTasksFactory;
-import bad.robot.radiate.monitor.Observer;
+import bad.robot.radiate.ui.SwingUi;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ import static java.util.Arrays.asList;
 
 public class TeamCityMonitoring implements MonitoringTasksFactory {
 
-    private final Observer observer;
+    private final SwingUi ui;
     private final TeamCityConfiguration configuration;
 
-    public TeamCityMonitoring(Observer observer) {
-        this.observer = observer;
+    public TeamCityMonitoring(SwingUi ui) {
+        this.ui = ui;
         this.configuration = loadConfigurationOrDefault(new BootstrapTeamCity());
     }
 
@@ -31,7 +31,7 @@ public class TeamCityMonitoring implements MonitoringTasksFactory {
     @Override
     public List<MonitoringTask> create() {
         MonitoringTask task = new TeamcityMonitoringTask(configuration);
-        task.addObserver(observer);
+        task.addObserver(ui.createStatusPanel());
         return asList(task);
     }
 

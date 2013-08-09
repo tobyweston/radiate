@@ -1,21 +1,21 @@
 package bad.robot.radiate.ui;
 
-import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Observer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
-import static javax.swing.SwingUtilities.invokeLater;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
-public class SwingUi extends JFrame implements Ui, Observer {
+public class SwingUi extends JFrame implements Ui {
 
-    private final StatusPanel statusPanel;
+    private final Set<StatusPanel> panels = new HashSet<>();
 
     public SwingUi() throws HeadlessException {
-        statusPanel = new StatusPanel(this);
+        setLayout(new ChessboardLayout(panels));
         setupWindowing();
         setupEventListeners();
     }
@@ -34,29 +34,15 @@ public class SwingUi extends JFrame implements Ui, Observer {
         getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
     }
 
+    public Observer createStatusPanel() {
+        StatusPanel panel = new StatusPanel(this);
+        panels.add(panel);
+        return panel;
+    }
+
     @Override
     public void start() {
         setVisible(true);
-    }
-
-    @Override
-    public void update(final Status status) {
-        invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                statusPanel.update(status);
-            }
-        });
-    }
-
-    @Override
-    public void update(final Exception exception) {
-        invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                statusPanel.update(exception);
-            }
-        });
     }
 
     private void setLookAndFeel() {

@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Status;
+import bad.robot.radiate.monitor.Observer;
 import bad.robot.radiate.teamcity.SanitisedException;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import static bad.robot.radiate.Status.*;
 import static bad.robot.radiate.ui.UiText.createTextRegion;
 import static bad.robot.radiate.ui.UiText.drawText;
 
-public class StatusPanel extends JPanel {
+public class StatusPanel extends JPanel implements Observer {
 
     private static final Color Red = new Color(200, 0, 0);
     private static final Color Green = new Color(0, 200, 0);
@@ -26,12 +27,14 @@ public class StatusPanel extends JPanel {
         parent.add(new JLayer<>(this, busyIndicator));
     }
 
+    @Override
     public void update(Status status) {
         this.status = status;
         this.text = null;
         repaint();
     }
 
+    @Override
     public void update(Exception exception) {
         this.text = new SanitisedException(exception).getMessage();
         repaint();
