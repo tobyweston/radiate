@@ -13,7 +13,7 @@ class ChessboardLayout extends GridLayout {
 
     @Override
     public void layoutContainer(Container parent) {
-        Tiles tiles = Tiles.tiles(this.tiles.size());
+        Tiles tiles = EmptyTrailingTiles.tiles(this.tiles.size());
         setRows(tiles.rows());
         setColumns(tiles.columns());
         super.layoutContainer(parent);
