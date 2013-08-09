@@ -1,6 +1,7 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.monitor.*;
+import bad.robot.radiate.teamcity.MultiplePageTeamCityMonitoring;
 import bad.robot.radiate.ui.SwingUi;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Main {
 
     public static void main(String... args) {
         SwingUi ui = new SwingUi();
-        Monitor monitor = new Monitor(threadPool, new DemoMonitor(ui));
+        Monitor monitor = new Monitor(threadPool, new MultiplePageTeamCityMonitoring(ui));
         monitor.beginMonitoring();
         ui.start();
         addShutdown(monitor);

@@ -20,6 +20,16 @@ public class YmlConfiguration implements TeamCityConfiguration {
         this.configuration = load(file);
     }
 
+    static TeamCityConfiguration loadOrDefault(TeamCity teamcity) {
+        try {
+            YmlConfigurationFile file = new YmlConfigurationFile();
+            file.initialise(teamcity);
+            return new YmlConfiguration(file);
+        } catch (Exception e) {
+            return new EnvironmentVariableConfiguration();
+        }
+    }
+
     private Map load(File configuration) throws FileNotFoundException {
         return (Map) new Yaml().load(new FileReader(configuration));
     }

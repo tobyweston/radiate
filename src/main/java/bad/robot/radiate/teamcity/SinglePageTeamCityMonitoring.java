@@ -8,24 +8,14 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 
-public class TeamCityMonitoring implements MonitoringTasksFactory {
+public class SinglePageTeamCityMonitoring implements MonitoringTasksFactory {
 
     private final SwingUi ui;
     private final TeamCityConfiguration configuration;
 
-    public TeamCityMonitoring(SwingUi ui) {
+    public SinglePageTeamCityMonitoring(SwingUi ui) {
         this.ui = ui;
-        this.configuration = loadConfigurationOrDefault(new BootstrapTeamCity());
-    }
-
-    private static TeamCityConfiguration loadConfigurationOrDefault(TeamCity teamcity) {
-        try {
-            YmlConfigurationFile file = new YmlConfigurationFile();
-            file.initialise(teamcity);
-            return new YmlConfiguration(file);
-        } catch (Exception e) {
-            return new EnvironmentVariableConfiguration();
-        }
+        this.configuration = YmlConfiguration.loadOrDefault(new BootstrapTeamCity());
     }
 
     @Override
