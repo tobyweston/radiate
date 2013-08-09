@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
+import static java.awt.Color.darkGray;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
 public class SwingUi extends JFrame implements Ui {
@@ -24,6 +25,7 @@ public class SwingUi extends JFrame implements Ui {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLookAndFeel();
         setTitle("Radiate");
+        getContentPane().setBackground(darkGray);
         setSize(400, 300);
 //        setUndecorated(true);
 //        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
@@ -52,5 +54,4 @@ public class SwingUi extends JFrame implements Ui {
             throw new RuntimeException(e);
         }
     }
-
 }
