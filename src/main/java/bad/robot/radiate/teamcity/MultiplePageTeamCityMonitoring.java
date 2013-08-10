@@ -4,25 +4,28 @@ import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.MonitoringTasksFactory;
 import bad.robot.radiate.ui.SwingUi;
 import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Sequence;
 
 import java.util.List;
 
-import static bad.robot.http.HttpClients.anApacheClient;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class MultiplePageTeamCityMonitoring implements MonitoringTasksFactory {
 
     private final SwingUi ui;
     private final TeamCityConfiguration configuration;
+    private final TeamCity teamcity;
 
     public MultiplePageTeamCityMonitoring(SwingUi ui) {
         this.ui = ui;
-        this.configuration = YmlConfiguration.loadOrDefault(new BootstrapTeamCity());
+        this.teamcity = new BootstrapTeamCity();
+        this.configuration = YmlConfiguration.loadOrDefault(teamcity);
     }
 
     @Override
     public List<MonitoringTask> create() {
-        return sequence(projectsFromTeamCity()).map(toTasks()).toList();
+        Sequence<Project> projects = sequence(configuration.filter(teamcity.retrieveProjects()));
+        return projects.map(toTasks()).toList();
     }
 
     private Callable1<Project, MonitoringTask> toTasks() {
@@ -34,12 +37,6 @@ public class MultiplePageTeamCityMonitoring implements MonitoringTasksFactory {
                 return task;
             }
         };
-    }
-
-    private Iterable<Project> projectsFromTeamCity() {
-        Server server = new Server(configuration.host(), configuration.port());
-        TeamCity teamcity = new TeamCity(server, anApacheClient(), new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
-        return configuration.filter(teamcity.retrieveProjects());
     }
 
 }
