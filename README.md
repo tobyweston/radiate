@@ -23,4 +23,4 @@ Download the .exe, .scr or executable jar from the [bad robot repository](http:/
 
 Work on an alternative views is underway to allow per project aggregation or per build type visualisation.
 
-![](chessboard.png)
+![](chessboard.png) ![](chessboard2.png) ![](chessboard3.png)
