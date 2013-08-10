@@ -18,3 +18,9 @@ It reports builds form all projects on the TeamCity instance. Once you've run th
 ### Download
 
 Download the .exe, .scr or executable jar from the [bad robot repository](http://robotooling.com/maven/bad/robot/radiate/).
+
+### Finer grained views
+
+Work on an alternative views is underway to allow per project aggregation or per build type visualisation.
+
+![](chessboard.png)
