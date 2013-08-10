@@ -1,7 +1,7 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.monitor.*;
-import bad.robot.radiate.teamcity.MultiplePageTeamCityMonitoring;
+import bad.robot.radiate.teamcity.MultiProjectTeamCityMonitoring;
 import bad.robot.radiate.ui.SwingUi;
 
 import java.util.ArrayList;
@@ -16,8 +16,11 @@ public class Main {
 
     public static void main(String... args) {
         SwingUi ui = new SwingUi();
-        Monitor monitor = new Monitor(threadPool, new MultiplePageTeamCityMonitoring(ui));
-        monitor.beginMonitoring();
+        Monitor monitor = new Monitor(threadPool);
+        List<MonitoringTask> tasks = new MultiProjectTeamCityMonitoring().create();
+        for (MonitoringTask task : tasks)
+            task.addObserver(ui.createStatusPanel());
+        monitor.beginMonitoring(tasks);
         ui.start();
         addShutdown(monitor);
     }
@@ -32,24 +35,13 @@ public class Main {
     }
 
     private static class DemoMonitor implements MonitoringTasksFactory {
-        private final SwingUi ui;
-
-        public DemoMonitor(SwingUi ui) {
-            this.ui = ui;
-        }
-
         @Override
         public List<MonitoringTask> create() {
             ArrayList<MonitoringTask> tasks = new ArrayList<>();
-            for (int i = 0; i < 39; i++)
-                tasks.add(createMonitoringTask());
+            for (int i = 0; i < 99; i++)
+                tasks.add(new RandomStatus());
             return tasks;
         }
 
-        private RandomStatus createMonitoringTask() {
-            RandomStatus status = new RandomStatus();
-            status.addObserver(ui.createStatusPanel());
-            return status;
-        }
     }
 }

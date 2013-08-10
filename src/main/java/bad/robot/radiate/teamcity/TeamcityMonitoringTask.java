@@ -18,6 +18,7 @@ public class TeamcityMonitoringTask extends ThreadSafeObservable implements Moni
     private final Server server;
     private final TeamCity teamcity;
 
+    /** todo rename clas with upper case C **/
     public TeamcityMonitoringTask(TeamCityConfiguration configuration) {
         this.configuration = configuration;
         this.server = new Server(configuration.host(), configuration.port());

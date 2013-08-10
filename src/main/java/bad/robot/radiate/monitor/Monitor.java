@@ -10,15 +10,12 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class Monitor {
 
     private final ScheduledExecutorService executor;
-    private final MonitoringTasksFactory factory;
 
-    public Monitor(ScheduledExecutorService executor, MonitoringTasksFactory factory) {
+    public Monitor(ScheduledExecutorService executor) {
         this.executor = executor;
-        this.factory = factory;
     }
 
-    public List<? extends MonitoringTask> beginMonitoring() {
-        List<? extends MonitoringTask> tasks = factory.create();
+    public List<? extends MonitoringTask> beginMonitoring(List<MonitoringTask> tasks) {
         for (MonitoringTask task : tasks)
             schedule(task);
         return tasks;
