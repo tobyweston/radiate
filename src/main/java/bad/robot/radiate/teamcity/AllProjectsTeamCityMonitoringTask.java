@@ -11,15 +11,14 @@ import static bad.robot.radiate.Status.Unknown;
 import static bad.robot.radiate.StatusAggregator.aggregated;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-public class TeamcityMonitoringTask extends ThreadSafeObservable implements MonitoringTask {
+public class AllProjectsTeamCityMonitoringTask extends ThreadSafeObservable implements MonitoringTask {
 
     private final TeamCityConfiguration configuration;
     private final HttpClient http = anApacheClient();
     private final Server server;
     private final TeamCity teamcity;
 
-    /** todo rename clas with upper case C **/
-    public TeamcityMonitoringTask(TeamCityConfiguration configuration) {
+    public AllProjectsTeamCityMonitoringTask(TeamCityConfiguration configuration) {
         this.configuration = configuration;
         this.server = new Server(configuration.host(), configuration.port());
         this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
