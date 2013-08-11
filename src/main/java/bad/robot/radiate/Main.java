@@ -17,10 +17,15 @@ public class Main {
     public static void main(String... args) {
         SwingUi ui = new SwingUi();
         Monitor monitor = new Monitor(threadPool);
-        List<MonitoringTask> tasks = new MultiProjectTeamCityMonitoring().create();
-        for (MonitoringTask task : tasks)
-            task.addObserver(ui.createStatusPanel());
-        monitor.beginMonitoring(tasks);
+        try {
+            List<MonitoringTask> tasks = new MultiProjectTeamCityMonitoring().create();
+            for (MonitoringTask task : tasks)
+                task.addObserver(ui.createStatusPanel());
+            monitor.beginMonitoring(tasks);
+        } catch (Exception e) {
+            ui.createStatusPanel();
+            ui.update(e);
+        }
         ui.start();
         addShutdown(monitor);
     }

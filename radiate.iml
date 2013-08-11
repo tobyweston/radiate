@@ -30,6 +30,18 @@
     <orderEntry type="library" name="Maven: com.googlecode.totallylazy:totallylazy:1101" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:1.3.2" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.12" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/mac_widgets-0.9.5" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../macwidgets-read-only/source" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/mac_widgets-0.9.5" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
