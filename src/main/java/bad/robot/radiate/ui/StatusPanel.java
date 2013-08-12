@@ -2,7 +2,6 @@ package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Observer;
-import bad.robot.radiate.teamcity.SanitisedException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,8 +35,7 @@ public class StatusPanel extends JPanel implements Observer {
 
     @Override
     public void update(Exception exception) {
-        this.text = new SanitisedException(exception).getMessage();
-        repaint();
+        update(Busy);
     }
 
     private Color getColorFrom(Status status) {

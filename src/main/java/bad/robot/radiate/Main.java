@@ -1,6 +1,7 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.monitor.*;
+import bad.robot.radiate.teamcity.MultiProjectTeamCityMonitoring;
 import bad.robot.radiate.ui.SwingUi;
 
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ public class Main {
         SwingUi ui = new SwingUi();
         Monitor monitor = new Monitor(threadPool);
         try {
-            List<MonitoringTask> tasks = new Error().create();
+            List<MonitoringTask> tasks = new MultiProjectTeamCityMonitoring().create();
             for (MonitoringTask task : tasks)
-                task.addObserver(ui.createStatusPanel());
+                task.addObserver(ui.createStatusPanel(), ui);
             monitor.beginMonitoring(tasks);
         } catch (Exception e) {
             ui.createStatusPanel();

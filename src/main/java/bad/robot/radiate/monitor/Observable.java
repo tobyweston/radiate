@@ -4,9 +4,9 @@ import bad.robot.radiate.Status;
 
 public interface Observable {
 
-    boolean addObserver(Observer observer);
+    boolean addObserver(Observer... observer);
 
-    boolean removeObserver(Observer observer);
+    boolean removeObserver(Observer... observer);
 
     void notifyObservers(Status status);
 

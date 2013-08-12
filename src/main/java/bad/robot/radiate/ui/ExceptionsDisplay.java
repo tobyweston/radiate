@@ -3,6 +3,7 @@ package bad.robot.radiate.ui;
 import javax.swing.*;
 import java.awt.*;
 
+import static java.lang.String.format;
 import static javax.swing.JFrame.DISPOSE_ON_CLOSE;
 
 class ExceptionsDisplay extends TransparentDialog {
@@ -11,8 +12,8 @@ class ExceptionsDisplay extends TransparentDialog {
 
     public ExceptionsDisplay(Frame owner) {
         super("", owner);
-        hideCloseButton();
-//        makeResizeable();
+//        hideCloseButton();
+        makeResizeable();
         getJDialog().setSize(400, 450);
         getJDialog().setLocationRelativeTo(owner);
         getJDialog().setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -22,6 +23,6 @@ class ExceptionsDisplay extends TransparentDialog {
     }
 
     public void append(String string) {
-        text.append(string + "\n");
+        text.append(format("%s\n", string));
     }
 }

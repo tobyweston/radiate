@@ -5,18 +5,20 @@ import bad.robot.radiate.Status;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static java.util.Arrays.asList;
+
 public class ThreadSafeObservable implements Observable {
 
     private final List<Observer> observers = new CopyOnWriteArrayList<>();
 
     @Override
-    public boolean addObserver(Observer observer) {
-        return observers.add(observer);
+    public boolean addObserver(Observer... observers) {
+        return this.observers.addAll(asList(observers));
     }
 
     @Override
-    public boolean removeObserver(Observer observer) {
-        return observers.remove(observer);
+    public boolean removeObserver(Observer... observers) {
+        return this.observers.removeAll(asList(observers));
     }
 
     @Override

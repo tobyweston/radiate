@@ -60,12 +60,12 @@ public class SwingUi extends JFrame implements Ui, Observer {
 
     @Override
     public void update(Status status) {
+        // ignore status updates
     }
 
     @Override
     public void update(Exception exception) {
-        for (int i = 0; i < 100; i++)
-            exceptions.append(new SanitisedException(exception).getMessage() + " " +  i);
+        exceptions.append(new SanitisedException(exception).getMessage());
         exceptions.setVisible(true);
     }
 
