@@ -1,7 +1,6 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.monitor.*;
-import bad.robot.radiate.teamcity.MultiProjectTeamCityMonitoring;
 import bad.robot.radiate.ui.SwingUi;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class Main {
         SwingUi ui = new SwingUi();
         Monitor monitor = new Monitor(threadPool);
         try {
-            List<MonitoringTask> tasks = new MultiProjectTeamCityMonitoring().create();
+            List<MonitoringTask> tasks = new Error().create();
             for (MonitoringTask task : tasks)
                 task.addObserver(ui.createStatusPanel());
             monitor.beginMonitoring(tasks);
@@ -46,6 +45,14 @@ public class Main {
             for (int i = 0; i < 99; i++)
                 tasks.add(new RandomStatus());
             return tasks;
+        }
+
+    }
+
+    private static class Error implements MonitoringTasksFactory {
+        @Override
+        public List<MonitoringTask> create() {
+            throw new RuntimeException("An unknown error occurred");
         }
 
     }
