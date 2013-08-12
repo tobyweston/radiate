@@ -60,7 +60,8 @@ class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
     private void fadeOut(int width, int height, Graphics2D graphics, float fade) {
         Composite urComposite = graphics.getComposite();
         float alpha = .3f * fade;
-        graphics.setComposite(getInstance(SRC_OVER, alpha));
+        if (alpha >= 0.0f && alpha <= 1.0f)
+            graphics.setComposite(getInstance(SRC_OVER, alpha));
         graphics.fillRect(0, 0, width, height);
         graphics.setComposite(urComposite);
     }
