@@ -4,10 +4,14 @@ import bad.robot.radiate.monitor.*;
 import bad.robot.radiate.teamcity.MultiProjectTeamCityMonitoring;
 import bad.robot.radiate.ui.SwingUi;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
+import static bad.robot.radiate.Status.Unknown;
 import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 public class Main {
@@ -23,11 +27,20 @@ public class Main {
                 task.addObserver(ui.createStatusPanel(), ui);
             monitor.beginMonitoring(tasks);
         } catch (Exception e) {
-            ui.createStatusPanel();
-            ui.update(e);
+            transitionOutBusyIndicator(ui.createStatusPanel());
+            ui.update(new RestartWhenFixed(), e);
         }
         ui.start();
         addShutdown(monitor);
+    }
+
+    private static void transitionOutBusyIndicator(final Observer panel) {
+        new Timer(2500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.update(Unknown);
+            }
+        }).start();
     }
 
     private static void addShutdown(final Monitor monitor) {
@@ -47,7 +60,6 @@ public class Main {
                 tasks.add(new RandomStatus());
             return tasks;
         }
-
     }
 
     private static class Error implements MonitoringTasksFactory {
@@ -55,6 +67,12 @@ public class Main {
         public List<MonitoringTask> create() {
             throw new RuntimeException("An unknown error occurred");
         }
+    }
 
+    private static class RestartWhenFixed extends ThreadSafeObservable {
+        @Override
+        public String toString() {
+            return "restart when fixed";
+        }
     }
 }

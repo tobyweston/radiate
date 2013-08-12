@@ -17,6 +17,8 @@ public class RandomStatus extends ThreadSafeObservable implements MonitoringTask
         Status[] values = new Status[]{Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Broken};
         Status status = values[random.nextInt(values.length)];
         notifyObservers(status);
+        if (status == Broken)
+            notifyObservers(new RuntimeException("Example problem"));
         return status;
     }
 }

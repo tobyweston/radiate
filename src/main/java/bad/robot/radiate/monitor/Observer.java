@@ -4,5 +4,5 @@ import bad.robot.radiate.Status;
 
 public interface Observer {
     void update(Status status);
-    void update(Exception exception);
+    void update(Observable sender, Exception exception);
 }

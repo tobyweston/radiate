@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Status;
+import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
 
 import javax.swing.*;
@@ -34,7 +35,7 @@ public class StatusPanel extends JPanel implements Observer {
     }
 
     @Override
-    public void update(Exception exception) {
+    public void update(Observable observable, Exception exception) {
         update(Busy);
     }
 

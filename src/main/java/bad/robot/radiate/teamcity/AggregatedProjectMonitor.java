@@ -10,6 +10,7 @@ import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.radiate.Status.Unknown;
 import static bad.robot.radiate.StatusAggregator.aggregated;
 import static com.googlecode.totallylazy.Sequences.sequence;
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
 public class AggregatedProjectMonitor extends ThreadSafeObservable implements MonitoringTask {
@@ -49,6 +50,11 @@ public class AggregatedProjectMonitor extends ThreadSafeObservable implements Mo
                 return build.getStatus();
             }
         };
+    }
+
+    @Override
+    public String toString() {
+        return format("monitoring %s (%s)", project.getName(), project.getId());
     }
 
 }

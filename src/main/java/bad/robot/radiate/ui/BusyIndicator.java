@@ -53,17 +53,21 @@ class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
             float scale = (11.0f - (float) i) / 11.0f;
             graphics.drawLine(x + size, y, x + size * 2, y);
             graphics.rotate(-Math.PI / 6, x, y);
-            graphics.setComposite(getInstance(SRC_OVER, scale * fade));
+            makeTransparent(graphics, scale * fade);
         }
     }
 
     private void fadeOut(int width, int height, Graphics2D graphics, float fade) {
         Composite urComposite = graphics.getComposite();
         float alpha = .3f * fade;
-        if (alpha >= 0.0f && alpha <= 1.0f)
-            graphics.setComposite(getInstance(SRC_OVER, alpha));
+        makeTransparent(graphics, alpha);
         graphics.fillRect(0, 0, width, height);
         graphics.setComposite(urComposite);
+    }
+
+    private void makeTransparent(Graphics2D graphics, float alpha) {
+        if (alpha >= 0.0f && alpha <= 1.0f)
+            graphics.setComposite(getInstance(SRC_OVER, alpha));
     }
 
     public void start() {

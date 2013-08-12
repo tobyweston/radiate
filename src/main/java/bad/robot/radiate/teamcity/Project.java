@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Iterator;
 
+import static java.lang.String.format;
+
 class Project extends TeamCityObject implements Hypermedia, Iterable<BuildType> {
 
     private final String id;
@@ -41,5 +43,10 @@ class Project extends TeamCityObject implements Hypermedia, Iterable<BuildType> 
     @Override
     public Iterator<BuildType> iterator() {
         return buildTypes.iterator();
+    }
+
+    @Override
+    public String toString() {
+        return format("%s (%s)", name, id);
     }
 }

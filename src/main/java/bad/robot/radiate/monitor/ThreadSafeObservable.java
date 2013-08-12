@@ -30,6 +30,6 @@ public class ThreadSafeObservable implements Observable {
     @Override
     public void notifyObservers(Exception exception) {
         for (Observer observer : observers)
-            observer.update(exception);
+            observer.update(this, exception);
     }
 }

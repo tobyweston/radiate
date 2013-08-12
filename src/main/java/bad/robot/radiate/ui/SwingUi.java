@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Status;
+import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
 import bad.robot.radiate.teamcity.SanitisedException;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
 import static java.awt.Color.darkGray;
+import static java.lang.String.format;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
 public class SwingUi extends JFrame implements Ui, Observer {
@@ -64,8 +66,8 @@ public class SwingUi extends JFrame implements Ui, Observer {
     }
 
     @Override
-    public void update(Exception exception) {
-        exceptions.append(new SanitisedException(exception).getMessage());
+    public void update(Observable observable, Exception exception) {
+        exceptions.append(format("%s %s", new SanitisedException(exception).getMessage(), observable == null ? "" : observable));
         exceptions.setVisible(true);
     }
 
