@@ -18,12 +18,13 @@ import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 public class SwingUi extends JFrame implements Ui, Observer {
 
     private final Set<StatusPanel> panels = new HashSet<>();
-    private final ExceptionsDisplay exceptions = new ExceptionsDisplay(this);
+    private final ExceptionsDisplay exceptions;
 
     public SwingUi() throws HeadlessException {
         setLayout(new ChessboardLayout(panels));
         setupWindowing();
         setupEventListeners();
+        exceptions = new ExceptionsDisplay(this);
     }
 
     private void setupWindowing() {
@@ -32,8 +33,8 @@ public class SwingUi extends JFrame implements Ui, Observer {
         setTitle("Radiate");
         getContentPane().setBackground(darkGray);
         setSize(700, 500);
-//        setUndecorated(true);
-//        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+        setUndecorated(true);
+        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
     }
 
     private void setupEventListeners() {

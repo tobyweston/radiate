@@ -100,7 +100,7 @@ public class TransparentDialog {
 
     private PropertyChangeListener createTitlePropertyChangeListener() {
         return new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
+            public void propertyChange(PropertyChangeEvent event) {
                 titlePanel.setTitle(dialog.getTitle());
             }
         };
@@ -108,7 +108,7 @@ public class TransparentDialog {
 
     private ActionListener createCloseButtonActionListener() {
         return new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent event) {
                 // simulate clicking the "real" close button on a window.
                 dialog.dispatchEvent(new WindowEvent(dialog, WINDOW_CLOSING));
             }

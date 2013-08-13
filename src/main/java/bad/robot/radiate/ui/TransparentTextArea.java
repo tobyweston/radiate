@@ -14,5 +14,6 @@ class TransparentTextArea extends JTextArea {
         setBackground(Color.black);
         setLineWrap(true);
         setWrapStyleWord(true);
+        setEditable(false);
     }
 }

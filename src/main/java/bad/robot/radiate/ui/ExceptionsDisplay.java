@@ -12,14 +12,23 @@ class ExceptionsDisplay extends TransparentDialog {
 
     public ExceptionsDisplay(Frame owner) {
         super("", owner);
-//        hideCloseButton();
         makeResizeable();
-        getJDialog().setSize(400, 450);
-        getJDialog().setLocationRelativeTo(owner);
-        getJDialog().setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        JDialog dialog = getJDialog();
+        dialog.setSize(calculateSize(owner));
+        dialog.setLocationRelativeTo(owner);
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        dialog.add(new TransparentJScrollPane(text));
+    }
 
-        JScrollPane scroll = new TransparentJScrollPane(text);
-        getJDialog().add(scroll);
+    private static Dimension calculateSize(Frame owner) {
+        Dimension parent = owner.getSize();
+        Dimension dimension = new Dimension(parent);
+        dimension.setSize(shrink(parent.getWidth()), shrink(parent.getHeight()));
+        return dimension;
+    }
+
+    private static double shrink(double dimension) {
+        return dimension - (dimension / 10);
     }
 
     public void append(String string) {
