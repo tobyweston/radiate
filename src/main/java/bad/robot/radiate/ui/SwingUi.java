@@ -2,6 +2,7 @@ package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Logging;
 import bad.robot.radiate.Status;
+import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
 import bad.robot.radiate.teamcity.SanitisedException;
@@ -19,7 +20,7 @@ import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 public class SwingUi extends JFrame implements Ui, Observer {
 
     private final Set<StatusPanel> panels = new HashSet<>();
-    private final ExceptionsDisplay exceptions;
+    private final Console console;
 
     static {
         Logging.initialise();
@@ -28,7 +29,7 @@ public class SwingUi extends JFrame implements Ui, Observer {
     public SwingUi() throws HeadlessException {
         setLayout(new ChessboardLayout(panels));
         setupWindowing();
-        exceptions = new ExceptionsDisplay(this);
+        console = new Console(this);
         setupEventListeners();
     }
 
@@ -45,7 +46,7 @@ public class SwingUi extends JFrame implements Ui, Observer {
     private void setupEventListeners() {
         getToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
         getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
-        getToolkit().addAWTEventListener(new ToggleInformationDialog(exceptions), KEY_EVENT_MASK);
+        getToolkit().addAWTEventListener(new ToggleConsoleDialog(console), KEY_EVENT_MASK);
     }
 
     public Observer createStatusPanel() {
@@ -74,8 +75,13 @@ public class SwingUi extends JFrame implements Ui, Observer {
 
     @Override
     public void update(Observable observable, Exception exception) {
-        exceptions.append(format("%s %s", new SanitisedException(exception).getMessage(), observable == null ? "" : observable));
-        exceptions.setVisible(true);
+        console.append(format("%s %s", new SanitisedException(exception).getMessage(), observable == null ? "" : observable.toString()));
+        console.setVisible(true);
+    }
+
+    @Override
+    public void update(Observable observable, Information information) {
+        console.append(format("%s", information));
     }
 
 }

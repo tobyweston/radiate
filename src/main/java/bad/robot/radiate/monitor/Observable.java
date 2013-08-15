@@ -11,4 +11,6 @@ public interface Observable {
     void notifyObservers(Status status);
 
     void notifyObservers(Exception exception);
+
+    void notifyObservers(Information information);
 }

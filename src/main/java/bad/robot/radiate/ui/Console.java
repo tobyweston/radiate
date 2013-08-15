@@ -6,11 +6,11 @@ import java.awt.*;
 import static java.lang.String.format;
 import static javax.swing.JFrame.DISPOSE_ON_CLOSE;
 
-class ExceptionsDisplay extends TransparentDialog {
+class Console extends TransparentDialog {
 
     private final JTextArea text = new TransparentTextArea();
 
-    public ExceptionsDisplay(Frame owner) {
+    public Console(Frame owner) {
         super("", owner);
         makeResizeable();
         JDialog dialog = getJDialog();

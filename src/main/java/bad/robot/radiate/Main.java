@@ -1,7 +1,6 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.monitor.*;
-import bad.robot.radiate.teamcity.AllProjectsTeamCityMonitoring;
 import bad.robot.radiate.ui.SwingUi;
 
 import javax.swing.*;
@@ -17,18 +16,23 @@ import static java.util.concurrent.Executors.newScheduledThreadPool;
 public class Main {
 
     private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());
+    private static final LoggingObserver logger = new LoggingObserver();
+
+    private static final MonitoringTasksFactory monitoring = new DemoMonitor();
 
     public static void main(String... args) {
         SwingUi ui = new SwingUi();
         Monitor monitor = new Monitor(threadPool);
+        monitoring.addObservers(logger, ui);
         try {
-            List<MonitoringTask> tasks = new AllProjectsTeamCityMonitoring().create();
+            List<MonitoringTask> tasks = monitoring.create();
             for (MonitoringTask task : tasks)
-                task.addObservers(ui.createStatusPanel(), ui, new LoggingObserver());
+                task.addObservers(ui.createStatusPanel(), ui, logger);
             monitor.beginMonitoring(tasks);
         } catch (Exception e) {
             transitionOutBusyIndicator(ui.createStatusPanel());
-            ui.update(new RestartWhenFixed(), e);
+            monitoring.notifyObservers(e);
+            monitoring.notifyObservers(restartRequired());
         }
         ui.start();
         addShutdown(monitor);
@@ -43,6 +47,10 @@ public class Main {
         }).start();
     }
 
+    private static Information restartRequired() {
+        return new Information("Restart required");
+    }
+
     private static void addShutdown(final Monitor monitor) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -52,7 +60,7 @@ public class Main {
         });
     }
 
-    private static class DemoMonitor implements MonitoringTasksFactory {
+    private static class DemoMonitor extends ThreadSafeObservable implements MonitoringTasksFactory {
         @Override
         public List<MonitoringTask> create() {
             ArrayList<MonitoringTask> tasks = new ArrayList<>();
@@ -62,17 +70,10 @@ public class Main {
         }
     }
 
-    private static class Error implements MonitoringTasksFactory {
+    private static class Error extends ThreadSafeObservable implements MonitoringTasksFactory {
         @Override
         public List<MonitoringTask> create() {
             throw new RuntimeException("An unrecoverable error occurred");
-        }
-    }
-
-    private static class RestartWhenFixed extends ThreadSafeObservable {
-        @Override
-        public String toString() {
-            return "restart when fixed";
         }
     }
 

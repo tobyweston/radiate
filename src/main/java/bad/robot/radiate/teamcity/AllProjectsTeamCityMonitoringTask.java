@@ -2,6 +2,7 @@ package bad.robot.radiate.teamcity;
 
 import bad.robot.http.HttpClient;
 import bad.robot.radiate.Status;
+import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.ThreadSafeObservable;
 import com.googlecode.totallylazy.Callable1;
@@ -40,7 +41,6 @@ public class AllProjectsTeamCityMonitoringTask extends ThreadSafeObservable impl
             return status;
         } catch (Exception e) {
             notifyObservers(e);
-            e.printStackTrace(System.err);
             return Unknown;
         }
     }
@@ -58,6 +58,7 @@ public class AllProjectsTeamCityMonitoringTask extends ThreadSafeObservable impl
         return new Callable1<BuildType, Status>() {
             @Override
             public Status call(BuildType buildType) throws Exception {
+                notifyObservers(new Information(AllProjectsTeamCityMonitoringTask.this.toString()));
                 return teamcity.retrieveLatestBuild(buildType).getStatus();
             }
         };
@@ -65,6 +66,6 @@ public class AllProjectsTeamCityMonitoringTask extends ThreadSafeObservable impl
 
     @Override
     public String toString() {
-        return format("monitoring %s projects", monitored.toString(", "));
+        return format("monitoring %s projects as a single aggregate", monitored.toString(", "));
     }
 }

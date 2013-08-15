@@ -8,7 +8,7 @@ import java.net.URL;
 import static bad.robot.radiate.teamcity.TeamCityEndpoint.buildsEndpoint;
 import static java.lang.String.format;
 
-public class Server {
+class Server {
 
     private final String host;
     private final Integer port;

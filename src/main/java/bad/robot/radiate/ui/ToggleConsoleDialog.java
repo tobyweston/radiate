@@ -8,11 +8,11 @@ import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_F1;
 import static java.awt.event.KeyEvent.VK_I;
 
-class ToggleInformationDialog extends KeyAdapter implements AWTEventListener {
+class ToggleConsoleDialog extends KeyAdapter implements AWTEventListener {
 
     private final TransparentDialog dialog;
 
-    public ToggleInformationDialog(TransparentDialog dialog) {
+    public ToggleConsoleDialog(TransparentDialog dialog) {
         this.dialog = dialog;
     }
 

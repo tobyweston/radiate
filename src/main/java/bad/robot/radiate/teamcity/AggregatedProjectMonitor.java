@@ -2,6 +2,7 @@ package bad.robot.radiate.teamcity;
 
 import bad.robot.http.HttpClient;
 import bad.robot.radiate.Status;
+import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.ThreadSafeObservable;
 import com.googlecode.totallylazy.Callable1;
@@ -40,10 +41,11 @@ public class AggregatedProjectMonitor extends ThreadSafeObservable implements Mo
         }
     }
 
-    private static Callable1<BuildType, Status> toStatuses(final TeamCity teamcity) {
+    private Callable1<BuildType, Status> toStatuses(final TeamCity teamcity) {
         return new Callable1<BuildType, Status>() {
             @Override
             public Status call(BuildType buildType) throws Exception {
+                notifyObservers(new Information(AggregatedProjectMonitor.this.toString()));
                 return teamcity.retrieveLatestBuild(buildType).getStatus();
             }
         };
