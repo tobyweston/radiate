@@ -119,6 +119,10 @@ public class TransparentDialog {
         dialog.setVisible(visible);
     }
 
+    public boolean isVisible() {
+        return dialog.isVisible();
+    }
+
     private static class TitlePanel extends JPanel {
 
         private static final Color FONT_COLOR = new Color(255, 255, 255, 255);

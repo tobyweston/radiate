@@ -23,8 +23,8 @@ public class SwingUi extends JFrame implements Ui, Observer {
     public SwingUi() throws HeadlessException {
         setLayout(new ChessboardLayout(panels));
         setupWindowing();
-        setupEventListeners();
         exceptions = new ExceptionsDisplay(this);
+        setupEventListeners();
     }
 
     private void setupWindowing() {
@@ -33,13 +33,14 @@ public class SwingUi extends JFrame implements Ui, Observer {
         setTitle("Radiate");
         getContentPane().setBackground(darkGray);
         setSize(700, 500);
-        setUndecorated(true);
-        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+//        setUndecorated(true);
+//        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
     }
 
     private void setupEventListeners() {
         getToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
         getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
+        getToolkit().addAWTEventListener(new ToggleInformationDialog(exceptions), KEY_EVENT_MASK);
     }
 
     public Observer createStatusPanel() {
