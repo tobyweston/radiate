@@ -27,7 +27,7 @@ public class Logging {
 
     private static ConsoleAppender createConsoleAppender() {
         ConsoleAppender console = new ConsoleAppender();
-        console.setLayout(new PatternLayout("%d [%p|%C{1}] %m%n"));
+        console.setLayout(new PatternLayout("%d [%p|%c{1}] %m%n"));
         console.setThreshold(Level.INFO);
         console.activateOptions();
         return console;
