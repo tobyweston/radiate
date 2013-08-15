@@ -1,6 +1,7 @@
 package bad.robot.radiate.teamcity;
 
 import com.googlecode.totallylazy.Predicate;
+import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -14,6 +15,8 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class YmlConfiguration implements TeamCityConfiguration {
 
+    private static final Logger logger = Logger.getLogger(TeamCityConfiguration.class);
+
     private final Map<String, Object> configuration;
 
     public YmlConfiguration(YmlConfigurationFile file) throws IOException {
@@ -24,8 +27,10 @@ public class YmlConfiguration implements TeamCityConfiguration {
         try {
             YmlConfigurationFile file = new YmlConfigurationFile();
             file.initialise(teamcity);
+            logger.info("configuration stored in " + file.getPath());
             return new YmlConfiguration(file);
         } catch (Exception e) {
+            logger.info("failed to create Yml configuration file, falling back to environment variable based config");
             return new EnvironmentVariableConfiguration();
         }
     }

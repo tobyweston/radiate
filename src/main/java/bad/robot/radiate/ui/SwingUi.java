@@ -1,5 +1,6 @@
 package bad.robot.radiate.ui;
 
+import bad.robot.radiate.Logging;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
@@ -19,6 +20,10 @@ public class SwingUi extends JFrame implements Ui, Observer {
 
     private final Set<StatusPanel> panels = new HashSet<>();
     private final ExceptionsDisplay exceptions;
+
+    static {
+        Logging.initialise();
+    }
 
     public SwingUi() throws HeadlessException {
         setLayout(new ChessboardLayout(panels));

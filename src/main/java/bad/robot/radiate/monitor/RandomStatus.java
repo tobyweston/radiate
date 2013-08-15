@@ -21,4 +21,8 @@ public class RandomStatus extends ThreadSafeObservable implements MonitoringTask
             notifyObservers(new RuntimeException("Example problem"));
         return status;
     }
+
+    public String toString() {
+        return "randomly passing build monitoring";
+    }
 }

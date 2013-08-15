@@ -54,13 +54,11 @@ public class AllProjectsTeamCityMonitoringTask extends ThreadSafeObservable impl
         };
     }
 
-    private static Callable1<BuildType, Status> toStatuses(final TeamCity teamcity) {
+    private Callable1<BuildType, Status> toStatuses(final TeamCity teamcity) {
         return new Callable1<BuildType, Status>() {
             @Override
             public Status call(BuildType buildType) throws Exception {
-                Build build = teamcity.retrieveLatestBuild(buildType);
-                System.out.printf("%s: #%s (id:%s) - %s (%s) %s %n", build.getBuildType().getName(), build.getNumber(), build.getId(), build.getStatus(), build.getStatusText(), build.getBuildType().getProjectName());
-                return build.getStatus();
+                return teamcity.retrieveLatestBuild(buildType).getStatus();
             }
         };
     }

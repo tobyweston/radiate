@@ -12,12 +12,12 @@ public class ThreadSafeObservable implements Observable {
     private final List<Observer> observers = new CopyOnWriteArrayList<>();
 
     @Override
-    public boolean addObserver(Observer... observers) {
+    public boolean addObservers(Observer... observers) {
         return this.observers.addAll(asList(observers));
     }
 
     @Override
-    public boolean removeObserver(Observer... observers) {
+    public boolean removeObservers(Observer... observers) {
         return this.observers.removeAll(asList(observers));
     }
 

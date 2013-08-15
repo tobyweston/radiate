@@ -27,6 +27,13 @@ public class YmlConfigurationFile extends File {
             populateConfiguration(teamcity);
     }
 
+    @Override
+    public boolean createNewFile() throws IOException {
+        if (exists() && length() == 0)
+            return true;
+        return super.createNewFile();
+    }
+
     private void populateConfiguration(TeamCity teamcity) throws IOException {
         try {
             Yaml yaml = new Yaml();

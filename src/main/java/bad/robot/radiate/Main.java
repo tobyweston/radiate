@@ -1,6 +1,7 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.monitor.*;
+import bad.robot.radiate.teamcity.AllProjectsTeamCityMonitoring;
 import bad.robot.radiate.ui.SwingUi;
 
 import javax.swing.*;
@@ -21,9 +22,9 @@ public class Main {
         SwingUi ui = new SwingUi();
         Monitor monitor = new Monitor(threadPool);
         try {
-            List<MonitoringTask> tasks = new Error().create();
+            List<MonitoringTask> tasks = new AllProjectsTeamCityMonitoring().create();
             for (MonitoringTask task : tasks)
-                task.addObserver(ui.createStatusPanel(), ui);
+                task.addObservers(ui.createStatusPanel(), ui, new LoggingObserver());
             monitor.beginMonitoring(tasks);
         } catch (Exception e) {
             transitionOutBusyIndicator(ui.createStatusPanel());
@@ -36,7 +37,7 @@ public class Main {
     private static void transitionOutBusyIndicator(final Observer panel) {
         new Timer(2500, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent event) {
                 panel.update(Unknown);
             }
         }).start();
@@ -64,7 +65,7 @@ public class Main {
     private static class Error implements MonitoringTasksFactory {
         @Override
         public List<MonitoringTask> create() {
-            throw new RuntimeException("An unknown error occurred");
+            throw new RuntimeException("An unrecoverable error occurred");
         }
     }
 
@@ -74,4 +75,5 @@ public class Main {
             return "restart when fixed";
         }
     }
+
 }
