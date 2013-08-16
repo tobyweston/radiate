@@ -57,6 +57,8 @@ public class SwingUi extends JFrame implements Ui, Observer {
 
     @Override
     public void start() {
+        if (panels.isEmpty())
+            createStatusPanel();
         setVisible(true);
     }
 

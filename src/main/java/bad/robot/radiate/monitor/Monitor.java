@@ -15,13 +15,13 @@ public class Monitor {
         this.executor = executor;
     }
 
-    public List<? extends MonitoringTask> beginMonitoring(List<MonitoringTask> tasks) {
+    public List<? extends MonitoringTask> start(List<MonitoringTask> tasks) {
         for (MonitoringTask task : tasks)
             schedule(task);
         return tasks;
     }
 
-    public List<Runnable> shutdown() {
+    public List<Runnable> stop() {
         List<Runnable> tasks = executor.shutdownNow();
         for (Runnable task : tasks)
             ((ScheduledFuture<?>) task).cancel(true);
