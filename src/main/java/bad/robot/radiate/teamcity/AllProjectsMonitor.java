@@ -9,15 +9,17 @@ import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.http.HttpClients.anApacheClient;
+import static bad.robot.http.configuration.HttpTimeout.httpTimeout;
 import static bad.robot.radiate.Status.Unknown;
 import static bad.robot.radiate.StatusAggregator.aggregated;
+import static com.google.code.tempusfugit.temporal.Duration.minutes;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
 public class AllProjectsMonitor extends NonInformationRepeatingObservable implements MonitoringTask {
 
     private final TeamCityConfiguration configuration;
-    private final HttpClient http = anApacheClient();
+    private final HttpClient http = anApacheClient().with(httpTimeout(minutes(1)));
     private final Server server;
     private final TeamCity teamcity;
 
@@ -66,6 +68,6 @@ public class AllProjectsMonitor extends NonInformationRepeatingObservable implem
 
     @Override
     public String toString() {
-        return format("monitoring %s projects as a single aggregate", monitored.toString(", "));
+        return format("%s projects as a single aggregate", monitored.toString("\r\n"));
     }
 }

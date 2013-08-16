@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import static bad.robot.radiate.Status.*;
 import static bad.robot.radiate.ui.UiText.createTextRegion;
 import static bad.robot.radiate.ui.UiText.drawText;
+import static java.lang.String.format;
 
 public class StatusPanel extends JPanel implements Observer {
 
@@ -20,28 +21,31 @@ public class StatusPanel extends JPanel implements Observer {
     private static final Color Grey = new Color(64, 64, 64);
 
     private final BusyIndicator busyIndicator = new BusyIndicator();
+    private final int identifier;
 
     private Status status = Busy;
     private String text;
 
-    public StatusPanel(JFrame parent) {
+    public StatusPanel(JFrame parent, int identifier) {
         parent.add(new JLayer<>(this, busyIndicator));
+        this.identifier = identifier;
     }
 
     @Override
-    public void update(Status status) {
+    public void update(Observable source, Status status) {
         this.status = status;
         this.text = null;
+        setToolTipText(format("%d. %s", identifier, source));
         repaint();
     }
 
     @Override
-    public void update(Observable observable, Exception exception) {
-        update(Busy);
+    public void update(Observable source, Exception exception) {
+        update(source, Busy);
     }
 
     @Override
-    public void update(Observable observable, Information information) {
+    public void update(Observable source, Information information) {
     }
 
     private Color getColorFrom(Status status) {

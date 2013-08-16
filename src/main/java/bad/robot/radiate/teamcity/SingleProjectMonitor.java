@@ -8,15 +8,17 @@ import bad.robot.radiate.monitor.NonInformationRepeatingObservable;
 import com.googlecode.totallylazy.Callable1;
 
 import static bad.robot.http.HttpClients.anApacheClient;
+import static bad.robot.http.configuration.HttpTimeout.httpTimeout;
 import static bad.robot.radiate.Status.Unknown;
 import static bad.robot.radiate.StatusAggregator.aggregated;
+import static com.google.code.tempusfugit.temporal.Duration.minutes;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
 public class SingleProjectMonitor extends NonInformationRepeatingObservable implements MonitoringTask {
 
-    private final HttpClient http = anApacheClient();
+    private final HttpClient http = anApacheClient().with(httpTimeout(minutes(1)));
     private final Server server;
     private final TeamCity teamcity;
     private final Project project;
@@ -53,7 +55,7 @@ public class SingleProjectMonitor extends NonInformationRepeatingObservable impl
 
     @Override
     public String toString() {
-        return format("monitoring %s (%s)", project.getName(), project.getId());
+        return format("%s (%s)", project.getName(), project.getId());
     }
 
 }

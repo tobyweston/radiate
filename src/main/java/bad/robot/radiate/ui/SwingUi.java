@@ -50,7 +50,7 @@ public class SwingUi extends JFrame implements Ui, Observer {
     }
 
     public Observer createStatusPanel() {
-        StatusPanel panel = new StatusPanel(this);
+        StatusPanel panel = new StatusPanel(this, panels.size() + 1);
         panels.add(panel);
         return panel;
     }
@@ -71,23 +71,23 @@ public class SwingUi extends JFrame implements Ui, Observer {
     }
 
     @Override
-    public void update(Status status) {
+    public void update(Observable source, Status status) {
         // ignore status updates
     }
 
     @Override
-    public void update(final Observable observable, final Exception exception) {
+    public void update(final Observable source, final Exception exception) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                console.append(format("%s %s", new SanitisedException(exception).getMessage(), observable == null ? "" : observable.toString()));
+                console.append(format("%s when monitoring %s", new SanitisedException(exception).getMessage(), source == null ? "" : source.toString()));
                 console.setVisible(true);
             }
         });
     }
 
     @Override
-    public void update(Observable observable, final Information information) {
+    public void update(Observable source, final Information information) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
