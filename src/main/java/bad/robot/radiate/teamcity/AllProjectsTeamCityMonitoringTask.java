@@ -4,7 +4,7 @@ import bad.robot.http.HttpClient;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
-import bad.robot.radiate.monitor.ThreadSafeObservable;
+import bad.robot.radiate.monitor.NonInformationRepeatingObservable;
 import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Sequence;
 
@@ -14,7 +14,7 @@ import static bad.robot.radiate.StatusAggregator.aggregated;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
-public class AllProjectsTeamCityMonitoringTask extends ThreadSafeObservable implements MonitoringTask {
+public class AllProjectsTeamCityMonitoringTask extends NonInformationRepeatingObservable implements MonitoringTask {
 
     private final TeamCityConfiguration configuration;
     private final HttpClient http = anApacheClient();
