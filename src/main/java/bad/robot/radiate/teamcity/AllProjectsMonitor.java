@@ -14,7 +14,7 @@ import static bad.robot.radiate.StatusAggregator.aggregated;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
-public class AllProjectsTeamCityMonitoringTask extends NonInformationRepeatingObservable implements MonitoringTask {
+public class AllProjectsMonitor extends NonInformationRepeatingObservable implements MonitoringTask {
 
     private final TeamCityConfiguration configuration;
     private final HttpClient http = anApacheClient();
@@ -23,7 +23,7 @@ public class AllProjectsTeamCityMonitoringTask extends NonInformationRepeatingOb
 
     private Sequence<String> monitored = sequence("unknown");
 
-    public AllProjectsTeamCityMonitoringTask(TeamCityConfiguration configuration) {
+    public AllProjectsMonitor(TeamCityConfiguration configuration) {
         this.configuration = configuration;
         this.server = new Server(configuration.host(), configuration.port());
         this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
@@ -58,7 +58,7 @@ public class AllProjectsTeamCityMonitoringTask extends NonInformationRepeatingOb
         return new Callable1<BuildType, Status>() {
             @Override
             public Status call(BuildType buildType) throws Exception {
-                notifyObservers(new Information(AllProjectsTeamCityMonitoringTask.this.toString()));
+                notifyObservers(new Information(AllProjectsMonitor.this.toString()));
                 return teamcity.retrieveLatestBuild(buildType).getStatus();
             }
         };

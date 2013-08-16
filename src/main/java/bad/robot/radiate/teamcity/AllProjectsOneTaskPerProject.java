@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-public class MultiProjectTeamCityMonitoring extends ThreadSafeObservable implements MonitoringTasksFactory {
+public class AllProjectsOneTaskPerProject extends ThreadSafeObservable implements MonitoringTasksFactory {
 
     @Override
     public List<MonitoringTask> create() {
@@ -24,7 +24,7 @@ public class MultiProjectTeamCityMonitoring extends ThreadSafeObservable impleme
         return new Callable1<Project, MonitoringTask>() {
             @Override
             public MonitoringTask call(Project project) throws Exception {
-                return new AggregatedProjectMonitor(project, configuration);
+                return new SingleProjectMonitor(project, configuration);
             }
         };
     }

@@ -14,14 +14,14 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
-public class AggregatedProjectMonitor extends NonInformationRepeatingObservable implements MonitoringTask {
+public class SingleProjectMonitor extends NonInformationRepeatingObservable implements MonitoringTask {
 
     private final HttpClient http = anApacheClient();
     private final Server server;
     private final TeamCity teamcity;
     private final Project project;
 
-    public AggregatedProjectMonitor(Project project, TeamCityConfiguration configuration) {
+    public SingleProjectMonitor(Project project, TeamCityConfiguration configuration) {
         this.project = project;
         this.server = new Server(configuration.host(), configuration.port());
         this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());

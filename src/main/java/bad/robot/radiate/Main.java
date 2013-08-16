@@ -1,7 +1,7 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.monitor.*;
-import bad.robot.radiate.teamcity.AllProjectsTeamCityMonitoring;
+import bad.robot.radiate.teamcity.AllProjectsAsSingleTask;
 import bad.robot.radiate.ui.SwingUi;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ public class Main {
     private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());
     private static final LoggingObserver logger = new LoggingObserver();
 
-    private static final MonitoringTasksFactory monitoring = new AllProjectsTeamCityMonitoring();
+    private static final MonitoringTasksFactory monitoring = new AllProjectsAsSingleTask();
 
     public static void main(String... args) {
         SwingUi ui = new SwingUi();
