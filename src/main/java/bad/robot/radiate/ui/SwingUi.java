@@ -74,14 +74,24 @@ public class SwingUi extends JFrame implements Ui, Observer {
     }
 
     @Override
-    public void update(Observable observable, Exception exception) {
-        console.append(format("%s %s", new SanitisedException(exception).getMessage(), observable == null ? "" : observable.toString()));
-        console.setVisible(true);
+    public void update(final Observable observable, final Exception exception) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                console.append(format("%s %s", new SanitisedException(exception).getMessage(), observable == null ? "" : observable.toString()));
+                console.setVisible(true);
+            }
+        });
     }
 
     @Override
-    public void update(Observable observable, Information information) {
-        console.append(format("%s", information));
+    public void update(Observable observable, final Information information) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                console.append(format("%s", information));
+            }
+        });
     }
 
 }
