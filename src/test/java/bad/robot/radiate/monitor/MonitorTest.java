@@ -7,6 +7,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -23,10 +24,9 @@ public class MonitorTest {
     private final ScheduledExecutorService executor = context.mock(ScheduledExecutorService.class);
     private final MonitoringTask task = context.mock(MonitoringTask.class);
     private final ScheduledFuture future = context.mock(ScheduledFuture.class);
-    private final RunnableScheduleFuture waiting = context.mock(RunnableScheduleFuture.class);
+    private final RunnableScheduledFuture waiting = context.mock(RunnableScheduledFuture.class);
 
-
-    private final Monitor monitor = new Monitor(executor);
+    private final Monitor monitor = new ScheduledMonitor(executor);
 
     @Test
     public void canStopPreviouslyScheduledTasks() {

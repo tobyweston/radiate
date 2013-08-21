@@ -1,26 +1,26 @@
 package bad.robot.radiate;
 
-import bad.robot.radiate.monitor.*;
+import bad.robot.radiate.monitor.Monitor;
+import bad.robot.radiate.monitor.MonitoringTask;
+import bad.robot.radiate.monitor.MonitoringTasksFactory;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
-import static java.util.concurrent.Executors.newScheduledThreadPool;
+import static bad.robot.radiate.RestartRequired.restartRequired;
+import static java.util.Collections.emptyList;
 
 public class MonitoringTasks implements Iterable<MonitoringTask> {
 
-    private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());
+    private final Monitor monitor;
 
-    private final Monitor monitor = new Monitor(threadPool);
+    private Iterable<MonitoringTask> tasks = emptyList();
+    private Iterable<ScheduledFuture<?>> scheduled = emptyList();
 
-    private List<MonitoringTask> tasks = new ArrayList<>();
-
-    public MonitoringTasks(MonitoringTasksFactory factory) {
+    public MonitoringTasks(MonitoringTasksFactory factory, Monitor monitor) {
+        this.monitor = monitor;
         try {
             tasks = factory.create();
-            addShutdownHook();
         } catch (Exception e) {
             factory.notifyObservers(e);
             factory.notifyObservers(restartRequired());
@@ -28,24 +28,11 @@ public class MonitoringTasks implements Iterable<MonitoringTask> {
     }
 
     public void start() {
-        monitor.start(tasks);
+        scheduled = monitor.start(tasks);
     }
 
     public void stop() {
-        monitor.stop();
-    }
-
-    private static Information restartRequired() {
-        return new Information("Restart required");
-    }
-
-    private void addShutdownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                monitor.stop();
-            }
-        });
+        monitor.stop(scheduled);
     }
 
     @Override
