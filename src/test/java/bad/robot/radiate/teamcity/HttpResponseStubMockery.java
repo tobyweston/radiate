@@ -4,11 +4,11 @@ import bad.robot.http.HeaderPair;
 import bad.robot.http.HttpResponse;
 import bad.robot.http.MessageContent;
 import org.jmock.Expectations;
-import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 
 import static bad.robot.http.HeaderList.headers;
 
-public class HttpResponseStubMockery extends JUnit4Mockery {
+public class HttpResponseStubMockery extends JUnitRuleMockery {
 
     public HttpResponse stubResponseReturning(final String content) {
         final HttpResponse response = this.mock(HttpResponse.class);
