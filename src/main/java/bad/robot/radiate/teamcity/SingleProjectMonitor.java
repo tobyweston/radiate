@@ -4,7 +4,7 @@ import bad.robot.http.HttpClient;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
-import bad.robot.radiate.monitor.NonInformationRepeatingObservable;
+import bad.robot.radiate.monitor.NonRepeatingObservable;
 import com.googlecode.totallylazy.Callable1;
 
 import static bad.robot.http.HttpClients.anApacheClient;
@@ -16,7 +16,7 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
-public class SingleProjectMonitor extends NonInformationRepeatingObservable implements MonitoringTask {
+public class SingleProjectMonitor extends NonRepeatingObservable implements MonitoringTask {
 
     private final HttpClient http = anApacheClient().with(httpTimeout(minutes(1)));
     private final Server server;

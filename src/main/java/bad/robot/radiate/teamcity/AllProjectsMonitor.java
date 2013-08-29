@@ -4,7 +4,7 @@ import bad.robot.http.HttpClient;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
-import bad.robot.radiate.monitor.NonInformationRepeatingObservable;
+import bad.robot.radiate.monitor.NonRepeatingObservable;
 import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Sequence;
 
@@ -16,7 +16,7 @@ import static com.google.code.tempusfugit.temporal.Duration.minutes;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
-public class AllProjectsMonitor extends NonInformationRepeatingObservable implements MonitoringTask {
+public class AllProjectsMonitor extends NonRepeatingObservable implements MonitoringTask {
 
     private final TeamCityConfiguration configuration;
     private final HttpClient http = anApacheClient().with(httpTimeout(minutes(1)));

@@ -3,7 +3,7 @@ package bad.robot.radiate.monitor;
 import java.util.HashSet;
 import java.util.Set;
 
-public class NonInformationRepeatingObservable extends ThreadSafeObservable {
+public class NonRepeatingObservable extends ThreadSafeObservable {
 
     private final Set<Information> previous = new HashSet<>();
 

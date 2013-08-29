@@ -3,8 +3,10 @@ package bad.robot.radiate;
 import bad.robot.radiate.monitor.Monitor;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.MonitoringTasksFactory;
+import bad.robot.radiate.monitor.NothingToMonitorException;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
 import static bad.robot.radiate.RestartRequired.restartRequired;
@@ -14,7 +16,7 @@ public class MonitoringTasks implements Iterable<MonitoringTask> {
 
     private final Monitor monitor;
 
-    private Iterable<MonitoringTask> tasks = emptyList();
+    private List<MonitoringTask> tasks = emptyList();
     private Iterable<ScheduledFuture<?>> scheduled = emptyList();
 
     public MonitoringTasks(MonitoringTasksFactory factory, Monitor monitor) {
@@ -24,6 +26,9 @@ public class MonitoringTasks implements Iterable<MonitoringTask> {
         } catch (Exception e) {
             factory.notifyObservers(e);
             factory.notifyObservers(restartRequired());
+        } finally {
+            if (tasks.isEmpty())
+                factory.notifyObservers(new NothingToMonitorException());
         }
     }
 
