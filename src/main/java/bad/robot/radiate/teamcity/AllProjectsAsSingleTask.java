@@ -11,7 +11,7 @@ public class AllProjectsAsSingleTask extends ThreadSafeObservable implements Mon
 
     @Override
     public List<MonitoringTask> create() {
-        TeamCityConfiguration configuration = YmlConfiguration.loadOrDefault(new BootstrapTeamCity(), this);
+        TeamCityConfiguration configuration = YmlConfiguration.loadOrCreate(new BootstrapTeamCity(), this);
         return Arrays.<MonitoringTask>asList(new AllProjectsMonitor(configuration));
     }
 

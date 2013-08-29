@@ -7,4 +7,5 @@ class BootstrapTeamCity extends TeamCity {
     public BootstrapTeamCity() {
         super(new BootstrapServer(), anApacheClient(), new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
+
 }

@@ -8,16 +8,22 @@ import com.googlecode.totallylazy.Sequence;
 
 import java.util.List;
 
+import static bad.robot.http.HttpClients.anApacheClient;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class AllProjectsOneTaskPerProject extends ThreadSafeObservable implements MonitoringTasksFactory {
 
     @Override
     public List<MonitoringTask> create() {
-        TeamCity teamcity = new BootstrapTeamCity();
-        TeamCityConfiguration configuration = YmlConfiguration.loadOrDefault(teamcity, this);
+        TeamCityConfiguration configuration = YmlConfiguration.loadOrCreate(new BootstrapTeamCity(), this);
+        TeamCity teamcity = createTeamCity(configuration);
         Sequence<Project> projects = sequence(configuration.filter(teamcity.retrieveProjects()));
         return projects.map(toTasks(configuration)).toList();
+    }
+
+    private static TeamCity createTeamCity(TeamCityConfiguration configuration) {
+        Server server = new Server(configuration.host(), configuration.port());
+        return new TeamCity(server, anApacheClient(), new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
 
     private Callable1<Project, MonitoringTask> toTasks(final TeamCityConfiguration configuration) {

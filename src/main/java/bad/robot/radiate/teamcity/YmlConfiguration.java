@@ -22,7 +22,7 @@ public class YmlConfiguration implements TeamCityConfiguration {
         this.configuration = load(file);
     }
 
-    static TeamCityConfiguration loadOrDefault(TeamCity teamcity, Observable observable) {
+    static TeamCityConfiguration loadOrCreate(TeamCity teamcity, Observable observable) {
         try {
             YmlConfigurationFile file = new YmlConfigurationFile();
             file.initialise(teamcity);
