@@ -11,13 +11,13 @@ public class Any {
 
     public static Projects projects() {
         return new Projects(new ArrayList() {{
-            add(new Project(anyId(), anyName(), anyHref(), buildTypes()));
-            add(new Project(anyId(), anyName(), anyHref(), buildTypes()));
+            add(new FullProject(anyId(), anyName(), anyHref(), buildTypes()));
+            add(new FullProject(anyId(), anyName(), anyHref(), buildTypes()));
         }});
     }
 
     public static Project project(BuildTypes buildTypes) {
-        return new Project(anyId(), anyName(), anyHref(), buildTypes);
+        return new FullProject(anyId(), anyName(), anyHref(), buildTypes);
     }
 
     public static BuildTypes buildTypes() {

@@ -12,21 +12,21 @@ public class JsonProjectUnmarshallerTest {
     @Rule public final HttpResponseStubMockery context = new HttpResponseStubMockery();
 
     private final JsonProjectUnmarshaller unmarshaller = new JsonProjectUnmarshaller();
+
     @Test
-    public void unmarshallProject() {
-        Project project = unmarshaller.unmarshall(context.stubResponseReturning(projectJson));
+    public void unmarshallProjectWithBuildTypes() {
+        FullProject project = (FullProject) unmarshaller.unmarshall(context.stubResponseReturning(projectJson));
         BuildTypes buildTypes = new BuildTypes(
             new BuildType("example_1", "First", "/guestAuth/app/rest/buildTypes/id:example_1", "example", "example"),
             new BuildType("example_2", "Second", "/guestAuth/app/rest/buildTypes/id:example_2", "example", "example")
         );
-        assertThat(project, is(new Project("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes)));
+        assertThat(project, is(new FullProject("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes)));
     }
 
     @Test
     public void unmarshallEmptyProject() {
-        EmptyProject project = (EmptyProject) unmarshaller.unmarshall(context.stubResponseReturning(emptyProjectJson));
-        BuildTypes buildTypes = new BuildTypes();
-        assertThat(project, is(new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", buildTypes)));
+        Project project = unmarshaller.unmarshall(context.stubResponseReturning(emptyProjectJson));
+        assertThat(project, is(new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root")));
     }
 
     private final String projectJson = "{" +
