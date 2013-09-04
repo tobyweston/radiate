@@ -45,6 +45,10 @@ class Project extends TeamCityObject implements Hypermedia, Iterable<BuildType> 
         return buildTypes.iterator();
     }
 
+    public boolean isEmpty() {
+        return !buildTypes.iterator().hasNext();
+    }
+
     @Override
     public String toString() {
         return format("%s (%s)", name, id);

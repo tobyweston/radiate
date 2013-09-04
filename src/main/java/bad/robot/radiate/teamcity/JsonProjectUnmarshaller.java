@@ -8,6 +8,9 @@ class JsonProjectUnmarshaller implements Unmarshaller<HttpResponse, Project> {
 
     @Override
     public Project unmarshall(HttpResponse response) {
-        return new Gson().fromJson(new JsonResponse(response).body(), Project.class);
+        Project project = new Gson().fromJson(new JsonResponse(response).body(), Project.class);
+        if (project.isEmpty())
+            return new EmptyProject(project.getId(), project.getName(), project.getHref());
+        return project;
     }
 }

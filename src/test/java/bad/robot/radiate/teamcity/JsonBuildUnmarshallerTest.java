@@ -26,7 +26,7 @@ public class JsonBuildUnmarshallerTest {
         assertThat(build, is(new RunningBuild("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Step 1/1", "20130726T161108+0100", null, buildType, runInformation)));
     }
 
-    private String buildJson = "{" +
+    private final static String buildJson = "{" +
             "    \"id\": 465," +
             "    \"number\": \"159\"," +
             "    \"status\": \"SUCCESS\"," +
@@ -103,7 +103,7 @@ public class JsonBuildUnmarshallerTest {
             "    }" +
             "}";
 
-    private String runningBuildJson = "{" +
+    private final static String runningBuildJson = "{" +
             "    \"id\": 465," +
             "    \"number\": \"159\"," +
             "    \"status\": \"SUCCESS\"," +
