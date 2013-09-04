@@ -32,10 +32,10 @@ public class TeamCityTest {
     private final Headers accept = headers(header("Accept", "application/json"));
     private final HttpClient http = context.mock(HttpClient.class);
 
-    private final HttpResponse ok = new StringHttpResponse(200, "OK", "", emptyHeaders());
-    private final HttpResponse anotherOk = new StringHttpResponse(200, "OK", "", emptyHeaders());
-    private final HttpResponse error = new StringHttpResponse(500, "Yuk", "", emptyHeaders());
-    private final HttpResponse notFound = new StringHttpResponse(404, "Not Found", "", emptyHeaders());
+    private final HttpResponse ok = new StringHttpResponse(200, "OK", "", emptyHeaders(), "http://example.com");
+    private final HttpResponse anotherOk = new StringHttpResponse(200, "OK", "", emptyHeaders(), "http://example.com");
+    private final HttpResponse error = new StringHttpResponse(500, "Yuk", "", emptyHeaders(), "http://example.com");
+    private final HttpResponse notFound = new StringHttpResponse(404, "Not Found", "", emptyHeaders(), "http://example.com");
 
     private final Iterable<Project> projects = Any.projects();
 

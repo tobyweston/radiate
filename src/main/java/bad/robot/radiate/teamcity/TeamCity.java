@@ -54,10 +54,10 @@ class TeamCity {
     public Build retrieveLatestBuild(BuildType buildType) {
         URL url = server.urlFor(running(buildType));
         HttpResponse response = http.get(url, headers);
-        if (response.ok())
-            return build.unmarshall(response);
         if (response.getStatusCode() == 404)
             return retrieveBuild(latest(buildType));
+        if (response.ok())
+            return build.unmarshall(response);
         throw new UnexpectedResponse(url, response);
     }
 
