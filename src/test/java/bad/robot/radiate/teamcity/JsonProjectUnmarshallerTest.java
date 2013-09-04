@@ -67,4 +67,38 @@ public class JsonProjectUnmarshallerTest {
         assertThat(project, is(new Project("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes)));
     }
 
+    @Test
+    public void unmarshallEmptyProject() {
+        Project project = unmarshaller.unmarshall(context.stubResponseReturning("{\n" +
+                "    \"id\": \"_Root\",\n" +
+                "    \"name\": \"<Root project>\",\n" +
+                "    \"href\": \"/guestAuth/app/rest/projects/id:_Root\",\n" +
+                "    \"description\": \"Contains all other projects\",\n" +
+                "    \"archived\": false,\n" +
+                "    \"webUrl\": \"http://example.com:8111/project.html?projectId=_Root\",\n" +
+                "    \"buildTypes\": {\n" +
+                "        \"buildType\": []\n" +
+                "    },\n" +
+                "    \"templates\": {\n" +
+                "        \"buildType\": []\n" +
+                "    },\n" +
+                "    \"parameters\": {\n" +
+                "        \"property\": []\n" +
+                "    },\n" +
+                "    \"vcsRoots\": {\n" +
+                "        \"href\": \"/guestAuth/app/rest/vcs-roots?locator=project:(id:_Root)\"\n" +
+                "    },\n" +
+                "    \"projects\": {\n" +
+                "        \"project\": [\n" +
+                "            {\n" +
+                "                \"id\": \"example\",\n" +
+                "                \"name\": \"example\",\n" +
+                "                \"href\": \"/guestAuth/app/rest/projects/id:example\"\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    }\n" +
+                "}"));
+        BuildTypes buildTypes = new BuildTypes();
+        assertThat(project, is(new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", buildTypes)));
+    }
 }
