@@ -44,6 +44,13 @@ class TeamCity {
         throw new UnexpectedResponse(url, response);
     }
 
+    public Iterable<Project> retrieveFullProjects(Iterable<Project> projects) {
+        Either<TeamCityException, Sequence<Project>> expanded = sequenceE(sequence(projects).mapConcurrently(expandingToFullProject()));
+        if (expanded.isLeft())
+            throw expanded.left();
+        return expanded.right();
+    }
+
     public Iterable<BuildType> retrieveBuildTypes(Iterable<Project> projects) {
         Either<TeamCityException, Sequence<Project>> expanded = sequenceE(sequence(projects).mapConcurrently(expandingToFullProject()));
         if (expanded.isLeft())

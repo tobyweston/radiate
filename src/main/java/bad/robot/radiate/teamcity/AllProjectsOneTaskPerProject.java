@@ -9,6 +9,7 @@ import com.googlecode.totallylazy.Sequence;
 import java.util.List;
 
 import static bad.robot.http.HttpClients.anApacheClient;
+import static bad.robot.radiate.teamcity.NonEmptyProject.nonEmpty;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class AllProjectsOneTaskPerProject extends ThreadSafeObservable implements MonitoringTasksFactory {
@@ -18,7 +19,7 @@ public class AllProjectsOneTaskPerProject extends ThreadSafeObservable implement
         TeamCityConfiguration configuration = YmlConfiguration.loadOrCreate(new BootstrapTeamCity(), this);
         TeamCity teamcity = createTeamCity(configuration);
         Sequence<Project> projects = sequence(configuration.filter(teamcity.retrieveProjects()));
-        return projects.map(toTasks(configuration)).toList();
+        return sequence(teamcity.retrieveFullProjects(projects)).filter(nonEmpty()).map(toTasks(configuration)).toList();
     }
 
     private static TeamCity createTeamCity(TeamCityConfiguration configuration) {

@@ -62,6 +62,32 @@ public class TeamCityTest {
     }
 
     @Test
+    public void shouldRetrieveFullProjects() throws MalformedURLException {
+        final BuildTypes buildTypes = new BuildTypes(Any.buildType());
+        final BuildTypes anotherBuildTypes = new BuildTypes(Any.buildType());
+        final Project project = Any.project(buildTypes);
+        final Project anotherProject = Any.project(anotherBuildTypes);
+
+        context.checking(new Expectations() {{
+            oneOf(http).get(new URL("http://example.com:8111" + first(projects).getHref()), accept); will(returnValue(ok));
+            oneOf(http).get(new URL("http://example.com:8111" + second(projects).getHref()), accept); will(returnValue(anotherOk));
+            oneOf(projectUnmarshaller).unmarshall(ok); will(returnValue(project));
+            oneOf(projectUnmarshaller).unmarshall(anotherOk); will(returnValue(anotherProject));
+        }});
+
+        Iterable<Project> actual = teamcity.retrieveFullProjects(projects);
+        assertThat(actual, Matchers.<Iterable<Project>>is(sequence(project, anotherProject)));
+    }
+
+    @Test (expected = UnexpectedResponse.class)
+    public void shouldHandleHttpErrorWhenRetrievingFullProjects() {
+        context.checking(new Expectations() {{
+           allowing(http).get(with(any(URL.class)), with(any(Headers.class))); will(returnValue(error));
+        }});
+        teamcity.retrieveFullProjects(projects);
+    }
+
+    @Test
     public void shouldRetrieveBuildTypes() throws MalformedURLException {
         final BuildTypes buildTypes = new BuildTypes(Any.buildType());
         final BuildTypes anotherBuildTypes = new BuildTypes(Any.buildType());
@@ -77,12 +103,12 @@ public class TeamCityTest {
 
         Iterable<BuildType> actual = teamcity.retrieveBuildTypes(projects);
         assertThat(actual, Matchers.<Iterable<BuildType>>is(sequence(first(buildTypes), first(anotherBuildTypes))));
-    }
+}
 
     @Test (expected = UnexpectedResponse.class)
     public void shouldHandleHttpErrorWhenRetrievingBuildTypes() {
         context.checking(new Expectations() {{
-            exactly(2).of(http).get(with(any(URL.class)), with(any(Headers.class))); will(returnValue(error));
+            allowing(http).get(with(any(URL.class)), with(any(Headers.class))); will(returnValue(error));
         }});
         teamcity.retrieveBuildTypes(projects);
     }
