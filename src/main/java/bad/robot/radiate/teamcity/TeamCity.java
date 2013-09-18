@@ -52,10 +52,7 @@ class TeamCity {
     }
 
     public Iterable<BuildType> retrieveBuildTypes(Iterable<Project> projects) {
-        Either<TeamCityException, Sequence<Project>> expanded = sequenceE(sequence(projects).mapConcurrently(expandingToFullProject()));
-        if (expanded.isLeft())
-            throw expanded.left();
-        return flatten(expanded.right());
+        return flatten(retrieveFullProjects(projects));
     }
 
     public Build retrieveLatestBuild(BuildType buildType) {

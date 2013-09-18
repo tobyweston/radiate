@@ -16,13 +16,13 @@ class JsonResponse {
         this.response = response;
     }
 
-    private boolean isJson(HttpResponse response) {
+    private static boolean isJson(HttpResponse response) {
         if (!sequence(response.getHeaders()).find(json()).isEmpty())
             return true;
         return false;
     }
 
-    private Predicate<Header> json() {
+    private static Predicate<Header> json() {
         return new Predicate<Header>() {
             @Override
             public boolean matches(Header header) {
