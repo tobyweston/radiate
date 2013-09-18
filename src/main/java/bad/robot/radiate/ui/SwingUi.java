@@ -39,8 +39,8 @@ public class SwingUi extends JFrame implements Ui, Observer {
         setTitle("Radiate");
         getContentPane().setBackground(darkGray);
         setSize(700, 500);
-//        setUndecorated(true);
-//        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+        setUndecorated(true);
+        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
     }
 
     private void setupEventListeners() {
@@ -81,7 +81,12 @@ public class SwingUi extends JFrame implements Ui, Observer {
             @Override
             public void run() {
                 console.append(format("%s when monitoring %s", new SanitisedException(exception).getMessage(), source == null ? "" : source.toString()));
-                console.setVisible(true);
+                if (inDesktopMode())
+                    console.setVisible(true);
+            }
+
+            private boolean inDesktopMode() {
+                return getExtendedState() == NORMAL;
             }
         });
     }

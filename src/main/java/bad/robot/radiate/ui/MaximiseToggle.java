@@ -22,10 +22,10 @@ class MaximiseToggle extends KeyAdapter implements AWTEventListener {
     @Override
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == VK_F11 || event.getKeyCode() == VK_M) {
-            if (frame.getExtendedState() == NORMAL)
-                frame.setExtendedState(frame.getExtendedState() | MAXIMIZED_BOTH);
+            if (inDesktopMode())
+                switchToFullScreen();
             else
-                frame.setExtendedState(NORMAL);
+                switchToDesktopMode();
         }
     }
 
@@ -33,5 +33,17 @@ class MaximiseToggle extends KeyAdapter implements AWTEventListener {
     public void eventDispatched(AWTEvent event) {
         if (event.getID() == KeyEvent.KEY_PRESSED)
             keyPressed((KeyEvent) event);
+    }
+
+    private boolean inDesktopMode() {
+        return frame.getExtendedState() == NORMAL;
+    }
+
+    private void switchToFullScreen() {
+        frame.setExtendedState(frame.getExtendedState() | MAXIMIZED_BOTH);
+    }
+
+    private void switchToDesktopMode() {
+        frame.setExtendedState(NORMAL);
     }
 }
