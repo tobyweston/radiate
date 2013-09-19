@@ -12,7 +12,7 @@ class UnexpectedContentType extends TeamCityException {
     private final String body;
 
     public UnexpectedContentType(HttpResponse response) {
-        super(format("Unexpected response format '%s' from %s", sequence(response.getHeaders()).find(contentType()).get().value(), response.getOriginatingUri()));
+        super(format("Unexpected response format '%s' (%s %s) from %s", sequence(response.getHeaders()).find(contentType()).get().value(), response.getStatusCode(), response.getStatusMessage(), response.getOriginatingUri()));
         this.body = response.getContent().asString();
     }
 
