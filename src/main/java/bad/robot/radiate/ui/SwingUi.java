@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static bad.robot.radiate.ui.FullScreen.fullScreen;
+import static bad.robot.radiate.ui.Screen.primaryScreen;
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
 import static java.awt.Color.darkGray;
 import static java.lang.String.format;
@@ -39,8 +40,9 @@ public class SwingUi extends JFrame implements Ui, Observer {
         setLookAndFeel();
         setTitle("Radiate");
         getContentPane().setBackground(darkGray);
-        setSize(700, 500);
         setUndecorated(true);
+        setSize(700, 500);
+        primaryScreen().moveTo(this);
         fullScreen(this).switchTo();
     }
 
@@ -48,6 +50,7 @@ public class SwingUi extends JFrame implements Ui, Observer {
         getToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
         getToolkit().addAWTEventListener(new MaximiseToggle(this), KEY_EVENT_MASK);
         getToolkit().addAWTEventListener(new ToggleConsoleDialog(console), KEY_EVENT_MASK);
+        getToolkit().addAWTEventListener(new MoveMonitors(this), KEY_EVENT_MASK);
     }
 
     public Observer createStatusPanel() {
