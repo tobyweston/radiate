@@ -1,6 +1,8 @@
 package bad.robot.radiate.ui;
 
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Comparator;
 
 class Screen {
     private final int index;
@@ -16,7 +18,7 @@ class Screen {
     }
 
     private Screen(int index) {
-        this.screens = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+        this.screens = getScreenDevicesSortedByLocation();
         this.maxIndex = screens.length - 1;
         if (index > maxIndex)
             throw new IllegalArgumentException(String.format("can not change to a screen '%d', there are only '%d'", index, maxIndex));
@@ -25,7 +27,7 @@ class Screen {
 
     private static int defaultScreen() {
         GraphicsDevice defaultScreen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        GraphicsDevice[] screens = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+        GraphicsDevice[] screens = getScreenDevicesSortedByLocation();
         for (int index = 0; index < screens.length; index++) {
             if (screens[index] == defaultScreen)
                 return index;
@@ -46,7 +48,26 @@ class Screen {
     }
 
     public void moveTo(Frame frame) {
-        System.out.println("moving to screen at index " + index);
+        System.out.println("screen at index " + index);
         frame.setLocation(screens[index].getDefaultConfiguration().getBounds().x, frame.getY());
+    }
+
+    private static GraphicsDevice[] getScreenDevicesSortedByLocation() {
+        GraphicsDevice[] screens = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+        Arrays.sort(screens, byLocation());
+        return screens;
+    }
+
+    private static Comparator<GraphicsDevice> byLocation() {
+        return new Comparator<GraphicsDevice>() {
+            public int compare(GraphicsDevice first, GraphicsDevice second) {
+                Rectangle boundsOfFirst = first.getDefaultConfiguration().getBounds();
+                Rectangle boundsOfSecond = second.getDefaultConfiguration().getBounds();
+                int delta = boundsOfFirst.y - boundsOfSecond.y;
+                if (delta == 0)
+                    delta = boundsOfFirst.x - boundsOfSecond.x;
+                return delta;
+            }
+        };
     }
 }
