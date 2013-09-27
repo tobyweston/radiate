@@ -12,6 +12,7 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import static bad.robot.radiate.ui.FullScreen.fullScreen;
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
 import static java.awt.Color.darkGray;
 import static java.lang.String.format;
@@ -40,7 +41,7 @@ public class SwingUi extends JFrame implements Ui, Observer {
         getContentPane().setBackground(darkGray);
         setSize(700, 500);
         setUndecorated(true);
-        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+        fullScreen(this).switchTo();
     }
 
     private void setupEventListeners() {
