@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Logging;
+import bad.robot.radiate.State;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
@@ -17,6 +18,7 @@ import static bad.robot.radiate.ui.Screen.primaryScreen;
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
 import static java.awt.Color.darkGray;
 import static java.lang.String.format;
+import static javax.swing.SwingUtilities.invokeLater;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
 public class SwingUi extends JFrame implements Ui, Observer {
@@ -75,13 +77,28 @@ public class SwingUi extends JFrame implements Ui, Observer {
     }
 
     @Override
-    public void update(Observable source, Status status) {
+    public void update(final Observable source, final Status status) {
         // ignore status updates
     }
 
     @Override
+    public void update(final Observable source, final State state) {
+        // ignore state updates
+    }
+
+    @Override
+    public void update(Observable source, final Information information) {
+        invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                console.append(format("%s", information));
+            }
+        });
+    }
+
+    @Override
     public void update(final Observable source, final Exception exception) {
-        SwingUtilities.invokeLater(new Runnable() {
+        invokeLater(new Runnable() {
             @Override
             public void run() {
                 console.append(format("%s when monitoring %s", new SanitisedException(exception).getMessage(), source == null ? "" : source.toString()));
@@ -91,16 +108,6 @@ public class SwingUi extends JFrame implements Ui, Observer {
 
             private boolean inDesktopMode() {
                 return getExtendedState() == NORMAL;
-            }
-        });
-    }
-
-    @Override
-    public void update(Observable source, final Information information) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                console.append(format("%s", information));
             }
         });
     }

@@ -1,6 +1,9 @@
 package bad.robot.radiate.teamcity;
 
+import bad.robot.radiate.State;
 import com.google.gson.annotations.SerializedName;
+
+import static bad.robot.radiate.State.Progressing;
 
 class RunningBuild extends Build {
 
@@ -15,4 +18,10 @@ class RunningBuild extends Build {
     public RunInformation getRunInformation() {
         return runInformation;
     }
+
+    @Override
+    public State getState() {
+        return Progressing;
+    }
+
 }

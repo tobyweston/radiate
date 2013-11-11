@@ -4,7 +4,6 @@ public enum Status {
 
     Ok,
     Broken,
-    Busy,
     Unknown;
 
 }

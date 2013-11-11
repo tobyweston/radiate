@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
-import static com.google.code.tempusfugit.concurrency.CallableAdapter.runnable;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class ScheduledMonitor implements Monitor {
@@ -21,7 +20,7 @@ public class ScheduledMonitor implements Monitor {
     public Iterable<ScheduledFuture<?>> start(Iterable<MonitoringTask> tasks) {
         List<ScheduledFuture<?>> scheduled = new ArrayList<>();
         for (MonitoringTask task : tasks)
-            scheduled.add(executor.scheduleWithFixedDelay(runnable(task), 0, frequency, SECONDS));
+            scheduled.add(executor.scheduleWithFixedDelay(task, 0, frequency, SECONDS));
         return scheduled;
     }
 

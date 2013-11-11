@@ -32,5 +32,4 @@ public class StatusAggregatorTest {
         assertThat(aggregated(Collections.<Status>emptyList()).getStatus(), is(Unknown));
     }
 
-
 }

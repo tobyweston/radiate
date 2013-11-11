@@ -165,20 +165,4 @@ public class TeamCityTest {
         assertThat(teamcity.retrieveLatestBuild(buildType), is(((Build) new NoBuild())));
     }
 
-    private static class StubConfiguration implements TeamCityConfiguration {
-        @Override
-        public String host() {
-            return "example.com";
-        }
-
-        @Override
-        public Integer port() {
-            return 8111;
-        }
-
-        @Override
-        public Iterable<Project> filter(Iterable<Project> projects) {
-            return projects;
-        }
-    }
 }

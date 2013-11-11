@@ -1,5 +1,6 @@
 package bad.robot.radiate.monitor;
 
+import bad.robot.radiate.State;
 import bad.robot.radiate.Status;
 
 public interface Observable {
@@ -9,6 +10,8 @@ public interface Observable {
     boolean removeObservers(Observer... observer);
 
     void notifyObservers(Status status);
+
+    void notifyObservers(State state);
 
     void notifyObservers(Exception exception);
 

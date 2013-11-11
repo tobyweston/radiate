@@ -6,7 +6,7 @@ import com.googlecode.totallylazy.Sequence;
 import static bad.robot.radiate.Status.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-public class StatusAggregator implements Monitorable {
+public class StatusAggregator {
 
     private final Iterable<Status> statuses;
 
@@ -18,7 +18,6 @@ public class StatusAggregator implements Monitorable {
         return new StatusAggregator(statuses);
     }
 
-    @Override
     public Status getStatus() {
         Sequence<Status> statuses = sequence(this.statuses);
         if (statuses.isEmpty())
@@ -34,4 +33,5 @@ public class StatusAggregator implements Monitorable {
             }
         });
     }
+
 }

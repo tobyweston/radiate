@@ -2,6 +2,7 @@ package bad.robot.radiate.teamcity;
 
 import bad.robot.radiate.Hypermedia;
 import bad.robot.radiate.Monitorable;
+import bad.robot.radiate.State;
 import bad.robot.radiate.Status;
 
 import static bad.robot.radiate.Status.*;
@@ -43,6 +44,11 @@ public class Build extends TeamCityObject implements Hypermedia, Monitorable {
         if (status.equalsIgnoreCase("FAILURE"))
             return Broken;
         return Unknown;
+    }
+
+    @Override
+    public State getState() {
+        return State.Idle;
     }
 
     public String getStatusString() {

@@ -32,7 +32,7 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
     }
 
     @Override
-    public Status call() throws Exception {
+    public void run() {
         try {
             Iterable<Project> projects = configuration.filter(teamcity.retrieveProjects());
             monitored = sequence(projects).map(asString());
@@ -40,10 +40,8 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
             Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
             Status status = aggregated(statuses).getStatus();
             notifyObservers(status);
-            return status;
         } catch (Exception e) {
             notifyObservers(e);
-            return Unknown;
         }
     }
 

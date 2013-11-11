@@ -1,5 +1,6 @@
 package bad.robot.radiate.monitor;
 
+import bad.robot.radiate.State;
 import bad.robot.radiate.Status;
 
 import java.util.List;
@@ -37,5 +38,11 @@ public class ThreadSafeObservable implements Observable {
     public void notifyObservers(Information information) {
         for (Observer observer : observers)
             observer.update(this, information);
+    }
+
+    @Override
+    public void notifyObservers(State state) {
+        for (Observer observer : observers)
+            observer.update(this, state);
     }
 }

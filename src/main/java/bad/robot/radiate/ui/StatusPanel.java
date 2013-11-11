@@ -1,5 +1,6 @@
 package bad.robot.radiate.ui;
 
+import bad.robot.radiate.State;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
@@ -9,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import static bad.robot.radiate.State.Busy;
 import static bad.robot.radiate.Status.*;
 import static bad.robot.radiate.ui.UiText.createTextRegion;
 import static bad.robot.radiate.ui.UiText.drawText;
@@ -21,9 +23,11 @@ public class StatusPanel extends JPanel implements Observer {
     private static final Color Grey = new Color(64, 64, 64);
 
     private final BusyIndicator busyIndicator = new BusyIndicator();
+    private final ErrorIndicator errorIndicator = new ErrorIndicator();
     private final int identifier;
 
-    private Status status = Busy;
+    private Status status = Unknown;
+    private State state = Busy;
     private String text;
 
     public StatusPanel(JFrame parent, int identifier) {
@@ -40,12 +44,18 @@ public class StatusPanel extends JPanel implements Observer {
     }
 
     @Override
-    public void update(Observable source, Exception exception) {
-        update(source, Busy);
+    public void update(Observable source, State state) {
+        this.state = state;
+        repaint();
     }
 
     @Override
     public void update(Observable source, Information information) {
+    }
+
+    @Override
+    public void update(Observable source, Exception exception) {
+        update(source, Busy);
     }
 
     private Color getColorFrom(Status status) {
@@ -60,7 +70,7 @@ public class StatusPanel extends JPanel implements Observer {
     protected void paintComponent(Graphics graphics) {
         fillBackground((Graphics2D) graphics);
         updateText(graphics);
-        updateBusyIndicator();
+        busyIndicator.setVisiblityBasedOn(state);
     }
 
     private void fillBackground(Graphics2D graphics) {
@@ -77,11 +87,5 @@ public class StatusPanel extends JPanel implements Observer {
             drawText(graphics, region, text);
         }
     }
-
-    private void updateBusyIndicator() {
-        if (status == Busy)
-            busyIndicator.start();
-        else
-            busyIndicator.stop();
-    }
+    
 }

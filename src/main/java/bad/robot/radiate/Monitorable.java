@@ -4,4 +4,6 @@ public interface Monitorable {
 
     Status getStatus();
 
+    State getState();
+
 }

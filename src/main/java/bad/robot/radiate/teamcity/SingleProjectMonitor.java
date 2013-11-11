@@ -9,7 +9,8 @@ import com.googlecode.totallylazy.Callable1;
 
 import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.http.configuration.HttpTimeout.httpTimeout;
-import static bad.robot.radiate.Status.Unknown;
+import static bad.robot.radiate.State.Error;
+import static bad.robot.radiate.State.Idle;
 import static bad.robot.radiate.StatusAggregator.aggregated;
 import static com.google.code.tempusfugit.temporal.Duration.minutes;
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -30,17 +31,16 @@ public class SingleProjectMonitor extends NonRepeatingObservable implements Moni
     }
 
     @Override
-    public Status call() throws Exception {
+    public void run() {
         try {
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(asList(project));
             Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
             Status status = aggregated(statuses).getStatus();
+            notifyObservers(Idle);
             notifyObservers(status);
             notifyObservers(new Information(toString()));
-            return status;
         } catch (Exception e) {
             notifyObservers(e);
-            return Unknown;
         }
     }
 
