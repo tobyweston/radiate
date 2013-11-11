@@ -9,7 +9,6 @@ import com.googlecode.totallylazy.Callable1;
 
 import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.http.configuration.HttpTimeout.httpTimeout;
-import static bad.robot.radiate.State.Error;
 import static bad.robot.radiate.State.Idle;
 import static bad.robot.radiate.StatusAggregator.aggregated;
 import static com.google.code.tempusfugit.temporal.Duration.minutes;
