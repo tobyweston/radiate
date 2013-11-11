@@ -12,11 +12,12 @@ import java.util.List;
 
 public class MonitoringTypes {
 
+    /** Default mode */
     public static MonitoringTasksFactory singleAggregate() {
         return new AllProjectsAsSingleTask();
     }
 
-    /** aka Chessboard mode */
+    /** Chessboard mode */
     public static MonitoringTasksFactory multipleProjects() {
         return new AllProjectsOneTaskPerProject();
     }
