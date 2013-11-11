@@ -15,6 +15,17 @@ Currently, TeamCity must have guest login enabled (see instructions for [TeamCit
 
 It reports builds form all projects on the TeamCity instance. Once you've run the app once, `config.yml` will be created in your `user.home` where you can prune the list of projects.
 
+### Usage
+
+There are a few key you can use to control the application. Hit any of the following whilst running.
+
+* **Esc** - quit
+* **F11** or **m** - switch from desktop to screen saver mode (full screen)
+* **F1** or **i** - toggle the console for additional information
+* **cursor** - move screens left and right in a multiple monitor setup
+
+A log will also be created in the `user.home` folder.
+
 ### Download
 
 Download the .exe, .scr or executable jar from the [bad robot repository](http://robotooling.com/maven/bad/robot/radiate/).
