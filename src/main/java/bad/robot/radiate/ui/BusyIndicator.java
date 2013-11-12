@@ -19,7 +19,7 @@ import static java.awt.Color.white;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
-class BusyIndicator extends LayerUI<JPanel> implements ActionListener {
+class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private boolean running;
     private boolean fadingOut;

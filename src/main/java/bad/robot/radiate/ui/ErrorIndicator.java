@@ -7,13 +7,14 @@ import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
+import static bad.robot.radiate.State.Error;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
-class ErrorIndicator extends LayerUI<JPanel> {
+class ErrorIndicator extends LayerUI<JComponent> {
 
     private Boolean redraw = false;
 
@@ -41,8 +42,7 @@ class ErrorIndicator extends LayerUI<JPanel> {
     }
 
     public void setVisiblityBasedOn(State state) {
-        System.out.println(state);
-//        if (state == Error)
+        if (state == Error)
             redraw = true;
     }
 

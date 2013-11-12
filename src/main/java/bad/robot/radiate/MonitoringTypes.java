@@ -31,10 +31,13 @@ public class MonitoringTypes {
     }
 
     private static class DemoMonitor extends ThreadSafeObservable implements MonitoringTasksFactory {
+
+        public static final int builds = 8;
+
         @Override
         public List<MonitoringTask> create() {
             ArrayList<MonitoringTask> tasks = new ArrayList<>();
-            for (int i = 0; i < 99; i++)
+            for (int i = 0; i < builds; i++)
                 tasks.add(new RandomStatus());
             return tasks;
         }

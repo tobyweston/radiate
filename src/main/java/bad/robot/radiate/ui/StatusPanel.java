@@ -7,11 +7,13 @@ import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
 
 import javax.swing.*;
+import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import static bad.robot.radiate.State.Busy;
 import static bad.robot.radiate.Status.*;
+import static bad.robot.radiate.ui.CompositeLayerUI.layers;
 import static bad.robot.radiate.ui.UiText.createTextRegion;
 import static bad.robot.radiate.ui.UiText.drawText;
 import static java.lang.String.format;
@@ -31,7 +33,7 @@ public class StatusPanel extends JPanel implements Observer {
     private String text;
 
     public StatusPanel(JFrame parent, int identifier) {
-        parent.add(new JLayer<>(this, busyIndicator));
+        parent.add(new JLayer<>(new JLayer<>(this, busyIndicator), errorIndicator));
         this.identifier = identifier;
     }
 
@@ -71,6 +73,7 @@ public class StatusPanel extends JPanel implements Observer {
         fillBackground((Graphics2D) graphics);
         updateText(graphics);
         busyIndicator.setVisiblityBasedOn(state);
+        errorIndicator.setVisiblityBasedOn(state);
     }
 
     private void fillBackground(Graphics2D graphics) {
@@ -87,5 +90,5 @@ public class StatusPanel extends JPanel implements Observer {
             drawText(graphics, region, text);
         }
     }
-    
+
 }
