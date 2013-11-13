@@ -41,10 +41,22 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void drawProgressIndicator(int width, int height, Graphics2D graphics, JComponent component) {
         if (progress <= max) {
+            drawBackground(width, height, graphics, Color.gray);
             drawRadial(width, height, graphics);
             fillCenter(width, height, graphics, (JLayer) component);
             drawPercentage(progress, graphics, width / 2, height / 2);
+//            drawCenterLine(width, height, graphics);
         }
+    }
+
+    private void drawCenterLine(int width, int height, Graphics2D graphics) {
+        graphics.drawLine(0, 0, width, height);
+        graphics.drawLine(width, 0, 0, height);
+    }
+
+    private void drawBackground(int width, int height, Graphics2D graphics, Color color) {
+        graphics.setColor(color);
+        graphics.fill(new Ellipse2D.Double(0, 0, width, height));
     }
 
     private void drawRadial(int width, int height, Graphics2D graphics) {
@@ -52,31 +64,30 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         int size = Math.min(width, height) / reductionPercentage;
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         graphics.setStroke(new BasicStroke(size / 4, CAP_ROUND, JOIN_ROUND));
-
         graphics.setPaint(white);
-        int angle = -(int) (((float) progress / max) * 360);
+        int angle = -(int) ((float) progress / max * 360);
         graphics.fillArc(0, 0, width, height, 90, angle);
     }
 
     private void fillCenter(int width, int height, Graphics2D graphics, JLayer component) {
-        int offset = 40;
+        int offset = 15;
         graphics.setColor(component.getView().getBackground());
         graphics.fill(new Ellipse2D.Double(0 + offset, 0 + offset, width - (offset * 2), height - (offset * 2)));
     }
 
     private void drawPercentage(int progress, Graphics2D graphics, int width, int height) {
         String text = progress + "%";
-        Font font = new Font("Arial", Font.PLAIN, 12);
+        Font font = new Font("Arial", Font.BOLD, 12);
         FontRenderContext context = graphics.getFontRenderContext();
         graphics.setFont(font);
         Rectangle2D bounds = graphics.getFont().getStringBounds(text, context);
 
-        LineMetrics metrics = font.getLineMetrics(text, context);
+        LineMetrics line = font.getLineMetrics(text, context);
         float xScale = (float) (width / bounds.getWidth());
-        float yScale = (height / (metrics.getAscent() + metrics.getDescent()));
+        float yScale = (height / (line.getAscent() + line.getDescent()));
 
         double x = 0;
-        double y = 0 + height - (yScale * metrics.getDescent());
+        double y = 0 + height - (yScale * line.getDescent());
         AffineTransform transformation = AffineTransform.getTranslateInstance(x, y);
 
         if (xScale > yScale)
@@ -87,7 +98,10 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.setFont(font.deriveFont(transformation));
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         graphics.setColor(WHITE);
-        graphics.drawString(text, 0, 0);
+
+        int centerX = width / 2;
+        int centerY = height / 2;
+        graphics.drawString(text, centerX, centerY - (int) bounds.getHeight());
     }
 
     @Override
@@ -107,9 +121,9 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(200, 200);
         JPanel panel = new JPanel();
-        panel.setBackground(GRAY);
+        panel.setBackground(Color.lightGray);
         frame.add(new JLayer<>(panel, new ProgressIndicator()));
         frame.setVisible(true);
     }
