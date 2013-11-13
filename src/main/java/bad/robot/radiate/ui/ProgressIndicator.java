@@ -43,13 +43,21 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.setStroke(new BasicStroke(size / 4, CAP_ROUND, JOIN_ROUND));
 
         if (progress <= max) {
-            graphics.setPaint(white);
-            int angle = -(int) (((float) progress / max) * 360);
-            graphics.fillArc(0, 0, width, height, 90, angle);
-            int FRACTION = 5;
-            graphics.setColor(((JLayer) component).getView().getBackground());
-            graphics.fillArc(width / FRACTION / 2, height / FRACTION / 2, width * (FRACTION - 1) / FRACTION, height * (FRACTION - 1) / FRACTION, 90, 361);
+            drawRadial(width, height, graphics);
+            fillCenter(width, height, graphics, (JLayer) component);
         }
+    }
+
+    private void fillCenter(int width, int height, Graphics2D graphics, JLayer component) {
+        int offset = 40;
+        graphics.setColor(component.getView().getBackground());
+        graphics.fill(new Ellipse2D.Double(0 + offset, 0 + offset, width - (offset * 2), height - (offset * 2)));
+    }
+
+    private void drawRadial(int width, int height, Graphics2D graphics) {
+        graphics.setPaint(white);
+        int angle = -(int) (((float) progress / max) * 360);
+        graphics.fillArc(0, 0, width, height, 90, angle);
     }
 
     @Override
