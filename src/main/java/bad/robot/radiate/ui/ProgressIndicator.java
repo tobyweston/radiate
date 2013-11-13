@@ -1,19 +1,22 @@
 package bad.robot.radiate.ui;
 
-import bad.robot.radiate.State;
-
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineMetrics;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 
-import static bad.robot.radiate.State.Error;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
-import static java.awt.Color.*;
+import static java.awt.Color.GRAY;
+import static java.awt.Color.WHITE;
+import static java.awt.Color.white;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
@@ -37,15 +40,22 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void drawProgressIndicator(int width, int height, Graphics2D graphics, JComponent component) {
+        if (progress <= max) {
+            drawRadial(width, height, graphics);
+            fillCenter(width, height, graphics, (JLayer) component);
+            drawPercentage(progress, graphics, width / 2, height / 2);
+        }
+    }
+
+    private void drawRadial(int width, int height, Graphics2D graphics) {
         int reductionPercentage = 20;
         int size = Math.min(width, height) / reductionPercentage;
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         graphics.setStroke(new BasicStroke(size / 4, CAP_ROUND, JOIN_ROUND));
 
-        if (progress <= max) {
-            drawRadial(width, height, graphics);
-            fillCenter(width, height, graphics, (JLayer) component);
-        }
+        graphics.setPaint(white);
+        int angle = -(int) (((float) progress / max) * 360);
+        graphics.fillArc(0, 0, width, height, 90, angle);
     }
 
     private void fillCenter(int width, int height, Graphics2D graphics, JLayer component) {
@@ -54,10 +64,30 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.fill(new Ellipse2D.Double(0 + offset, 0 + offset, width - (offset * 2), height - (offset * 2)));
     }
 
-    private void drawRadial(int width, int height, Graphics2D graphics) {
-        graphics.setPaint(white);
-        int angle = -(int) (((float) progress / max) * 360);
-        graphics.fillArc(0, 0, width, height, 90, angle);
+    private void drawPercentage(int progress, Graphics2D graphics, int width, int height) {
+        String text = progress + "%";
+        Font font = new Font("Arial", Font.PLAIN, 12);
+        FontRenderContext context = graphics.getFontRenderContext();
+        graphics.setFont(font);
+        Rectangle2D bounds = graphics.getFont().getStringBounds(text, context);
+
+        LineMetrics metrics = font.getLineMetrics(text, context);
+        float xScale = (float) (width / bounds.getWidth());
+        float yScale = (height / (metrics.getAscent() + metrics.getDescent()));
+
+        double x = 0;
+        double y = 0 + height - (yScale * metrics.getDescent());
+        AffineTransform transformation = AffineTransform.getTranslateInstance(x, y);
+
+        if (xScale > yScale)
+            transformation.scale(yScale, yScale);
+        else
+            transformation.scale(xScale, xScale);
+
+        graphics.setFont(font.deriveFont(transformation));
+        graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+        graphics.setColor(WHITE);
+        graphics.drawString(text, 0, 0);
     }
 
     @Override
