@@ -13,7 +13,7 @@ import java.beans.PropertyChangeEvent;
 import static bad.robot.radiate.State.Error;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
-import static java.awt.Color.white;
+import static java.awt.Color.*;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
@@ -31,26 +31,24 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     @Override
     public void paint(Graphics g, JComponent component) {
         super.paint(g, component);
-        int width = component.getWidth();
-        int height = component.getHeight();
-
         Graphics2D graphics = (Graphics2D) g.create();
-        drawProgressIndicator(width, height, graphics);
+        drawProgressIndicator(component.getWidth(), component.getHeight(), graphics, component);
         graphics.dispose();
     }
 
-    private void drawProgressIndicator(int width, int height, Graphics2D graphics) {
+    private void drawProgressIndicator(int width, int height, Graphics2D graphics, JComponent component) {
         int reductionPercentage = 20;
         int size = Math.min(width, height) / reductionPercentage;
-        int x = width / 2;
-        int y = height / 2;
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         graphics.setStroke(new BasicStroke(size / 4, CAP_ROUND, JOIN_ROUND));
-        graphics.setPaint(white);
 
         if (progress <= max) {
+            graphics.setPaint(white);
             int angle = -(int) (((float) progress / max) * 360);
             graphics.fillArc(0, 0, width, height, 90, angle);
+            int FRACTION = 5;
+            graphics.setColor(((JLayer) component).getView().getBackground());
+            graphics.fillArc(width / FRACTION / 2, height / FRACTION / 2, width * (FRACTION - 1) / FRACTION, height * (FRACTION - 1) / FRACTION, 90, 361);
         }
     }
 
@@ -70,8 +68,10 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setSize(400, 400);
         JPanel panel = new JPanel();
+        panel.setBackground(GRAY);
         frame.add(new JLayer<>(panel, new ProgressIndicator()));
         frame.setVisible(true);
     }
