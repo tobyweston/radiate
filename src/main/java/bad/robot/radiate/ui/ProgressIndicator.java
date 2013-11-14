@@ -10,19 +10,17 @@ import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 
 import static bad.robot.radiate.State.Progressing;
-import static java.awt.AlphaComposite.SRC_OVER;
-import static java.awt.AlphaComposite.getInstance;
-import static java.awt.BasicStroke.CAP_ROUND;
+import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
+import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.WHITE;
 import static java.awt.Color.white;
-import static java.awt.RenderingHints.KEY_ANTIALIASING;
-import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+import static java.awt.RenderingHints.*;
 
 class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
@@ -38,38 +36,35 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             return;
         Graphics2D graphics = (Graphics2D) g.create();
         Rectangle drawArea = new Rectangle(0, 0, component.getWidth(), component.getHeight());
-        drawProgressIndicator(drawArea, graphics, component);
+        drawProgressIndicator(drawArea, graphics);
         graphics.dispose();
     }
 
-    private void drawProgressIndicator(Rectangle region, Graphics2D graphics, JComponent component) {
+    private void drawProgressIndicator(Rectangle region, Graphics2D graphics) {
         if (progress <= max) {
-            drawBackground(region, graphics, Color.gray);
-            drawRadial(region, graphics);
-            fillCenter(region, graphics, (JLayer) component);
+            setLineWidth(region, graphics);
+            drawBackgroundRadial(region, graphics);
+            drawProgressRadial(region, graphics);
             drawPercentage(new Rectangle(region.x, region.y, region.width / 2, region.height / 2), progress, graphics);
         }
     }
 
-    private void drawBackground(Rectangle region, Graphics2D graphics, Color color) {
-        graphics.setColor(color);
-        graphics.fill(new Ellipse2D.Double(region.x, region.y, region.width, region.height));
+    private void setLineWidth(Rectangle region, Graphics2D graphics) {
+        float size = Math.min(region.width, region.height) * 0.10f;
+        graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+        graphics.setRenderingHint(KEY_STROKE_CONTROL, VALUE_STROKE_PURE); // stops the wobble
+        graphics.setStroke(new BasicStroke(size, CAP_BUTT, JOIN_ROUND));
     }
 
-    private void drawRadial(Rectangle region, Graphics2D graphics) {
-        int reductionPercentage = 20;
-        int size = Math.min(region.width, region.height) / reductionPercentage;
-        graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-        graphics.setStroke(new BasicStroke(size / 4, CAP_ROUND, JOIN_ROUND));
+    private void drawBackgroundRadial(Rectangle region, Graphics2D graphics) {
+        graphics.setColor(Color.gray);
+        graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
+    }
+
+    private void drawProgressRadial(Rectangle region, Graphics2D graphics) {
         graphics.setPaint(white);
         int angle = -(int) ((float) progress / max * 360);
-        graphics.fillArc(region.x, region.y, region.width, region.height, 90, angle);
-    }
-
-    private void fillCenter(Rectangle region, Graphics2D graphics, JLayer component) {
-        int offset = 15;
-        graphics.setColor(component.getView().getBackground());
-        graphics.fill(new Ellipse2D.Double(region.x + offset, region.y + offset, region.width - (offset * 2), region.height - (offset * 2)));
+        graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, 90, angle, Arc2D.OPEN));
     }
 
     private void drawPercentage(Rectangle region, int progress, Graphics2D graphics) {
@@ -105,7 +100,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         if (running)
             return;
         running = true;
-        timer = new Timer(50, this);
+        timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
         timer.start();
     }
 
@@ -138,15 +133,6 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             running = false;
             // fadeOut
         }
-    }
-
-    private void fadeOut(int width, int height, Graphics2D graphics, float fade) {
-        Composite urComposite = graphics.getComposite();
-        float alpha = .3f * fade;
-        if (alpha >= 0.0f && alpha <= 1.0f)
-            graphics.setComposite(getInstance(SRC_OVER, alpha));
-        graphics.fillRect(0, 0, width, height);
-        graphics.setComposite(urComposite);
     }
 
     public static void main(String[] args) {
