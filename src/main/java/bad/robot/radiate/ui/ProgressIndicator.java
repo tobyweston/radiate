@@ -42,10 +42,10 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private static Rectangle getDrawArea(JComponent component) {
-        int padding = 40;
         int size = Math.min(component.getWidth(), component.getHeight());
-        int square = size - padding * 2;
-        return new Rectangle(padding, padding, square, square);
+        Double padding = size * 0.4;
+        Double square = size - padding * 2;
+        return new Rectangle(padding.intValue(), padding.intValue(), square.intValue(), square.intValue());
     }
 
     private void drawProgressIndicator(Rectangle region, Graphics2D graphics) {
@@ -61,7 +61,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         float size = Math.min(region.width, region.height) * 0.10f;
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         graphics.setRenderingHint(KEY_STROKE_CONTROL, VALUE_STROKE_PURE); // stops the wobble
-        graphics.setStroke(new BasicStroke(size, CAP_BUTT, JOIN_ROUND));
+        graphics.setStroke(new BasicStroke(Math.max(1, size), CAP_BUTT, JOIN_ROUND));
     }
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
@@ -83,8 +83,8 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void drawPercentage(Rectangle parent, int progress, Graphics2D graphics) {
         String text = progress + "%";
-        Font font = new Font("Arial", Font.BOLD, 12);
-        Rectangle region = getRegionHalfTheSizeOf(parent);
+        Font font = new Font("Arial", Font.PLAIN, 12);
+        Rectangle region = getReducedRegion(parent, 1.15);
         setFontScaledToRegion(region, graphics, text, font);
 
         FontRenderContext renderContext = graphics.getFontRenderContext();
@@ -138,7 +138,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setSize(200, 200);
+        frame.setSize(400, 400);
         JPanel panel = new JPanel();
         panel.setBackground(Color.lightGray);
         ProgressIndicator indicator = new ProgressIndicator();

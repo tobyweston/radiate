@@ -46,11 +46,13 @@ public class Swing {
         return xScale;
     }
 
-    public static Rectangle getRegionHalfTheSizeOf(Rectangle parent) {
-        return new Rectangle(parent.x, parent.y, parent.width / 2, parent.height / 2);
+    public static Rectangle getReducedRegion(Rectangle parent, double amount) {
+        Double height = parent.height / amount;
+        Double width = parent.width / amount;
+        return new Rectangle(parent.x, parent.y, width.intValue(), height.intValue());
     }
 
-    public static void drawCenterLines(Rectangle region, Graphics2D graphics) {
+    public static void drawCentreLines(Rectangle region, Graphics2D graphics) {
         graphics.setStroke(new BasicStroke(1));
         graphics.drawLine(region.x, region.y, region.width, region.height);
         graphics.drawLine(region.width, region.y, region.x, region.height);
