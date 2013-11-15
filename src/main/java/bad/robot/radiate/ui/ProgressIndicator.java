@@ -13,9 +13,13 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
+import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.State.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
+import static bad.robot.radiate.ui.Swing.applyWithComposite;
+import static java.awt.AlphaComposite.SRC_OVER;
+import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.WHITE;
@@ -56,9 +60,15 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.setStroke(new BasicStroke(size, CAP_BUTT, JOIN_ROUND));
     }
 
-    private void drawBackgroundRadial(Rectangle region, Graphics2D graphics) {
-        graphics.setColor(Color.gray);
-        graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
+    private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
+        applyWithComposite(graphics, getInstance(SRC_OVER, 0.20f), new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                graphics.setColor(white);
+                graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
+                return null;
+            }
+        });
     }
 
     private void drawProgressRadial(Rectangle region, Graphics2D graphics) {
@@ -146,4 +156,5 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         frame.setVisible(true);
         indicator.start();
     }
+
 }
