@@ -30,7 +30,7 @@ public class Swing {
         return new Point((int) x, (int) y);
     }
 
-    public static Rectangle2D setFontScaledToRegion(Rectangle region, Graphics2D graphics, String text, Font font) {
+    public static void setFontScaledToRegion(Rectangle region, Graphics2D graphics, String text, Font font) {
         FontMetrics metrics = graphics.getFontMetrics(font);
         float xScale = (float) (region.width / metrics.stringWidth(text));
         float yScale = (region.height / metrics.getHeight());
@@ -38,17 +38,6 @@ public class Swing {
 
         graphics.setFont(font.deriveFont(getScaleInstance(scale, scale)));
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-        return graphics.getFontMetrics().getStringBounds(text, graphics);
-    }
-    public static FontMetrics setFontScaledToRegion2(Rectangle region, Graphics2D graphics, String text, Font font) {
-        FontMetrics metrics = graphics.getFontMetrics(font);
-        float xScale = (float) (region.width / metrics.stringWidth(text));
-        float yScale = (region.height / metrics.getHeight());
-        float scale = determineWhichAccessToScaleOn(xScale, yScale);
-
-        graphics.setFont(font.deriveFont(getScaleInstance(scale, scale)));
-        graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-        return graphics.getFontMetrics();
     }
 
     private static float determineWhichAccessToScaleOn(float xScale, float yScale) {

@@ -7,8 +7,9 @@ import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.util.concurrent.Callable;
 
@@ -46,7 +47,6 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             drawBackgroundRadial(region, graphics);
             drawProgressRadial(region, graphics);
             drawPercentage(region, progress, graphics);
-            drawCenterLines(region, graphics);
         }
     }
 
@@ -78,9 +78,14 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         String text = progress + "%";
         Font font = new Font("Arial", Font.BOLD, 12);
         Rectangle region = getRegionHalfTheSizeOf(parent);
-        Rectangle2D fontBounds = setFontScaledToRegion(region, graphics, text, font);
-        Double x = (parent.width / 2) - (fontBounds.getWidth() / 2);
-        Double y = (parent.height / 2) - (fontBounds.getHeight() / 2);
+        setFontScaledToRegion(region, graphics, text, font);
+
+        FontRenderContext renderContext = graphics.getFontRenderContext();
+        GlyphVector vector = graphics.getFont().createGlyphVector(renderContext, text);
+        Rectangle visualBounds = vector.getVisualBounds().getBounds();
+
+        Double x = (parent.width / 2) - (visualBounds.getWidth() / 2);
+        Double y = (parent.height / 2) + (visualBounds.getHeight() / 2);
         graphics.drawString(text, x.floatValue(), y.floatValue());
     }
 
