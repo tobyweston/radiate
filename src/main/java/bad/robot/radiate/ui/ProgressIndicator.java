@@ -7,9 +7,6 @@ import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -17,12 +14,11 @@ import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.State.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
-import static bad.robot.radiate.ui.Swing.applyWithComposite;
+import static bad.robot.radiate.ui.Swing.*;
 import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
-import static java.awt.Color.WHITE;
 import static java.awt.Color.white;
 import static java.awt.RenderingHints.*;
 
@@ -49,7 +45,8 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             setLineWidth(region, graphics);
             drawBackgroundRadial(region, graphics);
             drawProgressRadial(region, graphics);
-            drawPercentage(new Rectangle(region.x, region.y, region.width / 2, region.height / 2), progress, graphics);
+            drawPercentage(region, progress, graphics);
+            drawCenterLines(region, graphics);
         }
     }
 
@@ -77,33 +74,14 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, 90, angle, Arc2D.OPEN));
     }
 
-    private void drawPercentage(Rectangle region, int progress, Graphics2D graphics) {
+    private void drawPercentage(Rectangle parent, int progress, Graphics2D graphics) {
         String text = progress + "%";
         Font font = new Font("Arial", Font.BOLD, 12);
-        FontRenderContext context = graphics.getFontRenderContext();
-        graphics.setFont(font);
-        Rectangle2D bounds = graphics.getFont().getStringBounds(text, context);
-
-        LineMetrics line = font.getLineMetrics(text, context);
-        float xScale = (float) (region.width / bounds.getWidth());
-        float yScale = (region.height / (line.getAscent() + line.getDescent()));
-
-        double x = region.x;
-        double y = region.y + region.height - (yScale * line.getDescent());
-        AffineTransform transformation = AffineTransform.getTranslateInstance(x, y);
-
-        if (xScale > yScale)
-            transformation.scale(yScale, yScale);
-        else
-            transformation.scale(xScale, xScale);
-
-        graphics.setFont(font.deriveFont(transformation));
-        graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-        graphics.setColor(WHITE);
-
-        int centerX = region.width / 2;
-        int centerY = region.height / 2;
-        graphics.drawString(text, centerX, centerY - (int) bounds.getHeight());
+        Rectangle region = getRegionHalfTheSizeOf(parent);
+        Rectangle2D fontBounds = setFontScaledToRegion(region, graphics, text, font);
+        Double x = (parent.width / 2) - (fontBounds.getWidth() / 2);
+        Double y = (parent.height / 2) - (fontBounds.getHeight() / 2);
+        graphics.drawString(text, x.floatValue(), y.floatValue());
     }
 
     public void start() {
