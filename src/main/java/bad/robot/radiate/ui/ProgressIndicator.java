@@ -36,9 +36,16 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         if (!running)
             return;
         Graphics2D graphics = (Graphics2D) g.create();
-        Rectangle drawArea = new Rectangle(0, 0, component.getWidth(), component.getHeight());
+        Rectangle drawArea = getDrawArea(component);
         drawProgressIndicator(drawArea, graphics);
         graphics.dispose();
+    }
+
+    private static Rectangle getDrawArea(JComponent component) {
+        int padding = 40;
+        int size = Math.min(component.getWidth(), component.getHeight());
+        int square = size - padding * 2;
+        return new Rectangle(padding, padding, square, square);
     }
 
     private void drawProgressIndicator(Rectangle region, Graphics2D graphics) {
@@ -84,8 +91,8 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         GlyphVector vector = graphics.getFont().createGlyphVector(renderContext, text);
         Rectangle visualBounds = vector.getVisualBounds().getBounds();
 
-        Double x = (parent.width / 2) - (visualBounds.getWidth() / 2);
-        Double y = (parent.height / 2) + (visualBounds.getHeight() / 2);
+        Double x = region.x + (parent.width / 2) - (visualBounds.getWidth() / 2);
+        Double y = region.y + (parent.height / 2) + (visualBounds.getHeight() / 2);
         graphics.drawString(text, x.floatValue(), y.floatValue());
     }
 
