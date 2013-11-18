@@ -25,8 +25,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 class ProgressIndicator extends LayerUI<JComponent> {
 
-    private int progress = 0;
-    private int max = 100;
+    private Progress progress = new Progress(0, 100);
     private Timer timer = new ProgressUpdateTimer(new ProgressUpdateActionListener(this));
 
     @Override
@@ -48,12 +47,10 @@ class ProgressIndicator extends LayerUI<JComponent> {
     }
 
     private void drawProgressIndicator(Rectangle region, Graphics2D graphics) {
-        if (progress <= max) {
-            setLineWidth(region, graphics);
-            drawBackgroundRadial(region, graphics);
-            drawProgressRadial(region, graphics);
-            drawPercentage(region, progress, graphics);
-        }
+        setLineWidth(region, graphics);
+        drawBackgroundRadial(region, graphics);
+        drawProgressRadial(region, graphics);
+        drawPercentage(region, progress, graphics);
     }
 
     private void setLineWidth(Rectangle region, Graphics2D graphics) {
@@ -76,31 +73,29 @@ class ProgressIndicator extends LayerUI<JComponent> {
 
     private void drawProgressRadial(Rectangle region, Graphics2D graphics) {
         graphics.setPaint(white);
-        int angle = -(int) ((float) progress / max * 360);
-        graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, 90, angle, Arc2D.OPEN));
+        graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, 90, progress.asAngle(), Arc2D.OPEN));
     }
 
-    private void drawPercentage(Rectangle parent, int progress, Graphics2D graphics) {
-        String text = progress + "%";
+    private void drawPercentage(Rectangle parent, Progress progress, Graphics2D graphics) {
         Font font = new Font("Arial", Font.PLAIN, 12);
         Rectangle region = getReducedRegion(parent, 1.15);
-        setFontScaledToRegion(region, graphics, text, font);
+        setFontScaledToRegion(region, graphics, progress.toString(), font);
 
         FontRenderContext renderContext = graphics.getFontRenderContext();
-        GlyphVector vector = graphics.getFont().createGlyphVector(renderContext, text);
+        GlyphVector vector = graphics.getFont().createGlyphVector(renderContext, progress.toString());
         Rectangle visualBounds = vector.getVisualBounds().getBounds();
 
         Double x = region.x + (parent.width / 2) - (visualBounds.getWidth() / 2);
         Double y = region.y + (parent.height / 2) + (visualBounds.getHeight() / 2);
-        graphics.drawString(text, x.floatValue(), y.floatValue());
+        graphics.drawString(progress.toString(), x.floatValue(), y.floatValue());
     }
 
     @Override
     public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
         if ("tick".equals(event.getPropertyName())) {
-            progress++;
+            progress.increment();
             layer.repaint();
-            if (progress >= max)
+            if (progress.complete())
                 timer.stop();
         }
     }
