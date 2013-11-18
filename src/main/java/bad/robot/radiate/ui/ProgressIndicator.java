@@ -14,7 +14,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.State.Progressing;
-import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static bad.robot.radiate.ui.Swing.*;
 import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
@@ -22,19 +21,19 @@ import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
 import static java.awt.RenderingHints.*;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
+class ProgressIndicator extends LayerUI<JComponent> {
 
     private int progress = 0;
     private int max = 100;
-    private boolean running;
-    private Timer timer;
+    private Timer timer = new ProgressUpdateTimer(new ProgressUpdateActionListener(this));
 
     @Override
     public void paint(Graphics g, JComponent component) {
         super.paint(g, component);
-        if (!running)
-            return;
+//        if (!timer.isRunning())
+//            return;
         Graphics2D graphics = (Graphics2D) g.create();
         Rectangle drawArea = getDrawArea(component);
         drawProgressIndicator(drawArea, graphics);
@@ -96,55 +95,68 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.drawString(text, x.floatValue(), y.floatValue());
     }
 
-    public void start() {
-        if (running)
-            return;
-        running = true;
-        timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
-        timer.start();
-    }
-
     @Override
-    public void actionPerformed(ActionEvent event) {
-        if (running) {
+    public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
+        if ("tick".equals(event.getPropertyName())) {
             progress++;
-            firePropertyChange("tick", 0, 1);
+            layer.repaint();
             if (progress >= max)
                 timer.stop();
         }
     }
 
-    @Override
-    public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
-        if ("tick".equals(event.getPropertyName()))
-            layer.repaint();
-    }
-
     public void setVisiblityBasedOn(State state) {
         if (state == Progressing)
-            start();
+            timer.start();
         else
-            stop();
-    }
-
-    public void stop() {
-        if (running) {
             timer.stop();
-            running = false;
-            // fadeOut
-        }
     }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         frame.setSize(400, 400);
         JPanel panel = new JPanel();
         panel.setBackground(Color.lightGray);
         ProgressIndicator indicator = new ProgressIndicator();
         frame.add(new JLayer<>(panel, indicator));
         frame.setVisible(true);
-        indicator.start();
+        indicator.setVisiblityBasedOn(Progressing);
     }
 
+    private class ProgressUpdateTimer extends Timer {
+        public ProgressUpdateTimer(ActionListener listener) {
+            super(FrameRate.videoFramesPerSecond.asFrequencyInMillis(), listener);
+        }
+
+        @Override
+        public void start() {
+            if (isRunning())
+                return;
+            super.start();
+        }
+
+        @Override
+        public void stop() {
+            if (isRunning()) {
+                super.stop();
+                // fadeOut, how?
+            }
+        }
+    }
+
+    private class ProgressUpdateActionListener implements ActionListener {
+
+        private final ProgressIndicator component;
+
+        private ProgressUpdateActionListener(ProgressIndicator component) {
+            this.component = component;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (timer.isRunning())
+                component.firePropertyChange("tick", 0, 1);
+        }
+    }
 }
