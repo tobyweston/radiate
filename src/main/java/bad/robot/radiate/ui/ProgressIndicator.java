@@ -14,6 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.State.Progressing;
+import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static bad.robot.radiate.ui.Swing.*;
 import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
@@ -23,10 +24,10 @@ import static java.awt.Color.white;
 import static java.awt.RenderingHints.*;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-class ProgressIndicator extends LayerUI<JComponent> {
+class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private Progress progress = new Progress(0, 100);
-    private Timer timer = new ProgressUpdateTimer(new ProgressUpdateActionListener(this));
+    private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
 
     @Override
     public void paint(Graphics g, JComponent component) {
@@ -91,13 +92,19 @@ class ProgressIndicator extends LayerUI<JComponent> {
     }
 
     @Override
-    public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
-        if ("tick".equals(event.getPropertyName())) {
+    public void actionPerformed(ActionEvent event) {
+        if (timer.isRunning()) {
             progress.increment();
-            layer.repaint();
+            firePropertyChange("tick", 0, 1);
             if (progress.complete())
                 timer.stop();
         }
+    }
+
+    @Override
+    public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
+        if ("tick".equals(event.getPropertyName()))
+            layer.repaint();
     }
 
     public void setVisiblityBasedOn(State state) {
@@ -117,41 +124,5 @@ class ProgressIndicator extends LayerUI<JComponent> {
         frame.add(new JLayer<>(panel, indicator));
         frame.setVisible(true);
         indicator.setVisiblityBasedOn(Progressing);
-    }
-
-    private class ProgressUpdateTimer extends Timer {
-        public ProgressUpdateTimer(ActionListener listener) {
-            super(FrameRate.videoFramesPerSecond.asFrequencyInMillis(), listener);
-        }
-
-        @Override
-        public void start() {
-            if (isRunning())
-                return;
-            super.start();
-        }
-
-        @Override
-        public void stop() {
-            if (isRunning()) {
-                super.stop();
-                // fadeOut, how?
-            }
-        }
-    }
-
-    private class ProgressUpdateActionListener implements ActionListener {
-
-        private final ProgressIndicator component;
-
-        private ProgressUpdateActionListener(ProgressIndicator component) {
-            this.component = component;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (timer.isRunning())
-                component.firePropertyChange("tick", 0, 1);
-        }
     }
 }
