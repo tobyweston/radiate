@@ -83,7 +83,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void drawPercentage(Rectangle parent, Progress progress, Graphics2D graphics) {
         Font font = new Font("Arial", Font.PLAIN, 12);
-        Rectangle region = getReducedRegion(parent, 1.15);
+        Rectangle region = getReducedRegion(parent, 80);
         setFontScaledToRegion(region, graphics, progress.toString(), font);
 
         FontRenderContext renderContext = graphics.getFontRenderContext();
@@ -127,6 +127,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     public static class Main {
+
         public static void main(String[] args) {
             ProgressIndicator indicator = setupWindow();
             indicator.setVisiblityBasedOn(Progressing);

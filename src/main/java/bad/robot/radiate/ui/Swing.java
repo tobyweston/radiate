@@ -46,9 +46,9 @@ public class Swing {
         return xScale;
     }
 
-    public static Rectangle getReducedRegion(Rectangle parent, double amount) {
-        Double height = parent.height / amount;
-        Double width = parent.width / amount;
+    public static Rectangle getReducedRegion(Rectangle parent, double percentage) {
+        Double width = parent.width * (percentage / 100);
+        Double height = parent.height * (percentage / 100);
         return new Rectangle(parent.x, parent.y, width.intValue(), height.intValue());
     }
 
