@@ -12,6 +12,9 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.Arc2D;
 import java.beans.PropertyChangeEvent;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static bad.robot.radiate.State.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
@@ -22,12 +25,13 @@ import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
 import static java.awt.RenderingHints.*;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private Progress progress = new Progress(0, 100);
     private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
+    private int animationLimit = 0;
 
     @Override
     public void paint(Graphics g, JComponent component) {
@@ -91,10 +95,15 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.drawString(progress.toString(), x.floatValue(), y.floatValue());
     }
 
+    public void setProgress(int progress) {
+        this.animationLimit = progress;
+    }
+
     @Override
     public void actionPerformed(ActionEvent event) {
         if (timer.isRunning()) {
-            progress.increment();
+            if (progress.current() < animationLimit)
+                progress.increment();
             firePropertyChange("tick", 0, 1);
             if (progress.complete())
                 timer.stop();
@@ -116,13 +125,22 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setSize(400, 400);
         JPanel panel = new JPanel();
         panel.setBackground(Color.lightGray);
-        ProgressIndicator indicator = new ProgressIndicator();
+        final ProgressIndicator indicator = new ProgressIndicator();
         frame.add(new JLayer<>(panel, indicator));
         frame.setVisible(true);
         indicator.setVisiblityBasedOn(Progressing);
+        ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(1);
+        final Integer[] progress = {0};
+        threadPool.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                progress[0] = progress[0] + 20;
+                indicator.setProgress(progress[0]);
+            }
+        }, 1, 1, TimeUnit.SECONDS);
     }
 }

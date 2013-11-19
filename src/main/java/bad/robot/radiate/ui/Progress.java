@@ -30,4 +30,8 @@ public class Progress {
     boolean complete() {
         return current >= max;
     }
+
+    public int current() {
+        return current;
+    }
 }

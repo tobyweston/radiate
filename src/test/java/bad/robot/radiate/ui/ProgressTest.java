@@ -12,6 +12,5 @@ public class ProgressTest {
         assertThat(new Progress(20, 100).toString(), is("20%"));
         assertThat(new Progress(40, 200).toString(), is("20%"));
         assertThat(new Progress(40, 120).toString(), is("33%"));
-
     }
 }
