@@ -1,6 +1,6 @@
 package bad.robot.radiate.ui;
 
-import bad.robot.radiate.State;
+import bad.robot.radiate.Activity;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static bad.robot.radiate.State.Progressing;
+import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static bad.robot.radiate.ui.Swing.*;
 import static java.awt.AlphaComposite.SRC_OVER;
@@ -101,7 +101,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        if (timer.isRunning() && progress.lessThan(animationLimit)) {
+        if (timer.isRunning()) { // && progress.lessThan(animationLimit)) {
             progress.increment();
             repaint();
             if (progress.complete())
@@ -119,8 +119,8 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             layer.repaint();
     }
 
-    public void setVisiblityBasedOn(State state) {
-        if (state == Progressing)
+    public void setVisiblityBasedOn(Activity activity) {
+        if (activity == Progressing)
             timer.start();
         else
             timer.stop();
@@ -137,9 +137,17 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
             frame.setSize(400, 400);
-            JPanel panel = new JPanel();
+            JPanel panel = new JPanel() {
+                @Override
+                public void paint(Graphics g) {
+                    super.paint(g);
+                    Graphics2D graphics = (Graphics2D) g.create();
+                    Swing.drawCentreLines(this.getBounds(), graphics);
+                    graphics.dispose();
+                }
+            };
             panel.setBackground(Color.lightGray);
-            final ProgressIndicator indicator = new ProgressIndicator();
+            ProgressIndicator indicator = new ProgressIndicator();
             frame.add(new JLayer<>(panel, indicator));
             frame.setVisible(true);
             return indicator;

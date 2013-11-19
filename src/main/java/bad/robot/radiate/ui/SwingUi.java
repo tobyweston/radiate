@@ -1,7 +1,7 @@
 package bad.robot.radiate.ui;
 
+import bad.robot.radiate.Activity;
 import bad.robot.radiate.Logging;
-import bad.robot.radiate.State;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
@@ -82,8 +82,8 @@ public class SwingUi extends JFrame implements Ui, Observer {
     }
 
     @Override
-    public void update(final Observable source, final State state) {
-        // ignore state updates
+    public void update(final Observable source, final Activity activity) {
+        // ignore activity updates
     }
 
     @Override

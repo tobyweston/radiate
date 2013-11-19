@@ -22,7 +22,7 @@ public class StatusAggregator {
         Sequence<Status> statuses = sequence(this.statuses);
         if (statuses.isEmpty())
             return Unknown;
-        return statuses.fold(Ok, new Callable2<Status, Status, Status>() {
+        return statuses.tail().fold(statuses.head(), new Callable2<Status, Status, Status>() {
             @Override
             public Status call(Status first, Status second) {
                 if (first == Broken || second == Broken)

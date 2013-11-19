@@ -12,7 +12,7 @@ class Application {
     private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());
 
     private final LoggingObserver logger = new LoggingObserver();
-    private final MonitoringTasksFactory taskFactory = MonitoringTypes.multipleProjects();
+    private final MonitoringTasksFactory taskFactory = MonitoringTypes.singleAggregate();
     private final Monitor monitor = new ScheduledMonitor(threadPool);
 
     public void start() {

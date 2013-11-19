@@ -1,10 +1,11 @@
 package bad.robot.radiate.teamcity;
 
+import bad.robot.radiate.Activity;
 import bad.robot.radiate.Hypermedia;
 import bad.robot.radiate.Monitorable;
-import bad.robot.radiate.State;
 import bad.robot.radiate.Status;
 
+import static bad.robot.radiate.Activity.Idle;
 import static bad.robot.radiate.Status.*;
 
 public class Build extends TeamCityObject implements Hypermedia, Monitorable {
@@ -47,8 +48,8 @@ public class Build extends TeamCityObject implements Hypermedia, Monitorable {
     }
 
     @Override
-    public State getState() {
-        return State.Idle;
+    public Activity getActivity() {
+        return Idle;
     }
 
     public String getStatusString() {

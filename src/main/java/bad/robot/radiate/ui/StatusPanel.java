@@ -1,6 +1,6 @@
 package bad.robot.radiate.ui;
 
-import bad.robot.radiate.State;
+import bad.robot.radiate.Activity;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import static bad.robot.radiate.State.Busy;
+import static bad.robot.radiate.Activity.Busy;
 import static bad.robot.radiate.Status.*;
 import static bad.robot.radiate.ui.UiText.createTextRegion;
 import static bad.robot.radiate.ui.UiText.drawText;
@@ -28,7 +28,7 @@ public class StatusPanel extends JPanel implements Observer {
     private final int identifier;
 
     private Status status = Unknown;
-    private State state = Busy;
+    private Activity activity = Busy;
     private String text;
 
     public StatusPanel(JFrame parent, int identifier) {
@@ -45,8 +45,8 @@ public class StatusPanel extends JPanel implements Observer {
     }
 
     @Override
-    public void update(Observable source, State state) {
-        this.state = state;
+    public void update(Observable source, Activity activity) {
+        this.activity = activity;
         repaint();
     }
 
@@ -71,9 +71,9 @@ public class StatusPanel extends JPanel implements Observer {
     protected void paintComponent(Graphics graphics) {
         fillBackground((Graphics2D) graphics);
         updateText(graphics);
-        progressIndicator.setVisiblityBasedOn(state);
-        busyIndicator.setVisiblityBasedOn(state);
-        errorIndicator.setVisiblityBasedOn(state);
+        progressIndicator.setVisiblityBasedOn(activity);
+        busyIndicator.setVisiblityBasedOn(activity);
+        errorIndicator.setVisiblityBasedOn(activity);
     }
 
     private void fillBackground(Graphics2D graphics) {

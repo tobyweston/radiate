@@ -1,6 +1,6 @@
 package bad.robot.radiate.ui;
 
-import bad.robot.radiate.State;
+import bad.robot.radiate.Activity;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 
-import static bad.robot.radiate.State.Busy;
+import static bad.robot.radiate.Activity.Busy;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
@@ -108,8 +108,8 @@ class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
             layer.repaint();
     }
 
-    public void setVisiblityBasedOn(State state) {
-        if (state == Busy)
+    public void setVisiblityBasedOn(Activity activity) {
+        if (activity == Busy)
             start();
         else
             stop();

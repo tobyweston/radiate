@@ -1,21 +1,20 @@
 package bad.robot.radiate.monitor;
 
-import bad.robot.radiate.State;
+import bad.robot.radiate.Activity;
 import bad.robot.radiate.Status;
 
 import java.security.SecureRandom;
 import java.util.Random;
 
-import static bad.robot.radiate.State.*;
-import static bad.robot.radiate.Status.Broken;
-import static bad.robot.radiate.Status.Ok;
-import static bad.robot.radiate.Status.Unknown;
+import static bad.robot.radiate.Activity.*;
+import static bad.robot.radiate.Activity.Error;
+import static bad.robot.radiate.Status.*;
 
 public class RandomStatus extends ThreadSafeObservable implements MonitoringTask {
 
     private static final Random random = new SecureRandom();
     private static final Status[] statuses = new Status[]{Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Broken, Unknown};
-    private static final State[] states = new State[]{Busy, Error, Idle, Progressing};
+    private static final Activity[] acvitities = new Activity[]{Busy, Error, Idle, Progressing};
 
     @Override
     public void run() {
@@ -30,8 +29,8 @@ public class RandomStatus extends ThreadSafeObservable implements MonitoringTask
         return statuses[random.nextInt(statuses.length)];
     }
 
-    private static State randomState() {
-        return states[random.nextInt(states.length)];
+    private static Activity randomState() {
+        return acvitities[random.nextInt(acvitities.length)];
     }
 
     public String toString() {

@@ -1,13 +1,13 @@
 package bad.robot.radiate.ui;
 
-import bad.robot.radiate.State;
+import bad.robot.radiate.Activity;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-import static bad.robot.radiate.State.Error;
+import static bad.robot.radiate.Activity.Error;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
@@ -41,8 +41,8 @@ class ErrorIndicator extends LayerUI<JComponent> {
         graphics.draw(new Ellipse2D.Double(100, 100, 200, 200));
     }
 
-    public void setVisiblityBasedOn(State state) {
-        if (state == Error)
+    public void setVisiblityBasedOn(Activity activity) {
+        if (activity == Error)
             redraw = true;
     }
 
