@@ -123,24 +123,35 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             timer.stop();
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.lightGray);
-        final ProgressIndicator indicator = new ProgressIndicator();
-        frame.add(new JLayer<>(panel, indicator));
-        frame.setVisible(true);
-        indicator.setVisiblityBasedOn(Progressing);
-        ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(1);
-        final Integer[] progress = {0};
-        threadPool.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                progress[0] = progress[0] + 20;
-                indicator.setProgress(progress[0]);
-            }
-        }, 1, 1, TimeUnit.SECONDS);
+    public static class Main {
+        public static void main(String[] args) {
+            ProgressIndicator indicator = setupWindow();
+            indicator.setVisiblityBasedOn(Progressing);
+            updateProgressInAThread(indicator);
+        }
+
+        private static ProgressIndicator setupWindow() {
+            JFrame frame = new JFrame();
+            frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            frame.setSize(400, 400);
+            JPanel panel = new JPanel();
+            panel.setBackground(Color.lightGray);
+            final ProgressIndicator indicator = new ProgressIndicator();
+            frame.add(new JLayer<>(panel, indicator));
+            frame.setVisible(true);
+            return indicator;
+        }
+
+        private static void updateProgressInAThread(final ProgressIndicator indicator) {
+            ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(1);
+            final Integer[] progress = {0};
+            threadPool.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    progress[0] = progress[0] + 20;
+                    indicator.setProgress(progress[0]);
+                }
+            }, 1, 1, TimeUnit.SECONDS);
+        }
     }
 }
