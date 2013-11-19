@@ -31,7 +31,7 @@ public class Progress {
         return current >= max;
     }
 
-    public int current() {
-        return current;
+    boolean lessThan(int amount) {
+        return current < amount;
     }
 }
