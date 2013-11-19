@@ -36,8 +36,8 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     @Override
     public void paint(Graphics g, JComponent component) {
         super.paint(g, component);
-//        if (!timer.isRunning())
-//            return;
+        if (!timer.isRunning())
+            return;
         Graphics2D graphics = (Graphics2D) g.create();
         Rectangle drawArea = getDrawArea(component);
         drawProgressIndicator(drawArea, graphics);
@@ -130,7 +130,6 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
         public static void main(String[] args) {
             ProgressIndicator indicator = setupWindow();
-            indicator.setVisiblityBasedOn(Progressing);
             updateProgressInAThread(indicator);
         }
 
@@ -154,6 +153,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
                 public void run() {
                     progress[0] = progress[0] + 20;
                     indicator.setProgress(progress[0]);
+                    indicator.setVisiblityBasedOn(Progressing);
                 }
             }, 1, 1, TimeUnit.SECONDS);
         }

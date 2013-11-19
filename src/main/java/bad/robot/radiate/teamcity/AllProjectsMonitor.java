@@ -10,12 +10,13 @@ import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.http.configuration.HttpTimeout.httpTimeout;
-import static bad.robot.radiate.Status.Unknown;
+import static bad.robot.radiate.State.Idle;
 import static bad.robot.radiate.StatusAggregator.aggregated;
 import static com.google.code.tempusfugit.temporal.Duration.minutes;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
+/** @see {@link bad.robot.radiate.MonitoringTypes#singleAggregate()} */
 public class AllProjectsMonitor extends NonRepeatingObservable implements MonitoringTask {
 
     private final TeamCityConfiguration configuration;
@@ -39,7 +40,9 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
             Status status = aggregated(statuses).getStatus();
+            notifyObservers(Idle);
             notifyObservers(status);
+            notifyObservers(new Information(toString()));
         } catch (Exception e) {
             notifyObservers(e);
         }
@@ -66,6 +69,6 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
 
     @Override
     public String toString() {
-        return format("%s projects as a single aggregate", monitored.toString("\r\n"));
+        return format("monitoring %s as a single aggregate", monitored.toString("\r\n"));
     }
 }

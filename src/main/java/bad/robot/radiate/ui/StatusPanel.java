@@ -7,13 +7,11 @@ import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
 
 import javax.swing.*;
-import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import static bad.robot.radiate.State.Busy;
 import static bad.robot.radiate.Status.*;
-import static bad.robot.radiate.ui.CompositeLayerUI.layers;
 import static bad.robot.radiate.ui.UiText.createTextRegion;
 import static bad.robot.radiate.ui.UiText.drawText;
 import static java.lang.String.format;
@@ -24,6 +22,7 @@ public class StatusPanel extends JPanel implements Observer {
     private static final Color Green = new Color(0, 200, 0);
     private static final Color Grey = new Color(64, 64, 64);
 
+    private final ProgressIndicator progressIndicator = new ProgressIndicator();
     private final BusyIndicator busyIndicator = new BusyIndicator();
     private final ErrorIndicator errorIndicator = new ErrorIndicator();
     private final int identifier;
@@ -33,7 +32,7 @@ public class StatusPanel extends JPanel implements Observer {
     private String text;
 
     public StatusPanel(JFrame parent, int identifier) {
-        parent.add(new JLayer<>(new JLayer<>(this, busyIndicator), errorIndicator));
+        parent.add(new JLayer<>(new JLayer<>(new JLayer<>(this, busyIndicator), errorIndicator), progressIndicator));
         this.identifier = identifier;
     }
 
@@ -72,6 +71,7 @@ public class StatusPanel extends JPanel implements Observer {
     protected void paintComponent(Graphics graphics) {
         fillBackground((Graphics2D) graphics);
         updateText(graphics);
+        progressIndicator.setVisiblityBasedOn(state);
         busyIndicator.setVisiblityBasedOn(state);
         errorIndicator.setVisiblityBasedOn(state);
     }
