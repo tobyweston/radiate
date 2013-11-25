@@ -39,16 +39,15 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         if (!timer.isRunning())
             return;
         Graphics2D graphics = (Graphics2D) g.create();
-        Rectangle drawArea = getDrawArea(component);
+        Rectangle drawArea = getDrawAreaAndCenterWithin(component);
         drawProgressIndicator(drawArea, graphics);
         graphics.dispose();
     }
 
-    private static Rectangle getDrawArea(JComponent component) {
-        int size = Math.min(component.getWidth(), component.getHeight());
-        Double padding = size * 0.4;
-        Double square = size - padding * 2;
-        return new Rectangle(padding.intValue(), padding.intValue(), square.intValue(), square.intValue());
+    private Rectangle getDrawAreaAndCenterWithin(JComponent component) {
+        Rectangle drawArea = getReducedRegionAsSquare(component, 20);
+        centerRegionWithinComponent(component, drawArea);
+        return drawArea;
     }
 
     private void drawProgressIndicator(Rectangle region, Graphics2D graphics) {
@@ -101,7 +100,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        if (timer.isRunning()) { // && progress.lessThan(animationLimit)) {
+        if (timer.isRunning() && progress.lessThan(animationLimit)) {
             progress.increment();
             repaint();
             if (progress.complete())
@@ -159,7 +158,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             threadPool.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
-                    progress[0] = progress[0] + 20;
+                    progress[0] = progress[0] + 10;
                     indicator.setProgress(progress[0]);
                     indicator.setVisiblityBasedOn(Progressing);
                 }

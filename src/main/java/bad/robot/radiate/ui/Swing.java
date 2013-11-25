@@ -46,10 +46,26 @@ public class Swing {
         return xScale;
     }
 
-    public static Rectangle getReducedRegion(Rectangle parent, double percentage) {
-        Double width = parent.width * (percentage / 100);
-        Double height = parent.height * (percentage / 100);
-        return new Rectangle(parent.x, parent.y, width.intValue(), height.intValue());
+    public static Rectangle getReducedRegion(Rectangle region, double percentage) {
+        Double width = region.width * (percentage / 100);
+        Double height = region.height * (percentage / 100);
+        return new Rectangle(region.x, region.y, width.intValue(), height.intValue());
+    }
+
+    public static Rectangle getReducedRegionAsSquare(Component component, double percentage) {
+        Rectangle region = new Rectangle(component.getX(), component.getY(), component.getWidth(), component.getHeight());
+        Double width = Math.min(region.width, region.height) * (percentage / 100);
+        Double height = Math.min(region.width, region.height) * (percentage / 100);
+        assert width == height;
+        return new Rectangle(region.x, region.y, width.intValue(), height.intValue());
+    }
+
+    public static void centerRegionWithinComponent(Component component, Rectangle region) {
+        int x = Math.abs(region.width - component.getWidth()) / 2 + region.x;
+        int y = Math.abs(region.height - component.getHeight()) / 2 + region.y;
+        if (y < region.y)
+            y = region.y;
+        region.setLocation(x, y);
     }
 
     public static void drawCentreLines(Rectangle region, Graphics2D graphics) {
