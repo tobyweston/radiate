@@ -42,7 +42,7 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
             Iterable<Project> projects = configuration.filter(teamcity.retrieveProjects());
             monitored = sequence(projects).map(asString());
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
-            Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toStatusAndActivity(teamcity));
+            Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toBuild(teamcity));
             Status status = aggregated(builds.map(toStatus())).getStatus();
             Activity activity = aggregated(builds.map(toActivity())).getStatus();
             notifyObservers(activity);
@@ -53,7 +53,7 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
         }
     }
 
-    private Callable1<BuildType, Build> toStatusAndActivity(final TeamCity teamcity) {
+    private Callable1<BuildType, Build> toBuild(final TeamCity teamcity) {
         return new Callable1<BuildType, Build>() {
             @Override
             public Build call(BuildType buildType) throws Exception {
