@@ -1,5 +1,6 @@
 package bad.robot.radiate.ui;
 
+import bad.robot.radiate.teamcity.Progress;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;

@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Activity;
+import bad.robot.radiate.teamcity.Progress;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
@@ -94,10 +95,6 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.drawString(progress.toString(), x.floatValue(), y.floatValue());
     }
 
-    public void setProgress(int progress) {
-        this.animationLimit = progress;
-    }
-
     @Override
     public void actionPerformed(ActionEvent event) {
         if (timer.isRunning() && progress.lessThan(animationLimit)) {
@@ -118,11 +115,21 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             layer.repaint();
     }
 
-    public void setVisiblityBasedOn(Activity activity) {
-        if (activity == Progressing)
+    public void setVisiblityBasedOn(Activity activity, Progress progress) {
+        if (activity == Progressing) {
+            setProgress(progress);
             timer.start();
-        else
+        } else {
             timer.stop();
+        }
+    }
+
+    private void setProgress(Progress progress) {
+        System.out.println(progress);
+        if (progress.current() > 100)
+            animationLimit = 100;
+        else
+            animationLimit = progress.current();
     }
 
     public static class Main {
@@ -159,8 +166,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
                 @Override
                 public void run() {
                     progress[0] = progress[0] + 10;
-                    indicator.setProgress(progress[0]);
-                    indicator.setVisiblityBasedOn(Progressing);
+                    indicator.setVisiblityBasedOn(Progressing, new Progress(progress[0], 100));
                 }
             }, 1, 1, TimeUnit.SECONDS);
         }

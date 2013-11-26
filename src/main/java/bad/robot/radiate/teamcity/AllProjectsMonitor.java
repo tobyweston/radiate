@@ -14,8 +14,7 @@ import static bad.robot.http.configuration.HttpTimeout.httpTimeout;
 import static bad.robot.radiate.ActivityAggregator.aggregated;
 import static bad.robot.radiate.Functions.asString;
 import static bad.robot.radiate.StatusAggregator.aggregated;
-import static bad.robot.radiate.teamcity.Build.Functions.toActivity;
-import static bad.robot.radiate.teamcity.Build.Functions.toStatus;
+import static bad.robot.radiate.teamcity.Build.Functions.*;
 import static com.google.code.tempusfugit.temporal.Duration.minutes;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
@@ -45,7 +44,8 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
             Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toBuild(teamcity));
             Status status = aggregated(builds.map(toStatus())).getStatus();
             Activity activity = aggregated(builds.map(toActivity())).getStatus();
-            notifyObservers(activity);
+            Progress progress = aggregatedProgress(builds);
+            notifyObservers(activity, progress);
             notifyObservers(status);
             notifyObservers(new Information(toString()));
         } catch (Exception e) {
@@ -58,7 +58,8 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
             @Override
             public Build call(BuildType buildType) throws Exception {
                 notifyObservers(new Information(AllProjectsMonitor.this.toString()));
-                return teamcity.retrieveLatestBuild(buildType);
+                Build build = teamcity.retrieveLatestBuild(buildType);
+                return build;
             }
         };
     }

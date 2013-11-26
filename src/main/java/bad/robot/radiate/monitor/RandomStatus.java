@@ -2,6 +2,7 @@ package bad.robot.radiate.monitor;
 
 import bad.robot.radiate.Activity;
 import bad.robot.radiate.Status;
+import bad.robot.radiate.teamcity.Progress;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -19,7 +20,7 @@ public class RandomStatus extends ThreadSafeObservable implements MonitoringTask
     @Override
     public void run() {
         Status status = randomStatus();
-        notifyObservers(randomState());
+        notifyObservers(randomState(), new Progress(0, 40));
         notifyObservers(status);
         if (status == Broken)
             notifyObservers(new RuntimeException("Example problem"));

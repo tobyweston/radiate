@@ -5,6 +5,7 @@ import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
+import bad.robot.radiate.teamcity.Progress;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +30,7 @@ public class StatusPanel extends JPanel implements Observer {
 
     private Status status = Unknown;
     private Activity activity = Busy;
+    private Progress progress = new Progress(0, 100);
     private String text;
 
     public StatusPanel(JFrame parent, int identifier) {
@@ -45,8 +47,9 @@ public class StatusPanel extends JPanel implements Observer {
     }
 
     @Override
-    public void update(Observable source, Activity activity) {
+    public void update(Observable source, Activity activity, Progress progress) {
         this.activity = activity;
+        this.progress = progress;
         repaint();
     }
 
@@ -56,7 +59,7 @@ public class StatusPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable source, Exception exception) {
-        update(source, Busy);
+        update(source, Busy, new Progress(0, 0));
     }
 
     private Color getColorFrom(Status status) {
@@ -71,7 +74,7 @@ public class StatusPanel extends JPanel implements Observer {
     protected void paintComponent(Graphics graphics) {
         fillBackground((Graphics2D) graphics);
         updateText(graphics);
-        progressIndicator.setVisiblityBasedOn(activity);
+        progressIndicator.setVisiblityBasedOn(activity, progress);
         busyIndicator.setVisiblityBasedOn(activity);
         errorIndicator.setVisiblityBasedOn(activity);
     }

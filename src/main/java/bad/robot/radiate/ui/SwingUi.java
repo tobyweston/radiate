@@ -6,6 +6,7 @@ import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
+import bad.robot.radiate.teamcity.Progress;
 import bad.robot.radiate.teamcity.SanitisedException;
 
 import javax.swing.*;
@@ -82,7 +83,7 @@ public class SwingUi extends JFrame implements Ui, Observer {
     }
 
     @Override
-    public void update(final Observable source, final Activity activity) {
+    public void update(Observable source, Activity activity, Progress progress) {
         // ignore activity updates
     }
 

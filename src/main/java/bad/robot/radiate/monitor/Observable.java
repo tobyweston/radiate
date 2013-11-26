@@ -2,6 +2,7 @@ package bad.robot.radiate.monitor;
 
 import bad.robot.radiate.Activity;
 import bad.robot.radiate.Status;
+import bad.robot.radiate.teamcity.Progress;
 
 public interface Observable {
 
@@ -11,7 +12,7 @@ public interface Observable {
 
     void notifyObservers(Status status);
 
-    void notifyObservers(Activity activity);
+    void notifyObservers(Activity activity, Progress progress);
 
     void notifyObservers(Exception exception);
 

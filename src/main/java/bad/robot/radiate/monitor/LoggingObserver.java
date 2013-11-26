@@ -2,6 +2,7 @@ package bad.robot.radiate.monitor;
 
 import bad.robot.radiate.Activity;
 import bad.robot.radiate.Status;
+import bad.robot.radiate.teamcity.Progress;
 import org.apache.log4j.Logger;
 
 public class LoggingObserver implements Observer {
@@ -12,7 +13,7 @@ public class LoggingObserver implements Observer {
     }
 
     @Override
-    public void update(Observable source, Activity activity) {
+    public void update(Observable source, Activity activity, Progress progress) {
         // nothing for now
     }
 

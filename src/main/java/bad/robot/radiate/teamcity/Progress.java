@@ -1,6 +1,8 @@
-package bad.robot.radiate.ui;
+package bad.robot.radiate.teamcity;
 
-public class Progress {
+import bad.robot.radiate.ActivityDetail;
+
+public class Progress implements ActivityDetail {
 
     private int current;
     private final double max;
@@ -14,7 +16,15 @@ public class Progress {
         current++;
     }
 
-    int asAngle() {
+    public Progress add(Progress progress) {
+        return new Progress(current + progress.current, (int) (max + progress.max));
+    }
+
+    public int current() {
+        return current;
+    }
+
+    public int asAngle() {
         return - asPercentageOf(360).intValue();
     }
 
@@ -27,11 +37,11 @@ public class Progress {
         return asPercentageOf(100).intValue() + "%";
     }
 
-    boolean complete() {
+    public boolean complete() {
         return current >= max;
     }
 
-    boolean lessThan(int amount) {
+    public boolean lessThan(int amount) {
         return current < amount;
     }
 }

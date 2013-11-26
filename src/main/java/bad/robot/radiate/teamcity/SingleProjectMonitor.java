@@ -35,7 +35,7 @@ public class SingleProjectMonitor extends NonRepeatingObservable implements Moni
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(asList(project));
             Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
             Status status = aggregated(statuses).getStatus();
-            notifyObservers(Idle);
+            notifyObservers(Idle, new Progress(100, 100));
             notifyObservers(status);
             notifyObservers(new Information(toString()));
         } catch (Exception e) {

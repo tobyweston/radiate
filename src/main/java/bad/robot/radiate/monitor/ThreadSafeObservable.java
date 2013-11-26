@@ -2,6 +2,7 @@ package bad.robot.radiate.monitor;
 
 import bad.robot.radiate.Activity;
 import bad.robot.radiate.Status;
+import bad.robot.radiate.teamcity.Progress;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -41,8 +42,8 @@ public class ThreadSafeObservable implements Observable {
     }
 
     @Override
-    public void notifyObservers(Activity activity) {
+    public void notifyObservers(Activity activity, Progress progress) {
         for (Observer observer : observers)
-            observer.update(this, activity);
+            observer.update(this, activity, progress);
     }
 }
