@@ -1,8 +1,6 @@
 package bad.robot.radiate.teamcity;
 
-import bad.robot.radiate.ActivityDetail;
-
-public class Progress implements ActivityDetail {
+public class Progress {
 
     private int current;
     private final double max;

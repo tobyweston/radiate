@@ -125,11 +125,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void setProgress(Progress progress) {
-        System.out.println(progress);
-        if (progress.current() > 100)
-            animationLimit = 100;
-        else
-            animationLimit = progress.current();
+        animationLimit = Math.min(progress.current(), 100);
     }
 
     public static class Main {

@@ -59,7 +59,7 @@ public class StatusPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable source, Exception exception) {
-        update(source, Busy, new Progress(0, 0));
+        update(source, Busy, null); // TODO what should this be?
     }
 
     private Color getColorFrom(Status status) {

@@ -107,7 +107,7 @@ public class Build extends TeamCityObject implements Hypermedia, Monitorable {
                         Integer percentage = ((RunningBuild) build).getRunInformation().getPercentageComplete();
                         return progress.add(new Progress(percentage, 100));
                     }
-                    return progress.add(new Progress(100, 100));
+                    return progress;
                 }
             });
         }
