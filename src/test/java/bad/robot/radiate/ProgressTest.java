@@ -1,6 +1,5 @@
-package bad.robot.radiate.ui;
+package bad.robot.radiate;
 
-import bad.robot.radiate.teamcity.Progress;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -20,5 +19,12 @@ public class ProgressTest {
     public void adding() {
         Progress progress = new Progress(10, 100).add(new Progress(20, 100));
         assertThat(progress.toString(), is("15%"));
+    }
+
+    @Test
+    public void simulateRunningAndCompleteBuilds() throws Exception {
+        Progress complete = new Progress(100, 100);
+        Progress running = new Progress(20, 100);
+        assertThat(complete.add(running).toString(), is("60%"));
     }
 }

@@ -2,11 +2,11 @@ package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Activity;
 import bad.robot.radiate.Logging;
+import bad.robot.radiate.Progress;
 import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
-import bad.robot.radiate.teamcity.Progress;
 import bad.robot.radiate.teamcity.SanitisedException;
 
 import javax.swing.*;

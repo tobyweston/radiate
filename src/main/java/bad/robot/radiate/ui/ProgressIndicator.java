@@ -1,7 +1,7 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Activity;
-import bad.robot.radiate.teamcity.Progress;
+import bad.robot.radiate.Progress;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;

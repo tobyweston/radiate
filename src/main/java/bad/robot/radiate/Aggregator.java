@@ -1,8 +1,6 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.teamcity.Build;
-import bad.robot.radiate.teamcity.Progress;
-import bad.robot.radiate.teamcity.RunningBuild;
 import com.googlecode.totallylazy.Callable2;
 import com.googlecode.totallylazy.Sequence;
 
@@ -38,11 +36,7 @@ public class Aggregator {
         return sequence(builds).fold(seed, new Callable2<Progress, Build, Progress>() {
             @Override
             public Progress call(Progress progress, Build build) throws Exception {
-                if (build instanceof RunningBuild) {
-                    Integer percentage = ((RunningBuild) build).getRunInformation().getPercentageComplete();
-                    return progress.add(new Progress(percentage, 100));
-                }
-                return progress;
+                return progress.add(build.getProgress());
             }
         });
     }

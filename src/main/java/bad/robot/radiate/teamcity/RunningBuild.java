@@ -1,6 +1,7 @@
 package bad.robot.radiate.teamcity;
 
 import bad.robot.radiate.Activity;
+import bad.robot.radiate.Progress;
 import com.google.gson.annotations.SerializedName;
 
 import static bad.robot.radiate.Activity.Progressing;
@@ -24,4 +25,8 @@ public class RunningBuild extends Build {
         return Progressing;
     }
 
+    @Override
+    public Progress getProgress() {
+        return new Progress(runInformation.getPercentageComplete(), 100);
+    }
 }

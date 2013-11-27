@@ -1,4 +1,4 @@
-package bad.robot.radiate.teamcity;
+package bad.robot.radiate;
 
 public class Progress {
 

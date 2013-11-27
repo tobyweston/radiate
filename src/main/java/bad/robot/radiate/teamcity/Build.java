@@ -1,9 +1,6 @@
 package bad.robot.radiate.teamcity;
 
-import bad.robot.radiate.Activity;
-import bad.robot.radiate.Hypermedia;
-import bad.robot.radiate.Monitorable;
-import bad.robot.radiate.Status;
+import bad.robot.radiate.*;
 import com.googlecode.totallylazy.Callable1;
 
 import static bad.robot.radiate.Activity.Idle;
@@ -53,6 +50,11 @@ public class Build extends TeamCityObject implements Hypermedia, Monitorable {
         return Idle;
     }
 
+    @Override
+    public Progress getProgress() {
+        return new ZeroProgress();
+    }
+
     public String getStatusString() {
         return status;
     }
@@ -97,4 +99,5 @@ public class Build extends TeamCityObject implements Hypermedia, Monitorable {
             };
         }
     }
+
 }

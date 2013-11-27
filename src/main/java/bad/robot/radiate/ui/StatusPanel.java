@@ -1,11 +1,12 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Activity;
+import bad.robot.radiate.Progress;
 import bad.robot.radiate.Status;
+import bad.robot.radiate.ZeroProgress;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
-import bad.robot.radiate.teamcity.Progress;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +60,7 @@ public class StatusPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable source, Exception exception) {
-        update(source, Busy, null); // TODO what should this be?
+        update(source, Busy, new ZeroProgress());
     }
 
     private Color getColorFrom(Status status) {

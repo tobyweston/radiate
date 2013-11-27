@@ -2,6 +2,7 @@ package bad.robot.radiate.teamcity;
 
 import bad.robot.http.HttpClient;
 import bad.robot.radiate.Aggregator;
+import bad.robot.radiate.Progress;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.NonRepeatingObservable;
@@ -40,7 +41,9 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toBuild(teamcity));
             Aggregator aggregated = aggregate(builds);
-            notifyObservers(aggregated.activity(), aggregated.progress());
+            Progress progress = aggregated.progress();
+            System.out.println("progress = " + progress);
+            notifyObservers(aggregated.activity(), progress);
             notifyObservers(aggregated.status());
             notifyObservers(new Information(toString()));
         } catch (Exception e) {

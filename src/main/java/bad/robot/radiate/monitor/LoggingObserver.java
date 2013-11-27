@@ -1,8 +1,8 @@
 package bad.robot.radiate.monitor;
 
 import bad.robot.radiate.Activity;
+import bad.robot.radiate.Progress;
 import bad.robot.radiate.Status;
-import bad.robot.radiate.teamcity.Progress;
 import org.apache.log4j.Logger;
 
 public class LoggingObserver implements Observer {
