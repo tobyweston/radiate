@@ -6,7 +6,7 @@ import com.googlecode.totallylazy.Sequence;
 import static bad.robot.radiate.Status.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-public class StatusAggregator {
+class StatusAggregator {
 
     private final Iterable<Status> statuses;
 

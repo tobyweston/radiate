@@ -7,7 +7,7 @@ import static bad.robot.radiate.Activity.*;
 import static bad.robot.radiate.Activity.Error;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-public class ActivityAggregator {
+class ActivityAggregator {
 
     private final Iterable<Activity> activity;
 
@@ -19,7 +19,7 @@ public class ActivityAggregator {
         return new ActivityAggregator(statuses);
     }
 
-    public Activity getStatus() {
+    public Activity getActivity() {
         Sequence<Activity> activities = sequence(this.activity);
         if (activities.isEmpty())
             return Idle;

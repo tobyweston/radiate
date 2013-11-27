@@ -5,12 +5,13 @@ import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.NonRepeatingObservable;
-import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.http.configuration.HttpTimeout.httpTimeout;
 import static bad.robot.radiate.Activity.Idle;
-import static bad.robot.radiate.StatusAggregator.aggregated;
+import static bad.robot.radiate.Aggregator.aggregate;
+import static bad.robot.radiate.teamcity.TeamCity.Functions.toBuild;
 import static com.google.code.tempusfugit.temporal.Duration.minutes;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
@@ -33,23 +34,14 @@ public class SingleProjectMonitor extends NonRepeatingObservable implements Moni
     public void run() {
         try {
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(asList(project));
-            Iterable<Status> statuses = sequence(buildTypes).mapConcurrently(toStatuses(teamcity));
-            Status status = aggregated(statuses).getStatus();
-            notifyObservers(Idle, new Progress(5, 100)); // TODO what should this be
+            Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toBuild(teamcity));
+            Status status = aggregate(builds).status();
+            notifyObservers(Idle, new Progress(5, 100)); // TODO what should this be, NoProgress that throws "dereferencing exception"?
             notifyObservers(status);
             notifyObservers(new Information(toString()));
         } catch (Exception e) {
             notifyObservers(e);
         }
-    }
-
-    private Callable1<BuildType, Status> toStatuses(final TeamCity teamcity) {
-        return new Callable1<BuildType, Status>() {
-            @Override
-            public Status call(BuildType buildType) throws Exception {
-                return teamcity.retrieveLatestBuild(buildType).getStatus();
-            }
-        };
     }
 
     @Override

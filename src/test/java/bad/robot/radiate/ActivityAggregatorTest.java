@@ -15,27 +15,27 @@ public class ActivityAggregatorTest {
 
     @Test
     public void emptyList() throws Exception {
-        assertThat(aggregated(Collections.<Activity>emptyList()).getStatus(), is(Idle));
+        assertThat(aggregated(Collections.<Activity>emptyList()).getActivity(), is(Idle));
     }
 
     @Test
     public void shouldBeIdle() throws Exception {
-        assertThat(aggregated(asList(Idle, Idle)).getStatus(), is(Idle));
+        assertThat(aggregated(asList(Idle, Idle)).getActivity(), is(Idle));
     }
 
     @Test
     public void shouldBeProgressing() throws Exception {
-        assertThat(aggregated(asList(Idle, Progressing)).getStatus(), is(Progressing));
+        assertThat(aggregated(asList(Idle, Progressing)).getActivity(), is(Progressing));
 
     }
 
     @Test
     public void shouldBeBusy() {
-        assertThat(aggregated(asList(Busy, Idle, Progressing)).getStatus(), is(Busy));
+        assertThat(aggregated(asList(Busy, Idle, Progressing)).getActivity(), is(Busy));
     }
 
     @Test
     public void shouldBeError() throws Exception {
-        assertThat(aggregated(asList(Busy, Idle, Error, Progressing)).getStatus(), is(Error));
+        assertThat(aggregated(asList(Busy, Idle, Error, Progressing)).getActivity(), is(Error));
     }
 }

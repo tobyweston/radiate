@@ -5,8 +5,6 @@ import bad.robot.radiate.Hypermedia;
 import bad.robot.radiate.Monitorable;
 import bad.robot.radiate.Status;
 import com.googlecode.totallylazy.Callable1;
-import com.googlecode.totallylazy.Callable2;
-import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.radiate.Activity.Idle;
 import static bad.robot.radiate.Status.*;
@@ -97,19 +95,6 @@ public class Build extends TeamCityObject implements Hypermedia, Monitorable {
                     return build.getStatus();
                 }
             };
-        }
-
-        public static Progress aggregatedProgress(Sequence<Build> builds) {
-            return builds.fold(new Progress(0, 0), new Callable2<Progress, Build, Progress>() {
-                @Override
-                public Progress call(Progress progress, Build build) throws Exception {
-                    if (build instanceof RunningBuild) {
-                        Integer percentage = ((RunningBuild) build).getRunInformation().getPercentageComplete();
-                        return progress.add(new Progress(percentage, 100));
-                    }
-                    return progress;
-                }
-            });
         }
     }
 }

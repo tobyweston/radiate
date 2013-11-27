@@ -1,0 +1,51 @@
+package bad.robot.radiate;
+
+import bad.robot.radiate.teamcity.Build;
+import bad.robot.radiate.teamcity.Progress;
+import bad.robot.radiate.teamcity.RunningBuild;
+import com.googlecode.totallylazy.Callable2;
+import com.googlecode.totallylazy.Sequence;
+
+import static bad.robot.radiate.ActivityAggregator.aggregated;
+import static bad.robot.radiate.teamcity.Build.Functions.toActivity;
+import static bad.robot.radiate.teamcity.Build.Functions.toStatus;
+import static com.googlecode.totallylazy.Sequences.sequence;
+
+public class Aggregator {
+
+    private final Iterable<Build> builds;
+
+    private Aggregator(Iterable<Build> builds) {
+        this.builds = builds;
+    }
+
+    public static Aggregator aggregate(Iterable<Build> statuses) {
+        return new Aggregator(statuses);
+    }
+
+    public Activity activity() {
+        Sequence<Activity> activities = sequence(builds).map(toActivity());
+        return aggregated(activities).getActivity();
+    }
+
+    public Status status() {
+        Sequence<Status> statuses = sequence(builds).map(toStatus());
+        return StatusAggregator.aggregated(statuses).getStatus();
+    }
+
+    public Progress progress() {
+        Progress seed = new Progress(0, 0);
+        return sequence(builds).fold(seed, new Callable2<Progress, Build, Progress>() {
+            @Override
+            public Progress call(Progress progress, Build build) throws Exception {
+                if (build instanceof RunningBuild) {
+                    Integer percentage = ((RunningBuild) build).getRunInformation().getPercentageComplete();
+                    return progress.add(new Progress(percentage, 100));
+                }
+                return progress;
+            }
+        });
+    }
+
+
+}
