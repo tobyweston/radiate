@@ -37,6 +37,11 @@ public class Any {
         return new RunningBuild(anyId(), incrementingNumber(), anyHref(), "SUCCESS", "Success", anyString(10), anyString(10), buildType(), runInformation);
     }
 
+    public static Build runningBuildPercentageCompleteAt(int percentageComplete) {
+        RunInformation runInformation = new RunInformation(percentageComplete, 12, 23);
+        return new RunningBuild(anyId(), incrementingNumber(), anyHref(), "SUCCESS", "Success", anyString(10), anyString(10), buildType(), runInformation);
+    }
+
     private static String incrementingNumber() {
         return Integer.toString(number.incrementAndGet());
     }
