@@ -15,15 +15,19 @@ public class RandomStatus extends ThreadSafeObservable implements MonitoringTask
 
     private static final Random random = new SecureRandom();
     private static final Status[] statuses = new Status[]{Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Broken, Unknown};
-    private static final Activity[] acvitities = new Activity[]{Busy, Error, Idle, Progressing};
+    private static final Activity[] activities = new Activity[]{Busy, Error, Idle, Progressing};
 
     @Override
     public void run() {
         Status status = randomStatus();
-        notifyObservers(randomState(), new Progress(0, 40));
+        notifyObservers(randomState(), randomProgress());
         notifyObservers(status);
         if (status == Broken)
             notifyObservers(new RuntimeException("Example problem"));
+    }
+
+    private Progress randomProgress() {
+        return new Progress(random.nextInt(100) + 1, 100);
     }
 
     private static Status randomStatus() {
@@ -31,7 +35,7 @@ public class RandomStatus extends ThreadSafeObservable implements MonitoringTask
     }
 
     private static Activity randomState() {
-        return acvitities[random.nextInt(acvitities.length)];
+        return activities[random.nextInt(activities.length)];
     }
 
     public String toString() {

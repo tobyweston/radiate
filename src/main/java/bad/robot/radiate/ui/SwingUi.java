@@ -14,7 +14,6 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import static bad.robot.radiate.ui.FullScreen.fullScreen;
 import static bad.robot.radiate.ui.Screen.primaryScreen;
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
 import static java.awt.Color.darkGray;
@@ -44,9 +43,9 @@ public class SwingUi extends JFrame implements Ui, Observer {
         setTitle("Radiate");
         getContentPane().setBackground(darkGray);
         setUndecorated(true);
-        setSize(700, 500);
+        setSize(200, 200);
         primaryScreen().moveTo(this);
-        fullScreen(this).switchTo();
+//        fullScreen(this).switchTo();
     }
 
     private void setupEventListeners() {

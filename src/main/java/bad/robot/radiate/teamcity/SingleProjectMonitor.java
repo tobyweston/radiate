@@ -36,7 +36,7 @@ public class SingleProjectMonitor extends NonRepeatingObservable implements Moni
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(asList(project));
             Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toBuild(teamcity));
             Status status = aggregate(builds).status();
-            notifyObservers(Idle, new Progress(5, 100)); // TODO what should this be, NoProgress that throws "dereferencing exception"?
+            notifyObservers(Idle, new NoProgress());
             notifyObservers(status);
             notifyObservers(new Information(toString()));
         } catch (Exception e) {

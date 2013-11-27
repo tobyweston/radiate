@@ -30,7 +30,8 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
-    private Progress progress = new Progress(0, 100);
+    public static final int maximum = 100;
+    private Progress progress = new Progress(0, maximum);
     private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
     private int animationLimit = 0;
 
@@ -125,7 +126,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void setProgress(Progress progress) {
-        animationLimit = Math.min(progress.current(), 100);
+        animationLimit = Math.min(progress.current(), maximum);
     }
 
     public static class Main {
@@ -162,7 +163,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
                 @Override
                 public void run() {
                     progress[0] = progress[0] + 10;
-                    indicator.setVisiblityBasedOn(Progressing, new Progress(progress[0], 100));
+                    indicator.setVisiblityBasedOn(Progressing, new Progress(progress[0], maximum));
                 }
             }, 1, 1, TimeUnit.SECONDS);
         }
