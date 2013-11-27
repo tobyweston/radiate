@@ -14,6 +14,10 @@ public class Progress {
         current++;
     }
 
+    public void decrement() {
+        current--;
+    }
+
     public Progress add(Progress progress) {
         return new Progress(current + progress.current, (int) (max + progress.max));
     }
@@ -41,5 +45,9 @@ public class Progress {
 
     public boolean lessThan(int amount) {
         return current < amount;
+    }
+
+    public boolean greaterThan(int amount) {
+        return current > amount;
     }
 }

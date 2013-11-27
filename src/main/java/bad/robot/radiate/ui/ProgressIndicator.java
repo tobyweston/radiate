@@ -98,8 +98,11 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        if (timer.isRunning() && progress.lessThan(animationLimit)) {
-            progress.increment();
+        if (timer.isRunning()) {
+            if (progress.lessThan(animationLimit))
+                progress.increment();
+            else if (progress.greaterThan(animationLimit))
+                progress.decrement();
             repaint();
             if (progress.complete())
                 timer.stop();
@@ -125,11 +128,16 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         }
     }
 
+    private Progress progressCache = progress;
     private void setProgress(Progress progress) {
+        if (!progressCache.toString().equals(progress.toString())) {
+            System.out.println("setting progress = " + progress);
+            progressCache = progress;
+        }
         animationLimit = Math.min(progress.current(), maximum);
     }
 
-    public static class Main {
+    public static class Example {
 
         public static void main(String[] args) {
             ProgressIndicator indicator = setupWindow();
@@ -162,7 +170,12 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             threadPool.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
+                    boolean goneBackwards = false;
                     progress[0] = progress[0] + 10;
+                    if (progress[0] > 50 && !goneBackwards)
+                        goneBackwards = true;
+                    if (goneBackwards)
+                        progress[0] = progress[0] = 16;
                     indicator.setVisiblityBasedOn(Progressing, new Progress(progress[0], maximum));
                 }
             }, 1, 1, TimeUnit.SECONDS);
