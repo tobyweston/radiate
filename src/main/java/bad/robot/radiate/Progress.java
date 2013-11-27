@@ -30,13 +30,17 @@ public class Progress {
         return - asPercentageOf(360).intValue();
     }
 
+    private int asPercentage() {
+        return asPercentageOf(100).intValue();
+    }
+
     private Double asPercentageOf(int i) {
         return current / max * i;
     }
 
     @Override
     public String toString() {
-        return asPercentageOf(100).intValue() + "%";
+        return asPercentage() + "%";
     }
 
     public boolean complete() {

@@ -99,14 +99,18 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         if (timer.isRunning()) {
-            if (progress.lessThan(animationLimit))
-                progress.increment();
-            else if (progress.greaterThan(animationLimit))
-                progress.decrement();
+            updateProgressReadyToAnimate();
             repaint();
             if (progress.complete())
                 timer.stop();
         }
+    }
+
+    private void updateProgressReadyToAnimate() {
+        if (progress.lessThan(animationLimit))
+            progress.increment();
+        else if (progress.greaterThan(animationLimit))
+            progress.decrement();
     }
 
     private void repaint() {
