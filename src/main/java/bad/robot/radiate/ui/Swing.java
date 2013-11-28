@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.concurrent.Callable;
 
+import static java.awt.BasicStroke.CAP_BUTT;
+import static java.awt.BasicStroke.JOIN_MITER;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import static java.awt.geom.AffineTransform.getScaleInstance;
@@ -24,10 +26,10 @@ public class Swing {
 
     public static Point centerTextWithinRegion(Rectangle region, Graphics2D graphics, java.awt.Font font, String text) {
         FontMetrics metrics = graphics.getFontMetrics(font);
-        Rectangle2D size = metrics.getStringBounds(text, graphics);
-        double x = (region.width - size.getWidth()) / 2;
-        double y = (region.height - size.getHeight()) / 2 + metrics.getAscent();
-        return new Point((int) x, (int) y);
+        Rectangle2D textSize = metrics.getStringBounds(text, graphics);
+        double x = (region.width - textSize.getWidth()) / 2;
+        double y = (region.height - textSize.getHeight()) / 2 + metrics.getAscent();
+        return new Point((int) Math.abs(x), (int) Math.abs(y));
     }
 
     public static void setFontScaledToRegion(Rectangle region, Graphics2D graphics, String text, Font font) {
@@ -69,7 +71,7 @@ public class Swing {
     }
 
     public static void drawCentreLines(Rectangle region, Graphics2D graphics) {
-        graphics.setStroke(new BasicStroke(1));
+        graphics.setStroke(new BasicStroke(1, CAP_BUTT, JOIN_MITER, 10, new float[]{10.0f}, 0.0f));
         graphics.drawLine(region.x, region.y, region.width, region.height);
         graphics.drawLine(region.width, region.y, region.x, region.height);
         graphics.drawLine(region.x, region.height / 2, region.width, region.height / 2);
