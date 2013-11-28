@@ -56,7 +56,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         setLineWidth(region, graphics);
         drawBackgroundRadial(region, graphics);
         drawProgressRadial(region, graphics);
-        drawPercentage(region, progress, graphics);
+        drawPercentage(region, graphics);
     }
 
     private void setLineWidth(Rectangle region, Graphics2D graphics) {
@@ -82,7 +82,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, 90, progress.asAngle(), Arc2D.OPEN));
     }
 
-    private void drawPercentage(Rectangle parent, Progress progress, Graphics2D graphics) {
+    private void drawPercentage(Rectangle parent, Graphics2D graphics) {
         Font font = new Font("Arial", Font.PLAIN, 12);
         Rectangle region = getReducedRegion(parent, 80);
         setFontScaledToRegion(region, graphics, progress.toString(), font);
@@ -132,12 +132,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         }
     }
 
-    private Progress progressCache = progress;
     private void setProgress(Progress progress) {
-        if (!progressCache.toString().equals(progress.toString())) {
-            System.out.println("setting progress = " + progress);
-            progressCache = progress;
-        }
         animationLimit = Math.min(progress.current(), maximum);
     }
 
