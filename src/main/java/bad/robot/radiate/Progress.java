@@ -54,4 +54,12 @@ public class Progress {
     public boolean greaterThan(int amount) {
         return current > amount;
     }
+
+    public boolean lessThan(Progress progress) {
+        return current < progress.current;
+    }
+
+    public boolean greaterThan(Progress progress) {
+        return current > progress.current;
+    }
 }

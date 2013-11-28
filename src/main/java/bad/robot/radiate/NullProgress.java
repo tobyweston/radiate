@@ -1,7 +1,7 @@
 package bad.robot.radiate;
 
-public class ZeroProgress extends Progress {
-    public ZeroProgress() {
+public class NullProgress extends Progress {
+    public NullProgress() {
         super(0, 0);
     }
 

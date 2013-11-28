@@ -52,7 +52,7 @@ public class Build extends TeamCityObject implements Hypermedia, Monitorable {
 
     @Override
     public Progress getProgress() {
-        return new ZeroProgress();
+        return new NullProgress();
     }
 
     public String getStatusString() {

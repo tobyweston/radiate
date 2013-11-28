@@ -1,9 +1,9 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Activity;
+import bad.robot.radiate.NullProgress;
 import bad.robot.radiate.Progress;
 import bad.robot.radiate.Status;
-import bad.robot.radiate.ZeroProgress;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
@@ -60,7 +60,7 @@ public class StatusPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable source, Exception exception) {
-        update(source, Busy, new ZeroProgress());
+        update(source, Busy, new NullProgress());
     }
 
     private Color getColorFrom(Status status) {
