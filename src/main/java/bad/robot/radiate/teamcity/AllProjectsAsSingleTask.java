@@ -16,4 +16,8 @@ public class AllProjectsAsSingleTask extends ThreadSafeObservable implements Mon
         return Arrays.<MonitoringTask>asList(new AllProjectsMonitor(configuration));
     }
 
+    @Override
+    public String toString() {
+        return "multiple projects as a single aggregate";
+    }
 }
