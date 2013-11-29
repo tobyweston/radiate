@@ -38,28 +38,20 @@ public class Progress {
         return current / max * i;
     }
 
+    public boolean complete() {
+        return current >= max;
+    }
+
     @Override
     public String toString() {
         return asPercentage() + "%";
     }
 
-    public boolean complete() {
-        return current >= max;
-    }
-
-    public boolean lessThan(int amount) {
-        return current < amount;
-    }
-
-    public boolean greaterThan(int amount) {
-        return current > amount;
-    }
-
     public boolean lessThan(Progress progress) {
-        return current < progress.current;
+        return asPercentage() < progress.asPercentage();
     }
 
     public boolean greaterThan(Progress progress) {
-        return current > progress.current;
+        return asPercentage() > progress.asPercentage();
     }
 }

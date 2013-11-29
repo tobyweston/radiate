@@ -27,4 +27,33 @@ public class ProgressTest {
         Progress running = new Progress(20, 100);
         assertThat(complete.add(running).toString(), is("60%"));
     }
+
+    @Test
+    public void showTheNumberOfThingsProgressIsOver() throws Exception {
+        assertThat(new Progress(0, 100).over(), is(1));
+        assertThat(new Progress(0, 200).over(), is(2));
+        assertThat(new Progress(0, 300).over(), is(3));
+    }
+
+    @Test
+    public void aggregatesNumberOfProgresses() throws Exception {
+        Progress progress = new Progress(1, 100).add(new Progress(2, 100));
+        assertThat(progress.over(), is(2));
+        assertThat(progress.add(new Progress(3, 100)).over(), is(3));
+    }
+
+    @Test
+    public void lessThan() throws Exception {
+        Progress sixtyPercent = new Progress(60, 100);
+        Progress fiftyPercent = new Progress(100, 200);
+        assertThat(fiftyPercent.lessThan(sixtyPercent), is(true));
+    }
+
+    @Test
+    public void greaterThan() throws Exception {
+        Progress sixtyPercent = new Progress(60, 100);
+        Progress fiftyPercent = new Progress(100, 200);
+        assertThat(sixtyPercent.greaterThan(fiftyPercent), is(true));
+    }
+
 }
