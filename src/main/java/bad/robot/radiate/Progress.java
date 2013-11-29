@@ -3,11 +3,17 @@ package bad.robot.radiate;
 public class Progress {
 
     private int current;
+    private int numberOfAdditions = 1;
     private final double max;
 
     public Progress(int current, int max) {
         this.current = current;
         this.max = max;
+    }
+
+    private Progress(int current, int max, int numberOfAdditions) {
+        this(current, max);
+        this.numberOfAdditions = numberOfAdditions;
     }
 
     public void increment() {
@@ -19,7 +25,13 @@ public class Progress {
     }
 
     public Progress add(Progress progress) {
-        return new Progress(current + progress.current, (int) (max + progress.max));
+        return new Progress(current + progress.current, (int) (max + progress.max), numberOfAdditions(progress));
+    }
+
+    private int numberOfAdditions(Progress progress) {
+        if (progress.equals(new NullProgress()))
+            return 1;
+        return numberOfAdditions + progress.numberOfAdditions;
     }
 
     public int current() {
@@ -40,6 +52,10 @@ public class Progress {
 
     public boolean complete() {
         return current >= max;
+    }
+
+    public int over() {
+        return numberOfAdditions;
     }
 
     @Override

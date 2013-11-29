@@ -1,6 +1,12 @@
 package bad.robot.radiate;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+
 public class NullProgress extends Progress {
+
+    private final String id = "4de821a0-58cf-11e3-949a-0800200c9a66";
+
     public NullProgress() {
         super(0, 0);
     }
@@ -41,12 +47,27 @@ public class NullProgress extends Progress {
     }
 
     @Override
-    public boolean lessThan(int amount) {
+    public boolean lessThan(Progress progress) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean greaterThan(int amount) {
+    public boolean greaterThan(Progress progress) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int over() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        return reflectionEquals(this, that);
+    }
+
+    @Override
+    public int hashCode() {
+        return reflectionHashCode(this);
     }
 }

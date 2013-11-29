@@ -27,6 +27,7 @@ import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
 import static java.awt.RenderingHints.*;
+import static java.lang.String.format;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
@@ -58,6 +59,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         drawBackgroundRadial(region, graphics);
         drawProgressRadial(region, graphics);
         drawPercentage(region, graphics);
+        drawNumberOfBuilds(region, graphics);
     }
 
     private void setLineWidth(Rectangle region, Graphics2D graphics) {
@@ -95,6 +97,22 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         Double x = region.x + (parent.width / 2) - (visualBounds.getWidth() / 2);
         Double y = region.y + (parent.height / 2) + (visualBounds.getHeight() / 2);
         graphics.drawString(animated.toString(), x.floatValue(), y.floatValue());
+    }
+
+    private void drawNumberOfBuilds(Rectangle parent, final Graphics2D graphics) {
+        Font font = new Font("Arial", Font.PLAIN, 10);
+        Rectangle region = getReducedRegion(parent, 80);
+        setFontScaledToRegion(region, graphics, progress.toString(), font);
+
+        final String numberOfBuilds = format("%d build%s", progress.over(), progress.over() > 1 ? "s" : "");
+        final Point center = Swing.centerTextWithinRegion(region, graphics, graphics.getFont(), numberOfBuilds);
+        Swing.applyWithComposite(graphics, getInstance(SRC_OVER, 0.20f), new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                graphics.drawString(numberOfBuilds, center.x, center.y);
+                return null;
+            }
+        });
     }
 
     @Override
