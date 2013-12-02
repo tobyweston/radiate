@@ -12,10 +12,20 @@ public class SwingTest {
 
     @Test
     public void reducedRegionSize() throws Exception {
-        Rectangle rectangle = getReducedRegion(new Rectangle(10, 20, 200, 150), 50);
+        Rectangle rectangle = getReducedRegion(new Rectangle(10, 20, 200, 150), Swing.Percentage.percentage(50));
         assertThat(rectangle.x, is(10));
         assertThat(rectangle.y, is(20));
         assertThat(rectangle.width, is(100));
         assertThat(rectangle.height, is(75));
+    }
+
+    @Test
+    public void centerRegionWithinComponent() {
+
+    }
+
+    @Test
+    public void centerText() {
+        Swing.centerTextWithinRegion(null, null, null, null);
     }
 }

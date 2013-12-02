@@ -20,12 +20,15 @@ import java.util.concurrent.TimeUnit;
 
 import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
+import static bad.robot.radiate.ui.Swing.Percentage.*;
 import static bad.robot.radiate.ui.Swing.*;
 import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
+import static java.awt.Color.yellow;
+import static java.awt.Font.PLAIN;
 import static java.awt.RenderingHints.*;
 import static java.lang.String.format;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
@@ -44,22 +47,22 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
             return;
         Graphics2D graphics = (Graphics2D) g.create();
         Rectangle drawArea = getDrawAreaAndCenterWithin(component);
-        drawProgressIndicator(drawArea, graphics);
+        drawProgressIndicator(drawArea, graphics, component);
         graphics.dispose();
     }
 
     private Rectangle getDrawAreaAndCenterWithin(JComponent component) {
-        Rectangle drawArea = getReducedRegionAsSquare(component, 20);
-        centerRegionWithinComponent(component, drawArea);
+        Rectangle drawArea = getReducedRegionAsSquare(component, TwentyPercent);
+        centerRegionWithinComponent(drawArea, component);
         return drawArea;
     }
 
-    private void drawProgressIndicator(Rectangle region, Graphics2D graphics) {
+    private void drawProgressIndicator(Rectangle region, Graphics2D graphics, JComponent component) {
         setLineWidth(region, graphics);
         drawBackgroundRadial(region, graphics);
         drawProgressRadial(region, graphics);
         drawPercentage(region, graphics);
-        drawNumberOfBuilds(region, graphics);
+        drawNumberOfBuilds(component, graphics);
     }
 
     private void setLineWidth(Rectangle region, Graphics2D graphics) {
@@ -86,9 +89,8 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void drawPercentage(Rectangle parent, Graphics2D graphics) {
-        Font font = new Font("Arial", Font.PLAIN, 12);
-        Rectangle region = getReducedRegion(parent, 80);
-        setFontScaledToRegion(region, graphics, animated.toString(), font);
+        Rectangle region = getReducedRegion(parent, EightyPercent);
+        setFontScaledToRegion(region, graphics, animated.toString(), new Font("Arial", PLAIN, 12));
 
         FontRenderContext renderContext = graphics.getFontRenderContext();
         GlyphVector vector = graphics.getFont().createGlyphVector(renderContext, animated.toString());
@@ -99,13 +101,14 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         graphics.drawString(animated.toString(), x.floatValue(), y.floatValue());
     }
 
-    private void drawNumberOfBuilds(Rectangle parent, final Graphics2D graphics) {
-        Font font = new Font("Arial", Font.PLAIN, 10);
-        Rectangle region = getReducedRegion(parent, 80);
-        setFontScaledToRegion(region, graphics, progress.toString(), font);
+    private void drawNumberOfBuilds(JComponent component, final Graphics2D graphics) {
+        final String numberOfBuilds = format("running %d build%s", progress.over(), progress.over() > 1 ? "s" : "");
+        Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
+        centerRegionWithinComponent(drawArea, component);
+        Swing.drawOutlineOfRegion(drawArea, graphics, yellow);
 
-        final String numberOfBuilds = format("%d build%s", progress.over(), progress.over() > 1 ? "s" : "");
-        final Point center = Swing.centerTextWithinRegion(region, graphics, graphics.getFont(), numberOfBuilds);
+        setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
+        final Point center = Swing.centerTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
         Swing.applyWithComposite(graphics, getInstance(SRC_OVER, 0.20f), new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -166,10 +169,10 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         public static void main(String[] args) throws InterruptedException {
             ProgressIndicator indicator = setupWindow();
             updateProgressInAThread(indicator);
-            Thread.sleep(6000);
-            updateProgressInAThread(indicator);
-            Thread.sleep(12000);
-            updateProgressInAThread(indicator);
+//            Thread.sleep(6000);
+//            updateProgressInAThread(indicator);
+//            Thread.sleep(12000);
+//            updateProgressInAThread(indicator);
         }
 
         private static ProgressIndicator setupWindow() {
