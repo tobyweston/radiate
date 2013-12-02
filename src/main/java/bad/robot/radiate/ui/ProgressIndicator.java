@@ -27,7 +27,6 @@ import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
-import static java.awt.Color.yellow;
 import static java.awt.Font.PLAIN;
 import static java.awt.RenderingHints.*;
 import static java.lang.String.format;
@@ -35,7 +34,9 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
+    public static final float Transparent = 0.20f;
     public static final int maximum = 100;
+
     private Progress progress = new Progress(0, maximum);
     private Progress animated = new NullProgress();
     private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
@@ -73,7 +74,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
-        applyWithComposite(graphics, getInstance(SRC_OVER, 0.20f), new Callable<Void>() {
+        applyWithComposite(graphics, getInstance(SRC_OVER, Transparent), new Callable<Void>() {
             @Override
             public Void call() throws Exception {
                 graphics.setColor(white);
@@ -106,12 +107,11 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
         setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
-        Swing.drawOutlineOfRegion(drawArea, graphics, yellow);
         final Point center = Swing.getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
-        Swing.applyWithComposite(graphics, getInstance(SRC_OVER, 0.20f), new Callable<Void>() {
+        Swing.applyWithComposite(graphics, getInstance(SRC_OVER, Transparent), new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down
+                graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
                 return null;
             }
         });
