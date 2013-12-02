@@ -105,14 +105,13 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         final String numberOfBuilds = format("running %d build%s", progress.over(), progress.over() > 1 ? "s" : "");
         Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
-        Swing.drawOutlineOfRegion(drawArea, graphics, yellow);
-
         setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
-        final Point center = Swing.centerTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
+        Swing.drawOutlineOfRegion(drawArea, graphics, yellow);
+        final Point center = Swing.getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
         Swing.applyWithComposite(graphics, getInstance(SRC_OVER, 0.20f), new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                graphics.drawString(numberOfBuilds, center.x, center.y);
+                graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down
                 return null;
             }
         });

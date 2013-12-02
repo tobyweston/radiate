@@ -27,7 +27,7 @@ public class Swing {
         }
     }
 
-    public static Point centerTextWithinRegion(Rectangle region, Graphics2D graphics, java.awt.Font font, String text) {
+    public static Point getCenterPointOfTextWithinRegion(Rectangle region, Graphics2D graphics, java.awt.Font font, String text) {
         FontMetrics metrics = graphics.getFontMetrics(font);
         Rectangle2D textSize = metrics.getStringBounds(text, graphics);
         double x = region.x + (region.width - textSize.getWidth()) / 2;

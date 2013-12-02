@@ -26,6 +26,6 @@ public class SwingTest {
 
     @Test
     public void centerText() {
-        Swing.centerTextWithinRegion(null, null, null, null);
+        Swing.getCenterPointOfTextWithinRegion(null, null, null, null);
     }
 }
