@@ -25,15 +25,11 @@ public class Progress {
     }
 
     public Progress add(Progress progress) {
-        return new Progress(current + progress.current, (int) (max + progress.max), numberOfAdditions(progress));
+        return new Progress(current + progress.current, (int) (max + progress.max), numberOfBuilds(progress));
     }
 
-    private int numberOfAdditions(Progress progress) {
+    private int numberOfBuilds(Progress progress) {
         return numberOfBuilds() + progress.numberOfBuilds();
-    }
-
-    public int current() {
-        return current;
     }
 
     public int asAngle() {

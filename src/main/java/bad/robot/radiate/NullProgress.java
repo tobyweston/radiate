@@ -27,11 +27,6 @@ public class NullProgress extends Progress {
     }
 
     @Override
-    public int current() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public int asAngle() {
         throw new UnsupportedOperationException();
     }
