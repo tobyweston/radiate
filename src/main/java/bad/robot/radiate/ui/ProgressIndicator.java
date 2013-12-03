@@ -63,7 +63,8 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         drawBackgroundRadial(region, graphics);
         drawProgressRadial(region, graphics);
         drawPercentage(region, graphics);
-        drawNumberOfBuilds(component, graphics);
+        if (progress.numberOfBuilds() > 1)
+            drawNumberOfBuilds(component, graphics);
     }
 
     private void setLineWidth(Rectangle region, Graphics2D graphics) {
@@ -103,7 +104,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void drawNumberOfBuilds(JComponent component, final Graphics2D graphics) {
-        final String numberOfBuilds = format("running %d build%s", progress.numberOfAdditions(), progress.numberOfAdditions() > 1 ? "s" : "");
+        final String numberOfBuilds = format("running %d build%s", progress.numberOfBuilds(), progress.numberOfBuilds() > 1 ? "s" : "");
         Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
         setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));

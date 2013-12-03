@@ -3,7 +3,7 @@ package bad.robot.radiate;
 public class Progress {
 
     private int current;
-    private int numberOfAdditions = 1;
+    private int numberOfBuilds = 1;
     private final double max;
 
     public Progress(int current, int max) {
@@ -11,9 +11,9 @@ public class Progress {
         this.max = max;
     }
 
-    private Progress(int current, int max, int numberOfAdditions) {
+    private Progress(int current, int max, int numberOfBuilds) {
         this(current, max);
-        this.numberOfAdditions = numberOfAdditions;
+        this.numberOfBuilds = numberOfBuilds;
     }
 
     public void increment() {
@@ -29,7 +29,7 @@ public class Progress {
     }
 
     private int numberOfAdditions(Progress progress) {
-        return numberOfAdditions() + progress.numberOfAdditions();
+        return numberOfBuilds() + progress.numberOfBuilds();
     }
 
     public int current() {
@@ -52,8 +52,8 @@ public class Progress {
         return current >= max;
     }
 
-    public int numberOfAdditions() {
-        return numberOfAdditions;
+    public int numberOfBuilds() {
+        return numberOfBuilds;
     }
 
     @Override

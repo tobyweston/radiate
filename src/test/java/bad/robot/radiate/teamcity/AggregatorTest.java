@@ -29,13 +29,13 @@ public class AggregatorTest {
                 Any.runningBuildPercentageCompleteAt(2),
                 Any.runningBuildPercentageCompleteAt(3)));
         Progress progress = aggregate.progress();
-        assertThat(progress.numberOfAdditions(), is(3));
+        assertThat(progress.numberOfBuilds(), is(3));
     }
 
     @Test
     public void nullObject() {
         Aggregator aggregate = aggregate(sequence(Any.build(), Any.runningBuildPercentageCompleteAt(2)));
-        assertThat(aggregate.progress().numberOfAdditions(), is(1));
+        assertThat(aggregate.progress().numberOfBuilds(), is(1));
     }
 
 }

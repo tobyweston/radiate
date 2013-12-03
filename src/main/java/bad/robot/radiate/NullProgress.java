@@ -52,7 +52,7 @@ public class NullProgress extends Progress {
     }
 
     @Override
-    public int numberOfAdditions() {
+    public int numberOfBuilds() {
         return 0;
     }
 

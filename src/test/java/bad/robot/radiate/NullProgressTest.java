@@ -14,7 +14,7 @@ public class NullProgressTest {
 
     @Test
     public void showTheNumberOfThingsProgressIsOver() {
-        assertThat(new NullProgress().numberOfAdditions(), is(0));
+        assertThat(new NullProgress().numberOfBuilds(), is(0));
     }
 
 }
