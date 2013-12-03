@@ -38,7 +38,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     public static final int maximum = 100;
 
     private Progress progress = new Progress(0, maximum);
-    private Progress animated = new NullProgress();
+    private Progress animation = new NullProgress();
     private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
 
     @Override
@@ -87,20 +87,20 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void drawProgressRadial(Rectangle region, Graphics2D graphics) {
         graphics.setPaint(white);
-        graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, 90, animated.asAngle(), Arc2D.OPEN));
+        graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, 90, animation.asAngle(), Arc2D.OPEN));
     }
 
     private void drawPercentage(Rectangle parent, Graphics2D graphics) {
         Rectangle region = getReducedRegion(parent, EightyPercent);
-        setFontScaledToRegion(region, graphics, animated.toString(), new Font("Arial", PLAIN, 12));
+        setFontScaledToRegion(region, graphics, animation.toString(), new Font("Arial", PLAIN, 12));
 
         FontRenderContext renderContext = graphics.getFontRenderContext();
-        GlyphVector vector = graphics.getFont().createGlyphVector(renderContext, animated.toString());
+        GlyphVector vector = graphics.getFont().createGlyphVector(renderContext, animation.toString());
         Rectangle visualBounds = vector.getVisualBounds().getBounds();
 
         Double x = region.x + (parent.width / 2) - (visualBounds.getWidth() / 2);
         Double y = region.y + (parent.height / 2) + (visualBounds.getHeight() / 2);
-        graphics.drawString(animated.toString(), x.floatValue(), y.floatValue());
+        graphics.drawString(animation.toString(), x.floatValue(), y.floatValue());
     }
 
     private void drawNumberOfBuilds(JComponent component, final Graphics2D graphics) {
@@ -123,16 +123,16 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         if (timer.isRunning()) {
             updateProgressReadyToAnimate();
             repaint();
-            if (animated.complete())
+            if (animation.complete())
                 stop();
         }
     }
 
     private void updateProgressReadyToAnimate() {
-        if (animated.lessThan(progress))
-            animated.increment();
-        else if (animated.greaterThan(progress))
-            animated.decrement();
+        if (animation.lessThan(progress))
+            animation.increment();
+        else if (animation.greaterThan(progress))
+            animation.decrement();
     }
 
     private void repaint() {
@@ -156,7 +156,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void start() {
         if (!timer.isRunning())
-            animated = new Progress(0, maximum);
+            animation = new Progress(0, maximum);
         timer.start();
     }
 
