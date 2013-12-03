@@ -19,13 +19,4 @@ public class SwingTest {
         assertThat(rectangle.height, is(75));
     }
 
-    @Test
-    public void centerRegionWithinComponent() {
-
-    }
-
-    @Test
-    public void centerText() {
-        Swing.getCenterPointOfTextWithinRegion(null, null, null, null);
-    }
 }
