@@ -38,4 +38,9 @@ public class AggregatorTest {
         assertThat(aggregate.progress().numberOfBuilds(), is(1));
     }
 
+    @Test
+    public void noProgress() {
+        Aggregator aggregate = aggregate(sequence(Any.build(), Any.build(), Any.build()));
+        assertThat(aggregate.progress().numberOfBuilds(), is(0));
+    }
 }
