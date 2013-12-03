@@ -123,7 +123,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         if (timer.isRunning()) {
             updateProgressReadyToAnimate();
             repaint();
-            if (progress.complete())
+            if (animated.complete())
                 stop();
         }
     }
@@ -207,7 +207,8 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
                         goneBackwards = true;
 //                    if (goneBackwards)
 //                        progress[0] = progress[0] = 16;
-                    indicator.setVisiblityBasedOn(Progressing, new Progress(progress[0], maximum));
+                    if (progress[0] <= 100)
+                        indicator.setVisiblityBasedOn(Progressing, new Progress(progress[0], maximum));
                 }
             }, 1, 1, TimeUnit.SECONDS);
         }
