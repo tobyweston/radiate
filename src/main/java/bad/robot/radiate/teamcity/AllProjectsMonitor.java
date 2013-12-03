@@ -42,7 +42,6 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
             Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toBuild(teamcity));
             Aggregator aggregated = aggregate(builds);
             Progress progress = aggregated.progress();
-            System.out.printf("progress = %s (%s builds)%n", progress, progress.over());
             notifyObservers(aggregated.activity(), progress);
             notifyObservers(aggregated.status());
             notifyObservers(new Information(toString()));

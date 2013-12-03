@@ -30,17 +30,17 @@ public class ProgressTest {
 
     @Test
     public void showTheNumberOfThingsProgressIsOver() {
-        assertThat(new Progress(0, 200).over(), is(1));
-        assertThat(new Progress(0, 100).add(new Progress(50, 300)).over(), is(2));
-        assertThat(new Progress(0, 100).add(new Progress(20, 100)).add(new Progress(50, 300)).over(), is(3));
+        assertThat(new Progress(0, 200).numberOfAdditions(), is(1));
+        assertThat(new Progress(0, 100).add(new Progress(50, 300)).numberOfAdditions(), is(2));
+        assertThat(new Progress(0, 100).add(new Progress(20, 100)).add(new Progress(50, 300)).numberOfAdditions(), is(3));
     }
 
     @Test
     public void ignoreNumberOfThingsWhenNullObjectIsUsed() {
-        assertThat(new Progress(0, 0).over(), is(1));
-        assertThat(new Progress(0, 0).add(new Progress(0, 0)).over(), is(2));
-        assertThat(new Progress(0, 0).add(new NullProgress()).over(), is(1));
-        assertThat(new Progress(0, 0).add(new NullProgress()).add(new NullProgress()).over(), is(1));
+        assertThat(new Progress(0, 0).numberOfAdditions(), is(1));
+        assertThat(new Progress(0, 0).add(new Progress(0, 0)).numberOfAdditions(), is(2));
+        assertThat(new Progress(0, 0).add(new NullProgress()).numberOfAdditions(), is(1));
+        assertThat(new Progress(0, 0).add(new NullProgress()).add(new NullProgress()).numberOfAdditions(), is(1));
     }
 
     @Test

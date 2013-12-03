@@ -1,6 +1,5 @@
 package bad.robot.radiate;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,9 +12,9 @@ public class NullProgressTest {
         assertThat(new NullProgress().equals(new NullProgress()), is(true));
     }
 
-    @Test (expected = UnsupportedOperationException.class)
+    @Test
     public void showTheNumberOfThingsProgressIsOver() {
-        Assert.assertThat(new NullProgress().over(), is(1));
+        assertThat(new NullProgress().numberOfAdditions(), is(0));
     }
 
 }

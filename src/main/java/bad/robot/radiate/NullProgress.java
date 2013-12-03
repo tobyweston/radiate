@@ -23,7 +23,7 @@ public class NullProgress extends Progress {
 
     @Override
     public Progress add(Progress progress) {
-        throw new UnsupportedOperationException();
+        return super.add(progress);
     }
 
     @Override
@@ -33,11 +33,6 @@ public class NullProgress extends Progress {
 
     @Override
     public int asAngle() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String toString() {
         throw new UnsupportedOperationException();
     }
 
@@ -57,8 +52,13 @@ public class NullProgress extends Progress {
     }
 
     @Override
-    public int over() {
-        throw new UnsupportedOperationException();
+    public int numberOfAdditions() {
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "No progress";
     }
 
     @Override

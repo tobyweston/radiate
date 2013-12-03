@@ -29,9 +29,7 @@ public class Progress {
     }
 
     private int numberOfAdditions(Progress progress) {
-        if (progress.equals(new NullProgress()))
-            return 1;
-        return numberOfAdditions + progress.numberOfAdditions;
+        return numberOfAdditions() + progress.numberOfAdditions();
     }
 
     public int current() {
@@ -54,7 +52,7 @@ public class Progress {
         return current >= max;
     }
 
-    public int over() {
+    public int numberOfAdditions() {
         return numberOfAdditions;
     }
 
