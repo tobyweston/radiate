@@ -14,9 +14,6 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.Arc2D;
 import java.beans.PropertyChangeEvent;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
@@ -30,7 +27,6 @@ import static java.awt.Color.white;
 import static java.awt.Font.PLAIN;
 import static java.awt.RenderingHints.*;
 import static java.lang.String.format;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
@@ -40,12 +36,14 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     private Progress progress = new Progress(0, maximum);
     private Progress animation = new NullProgress();
     private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
+    private FadeOutTimer fade;
 
     @Override
     public void paint(Graphics g, JComponent component) {
         super.paint(g, component);
         if (!timer.isRunning())
             return;
+        startFadeOut();
         Graphics2D graphics = (Graphics2D) g.create();
         Rectangle drawArea = getDrawAreaAndCenterWithin(component);
         drawProgressIndicator(drawArea, graphics, component);
@@ -143,6 +141,8 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
         if ("tick".equals(event.getPropertyName()))
             layer.repaint();
+        if ("fadeOut".equals(event.getPropertyName()))
+            fade.fadeOut(layer, (float) event.getNewValue());
     }
 
     public void setVisiblityBasedOn(Activity activity, Progress progress) {
@@ -164,53 +164,9 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         timer.stop();
     }
 
-    public static class Example {
-
-        public static void main(String[] args) throws InterruptedException {
-            ProgressIndicator indicator = setupWindow();
-            updateProgressInAThread(indicator);
-//            Thread.sleep(6000);
-//            updateProgressInAThread(indicator);
-//            Thread.sleep(12000);
-//            updateProgressInAThread(indicator);
-        }
-
-        private static ProgressIndicator setupWindow() {
-            JFrame frame = new JFrame();
-            frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-            frame.setSize(400, 400);
-            JPanel panel = new JPanel() {
-                @Override
-                public void paint(Graphics g) {
-                    super.paint(g);
-                    Graphics2D graphics = (Graphics2D) g.create();
-                    Swing.drawCentreLines(this.getBounds(), graphics);
-                    graphics.dispose();
-                }
-            };
-            panel.setBackground(Color.lightGray);
-            ProgressIndicator indicator = new ProgressIndicator();
-            frame.add(new JLayer<>(panel, indicator));
-            frame.setVisible(true);
-            return indicator;
-        }
-
-        private static void updateProgressInAThread(final ProgressIndicator indicator) {
-            ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(1);
-            final Integer[] progress = {0};
-            threadPool.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    boolean goneBackwards = false;
-                    progress[0] = progress[0] + 10;
-                    if (progress[0] > 50 && !goneBackwards)
-                        goneBackwards = true;
-//                    if (goneBackwards)
-//                        progress[0] = progress[0] = 16;
-                    if (progress[0] <= 100)
-                        indicator.setVisiblityBasedOn(Progressing, new Progress(progress[0], maximum));
-                }
-            }, 1, 1, TimeUnit.SECONDS);
-        }
+    private void startFadeOut() {
+        fade = new FadeOutTimer(this, videoFramesPerSecond.asFrequencyInMillis());
+        fade.start();
     }
+
 }

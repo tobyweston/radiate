@@ -61,11 +61,11 @@ class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void fadeOut(int width, int height, Graphics2D graphics, float fade) {
-        Composite urComposite = graphics.getComposite();
+        Composite original = graphics.getComposite();
         float alpha = .3f * fade;
         setCompositeToTransparent(graphics, alpha);
         graphics.fillRect(0, 0, width, height);
-        graphics.setComposite(urComposite);
+        graphics.setComposite(original);
     }
 
     private void setCompositeToTransparent(Graphics2D graphics, float alpha) {
