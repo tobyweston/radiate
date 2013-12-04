@@ -49,7 +49,7 @@ public class ExampleProgressIndicator {
             @Override
             public void run() {
                 boolean goneBackwards = false;
-                progress[0] = progress[0] + 10;
+                progress[0] = progress[0] + 50;
                 if (progress[0] > 50 && !goneBackwards)
                     goneBackwards = true;
 //                    if (goneBackwards)

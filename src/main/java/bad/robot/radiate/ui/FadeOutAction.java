@@ -11,7 +11,7 @@ class FadeOutAction implements ActionListener {
 
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
-    private int fadeLimit = 50;
+    private int fadeLimit = 10;
     private int fadeCount = fadeLimit;
 
     public FadeOutAction(PropertyChangeListener... listeners) {

@@ -30,23 +30,26 @@ import static java.lang.String.format;
 
 class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
-    public static final float Transparent = 0.20f;
+    public static final float Transparency = 0.20f;
     public static final int maximum = 100;
 
     private Progress progress = new Progress(0, maximum);
     private Progress animation = new NullProgress();
     private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
-    private FadeOutTimer fade;
+    private float alpha = 1.0f;
 
     @Override
-    public void paint(Graphics g, JComponent component) {
+    public void paint(Graphics g, final JComponent component) {
         super.paint(g, component);
-        if (!timer.isRunning())
-            return;
-        startFadeOut();
-        Graphics2D graphics = (Graphics2D) g.create();
-        Rectangle drawArea = getDrawAreaAndCenterWithin(component);
-        drawProgressIndicator(drawArea, graphics, component);
+        final Graphics2D graphics = (Graphics2D) g.create();
+        applyWithComposite(graphics, getInstance(SRC_OVER, alpha), new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                Rectangle drawArea = getDrawAreaAndCenterWithin(component);
+                drawProgressIndicator(drawArea, graphics, component);
+                return null;
+            }
+        });
         graphics.dispose();
     }
 
@@ -73,7 +76,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
-        applyWithComposite(graphics, getInstance(SRC_OVER, Transparent), new Callable<Void>() {
+        applyWithComposite(graphics, getAlphaComposite(graphics), new Callable<Void>() {
             @Override
             public Void call() throws Exception {
                 graphics.setColor(white);
@@ -107,7 +110,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         centerRegionWithinComponent(drawArea, component);
         setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
         final Point center = Swing.getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
-        Swing.applyWithComposite(graphics, getInstance(SRC_OVER, Transparent), new Callable<Void>() {
+        Swing.applyWithComposite(graphics, getAlphaComposite(graphics), new Callable<Void>() {
             @Override
             public Void call() throws Exception {
                 graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
@@ -141,8 +144,10 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
         if ("tick".equals(event.getPropertyName()))
             layer.repaint();
-        if ("fadeOut".equals(event.getPropertyName()))
-            fade.fadeOut(layer, (float) event.getNewValue());
+        if ("fadeOut".equals(event.getPropertyName())) {
+            alpha = (float) event.getNewValue();
+            layer.repaint();
+        }
     }
 
     public void setVisiblityBasedOn(Activity activity, Progress progress) {
@@ -162,11 +167,16 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void stop() {
         timer.stop();
+        startFadeOut();
     }
 
     private void startFadeOut() {
-        fade = new FadeOutTimer(this, videoFramesPerSecond.asFrequencyInMillis());
-        fade.start();
+        new Timer(videoFramesPerSecond.asFrequencyInMillis(), new FadeOutAction(getPropertyChangeListeners())).start();
+    }
+
+    private static AlphaComposite getAlphaComposite(Graphics2D graphics) {
+        AlphaComposite current = (AlphaComposite) graphics.getComposite();
+        return getInstance(SRC_OVER, current.getAlpha() * Transparency);
     }
 
 }
