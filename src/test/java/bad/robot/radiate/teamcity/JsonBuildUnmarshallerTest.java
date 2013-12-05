@@ -117,7 +117,7 @@ public class JsonBuildUnmarshallerTest {
             "        \"percentageComplete\": 9," +
             "        \"elapsedSeconds\": 7," +
             "        \"estimatedTotalSeconds\": 85," +
-            "        \"currentStageText\": \"Step 1/1: in directory: /home/fuseuat/example/TeamCity/buildAgent/work/5c96582cd59318d6\"," +
+            "        \"currentStageText\": \"Step 1/1: in directory: /home/work/5c96582cd59318d6\"," +
             "        \"outdated\": false," +
             "        \"probablyHanging\": false" +
             "    }," +
