@@ -11,8 +11,8 @@ class FadeOutAction implements ActionListener {
 
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
-    private int fadeLimit = 10;
-    private int fadeCount = fadeLimit;
+    private float fadeLimit = 10f;
+    private float fadeCount = fadeLimit;
 
     public FadeOutAction(PropertyChangeListener... listeners) {
         for (PropertyChangeListener listener : listeners)
@@ -22,11 +22,11 @@ class FadeOutAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (--fadeCount >= 0)
-            listeners.firePropertyChange("fadeOut", 0, (float) fadeCount / (float) fadeLimit);
+            listeners.firePropertyChange("fadeOut", (fadeCount + 1) / fadeLimit, fadeCount / fadeLimit);
     }
 
     @Override
     public String toString() {
-        return format("%d", fadeCount);
+        return format("%.2f", fadeCount / fadeLimit);
     }
 }
