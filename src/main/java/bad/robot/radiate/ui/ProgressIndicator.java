@@ -36,8 +36,9 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     private Progress progress = new Progress(0, maximum);
     private Progress animation = new NullProgress();
     private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
-    private Timer fader = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
-    private Fade fade = new FadeOut();
+    private Timer fadeOut = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
+    private Timer fadeIn = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
+    private Fade fade = new FadeIn();
     private float alpha = 1.0f;
 
     @Override
@@ -78,14 +79,16 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
-        applyWithComposite(graphics, getAlphaComposite(graphics), new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                graphics.setColor(white);
-                graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
-                return null;
-            }
-        });
+        if (timer.isRunning()) {
+            applyWithComposite(graphics, getAlphaComposite(graphics), new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    graphics.setColor(white);
+                    graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
+                    return null;
+                }
+            });
+        }
     }
 
     private void drawProgressRadial(Rectangle region, Graphics2D graphics) {
@@ -123,17 +126,24 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        if (timer.isRunning()) {
-            updateProgressReadyToAnimate();
-            firePropertyChange("animateRadial", 0, 1);
-            if (animation.complete())
-                stop();
-        }
-        if (fader.isRunning()) {
+        if (fadeIn.isRunning()) {
             fade.fireEvent(getPropertyChangeListeners());
             if (fade.done()) {
                 fade = new FadeOut();
-                fader.stop();
+                fadeIn.stop();
+            }
+        } else if (fadeOut.isRunning()) {
+            fade.fireEvent(getPropertyChangeListeners());
+            if (fade.done()) {
+                fade = new FadeIn();
+                fadeOut.stop();
+            }
+        }
+        if (timer.isRunning()) {
+            updateProgressReadyToAnimate();
+            firePropertyChange("animateRadial", 0, 1);
+            if (animation.complete()) {
+                stop();
             }
         }
     }
@@ -168,12 +178,14 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         if (!timer.isRunning())
             animation = new Progress(0, maximum);
         timer.start();
-        fader.stop();
+        fadeIn.start();
+        fadeOut.stop();
     }
 
     private void stop() {
         timer.stop();
-        fader.start();
+        fadeIn.stop();
+        fadeOut.start();
     }
 
     private static AlphaComposite getAlphaComposite(Graphics2D graphics) {

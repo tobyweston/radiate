@@ -6,7 +6,7 @@ import static java.lang.String.format;
 
 class FadeIn implements Fade {
 
-    protected float limit = 10f;
+    protected float limit = 50f;
     protected float count = 0f;
 
     @Override

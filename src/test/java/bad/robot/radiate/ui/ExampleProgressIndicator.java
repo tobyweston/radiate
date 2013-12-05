@@ -16,8 +16,8 @@ public class ExampleProgressIndicator {
     public static void main(String[] args) throws InterruptedException {
         ProgressIndicator indicator = setupWindow();
         updateProgressInAThread(indicator);
-//            Thread.sleep(6000);
-//            updateProgressInAThread(indicator);
+            Thread.sleep(6000);
+            updateProgressInAThread(indicator);
 //            Thread.sleep(12000);
 //            updateProgressInAThread(indicator);
     }
