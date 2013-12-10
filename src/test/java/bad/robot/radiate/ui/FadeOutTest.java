@@ -10,9 +10,11 @@ public class FadeOutTest {
     private final PropertyChangeListenerStub listener = new PropertyChangeListenerStub();
     private final FadeOut fade = new FadeOut();
 
+    private static final int fadeCount = 10;
+
     @Test
     public void setsTheAlphaTransparency() {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < fadeCount; i++)
             fade.fireEvent(listener);
         assertThat(listener.contains("bad.robot.radiate.ui.AlphaTransparencyChangeEvent[propertyName=fade; oldValue=1.0; newValue=0.9; propagationId=null; source=0.90]"), is(true));
         assertThat(listener.contains("bad.robot.radiate.ui.AlphaTransparencyChangeEvent[propertyName=fade; oldValue=0.9; newValue=0.8; propagationId=null; source=0.80]"), is(true));
@@ -28,14 +30,14 @@ public class FadeOutTest {
 
     @Test
     public void eventDoesNotFire() {
-        for (int i = 0; i < 11; i++)
+        for (int i = 0; i < (fadeCount + 1); i++)
             fade.fireEvent(listener);
-        assertThat(listener.size(), is(10));
+        assertThat(listener.size(), is(fadeCount    ));
     }
 
     @Test
     public void eventIsDone() {
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < (fadeCount -1); i++)
             fade.fireEvent(listener);
         assertThat(fade.done(), is(false));
         fade.fireEvent(listener);
