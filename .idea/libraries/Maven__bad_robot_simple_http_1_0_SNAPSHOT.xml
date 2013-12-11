@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: bad.robot:simple-http:1.0-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/bad/robot/simple-http/1.0-SNAPSHOT/simple-http-1.0-20130904.070021-14.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/bad/robot/simple-http/1.0-SNAPSHOT/simple-http-1.0-20131206.144351-18.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/bad/robot/simple-http/1.0-SNAPSHOT/simple-http-1.0-20130904.070021-14-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/bad/robot/simple-http/1.0-SNAPSHOT/simple-http-1.0-20131206.144351-18-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/bad/robot/simple-http/1.0-SNAPSHOT/simple-http-1.0-20130904.070021-14-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/bad/robot/simple-http/1.0-SNAPSHOT/simple-http-1.0-20131206.144351-18-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

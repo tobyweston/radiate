@@ -12,7 +12,6 @@ class FadeOut implements Fade {
     @Override
     public void fireEvent(PropertyChangeListener... listeners) {
         if (--count >= 0) {
-            System.out.print("o");
             for (PropertyChangeListener listener : listeners) {
                 listener.propertyChange(new AlphaTransparencyChangeEvent(this, (count + 1) / limit, count / limit));
             }
