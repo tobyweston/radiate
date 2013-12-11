@@ -37,26 +37,22 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     private Progress animation = new NullProgress();
     private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
     private Timer fadeTimer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
-//    private Timer fadeOut = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
-//    private Timer fadeIn = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
     private Fade fade = new FadeIn();
     private float alpha = 0.0f; // transparent
 
     @Override
     public void paint(Graphics g, final JComponent component) {
         super.paint(g, component);
-//        if (timer.isRunning()) {
-            final Graphics2D graphics = (Graphics2D) g.create();
-            applyWithComposite(graphics, getInstance(SRC_OVER, alpha), new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    Rectangle drawArea = getDrawAreaAndCenterWithin(component);
-                    drawProgressIndicator(drawArea, graphics, component);
-                    return null;
-                }
-            });
-            graphics.dispose();
-//        }
+        final Graphics2D graphics = (Graphics2D) g.create();
+        applyWithComposite(graphics, getInstance(SRC_OVER, alpha), new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                Rectangle drawArea = getDrawAreaAndCenterWithin(component);
+                drawProgressIndicator(drawArea, graphics, component);
+                return null;
+            }
+        });
+        graphics.dispose();
     }
 
     private Rectangle getDrawAreaAndCenterWithin(JComponent component) {
@@ -129,17 +125,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-//        if (fadeIn.isRunning()) {
-            fade.fireEvent(getPropertyChangeListeners());
-//            if (fade.done()) {
-//                fadeIn.stop();
-//            }
-//        } else if (fadeOut.isRunning()) {
-//            fade.fireEvent(getPropertyChangeListeners());
-//            if (fade.done()) {
-//                fadeOut.stop();
-//            }
-//        }
+        fade.fireEvent(getPropertyChangeListeners());
         if (timer.isRunning()) {
             updateProgressReadyToAnimate();
             firePropertyChange("animateRadial", 0, 1);
@@ -178,21 +164,16 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     private void start() {
         if (!timer.isRunning()) {
             animation = new Progress(0, maximum);
-//            if (!fadeIn.isRunning())
-                fade = new FadeIn();
+            fade = new FadeIn();
         }
         timer.start();
         fadeTimer.start();
-//        fadeIn.start();
-//        fadeOut.stop();
     }
 
     private void stop() {
-        if (timer.isRunning())// && !fadeIn.isRunning())
+        if (timer.isRunning())
             fade = new FadeOut();
         timer.stop();
-//        fadeIn.stop();
-//        fadeOut.start();
     }
 
     private static AlphaComposite getAlphaComposite(Graphics2D graphics) {
