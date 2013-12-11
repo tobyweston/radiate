@@ -33,12 +33,12 @@ public class Any {
     }
 
     public static Build runningBuild() {
-        RunInformation runInformation = new RunInformation(74, 12, 23);
+        RunInformation runInformation = new RunInformation(74, 12, 23, false, false);
         return new RunningBuild(anyId(), incrementingNumber(), anyHref(), "SUCCESS", "Success", anyString(10), anyString(10), buildType(), runInformation);
     }
 
     public static Build runningBuildPercentageCompleteAt(int percentageComplete) {
-        RunInformation runInformation = new RunInformation(percentageComplete, 12, 23);
+        RunInformation runInformation = new RunInformation(percentageComplete, 12, 23, false, false);
         return new RunningBuild(anyId(), incrementingNumber(), anyHref(), "SUCCESS", "Success", anyString(10), anyString(10), buildType(), runInformation);
     }
 

@@ -11,18 +11,27 @@ public class JsonBuildUnmarshallerTest {
     @Rule public final HttpResponseStubMockery context = new HttpResponseStubMockery();
 
     private final JsonBuildUnmarshaller unmarshaller = new JsonBuildUnmarshaller();
+
     @Test
-    public void unmarshalls() {
+    public void unmarshallRegularBuild() {
         Build build = unmarshaller.unmarshall(context.stubResponseReturning(buildJson));
         BuildType buildType = new BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example");
         assertThat(build, is(new Build("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Success", "20130726T150432+0100", "20130726T150541+0100", buildType)));
     }
 
     @Test
-    public void unmarshallsRunningBuild() {
+    public void unmarshallRunningBuild() {
         RunningBuild build = (RunningBuild) unmarshaller.unmarshall(context.stubResponseReturning(runningBuildJson));
         BuildType buildType = new BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example");
-        RunInformation runInformation = new RunInformation(9, 7, 85);
+        RunInformation runInformation = new RunInformation(9, 7, 85, false, false);
+        assertThat(build, is(new RunningBuild("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Step 1/1", "20130726T161108+0100", null, buildType, runInformation)));
+    }
+
+    @Test
+    public void unmarshallOutdatedBuild() {
+        RunningBuild build = (RunningBuild) unmarshaller.unmarshall(context.stubResponseReturning(outdatedBuildJson));
+        BuildType buildType = new BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example");
+        RunInformation runInformation = new RunInformation(9, 7, 85, true, false);
         assertThat(build, is(new RunningBuild("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Step 1/1", "20130726T161108+0100", null, buildType, runInformation)));
     }
 
@@ -178,5 +187,6 @@ public class JsonBuildUnmarshallerTest {
             "    }" +
             "}";
 
+    private final static String outdatedBuildJson = runningBuildJson.replace("outdated\": false", "outdated\": true");
 
 }
