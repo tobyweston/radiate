@@ -20,6 +20,7 @@ import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
+import static java.awt.Font.PLAIN;
 import static java.awt.RenderingHints.*;
 import static java.lang.String.format;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
@@ -36,7 +37,7 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
         super.paint(g, component);
         Graphics2D graphics = (Graphics2D) g.create();
         Rectangle drawArea = getDrawAreaAndCenterWithin(component);
-        drawProgressIndicator(drawArea, graphics);
+        drawOvertimeIndicator(drawArea, graphics, component);
         graphics.dispose();
     }
 
@@ -46,10 +47,11 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
         return drawArea;
     }
 
-    private void drawProgressIndicator(Rectangle region, Graphics2D graphics) {
+    private void drawOvertimeIndicator(Rectangle region, Graphics2D graphics, JComponent component) {
         setLineWidth(region, graphics);
         drawBackgroundRadial(region, graphics);
-        drawProgressRadial(region, graphics);
+        drawBusyRadial(region, graphics);
+        drawOvertimeText(component, graphics);
     }
 
     private void setLineWidth(Rectangle region, Graphics2D graphics) {
@@ -72,7 +74,7 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
         }
     }
 
-    private void drawProgressRadial(final Rectangle region, final Graphics2D graphics) {
+    private void drawBusyRadial(final Rectangle region, final Graphics2D graphics) {
         graphics.setPaint(white);
         progress--;
         int lengthOfTail = 60;
@@ -87,6 +89,21 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
                 }
             });
         }
+    }
+
+    private void drawOvertimeText(JComponent component, final Graphics2D graphics) {
+        final String numberOfBuilds = format("build overtime");
+        final Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
+        centerRegionWithinComponent(drawArea, component);
+        setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
+        Swing.applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                Point center = Swing.getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
+                graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
+                return null;
+            }
+        });
     }
 
     @Override
