@@ -11,12 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Arc2D;
 import java.beans.PropertyChangeEvent;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static bad.robot.radiate.Activity.Progressing;
-import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static bad.robot.radiate.ui.Swing.Percentage.*;
 import static bad.robot.radiate.ui.Swing.*;
 import static java.awt.AlphaComposite.SRC_OVER;
@@ -65,7 +61,7 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
         if (timer.isRunning()) {
-            applyWithComposite(graphics, getAlphaComposite(graphics), new Callable<Void>() {
+            applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
                     graphics.setColor(white);
@@ -76,9 +72,21 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
         }
     }
 
-    private void drawProgressRadial(Rectangle region, Graphics2D graphics) {
+    private void drawProgressRadial(final Rectangle region, final Graphics2D graphics) {
         graphics.setPaint(white);
-        graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, progress--, 25, Arc2D.OPEN));
+        progress--;
+        int lengthOfTail = 60;
+        for (int i = 0; i < lengthOfTail; i++) {
+            final int bar = i;
+            float transparency = 0.0f + (i / ((float) lengthOfTail));
+            Swing.applyWithComposite(graphics, getAlphaComposite(graphics, transparency), new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, progress - bar, 1, Arc2D.OPEN));
+                    return null;
+                }
+            });
+        }
     }
 
     @Override
@@ -138,9 +146,9 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
 
     }
 
-    private static AlphaComposite getAlphaComposite(Graphics2D graphics) {
+    private static AlphaComposite getAlphaComposite(Graphics2D graphics, float transparency) {
         AlphaComposite current = (AlphaComposite) graphics.getComposite();
-        return getInstance(SRC_OVER, current.getAlpha() * Transparency);
+        return getInstance(SRC_OVER, current.getAlpha() * transparency);
     }
 
 }
