@@ -13,6 +13,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.Activity.Progressing;
+import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static bad.robot.radiate.ui.Swing.Percentage.*;
 import static bad.robot.radiate.ui.Swing.*;
 import static java.awt.AlphaComposite.SRC_OVER;
@@ -30,14 +31,23 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
     public static final float Transparency = 0.20f;
 
     private Timer timer = new Timer(5, this);
+    private Timer fadeTimer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
+    private Fade fade = new FadeIn();
     private int progress = 90;
+    private float alpha = 0.0f; // transparent
 
     @Override
     public void paint(Graphics g, final JComponent component) {
         super.paint(g, component);
-        Graphics2D graphics = (Graphics2D) g.create();
-        Rectangle drawArea = getDrawAreaAndCenterWithin(component);
-        drawOvertimeIndicator(drawArea, graphics, component);
+        final Graphics2D graphics = (Graphics2D) g.create();
+        applyWithComposite(graphics, getInstance(SRC_OVER, alpha), new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                Rectangle drawArea = getDrawAreaAndCenterWithin(component);
+                drawOvertimeIndicator(drawArea, graphics, component);
+                return null;
+            }
+        });
         graphics.dispose();
     }
 
@@ -108,14 +118,20 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        if (timer.isRunning())
+        if (timer.isRunning()) {
+            fade.fireEvent(getPropertyChangeListeners());
             firePropertyChange("animate", 0, 1);
+        }
     }
 
     @Override
     public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
         if ("animate".equals(event.getPropertyName()))
             layer.repaint();
+        if ("fade".equals(event.getPropertyName())) {
+            alpha = (float) event.getNewValue();
+            layer.repaint();
+        }
     }
 
     public void setVisiblityBasedOn(Activity activity, Progress progress) {
@@ -128,9 +144,12 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void start() {
         timer.start();
+        fadeTimer.start();
     }
 
     private void stop() {
+        if (timer.isRunning())
+            fade = new FadeOut();
         timer.stop();
     }
 
