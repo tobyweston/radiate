@@ -15,7 +15,7 @@ public class RandomStatus extends ThreadSafeObservable implements MonitoringTask
 
     private static final Random random = new SecureRandom();
     private static final Status[] statuses = new Status[]{Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Broken, Unknown};
-    private static final Activity[] activities = new Activity[]{Progressing};
+    private static final Activity[] activities = new Activity[]{Busy, Error, Idle, Progressing};
 
     @Override
     public void run() {

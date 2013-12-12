@@ -35,7 +35,7 @@ public class StatusPanel extends JPanel implements Observer {
     private String text;
 
     public StatusPanel(JFrame parent, int identifier) {
-        parent.add(new JLayer<>(new JLayer<>(new JLayer<>(this, busyIndicator), errorIndicator), progressIndicator));
+        parent.add(new JLayer<>(new JLayer<>(new JLayer<>(this, errorIndicator), progressIndicator), busyIndicator));
         this.identifier = identifier;
     }
 

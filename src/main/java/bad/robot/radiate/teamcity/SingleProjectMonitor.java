@@ -1,8 +1,7 @@
 package bad.robot.radiate.teamcity;
 
 import bad.robot.http.HttpClient;
-import bad.robot.radiate.NullProgress;
-import bad.robot.radiate.Status;
+import bad.robot.radiate.*;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.NonRepeatingObservable;
@@ -36,9 +35,9 @@ public class SingleProjectMonitor extends NonRepeatingObservable implements Moni
         try {
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(asList(project));
             Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toBuild(teamcity));
-            Status status = aggregate(builds).status();
-            notifyObservers(Idle, new NullProgress());
-            notifyObservers(status);
+            Aggregator aggregated = aggregate(builds);
+            notifyObservers(aggregated.activity(), aggregated.progress());
+            notifyObservers(aggregated.status());
             notifyObservers(new Information(toString()));
         } catch (Exception e) {
             notifyObservers(e);

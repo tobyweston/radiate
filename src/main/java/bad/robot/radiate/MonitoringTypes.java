@@ -32,7 +32,7 @@ public class MonitoringTypes {
 
     private static class DemoMonitor extends ThreadSafeObservable implements MonitoringTasksFactory {
 
-        public static final int builds = 8;
+        public static final int builds = 4 * 4;
 
         @Override
         public List<MonitoringTask> create() {
