@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Progress;
+import bad.robot.radiate.ui.swing.Debug;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +32,7 @@ public class ExampleProgressIndicator {
             public void paint(Graphics g) {
                 super.paint(g);
                 Graphics2D graphics = (Graphics2D) g.create();
-                Swing.drawCentreLines(this.getBounds(), graphics);
+                Debug.drawCentreLines(this.getBounds(), graphics);
                 graphics.dispose();
             }
         };

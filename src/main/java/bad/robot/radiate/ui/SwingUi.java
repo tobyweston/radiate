@@ -43,10 +43,10 @@ public class SwingUi extends JFrame implements Ui, Observer {
         setLookAndFeel();
         setTitle("Radiate");
         getContentPane().setBackground(darkGray);
-        setUndecorated(true);
+//        setUndecorated(true);
         setSize(400, 400);
         primaryScreen().moveTo(this);
-        fullScreen(this).switchTo();
+//        fullScreen(this).switchTo();
     }
 
     private void setupEventListeners() {

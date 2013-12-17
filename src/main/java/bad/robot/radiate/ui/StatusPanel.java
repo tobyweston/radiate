@@ -7,16 +7,22 @@ import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
+import bad.robot.radiate.ui.swing.Region;
+import bad.robot.radiate.ui.swing.Text;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.Activity.Busy;
 import static bad.robot.radiate.Status.*;
-import static bad.robot.radiate.ui.UiText.createTextRegion;
-import static bad.robot.radiate.ui.UiText.drawText;
+import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
+import static bad.robot.radiate.ui.swing.Composite.getAlphaComposite;
+import static bad.robot.radiate.ui.swing.Region.Percentage.EightyPercent;
+import static bad.robot.radiate.ui.swing.Region.getReducedRegion;
 import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.abbreviate;
 
 public class StatusPanel extends JPanel implements Observer {
 
@@ -43,7 +49,7 @@ public class StatusPanel extends JPanel implements Observer {
     public void update(Observable source, Status status) {
         this.status = status;
         this.text = null;
-        setToolTipText(format("%d. %s", identifier, source));
+        setToolTipText(abbreviate(format("%d. %s", this.identifier, source), 20));
         repaint();
     }
 
@@ -56,6 +62,7 @@ public class StatusPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable source, Information information) {
+        this.text = abbreviate(format("%s", source), 20);
     }
 
     @Override
@@ -72,8 +79,9 @@ public class StatusPanel extends JPanel implements Observer {
     }
 
     @Override
-    protected void paintComponent(Graphics graphics) {
-        fillBackground((Graphics2D) graphics);
+    protected void paintComponent(Graphics g) {
+        Graphics2D graphics = (Graphics2D) g;
+        fillBackground(graphics);
         updateText(graphics);
         progressIndicator.setVisiblityBasedOn(activity, progress);
         busyIndicator.setVisiblityBasedOn(activity);
@@ -88,10 +96,17 @@ public class StatusPanel extends JPanel implements Observer {
         graphics.fill(new Rectangle2D.Double(0, 0, width, height));
     }
 
-    private void updateText(Graphics graphics) {
+    private void updateText(final Graphics2D graphics) {
         if (text != null) {
-            Rectangle region = createTextRegion(0, 0, getWidth(), getHeight());
-            drawText(graphics, region, text);
+            applyWithComposite(graphics, getAlphaComposite(graphics, 0.75f), new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    Rectangle region = getReducedRegion(StatusPanel.this.getBounds(), EightyPercent, EightyPercent);
+                    Region.centerRegionWithinComponent(region, StatusPanel.this);
+                    Text.drawTextCenteredToRegion(region, graphics, text);
+                    return null;
+                }
+            });
         }
     }
 

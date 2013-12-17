@@ -16,7 +16,9 @@
     <option name="ENV_VARIABLES" />
     <option name="PASS_PARENT_ENVS" value="true" />
     <module name="radiate" />
-    <envs />
+    <envs>
+      <env name="teamcity.host" value="http://gmfusu01.uk.db.com/" />
+    </envs>
     <RunnerSettings RunnerId="Debug">
       <option name="DEBUG_PORT" value="" />
       <option name="TRANSPORT" value="0" />

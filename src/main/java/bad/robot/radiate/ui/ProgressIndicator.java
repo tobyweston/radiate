@@ -17,8 +17,13 @@ import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
-import static bad.robot.radiate.ui.Swing.Percentage.*;
-import static bad.robot.radiate.ui.Swing.*;
+import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
+import static bad.robot.radiate.ui.swing.Composite.getAlphaComposite;
+import static bad.robot.radiate.ui.swing.Region.Percentage.*;
+import static bad.robot.radiate.ui.swing.Region.centerRegionWithinComponent;
+import static bad.robot.radiate.ui.swing.Region.getReducedRegion;
+import static bad.robot.radiate.ui.swing.Region.getReducedRegionAsSquare;
+import static bad.robot.radiate.ui.swing.Text.*;
 import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_BUTT;
@@ -79,7 +84,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
         if (timer.isRunning()) {
-            applyWithComposite(graphics, getAlphaComposite(graphics), new Callable<Void>() {
+            applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
                     graphics.setColor(white);
@@ -112,11 +117,11 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         final String numberOfBuilds = format("running %d build%s", progress.numberOfBuilds(), progress.numberOfBuilds() > 1 ? "s" : "");
         final Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
-        setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
-        Swing.applyWithComposite(graphics, getAlphaComposite(graphics), new Callable<Void>() {
+        applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                Point center = Swing.getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
+                setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
+                Point center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
                 graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
                 return null;
             }
@@ -174,11 +179,6 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         if (timer.isRunning())
             fade = new FadeOut();
         timer.stop();
-    }
-
-    private static AlphaComposite getAlphaComposite(Graphics2D graphics) {
-        AlphaComposite current = (AlphaComposite) graphics.getComposite();
-        return getInstance(SRC_OVER, current.getAlpha() * Transparency);
     }
 
 }

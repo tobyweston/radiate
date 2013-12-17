@@ -2,6 +2,7 @@ package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Activity;
 import bad.robot.radiate.Progress;
+import bad.robot.radiate.ui.swing.Debug;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
@@ -14,8 +15,14 @@ import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
-import static bad.robot.radiate.ui.Swing.Percentage.*;
-import static bad.robot.radiate.ui.Swing.*;
+import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
+import static bad.robot.radiate.ui.swing.Composite.getAlphaComposite;
+import static bad.robot.radiate.ui.swing.Region.Percentage.FiftyPercent;
+import static bad.robot.radiate.ui.swing.Region.Percentage.TwentyPercent;
+import static bad.robot.radiate.ui.swing.Region.centerRegionWithinComponent;
+import static bad.robot.radiate.ui.swing.Region.getReducedRegionAsSquare;
+import static bad.robot.radiate.ui.swing.Text.getCenterPointOfTextWithinRegion;
+import static bad.robot.radiate.ui.swing.Text.setFontScaledToRegion;
 import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_BUTT;
@@ -91,7 +98,7 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
         for (int i = 0; i < lengthOfTail; i++) {
             final int bar = i;
             float transparency = 0.0f + (i / ((float) lengthOfTail));
-            Swing.applyWithComposite(graphics, getAlphaComposite(graphics, transparency), new Callable<Void>() {
+            applyWithComposite(graphics, getAlphaComposite(graphics, transparency), new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
                     graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, progress - bar, 1, Arc2D.OPEN));
@@ -105,11 +112,11 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
         final String numberOfBuilds = format("build overtime");
         final Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
-        setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
-        Swing.applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
+        applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                Point center = Swing.getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
+                setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
+                Point center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
                 graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
                 return null;
             }
@@ -169,7 +176,7 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
                 public void paint(Graphics g) {
                     super.paint(g);
                     Graphics2D graphics = (Graphics2D) g.create();
-                    Swing.drawCentreLines(this.getBounds(), graphics);
+                    Debug.drawCentreLines(this.getBounds(), graphics);
                     graphics.dispose();
                 }
             };
@@ -180,11 +187,6 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
             return indicator;
         }
 
-    }
-
-    private static AlphaComposite getAlphaComposite(Graphics2D graphics, float transparency) {
-        AlphaComposite current = (AlphaComposite) graphics.getComposite();
-        return getInstance(SRC_OVER, current.getAlpha() * transparency);
     }
 
 }
