@@ -62,7 +62,6 @@ public class StatusPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable source, Information information) {
-        this.text = abbreviate(format("%s", source), 20);
     }
 
     @Override
