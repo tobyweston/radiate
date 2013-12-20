@@ -92,7 +92,7 @@ class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
                 angle = 0;
             }
             if (fadingOut) {
-                if (--fadeCount == 0) {
+                if (--fadeCount <= 0) {
                     running = false;
                     timer.stop();
                 }
