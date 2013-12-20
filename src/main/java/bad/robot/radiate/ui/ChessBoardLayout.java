@@ -17,7 +17,7 @@ class ChessboardLayout extends GridLayout {
         setRows(tiles.rows());
         setColumns(tiles.columns());
         super.layoutContainer(parent);
-        System.out.println(this.tiles.size() + " tiles => (" + tiles.rows() + "," + tiles.columns() + ")");
+//        System.out.println(this.tiles.size() + " tiles => (" + tiles.rows() + "," + tiles.columns() + ")");
     }
 
 }

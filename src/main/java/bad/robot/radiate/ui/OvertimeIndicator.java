@@ -2,7 +2,6 @@ package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Activity;
 import bad.robot.radiate.Progress;
-import bad.robot.radiate.ui.swing.Debug;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
@@ -17,6 +16,7 @@ import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
 import static bad.robot.radiate.ui.swing.Composite.getAlphaComposite;
+import static bad.robot.radiate.ui.swing.Debug.drawCentreLines;
 import static bad.robot.radiate.ui.swing.Region.Percentage.FiftyPercent;
 import static bad.robot.radiate.ui.swing.Region.Percentage.TwentyPercent;
 import static bad.robot.radiate.ui.swing.Region.centerRegionWithinComponent;
@@ -112,10 +112,10 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
         final String numberOfBuilds = format("build overtime");
         final Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
+        setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
         applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
                 Point center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
                 graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
                 return null;
@@ -142,7 +142,7 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     public void setVisiblityBasedOn(Activity activity, Progress progress) {
-        if (activity == Progressing) {
+        if (activity == Progressing && progress.complete()) {
             start();
         } else {
             stop();
@@ -158,35 +158,6 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
         if (timer.isRunning())
             fade = new FadeOut();
         timer.stop();
-    }
-
-    public static class ExampleOvertimeIndicator {
-
-        public static void main(String[] args) throws InterruptedException {
-            OvertimeIndicator indicator = setupWindow();
-            indicator.setVisiblityBasedOn(Progressing, null);
-        }
-
-        private static OvertimeIndicator setupWindow() {
-            JFrame frame = new JFrame();
-            frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-            frame.setSize(400, 400);
-            JPanel panel = new JPanel() {
-                @Override
-                public void paint(Graphics g) {
-                    super.paint(g);
-                    Graphics2D graphics = (Graphics2D) g.create();
-                    Debug.drawCentreLines(this.getBounds(), graphics);
-                    graphics.dispose();
-                }
-            };
-            panel.setBackground(Color.lightGray);
-            OvertimeIndicator indicator = new OvertimeIndicator();
-            frame.add(new JLayer<>(panel, indicator));
-            frame.setVisible(true);
-            return indicator;
-        }
-
     }
 
 }

@@ -88,12 +88,12 @@ class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
         if (running) {
             firePropertyChange("tick", 0, 1);
             angle += 3;
-            if (angle >= 360) {
+            if (angle >= 360)
                 angle = 0;
-            }
             if (fadingOut) {
                 if (--fadeCount <= 0) {
                     running = false;
+                    fadingOut = false;
                     timer.stop();
                 }
             } else if (fadeCount < fadeLimit) {
@@ -111,8 +111,9 @@ class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
     public void setVisiblityBasedOn(Activity activity) {
         if (activity == Busy)
             start();
-        else
+        else {
             stop();
+        }
     }
 
     private void stop() {

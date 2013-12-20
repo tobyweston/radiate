@@ -158,7 +158,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     public void setVisiblityBasedOn(Activity activity, Progress progress) {
-        if (activity == Progressing) {
+        if (activity == Progressing && !progress.complete()) {
             this.progress = progress;
             start();
         } else {

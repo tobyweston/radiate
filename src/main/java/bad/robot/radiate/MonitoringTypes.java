@@ -1,13 +1,9 @@
 package bad.robot.radiate;
 
-import bad.robot.radiate.monitor.MonitoringTask;
-import bad.robot.radiate.monitor.MonitoringTasksFactory;
-import bad.robot.radiate.monitor.RandomStatus;
-import bad.robot.radiate.monitor.ThreadSafeObservable;
+import bad.robot.radiate.monitor.*;
 import bad.robot.radiate.teamcity.AllProjectsAsSingleTask;
 import bad.robot.radiate.teamcity.AllProjectsOneTaskPerProject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MonitoringTypes {
@@ -22,25 +18,16 @@ public class MonitoringTypes {
         return new AllProjectsOneTaskPerProject();
     }
 
+    public static MonitoringTasksFactory multipleBuildsDemo() {
+        return new MultipleBuildsDemo();
+    }
+
     public static MonitoringTasksFactory demo() {
-        return new DemoMonitor();
+        return new Demo();
     }
 
     public static MonitoringTasksFactory erroring() {
         return new Error();
-    }
-
-    private static class DemoMonitor extends ThreadSafeObservable implements MonitoringTasksFactory {
-
-        public static final int builds = 4 * 4;
-
-        @Override
-        public List<MonitoringTask> create() {
-            ArrayList<MonitoringTask> tasks = new ArrayList<>();
-            for (int i = 0; i < builds; i++)
-                tasks.add(new RandomStatus());
-            return tasks;
-        }
     }
 
     private static class Error extends ThreadSafeObservable implements MonitoringTasksFactory {

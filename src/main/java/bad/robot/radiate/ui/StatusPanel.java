@@ -16,6 +16,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.Activity.Busy;
+import static bad.robot.radiate.Activity.Idle;
 import static bad.robot.radiate.Status.*;
 import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
 import static bad.robot.radiate.ui.swing.Composite.getAlphaComposite;
@@ -31,6 +32,7 @@ public class StatusPanel extends JPanel implements Observer {
     private static final Color Grey = new Color(64, 64, 64);
 
     private final ProgressIndicator progressIndicator = new ProgressIndicator();
+    private final OvertimeIndicator overtimeIndicator = new OvertimeIndicator();
     private final BusyIndicator busyIndicator = new BusyIndicator();
     private final ErrorIndicator errorIndicator = new ErrorIndicator();
     private final int identifier;
@@ -41,7 +43,7 @@ public class StatusPanel extends JPanel implements Observer {
     private String text;
 
     public StatusPanel(JFrame parent, int identifier) {
-        parent.add(new JLayer<>(new JLayer<>(new JLayer<>(this, errorIndicator), progressIndicator), busyIndicator));
+        parent.add(new JLayer<>(new JLayer<>(new JLayer<>(new JLayer<>(this, errorIndicator), progressIndicator), overtimeIndicator), busyIndicator));
         this.identifier = identifier;
     }
 
@@ -83,6 +85,7 @@ public class StatusPanel extends JPanel implements Observer {
         fillBackground(graphics);
         updateText(graphics);
         progressIndicator.setVisiblityBasedOn(activity, progress);
+        overtimeIndicator.setVisiblityBasedOn(activity, progress);
         busyIndicator.setVisiblityBasedOn(activity);
         errorIndicator.setVisiblityBasedOn(activity);
     }

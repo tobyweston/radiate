@@ -27,11 +27,11 @@ public class RandomStatus extends ThreadSafeObservable implements MonitoringTask
             notifyObservers(new RuntimeException("Example problem"));
     }
 
-    private Progress randomProgress() {
+    public static Progress randomProgress() {
         return new Progress(random.nextInt(100) + 1, 100);
     }
 
-    private static Status randomStatus() {
+    public static Status randomStatus() {
         return statuses[random.nextInt(statuses.length)];
     }
 

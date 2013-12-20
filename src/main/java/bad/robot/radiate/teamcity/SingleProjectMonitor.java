@@ -9,7 +9,6 @@ import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.http.configuration.HttpTimeout.httpTimeout;
-import static bad.robot.radiate.Activity.Idle;
 import static bad.robot.radiate.Aggregator.aggregate;
 import static bad.robot.radiate.teamcity.TeamCity.Functions.toBuild;
 import static com.google.code.tempusfugit.temporal.Duration.minutes;
