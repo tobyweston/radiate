@@ -31,16 +31,15 @@ import static java.awt.Color.white;
 import static java.awt.Font.PLAIN;
 import static java.awt.RenderingHints.*;
 import static java.lang.String.format;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
+class OvertimeIndicator extends LayerUI<JComponent> {
 
     public static final float Transparency = 0.20f;
 
-    private Timer timer = new Timer(5, this);
-    private Timer fadeTimer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
-    private Fade fade = new FadeIn();
-    private int progress = 90;
+    private Timer timer = new Timer(5, new AnimationActionListener());
+    private Timer fadeTimer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), new FadeActionListener());
+    private Fade fade;// = new FadeIn();
+    private int overtimeIndicatorPosition = 90;
     private float alpha = 0.0f; // transparent
 
     @Override
@@ -93,15 +92,15 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void drawBusyRadial(final Rectangle region, final Graphics2D graphics) {
         graphics.setPaint(white);
-        progress--;
+        overtimeIndicatorPosition--;
         int lengthOfTail = 60;
         for (int i = 0; i < lengthOfTail; i++) {
-            final int bar = i;
+            final int segment = i;
             float transparency = 0.0f + (i / ((float) lengthOfTail));
             applyWithComposite(graphics, getAlphaComposite(graphics, transparency), new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
-                    graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, progress - bar, 1, Arc2D.OPEN));
+                    graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, overtimeIndicatorPosition - segment, 1, Arc2D.OPEN));
                     return null;
                 }
             });
@@ -124,14 +123,6 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent event) {
-        if (timer.isRunning()) {
-            fade.fireEvent(getPropertyChangeListeners());
-            firePropertyChange("animate", 0, 1);
-        }
-    }
-
-    @Override
     public void applyPropertyChange(PropertyChangeEvent event, JLayer layer) {
         if ("animate".equals(event.getPropertyName()))
             layer.repaint();
@@ -150,7 +141,10 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void start() {
-        timer.start();
+        if (!timer.isRunning()) {
+            timer.start();
+            fade = new FadeIn();
+        }
         fadeTimer.start();
     }
 
@@ -160,4 +154,17 @@ class OvertimeIndicator extends LayerUI<JComponent> implements ActionListener {
         timer.stop();
     }
 
+    private class AnimationActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            firePropertyChange("animate", 0, 1);
+        }
+    }
+
+    private class FadeActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            fade.fireEvent(getPropertyChangeListeners());
+        }
+    }
 }
