@@ -18,7 +18,7 @@ import static java.util.Arrays.asList;
 
 public class SingleProjectMonitor extends NonRepeatingObservable implements MonitoringTask {
 
-    private final HttpClient http = anApacheClient().with(httpTimeout(minutes(1)));
+    private final HttpClient http;
     private final Server server;
     private final TeamCity teamcity;
     private final Project project;
@@ -26,6 +26,7 @@ public class SingleProjectMonitor extends NonRepeatingObservable implements Moni
     public SingleProjectMonitor(Project project, TeamCityConfiguration configuration) {
         this.project = project;
         this.server = new Server(configuration.host(), configuration.port());
+        this.http = anApacheClient().with(httpTimeout(minutes(1)));
         this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
 

@@ -21,7 +21,7 @@ import static java.lang.String.format;
 public class AllProjectsMonitor extends NonRepeatingObservable implements MonitoringTask {
 
     private final TeamCityConfiguration configuration;
-    private final HttpClient http = anApacheClient().with(httpTimeout(minutes(1)));
+    private final HttpClient http;
     private final Server server;
     private final TeamCity teamcity;
 
@@ -30,6 +30,7 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
     public AllProjectsMonitor(TeamCityConfiguration configuration) {
         this.configuration = configuration;
         this.server = new Server(configuration.host(), configuration.port());
+        this.http = anApacheClient().with(httpTimeout(minutes(1)));
         this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
 

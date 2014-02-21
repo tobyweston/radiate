@@ -1,6 +1,7 @@
 package bad.robot.radiate.teamcity;
 
 import static bad.robot.radiate.Environment.getEnvironmentVariable;
+import static bad.robot.radiate.teamcity.Password.password;
 import static java.lang.Integer.valueOf;
 
 public class EnvironmentVariableConfiguration implements TeamCityConfiguration {
@@ -19,4 +20,15 @@ public class EnvironmentVariableConfiguration implements TeamCityConfiguration {
     public Iterable<Project> filter(Iterable<Project> projects) {
         return projects; // no filtering
     }
+
+    @Override
+    public Password password() {
+        return Password.password(getEnvironmentVariable("TEAMCITY_PASSWORD", null));
+    }
+
+    @Override
+    public Username username() {
+        return Username.username(getEnvironmentVariable("TEAMCITY_USER", null));
+    }
+
 }

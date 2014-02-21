@@ -41,6 +41,8 @@ public class YmlConfigurationFile extends File {
             data.put("projects", getProjectIds(teamcity));
             data.put("host", fallback.host());
             data.put("port", fallback.port());
+            data.put("user", null);
+            data.put("password", null);
             writeStringToFile(this, yaml.dump(data));
         } catch (Exception e) {
             deleteOnExit();

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static bad.robot.radiate.teamcity.Username.username;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class YmlConfiguration implements TeamCityConfiguration {
@@ -61,5 +62,15 @@ public class YmlConfiguration implements TeamCityConfiguration {
                 return sequence(ids).contains(other.getId());
             }
         };
+    }
+
+    @Override
+    public Password password() {
+        return Password.password((String) configuration.get("password"));
+    }
+
+    @Override
+    public Username username() {
+        return Username.username((String) configuration.get("user"));
     }
 }
