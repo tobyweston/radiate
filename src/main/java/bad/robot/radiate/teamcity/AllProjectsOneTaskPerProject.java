@@ -8,7 +8,6 @@ import com.googlecode.totallylazy.Sequence;
 
 import java.util.List;
 
-import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.radiate.teamcity.NonEmptyProject.nonEmpty;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
@@ -25,7 +24,7 @@ public class AllProjectsOneTaskPerProject extends ThreadSafeObservable implement
 
     private static TeamCity createTeamCity(TeamCityConfiguration configuration) {
         Server server = new Server(configuration.host(), configuration.port());
-        return new TeamCity(server, anApacheClient(), new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
+        return new TeamCity(server, new HttpClientFactory().create(configuration), new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
 
     private Callable1<Project, MonitoringTask> toTasks(final TeamCityConfiguration configuration) {

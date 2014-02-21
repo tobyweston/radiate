@@ -1,17 +1,14 @@
 package bad.robot.radiate.teamcity;
 
 import bad.robot.http.HttpClient;
-import bad.robot.radiate.*;
+import bad.robot.radiate.Aggregator;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.NonRepeatingObservable;
 import com.googlecode.totallylazy.Sequence;
 
-import static bad.robot.http.HttpClients.anApacheClient;
-import static bad.robot.http.configuration.HttpTimeout.httpTimeout;
 import static bad.robot.radiate.Aggregator.aggregate;
 import static bad.robot.radiate.teamcity.TeamCity.Functions.toBuild;
-import static com.google.code.tempusfugit.temporal.Duration.minutes;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -26,7 +23,7 @@ public class SingleProjectMonitor extends NonRepeatingObservable implements Moni
     public SingleProjectMonitor(Project project, TeamCityConfiguration configuration) {
         this.project = project;
         this.server = new Server(configuration.host(), configuration.port());
-        this.http = anApacheClient().with(httpTimeout(minutes(1)));
+        this.http = new HttpClientFactory().create();
         this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
 

@@ -1,19 +1,19 @@
 package bad.robot.radiate.teamcity;
 
 import bad.robot.http.CommonHttpClient;
+import bad.robot.http.HttpClient;
 import bad.robot.http.HttpResponse;
 import bad.robot.radiate.Unmarshaller;
 
 import java.io.IOException;
 
-import static bad.robot.http.HttpClients.anApacheClient;
 import static bad.robot.radiate.Environment.getEnvironmentVariable;
 import static java.lang.Integer.valueOf;
 
 public class ExampleUsage {
 
     public static void main(String... args) throws IOException {
-        CommonHttpClient http = anApacheClient();
+        HttpClient http = new HttpClientFactory().create();
         Unmarshaller<HttpResponse, Iterable<Project>> projectsUnmarshaller = new JsonProjectsUnmarshaller();
         Unmarshaller<HttpResponse, Project> projectUnmarshaller = new JsonProjectUnmarshaller();
         JsonBuildUnmarshaller buildUnmarshaller = new JsonBuildUnmarshaller();
