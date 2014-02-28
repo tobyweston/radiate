@@ -13,16 +13,16 @@ class BuildLocatorBuilder {
     }
 
     BuildLocatorBuilder with(BuildType type) {
-        withSeperator().append("buildType:").append(type.getId());
+        withSeparator().append("buildType:").append(type.getId());
         return this;
     }
 
     BuildLocatorBuilder running() {
-        withSeperator().append("running:true");
+        withSeparator().append("running:true");
         return this;
     }
 
-    private StringBuilder withSeperator() {
+    private StringBuilder withSeparator() {
         if (locator.length() > 0)
             locator.append(",");
         return locator;

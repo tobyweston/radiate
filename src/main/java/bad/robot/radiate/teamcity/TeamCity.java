@@ -12,14 +12,17 @@ import java.net.URL;
 
 import static bad.robot.http.HeaderList.headers;
 import static bad.robot.http.HeaderPair.header;
+import static bad.robot.radiate.teamcity.Authorisation.GuestAuthorisation;
 import static bad.robot.radiate.teamcity.BuildLocatorBuilder.latest;
 import static bad.robot.radiate.teamcity.BuildLocatorBuilder.running;
-import static bad.robot.radiate.teamcity.TeamCityEndpoint.projectsEndpoint;
+import static bad.robot.radiate.teamcity.TeamCityEndpoints.*;
 import static com.googlecode.totallylazy.Monad.methods.sequenceE;
 import static com.googlecode.totallylazy.Sequences.flatten;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 class TeamCity {
+
+    private static final Authorisation Authorisation = GuestAuthorisation;
 
     private final Headers headers = headers(header("Accept", "application/json"));
     private final Server server;
@@ -37,7 +40,7 @@ class TeamCity {
     }
 
     public Iterable<Project> retrieveProjects() {
-        URL url = server.urlFor(projectsEndpoint);
+        URL url = server.urlFor(projectsEndpointFor(Authorisation));
         HttpResponse response = http.get(url, headers);
         if (response.ok())
             return projects.unmarshall(response);
@@ -56,7 +59,7 @@ class TeamCity {
     }
 
     public Build retrieveLatestBuild(BuildType buildType) {
-        URL url = server.urlFor(running(buildType));
+        URL url = server.urlFor(running(buildType), Authorisation);
         HttpResponse response = http.get(url, headers);
         if (response.getStatusCode() == 404)
             return retrieveBuild(latest(buildType));
@@ -66,7 +69,7 @@ class TeamCity {
     }
 
     private Build retrieveBuild(BuildLocatorBuilder locator) {
-        URL url = server.urlFor(locator);
+        URL url = server.urlFor(locator, Authorisation);
         HttpResponse response = http.get(url, headers);
         if (response.ok())
             return build.unmarshall(response);
