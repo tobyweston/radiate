@@ -24,7 +24,7 @@ public class SingleProjectMonitor extends NonRepeatingObservable implements Moni
         this.project = project;
         this.server = new Server(configuration.host(), configuration.port());
         this.http = new HttpClientFactory().create();
-        this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
+        this.teamcity = new TeamCity(server, configuration.authorisation(), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
 
     @Override

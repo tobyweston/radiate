@@ -9,6 +9,7 @@ import org.hamcrest.Matchers;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.jmock.lib.concurrent.Synchroniser;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -19,6 +20,7 @@ import static bad.robot.http.EmptyHeaders.emptyHeaders;
 import static bad.robot.http.HeaderList.headers;
 import static bad.robot.http.HeaderPair.header;
 import static bad.robot.http.matchers.Matchers.containsPath;
+import static bad.robot.radiate.teamcity.Authorisation.*;
 import static com.googlecode.totallylazy.Sequences.*;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,7 +44,7 @@ public class TeamCityTest {
     private final Unmarshaller<HttpResponse, Iterable<Project>> projectsUnmarshaller = context.mock(Unmarshaller.class, "projects unmarshaller");
     private final Unmarshaller<HttpResponse, Project> projectUnmarshaller = context.mock(Unmarshaller.class, "project unmarshaller");
     private final Unmarshaller<HttpResponse, Build> buildUnmarshaller = context.mock(Unmarshaller.class, "build unmarshaller");
-    private final TeamCity teamcity = new TeamCity(new Server("example.com", 8111), http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller);
+    private final TeamCity teamcity = new TeamCity(new Server("example.com", 8111), GuestAuthorisation, http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller);
 
     @Test
     public void shouldRetrieveProjects() throws MalformedURLException {

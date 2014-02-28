@@ -12,7 +12,6 @@ import java.net.URL;
 
 import static bad.robot.http.HeaderList.headers;
 import static bad.robot.http.HeaderPair.header;
-import static bad.robot.radiate.teamcity.Authorisation.GuestAuthorisation;
 import static bad.robot.radiate.teamcity.BuildLocatorBuilder.latest;
 import static bad.robot.radiate.teamcity.BuildLocatorBuilder.running;
 import static bad.robot.radiate.teamcity.TeamCityEndpoints.*;
@@ -22,25 +21,25 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 
 class TeamCity {
 
-    private static final Authorisation Authorisation = GuestAuthorisation;
-
     private final Headers headers = headers(header("Accept", "application/json"));
     private final Server server;
     private final HttpClient http;
+    private final Authorisation authorisation;
     private final Unmarshaller<HttpResponse, Iterable<Project>> projects;
     private final Unmarshaller<HttpResponse, Project> project;
     private final Unmarshaller<HttpResponse, Build> build;
 
-    public TeamCity(Server server, HttpClient http, Unmarshaller<HttpResponse, Iterable<Project>> projects, Unmarshaller<HttpResponse, Project> project, Unmarshaller<HttpResponse, Build> build) {
+    public TeamCity(Server server, Authorisation authorisation, HttpClient http, Unmarshaller<HttpResponse, Iterable<Project>> projects, Unmarshaller<HttpResponse, Project> project, Unmarshaller<HttpResponse, Build> build) {
         this.server = server;
         this.http = http;
         this.projects = projects;
         this.project = project;
         this.build = build;
+        this.authorisation = authorisation;
     }
 
     public Iterable<Project> retrieveProjects() {
-        URL url = server.urlFor(projectsEndpointFor(Authorisation));
+        URL url = server.urlFor(projectsEndpointFor(authorisation));
         HttpResponse response = http.get(url, headers);
         if (response.ok())
             return projects.unmarshall(response);
@@ -59,7 +58,7 @@ class TeamCity {
     }
 
     public Build retrieveLatestBuild(BuildType buildType) {
-        URL url = server.urlFor(running(buildType), Authorisation);
+        URL url = server.urlFor(running(buildType), authorisation);
         HttpResponse response = http.get(url, headers);
         if (response.getStatusCode() == 404)
             return retrieveBuild(latest(buildType));
@@ -69,7 +68,7 @@ class TeamCity {
     }
 
     private Build retrieveBuild(BuildLocatorBuilder locator) {
-        URL url = server.urlFor(locator, Authorisation);
+        URL url = server.urlFor(locator, authorisation);
         HttpResponse response = http.get(url, headers);
         if (response.ok())
             return build.unmarshall(response);

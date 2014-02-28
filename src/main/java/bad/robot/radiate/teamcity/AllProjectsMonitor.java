@@ -27,7 +27,7 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
         this.configuration = configuration;
         this.server = new Server(configuration.host(), configuration.port());
         this.http = new HttpClientFactory().create(configuration);
-        this.teamcity = new TeamCity(server, http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
+        this.teamcity = new TeamCity(server, configuration.authorisation(), http, new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
 
     @Override

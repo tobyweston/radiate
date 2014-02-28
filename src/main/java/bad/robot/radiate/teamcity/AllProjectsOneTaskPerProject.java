@@ -24,7 +24,7 @@ public class AllProjectsOneTaskPerProject extends ThreadSafeObservable implement
 
     private static TeamCity createTeamCity(TeamCityConfiguration configuration) {
         Server server = new Server(configuration.host(), configuration.port());
-        return new TeamCity(server, new HttpClientFactory().create(configuration), new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
+        return new TeamCity(server, configuration.authorisation(), new HttpClientFactory().create(configuration), new JsonProjectsUnmarshaller(), new JsonProjectUnmarshaller(), new JsonBuildUnmarshaller());
     }
 
     private Callable1<Project, MonitoringTask> toTasks(final TeamCityConfiguration configuration) {
