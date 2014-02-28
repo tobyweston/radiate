@@ -19,8 +19,7 @@ public class HttpClientFactory {
     public HttpClient create(TeamCityConfiguration configuration) {
         CommonHttpClient client = anApacheClient();
         basicAuthConfiguration(configuration).applyTo(client);
-//        client.with(Proxy.proxy(Url.url("http://localhost:8888")));
-        return client.with(httpTimeout(minutes(1)));
+        return client.with(httpTimeout(minutes(10)));
     }
 
 }

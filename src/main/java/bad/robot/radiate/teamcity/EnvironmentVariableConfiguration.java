@@ -1,7 +1,7 @@
 package bad.robot.radiate.teamcity;
 
 import static bad.robot.radiate.Environment.getEnvironmentVariable;
-import static bad.robot.radiate.teamcity.Password.password;
+import static bad.robot.radiate.teamcity.Authorisation.*;
 import static java.lang.Integer.valueOf;
 
 public class EnvironmentVariableConfiguration implements TeamCityConfiguration {
@@ -31,4 +31,8 @@ public class EnvironmentVariableConfiguration implements TeamCityConfiguration {
         return Username.username(getEnvironmentVariable("TEAMCITY_USER", null));
     }
 
+    @Override
+    public Authorisation authorisation() {
+        return Authorisation.authorisationFor(username(), password());
+    }
 }

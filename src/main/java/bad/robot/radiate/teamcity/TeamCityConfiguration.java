@@ -7,4 +7,5 @@ public interface TeamCityConfiguration {
     Iterable<Project> filter(Iterable<Project> projects);
     Username username();
     Password password();
+    Authorisation authorisation();
 }

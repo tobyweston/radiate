@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static bad.robot.radiate.teamcity.Authorisation.*;
 import static bad.robot.radiate.teamcity.Username.username;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
@@ -72,5 +73,10 @@ public class YmlConfiguration implements TeamCityConfiguration {
     @Override
     public Username username() {
         return Username.username((String) configuration.get("user"));
+    }
+
+    @Override
+    public Authorisation authorisation() {
+        return authorisationFor(username(), password());
     }
 }

@@ -14,4 +14,10 @@ enum Authorisation {
     public String toString() {
         return pathSegment;
     }
+
+    public static Authorisation authorisationFor(Username username, Password password) {
+        if (username.equals(new NoUsername()) || password.equals(new NoPassword()))
+            return GuestAuthorisation;
+        return BasicAuthorisation;
+    }
 }
