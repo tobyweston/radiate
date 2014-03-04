@@ -9,7 +9,7 @@ It will auto detect your TeamCity projects and aggregate the builds to an overal
 
 ### Configuration
 
-Set the environment property `teamcity.host` and optionally `teamcity.port` (the port defaults to `8111` if you don't set it).
+Set the environment property `TEAMCITY_HOST` and optionally `TEAMCITY_PORT` (the port defaults to `8111` if you don't set it).
 
 Both TeamCity user and guest login are supported. To enable TeamCity guest login see instructions for [TeamCity 8](http://confluence.jetbrains.com/display/TCD8/Enabling+Guest+Login) and [TeamCity 7](http://confluence.jetbrains.com/display/TCD7/Enabling+Guest+Login)).
 
@@ -25,6 +25,19 @@ There are a few key you can use to control the application. Hit any of the follo
 * **cursor** - move screens left and right in a multiple monitor setup
 
 A log will also be created in the `user.home` folder.
+
+### Environment configurations
+
+Radiate will try and bootstrap things with sensible defaults. Once started, the `config.yml` file is created with configuration and from that point out will override any environment variables. Environment variables are therefore a handy way to start the app with minimal configuration. The support variables are
+
+
+Environment variable | Required | Example
+--- | --- | ---
+TEAMCITY_HOST | Required | http://localhost
+TEAMCITY_PORT | Optional, defaults to 8111 | 8001
+TEAMCITY_PASSWORD | Optional, defaults to guest auth | bob_fossil
+TEAMCITY_USERNAME | Optional, defaults to guest auth | secret
+
 
 ### Download
 

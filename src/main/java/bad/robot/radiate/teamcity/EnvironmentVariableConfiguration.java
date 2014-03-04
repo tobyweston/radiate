@@ -1,19 +1,18 @@
 package bad.robot.radiate.teamcity;
 
 import static bad.robot.radiate.Environment.getEnvironmentVariable;
-import static bad.robot.radiate.teamcity.Authorisation.*;
 import static java.lang.Integer.valueOf;
 
 public class EnvironmentVariableConfiguration implements TeamCityConfiguration {
 
     @Override
     public String host() {
-        return getEnvironmentVariable("teamcity.host");
+        return getEnvironmentVariable("TEAMCITY_HOST");
     }
 
     @Override
     public Integer port() {
-        return valueOf(getEnvironmentVariable("teamcity.port", "8111"));
+        return valueOf(getEnvironmentVariable("TEAMCITY_PORT", "8111"));
     }
 
     @Override

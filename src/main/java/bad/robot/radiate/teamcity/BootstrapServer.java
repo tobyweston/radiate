@@ -6,6 +6,6 @@ import static java.lang.Integer.valueOf;
 public class BootstrapServer extends Server {
 
     public BootstrapServer() {
-        super(getEnvironmentVariable("teamcity.host"), valueOf(getEnvironmentVariable("teamcity.port", "8111")));
+        super(getEnvironmentVariable("TEAMCITY_HOST"), valueOf(getEnvironmentVariable("TEAMCITY_PORT", "8111")));
     }
 }
