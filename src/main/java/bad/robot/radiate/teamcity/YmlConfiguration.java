@@ -3,7 +3,6 @@ package bad.robot.radiate.teamcity;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import com.googlecode.totallylazy.Predicate;
-import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -15,7 +14,6 @@ import java.util.Map;
 
 import static bad.robot.radiate.teamcity.Authorisation.authorisationFor;
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static java.lang.String.format;
 
 public class YmlConfiguration implements TeamCityConfiguration {
 
@@ -32,7 +30,7 @@ public class YmlConfiguration implements TeamCityConfiguration {
             observable.notifyObservers(new Information("Configuration stored in " + file.getPath()));
             return new YmlConfiguration(file);
         } catch (Exception e) {
-			observable.notifyObservers(new Information(format("Failed to create Yml configuration file (caused by an %s %s), falling back to use environment variables", e.getClass().getSimpleName(), StringUtils.defaultString(e.getMessage()))));
+			observable.notifyObservers(new FailedToCreateYmlFile(e));
 			return new EnvironmentVariableConfiguration();
 		}
 	}
@@ -80,4 +78,5 @@ public class YmlConfiguration implements TeamCityConfiguration {
     public Authorisation authorisation() {
         return authorisationFor(username(), password());
     }
+
 }
