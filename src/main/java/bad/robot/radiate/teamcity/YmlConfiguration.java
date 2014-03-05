@@ -3,6 +3,7 @@ package bad.robot.radiate.teamcity;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import com.googlecode.totallylazy.Predicate;
+import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -12,9 +13,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static bad.robot.radiate.teamcity.Authorisation.*;
-import static bad.robot.radiate.teamcity.Username.username;
+import static bad.robot.radiate.teamcity.Authorisation.authorisationFor;
 import static com.googlecode.totallylazy.Sequences.sequence;
+import static java.lang.String.format;
 
 public class YmlConfiguration implements TeamCityConfiguration {
 
@@ -31,10 +32,10 @@ public class YmlConfiguration implements TeamCityConfiguration {
             observable.notifyObservers(new Information("Configuration stored in " + file.getPath()));
             return new YmlConfiguration(file);
         } catch (Exception e) {
-            observable.notifyObservers(new Information("Failed to create Yml configuration file, falling back to use environment variables"));
-            return new EnvironmentVariableConfiguration();
-        }
-    }
+			observable.notifyObservers(new Information(format("Failed to create Yml configuration file (caused by an %s %s), falling back to use environment variables", e.getClass().getSimpleName(), StringUtils.defaultString(e.getMessage()))));
+			return new EnvironmentVariableConfiguration();
+		}
+	}
 
     private Map<String, Object> load(File configuration) throws FileNotFoundException {
         return (Map<String, Object>) new Yaml().load(new FileReader(configuration));
