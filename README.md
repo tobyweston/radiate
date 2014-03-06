@@ -36,7 +36,7 @@ Environment variable | Required | Example
 TEAMCITY_HOST | Required | http://localhost
 TEAMCITY_PORT | Optional, defaults to 8111 | 8001
 TEAMCITY_PASSWORD | Optional, defaults to guest auth | bob_fossil
-TEAMCITY_USERNAME | Optional, defaults to guest auth | secret
+TEAMCITY_USER | Optional, defaults to guest auth | secret
 
 
 ### Download
