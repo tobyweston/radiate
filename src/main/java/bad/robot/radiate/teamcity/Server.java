@@ -27,7 +27,7 @@ class Server {
     }
 
     private String baseUrl() {
-        return format("http://%s:%d", host, port);
+        return format("http://%s:%s", host, port);
     }
 
 }
