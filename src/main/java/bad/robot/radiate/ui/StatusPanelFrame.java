@@ -31,13 +31,13 @@ public class StatusPanelFrame extends JFrame {
     }
 
     public Dimension getDimensionForAllScreens() {
-        Rectangle2D dimension = new Rectangle2D.Double();
-        for (GraphicsDevice device : getLocalGraphicsEnvironment().getScreenDevices()) {
-            for (GraphicsConfiguration graphics : device.getConfigurations()) {
-                dimension.union(dimension, graphics.getBounds(), dimension);
+        Rectangle2D totalScreenSize = new Rectangle2D.Double();
+        for (GraphicsDevice screens : getLocalGraphicsEnvironment().getScreenDevices()) {
+            for (GraphicsConfiguration graphics : screens.getConfigurations()) {
+                totalScreenSize.union(totalScreenSize, graphics.getBounds(), totalScreenSize);
             }
         }
-        return new Dimension((int) dimension.getWidth(), (int) dimension.getHeight());
+        return new Dimension((int) totalScreenSize.getWidth(), (int) totalScreenSize.getHeight());
     }
 
     public Observer createStatusPanel() {
