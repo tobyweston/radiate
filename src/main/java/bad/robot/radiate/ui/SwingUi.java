@@ -26,7 +26,7 @@ public class SwingUi implements Ui, Observer {
         Logging.initialise();
     }
 
-    public SwingUi() throws HeadlessException {
+    public SwingUi() {
         container = new StatusPanelFrame();
         console = new Console(container);
         setupGlobalEventListeners();

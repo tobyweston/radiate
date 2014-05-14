@@ -4,12 +4,12 @@ import bad.robot.radiate.monitor.Observer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import java.util.Set;
 
-import static bad.robot.radiate.ui.FullScreen.fullScreen;
-import static bad.robot.radiate.ui.Screen.primaryScreen;
 import static java.awt.Color.darkGray;
+import static java.awt.GraphicsEnvironment.*;
 
 public class StatusPanelFrame extends JFrame {
 
@@ -25,9 +25,19 @@ public class StatusPanelFrame extends JFrame {
         setTitle("Radiate");
         getContentPane().setBackground(darkGray);
         setUndecorated(true);
-        setSize(400, 400);
-        primaryScreen().moveTo(this);
-        fullScreen(this).switchTo();
+        setSize(getDimensionForAllScreens());
+//        primaryScreen().moveTo(this);
+//        fullScreen(this).switchTo();
+    }
+
+    public Dimension getDimensionForAllScreens() {
+        Rectangle2D dimension = new Rectangle2D.Double();
+        for (GraphicsDevice device : getLocalGraphicsEnvironment().getScreenDevices()) {
+            for (GraphicsConfiguration graphics : device.getConfigurations()) {
+                dimension.union(dimension, graphics.getBounds(), dimension);
+            }
+        }
+        return new Dimension((int) dimension.getWidth(), (int) dimension.getHeight());
     }
 
     public Observer createStatusPanel() {
