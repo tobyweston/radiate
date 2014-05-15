@@ -11,6 +11,7 @@ import bad.robot.radiate.teamcity.SanitisedException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.stream.Stream;
 
 import static bad.robot.radiate.MonitoringTypes.*;
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
@@ -21,7 +22,7 @@ import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
 public class SwingUi implements Ui, Observer {
 
-    private final StatusPanelFrame container;
+    private final StatusFrames frames;
     private final Console console;
 
     static {
@@ -29,17 +30,17 @@ public class SwingUi implements Ui, Observer {
     }
 
     public SwingUi() {
-        container = new StatusPanelFrame();
-        console = new Console(container);
+        frames = new StatusFrames();
+        console = new Console(frames.primary());
         setupGlobalEventListeners();
         setLookAndFeel();
     }
 
     private void setupGlobalEventListeners() {
         Toolkit.getDefaultToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new MaximiseToggle(container), KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(new MaximiseToggle(frames.primary()), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new ToggleConsoleDialog(console), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new MoveMonitors(container), KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(new MoveMonitors(frames.primary()), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(singleAggregate(), VK_C), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(multipleProjects(), VK_A), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(multipleBuildsDemo(), VK_D), KEY_EVENT_MASK);
@@ -55,15 +56,15 @@ public class SwingUi implements Ui, Observer {
 
     @Override
     public void start() {
-        container.display();
+        frames.display();
     }
 
     public void stop() {
-        container.dispose();
+        frames.dispose();
     }
 
-    public Observer createStatusPanel() {
-        return container.createStatusPanel();
+    public Stream<Observer> createStatusPanels() {
+        return frames.createStatusPanels();
     }
 
     @Override
@@ -85,7 +86,7 @@ public class SwingUi implements Ui, Observer {
     public void update(final Observable source, final Exception exception) {
         invokeLater(() -> {
             console.append(format("%s when monitoring %s", new SanitisedException(exception).getMessage(), source == null ? "" : source.toString()));
-            if (container.inDesktopMode())
+            if (frames.inDesktopMode())
                 console.setVisible(true);
         });
     }

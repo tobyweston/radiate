@@ -4,6 +4,7 @@ import bad.robot.radiate.monitor.*;
 import bad.robot.radiate.ui.SwingUi;
 
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Stream;
 
 import static java.util.concurrent.Executors.newScheduledThreadPool;
 
@@ -21,8 +22,8 @@ public class Application {
         taskFactory.addObservers(logger, ui);
         monitoring = new MonitoringTasks(taskFactory, monitor);
         for (MonitoringTask monitor : monitoring) {
-            Observer panel = ui.createStatusPanel();
-            monitor.addObservers(panel, ui, logger);
+            monitor.addObservers(ui.createStatusPanels());
+            monitor.addObservers(ui, logger);
         }
         monitoring.start();
         ui.start();

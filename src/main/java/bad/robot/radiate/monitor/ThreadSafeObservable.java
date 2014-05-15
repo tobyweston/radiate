@@ -6,6 +6,7 @@ import bad.robot.radiate.Status;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
@@ -16,6 +17,11 @@ public class ThreadSafeObservable implements Observable {
     @Override
     public boolean addObservers(Observer... observers) {
         return this.observers.addAll(asList(observers));
+    }
+
+    @Override
+    public void addObservers(Stream<Observer> observers) {
+        observers.forEach(observer -> this.observers.add(observer));
     }
 
     @Override
