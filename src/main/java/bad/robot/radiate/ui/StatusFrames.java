@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static java.awt.Frame.NORMAL;
 import static java.util.stream.IntStream.range;
 
-class StatusFrames implements Iterable<StatusFrame> {
+class StatusFrames {
 
     private final java.util.List<StatusFrame> frames = new ArrayList<>();
 
@@ -22,11 +22,6 @@ class StatusFrames implements Iterable<StatusFrame> {
 
     StatusFrame primary() {
         return frames.get(0);
-    }
-
-    @Override
-    public Iterator<StatusFrame> iterator() {
-        return frames.iterator();
     }
 
     public void display() {
