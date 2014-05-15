@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 class Screen {
+
     private final int index;
     private final int maxIndex;
     private final GraphicsDevice[] screens;

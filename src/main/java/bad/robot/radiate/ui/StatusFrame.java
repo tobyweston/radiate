@@ -4,30 +4,31 @@ import bad.robot.radiate.monitor.Observer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import java.util.Set;
 
-import static bad.robot.radiate.ui.FullScreen.fullScreen;
 import static java.awt.Color.darkGray;
-import static java.awt.GraphicsEnvironment.*;
+import static java.lang.String.*;
 
 public class StatusFrame extends JFrame {
 
     private final Set<StatusPanel> panels = new HashSet<>();
 
-    public StatusFrame(Screen screen) throws HeadlessException {
+    public StatusFrame(int index, Rectangle bounds) {
         setLayout(new ChessboardLayout(panels));
-        setupWindowing(screen);
+        setupWindowing(index, bounds);
     }
 
-    private void setupWindowing(Screen screen) {
+    private void setupWindowing(int index, Rectangle bounds) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("Radiate");
+        setTitle(format("Radiate:%d", index));
+        setSize(bounds.width, bounds.height);
+        setLocation(bounds.x, bounds.y);
         getContentPane().setBackground(darkGray);
         setUndecorated(true);
-        screen.moveTo(this);
-        fullScreen(this).switchTo();
+
+//        screen.moveTo(this);
+//        fullScreen(this).switchTo();
     }
 
     public Observer createStatusPanel() {

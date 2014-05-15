@@ -2,22 +2,22 @@ package bad.robot.radiate.ui;
 
 import bad.robot.radiate.monitor.Observer;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static bad.robot.radiate.ui.Screen.primaryScreen;
 import static java.awt.Frame.NORMAL;
+import static java.util.stream.IntStream.range;
 
 class StatusFrames implements Iterable<StatusFrame> {
 
     private final java.util.List<StatusFrame> frames = new ArrayList<>();
 
     StatusFrames() {
-        Screen screen = primaryScreen();
-        frames.add(new StatusFrame(screen));
-        frames.add(new StatusFrame(screen.next()));
-        // todo one frame per screen
+        GraphicsDevice[] screens = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+        range(0, screens.length).forEach(index -> frames.add(new StatusFrame(index, screens[index].getDefaultConfiguration().getBounds())));
     }
 
     StatusFrame primary() {
@@ -41,6 +41,7 @@ class StatusFrames implements Iterable<StatusFrame> {
         return frames.stream().map(frame -> frame.createStatusPanel());
     }
 
+    @Deprecated
     public boolean inDesktopMode() {
         return frames.stream().anyMatch(frame -> frame.getExtendedState() == NORMAL);
     }
