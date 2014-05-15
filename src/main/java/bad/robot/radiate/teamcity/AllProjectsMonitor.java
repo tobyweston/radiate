@@ -9,7 +9,6 @@ import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.radiate.Aggregator.aggregate;
 import static bad.robot.radiate.Functions.asString;
-import static bad.robot.radiate.teamcity.TeamCity.Functions.toBuild;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
@@ -36,7 +35,7 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
             Iterable<Project> projects = configuration.filter(teamcity.retrieveProjects());
             monitored = sequence(projects).map(asString());
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
-            Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toBuild(teamcity));
+            Sequence<Build> builds = sequence(buildTypes).mapConcurrently(buildType -> teamcity.retrieveLatestBuild(buildType));
             Aggregator aggregated = aggregate(builds);
             notifyObservers(aggregated.activity(), aggregated.progress());
             notifyObservers(aggregated.status());

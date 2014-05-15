@@ -8,7 +8,6 @@ import bad.robot.radiate.monitor.NonRepeatingObservable;
 import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.radiate.Aggregator.aggregate;
-import static bad.robot.radiate.teamcity.TeamCity.Functions.toBuild;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -31,7 +30,7 @@ public class SingleProjectMonitor extends NonRepeatingObservable implements Moni
     public void run() {
         try {
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(asList(project));
-            Sequence<Build> builds = sequence(buildTypes).mapConcurrently(toBuild(teamcity));
+            Sequence<Build> builds = sequence(buildTypes).mapConcurrently(buildType -> teamcity.retrieveLatestBuild(buildType));
             Aggregator aggregated = aggregate(builds);
             notifyObservers(aggregated.activity(), aggregated.progress());
             notifyObservers(aggregated.status());

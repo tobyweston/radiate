@@ -78,27 +78,14 @@ class TeamCity {
     }
 
     private Callable1<Project, Either<TeamCityException, Project>> expandingToFullProject() {
-        return new Callable1<Project, Either<TeamCityException, Project>>() {
-            @Override
-            public Either<TeamCityException, Project> call(Project project) throws Exception {
-                URL url = server.urlFor(project);
-                HttpResponse response = http.get(url, headers);
-                if (response.ok())
-                    return Either.right(TeamCity.this.project.unmarshall(response));
-                ;
-                return Either.<TeamCityException, Project>left(new UnexpectedResponse(url, response));
-            }
+        return project -> {
+            URL url = server.urlFor(project);
+            HttpResponse response = http.get(url, headers);
+            if (response.ok())
+                return Either.right(TeamCity.this.project.unmarshall(response));
+            ;
+            return Either.<TeamCityException, Project>left(new UnexpectedResponse(url, response));
         };
     }
 
-    public static class Functions {
-        public static Callable1<BuildType, Build> toBuild(final TeamCity teamcity) {
-            return new Callable1<BuildType, Build>() {
-                @Override
-                public Build call(BuildType buildType) throws Exception {
-                    return teamcity.retrieveLatestBuild(buildType);
-                }
-            };
-        }
-    }
 }
