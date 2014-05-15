@@ -12,7 +12,9 @@ import bad.robot.radiate.teamcity.SanitisedException;
 import javax.swing.*;
 import java.awt.*;
 
+import static bad.robot.radiate.MonitoringTypes.*;
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
+import static java.awt.event.KeyEvent.*;
 import static java.lang.String.format;
 import static javax.swing.SwingUtilities.invokeLater;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
@@ -38,6 +40,9 @@ public class SwingUi implements Ui, Observer {
         Toolkit.getDefaultToolkit().addAWTEventListener(new MaximiseToggle(container), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new ToggleConsoleDialog(console), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new MoveMonitors(container), KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(singleAggregate(), VK_C), KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(multipleProjects(), VK_A), KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(multipleBuildsDemo(), VK_D), KEY_EVENT_MASK);
     }
 
     private void setLookAndFeel() {
@@ -51,6 +56,10 @@ public class SwingUi implements Ui, Observer {
     @Override
     public void start() {
         container.display();
+    }
+
+    public void stop() {
+        container.dispose();
     }
 
     public Observer createStatusPanel() {

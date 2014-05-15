@@ -7,18 +7,19 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import static java.util.concurrent.Executors.newScheduledThreadPool;
 
-class Application {
+public class Application {
 
     private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());
 
     private final LoggingObserver logger = new LoggingObserver();
-    private final MonitoringTasksFactory taskFactory = MonitoringTypes.singleAggregate();
     private final Monitor monitor = new ScheduledMonitor(threadPool);
+    private MonitoringTasks monitoring;
+    private SwingUi ui;
 
-    public void start() {
-        SwingUi ui = new SwingUi();
+    public void start(MonitoringTasksFactory taskFactory) {
+        ui = new SwingUi();
         taskFactory.addObservers(logger, ui);
-        MonitoringTasks monitoring = new MonitoringTasks(taskFactory, monitor);
+        monitoring = new MonitoringTasks(taskFactory, monitor);
         for (MonitoringTask monitor : monitoring) {
             Observer panel = ui.createStatusPanel();
             monitor.addObservers(panel, ui, logger);
@@ -28,8 +29,15 @@ class Application {
         addShutdownHook(new StopMonitoring(monitor));
     }
 
+    public void stop() {
+        for (MonitoringTask monitor : monitoring) {
+            monitor.removeAllObservers();
+        }
+        monitoring.stop();
+        ui.stop();
+    }
+
     private void addShutdownHook(Thread thread) {
         Runtime.getRuntime().addShutdownHook(thread);
     }
-
 }

@@ -10,6 +10,8 @@ public interface Observable {
 
     boolean removeObservers(Observer... observer);
 
+    void removeAllObservers();
+
     void notifyObservers(Status status);
 
     void notifyObservers(Activity activity, Progress progress);

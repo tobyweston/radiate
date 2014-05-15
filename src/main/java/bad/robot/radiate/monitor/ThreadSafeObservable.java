@@ -24,6 +24,11 @@ public class ThreadSafeObservable implements Observable {
     }
 
     @Override
+    public void removeAllObservers() {
+        observers.clear();
+    }
+
+    @Override
     public void notifyObservers(Status status) {
         for (Observer observer : observers)
             observer.update(this, status);
