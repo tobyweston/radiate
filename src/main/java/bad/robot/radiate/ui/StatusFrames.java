@@ -4,8 +4,6 @@ import bad.robot.radiate.monitor.Observer;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.awt.Frame.NORMAL;
