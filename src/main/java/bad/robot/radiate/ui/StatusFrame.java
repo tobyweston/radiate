@@ -26,7 +26,7 @@ public class StatusFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle(format("Radiate:%d", index));
 
-        new DesktopMode(bounds).accept(this);
+        new FullScreen(bounds).accept(this);
 
 //        screen.moveTo(this);
 //        fullScreen(this).switchTo();

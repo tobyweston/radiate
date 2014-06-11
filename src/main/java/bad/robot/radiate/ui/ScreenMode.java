@@ -6,6 +6,7 @@ import static bad.robot.radiate.ui.DesktopMode.desktopMode;
 import static bad.robot.radiate.ui.FullScreen.fullScreen;
 import static java.awt.Frame.NORMAL;
 
+@Deprecated
 abstract class ScreenMode {
 
     static ScreenMode create(JFrame frame) {

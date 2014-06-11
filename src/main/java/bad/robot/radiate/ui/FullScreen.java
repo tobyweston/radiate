@@ -5,6 +5,7 @@ import javax.swing.*;
 import static bad.robot.radiate.ui.DesktopMode.desktopMode;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 
+@Deprecated
 class FullScreen extends ScreenMode {
 
     private final JFrame frame;

@@ -83,7 +83,6 @@ class TeamCity {
             HttpResponse response = http.get(url, headers);
             if (response.ok())
                 return Either.right(TeamCity.this.project.unmarshall(response));
-            ;
             return Either.<TeamCityException, Project>left(new UnexpectedResponse(url, response));
         };
     }
