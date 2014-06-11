@@ -31,8 +31,4 @@ class StatusFrames {
         return frames.stream().map(frame -> frame.createStatusPanel());
     }
 
-    @Deprecated
-    public boolean inDesktopMode() {
-        return frames.stream().anyMatch(frame -> frame.getExtendedState() == NORMAL);
-    }
 }

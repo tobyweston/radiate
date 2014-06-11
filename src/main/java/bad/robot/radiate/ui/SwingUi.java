@@ -39,6 +39,7 @@ public class SwingUi implements Ui, Observer {
     }
 
     private static final SwitchScreenMode switchScreenMode = new SwitchScreenMode(FrameFactory::desktopMode, FrameFactory::fullScreen);
+
     private void setupGlobalEventListeners() {
         addAwtEventListener(new ExitOnEscape());
         addAwtEventListener(switchScreenMode);
@@ -67,7 +68,7 @@ public class SwingUi implements Ui, Observer {
 
     public void stop() {
         frames.dispose();
-        Arrays.stream(getDefaultToolkit().getAWTEventListeners()).forEach(listener ->getDefaultToolkit().removeAWTEventListener(listener));
+        Arrays.stream(getDefaultToolkit().getAWTEventListeners()).forEach(listener -> getDefaultToolkit().removeAWTEventListener(listener));
     }
 
     public Stream<Observer> createStatusPanels() {
@@ -91,11 +92,7 @@ public class SwingUi implements Ui, Observer {
 
     @Override
     public void update(Observable source, Exception exception) {
-        invokeLater(() -> {
-            console.append(format("%s when monitoring %s", new SanitisedException(exception).getMessage(), source == null ? "" : source.toString()));
-            if (frames.inDesktopMode())
-                console.setVisible(true);
-        });
+        invokeLater(() -> console.append(format("%s when monitoring %s", new SanitisedException(exception).getMessage(), source == null ? "" : source.toString())));
     }
 
 }
