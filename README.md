@@ -22,7 +22,6 @@ There are a few key you can use to control the application. Hit any of the follo
 * **Esc** - quit
 * **F11** or **m** - switch from desktop to screen saver mode (full screen)
 * **F1** or **i** - toggle the console for additional information
-* **cursor** - move screens left and right in a multiple monitor setup
 
 A log will also be created in the `user.home` folder.
 

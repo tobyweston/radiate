@@ -40,7 +40,6 @@ public class SwingUi implements Ui, Observer {
         Toolkit.getDefaultToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new SwitchScreenMode(FrameFactory::desktopMode, FrameFactory::fullScreen), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new ToggleConsoleDialog(console), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new MoveMonitors(frames.primary()), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(singleAggregate(), VK_C), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(multipleProjects(), VK_A), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(multipleBuildsDemo(), VK_D), KEY_EVENT_MASK);
