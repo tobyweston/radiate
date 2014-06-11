@@ -1,28 +1,29 @@
 package bad.robot.radiate.ui;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.function.Supplier;
 
+import static bad.robot.radiate.Main.Radiate;
+import static bad.robot.radiate.MonitoringTypes.singleAggregate;
 import static java.awt.event.KeyEvent.VK_F11;
 import static java.awt.event.KeyEvent.VK_M;
 
-class MaximiseToggle extends KeyAdapter implements AWTEventListener {
+class SwitchScreenMode extends KeyAdapter implements AWTEventListener {
 
-    private final JFrame frame;
-    private DeprecatedScreenMode mode;
+    private final Screens screens;
 
-    public MaximiseToggle(JFrame frame) {
-        this.frame = frame;
-        mode = DeprecatedScreenMode.create(frame);
+    public SwitchScreenMode(Supplier<ScreenModeFactory>... screens) {
+        this.screens = new Screens(screens);
     }
 
     @Override
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == VK_F11 || event.getKeyCode() == VK_M)
-            mode = mode.switchTo();
+            Radiate.stop();
+        Radiate.start(singleAggregate(), screens.next()); // TODO make singleAggregate() the current one, don't hardcode it
     }
 
     @Override

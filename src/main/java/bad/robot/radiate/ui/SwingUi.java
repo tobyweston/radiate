@@ -38,7 +38,7 @@ public class SwingUi implements Ui, Observer {
 
     private void setupGlobalEventListeners() {
         Toolkit.getDefaultToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new MaximiseToggle(frames.primary()), KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(new SwitchScreenMode(ScreenModeFactory::desktopScreen, ScreenModeFactory::fullScreen), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new ToggleConsoleDialog(console), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new MoveMonitors(frames.primary()), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(singleAggregate(), VK_C), KEY_EVENT_MASK);

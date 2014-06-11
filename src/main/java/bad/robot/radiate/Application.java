@@ -31,9 +31,8 @@ public class Application {
     }
 
     public void stop() {
-        for (MonitoringTask monitor : monitoring) {
+        for (MonitoringTask monitor : monitoring)
             monitor.removeAllObservers();
-        }
         monitoring.stop();
         ui.stop();
     }
