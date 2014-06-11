@@ -10,11 +10,13 @@ import bad.robot.radiate.monitor.Observer;
 import bad.robot.radiate.teamcity.SanitisedException;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.AWTEventListener;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static bad.robot.radiate.MonitoringTypes.*;
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
+import static java.awt.Toolkit.*;
 import static java.awt.event.KeyEvent.*;
 import static java.lang.String.format;
 import static javax.swing.SwingUtilities.invokeLater;
@@ -36,13 +38,18 @@ public class SwingUi implements Ui, Observer {
         setLookAndFeel();
     }
 
+    private static final SwitchScreenMode switchScreenMode = new SwitchScreenMode(FrameFactory::desktopMode, FrameFactory::fullScreen);
     private void setupGlobalEventListeners() {
-        Toolkit.getDefaultToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new SwitchScreenMode(FrameFactory::desktopMode, FrameFactory::fullScreen), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new ToggleConsoleDialog(console), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(singleAggregate(), VK_A), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(multipleProjects(), VK_C), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(multipleBuildsDemo(), VK_D), KEY_EVENT_MASK);
+        addAwtEventListener(new ExitOnEscape());
+        addAwtEventListener(switchScreenMode);
+        addAwtEventListener(new ToggleConsoleDialog(console));
+        addAwtEventListener(new Restart(singleAggregate(), VK_A));
+        addAwtEventListener(new Restart(multipleProjects(), VK_C));
+        addAwtEventListener(new Restart(multipleBuildsDemo(), VK_D));
+    }
+
+    private void addAwtEventListener(AWTEventListener listener) {
+        getDefaultToolkit().addAWTEventListener(listener, KEY_EVENT_MASK);
     }
 
     private void setLookAndFeel() {
@@ -60,6 +67,7 @@ public class SwingUi implements Ui, Observer {
 
     public void stop() {
         frames.dispose();
+        Arrays.stream(getDefaultToolkit().getAWTEventListeners()).forEach(listener ->getDefaultToolkit().removeAWTEventListener(listener));
     }
 
     public Stream<Observer> createStatusPanels() {
@@ -67,7 +75,7 @@ public class SwingUi implements Ui, Observer {
     }
 
     @Override
-    public void update(final Observable source, final Status status) {
+    public void update(Observable source, Status status) {
         // ignore status updates
     }
 
@@ -77,12 +85,12 @@ public class SwingUi implements Ui, Observer {
     }
 
     @Override
-    public void update(Observable source, final Information information) {
+    public void update(Observable source, Information information) {
         invokeLater(() -> console.append(format("%s", information)));
     }
 
     @Override
-    public void update(final Observable source, final Exception exception) {
+    public void update(Observable source, Exception exception) {
         invokeLater(() -> {
             console.append(format("%s when monitoring %s", new SanitisedException(exception).getMessage(), source == null ? "" : source.toString()));
             if (frames.inDesktopMode())

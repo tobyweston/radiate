@@ -20,8 +20,8 @@ It reports builds form **all** projects on the TeamCity instance. Once you've ru
 There are a few key you can use to control the application. Hit any of the following whilst running.
 
 * **Esc** - quit
-* **F11** or **m** - switch from desktop to screen saver mode (full screen)
 * **F1** or **i** - toggle the console for additional information
+* **s** - switch from desktop to screen saver mode (full screen)
 * **a** - monitor all projects & builds as a single aggregate (default)
 * **c** - chessboard mode; display each project as an aggregate 
 * **d** - demo mode; rotate each mode for demonstration purposes
