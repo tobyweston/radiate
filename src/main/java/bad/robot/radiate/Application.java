@@ -1,7 +1,7 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.monitor.*;
-import bad.robot.radiate.ui.ScreenModeFactory;
+import bad.robot.radiate.ui.FrameFactory;
 import bad.robot.radiate.ui.SwingUi;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -17,8 +17,8 @@ public class Application {
     private MonitoringTasks monitoring;
     private SwingUi ui;
 
-    public void start(MonitoringTasksFactory taskFactory, ScreenModeFactory screen) {
-        ui = new SwingUi(screen);
+    public void start(MonitoringTasksFactory taskFactory, FrameFactory frames) {
+        ui = new SwingUi(frames);
         taskFactory.addObservers(logger, ui);
         monitoring = new MonitoringTasks(taskFactory, monitor);
         for (MonitoringTask monitor : monitoring) {

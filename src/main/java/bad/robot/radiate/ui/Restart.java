@@ -8,7 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import static bad.robot.radiate.Main.*;
-import static bad.robot.radiate.ui.ScreenModeFactory.fullScreen;
+import static bad.robot.radiate.ui.FrameFactory.fullScreen;
 
 class Restart extends KeyAdapter implements AWTEventListener {
 

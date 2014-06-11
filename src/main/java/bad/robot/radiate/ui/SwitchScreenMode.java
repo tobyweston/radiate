@@ -1,5 +1,7 @@
 package bad.robot.radiate.ui;
 
+import bad.robot.radiate.CircularArrayBuffer;
+
 import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.KeyAdapter;
@@ -13,10 +15,10 @@ import static java.awt.event.KeyEvent.VK_M;
 
 class SwitchScreenMode extends KeyAdapter implements AWTEventListener {
 
-    private final Screens screens;
+    private final CircularArrayBuffer<FrameFactory> screens;
 
-    public SwitchScreenMode(Supplier<ScreenModeFactory>... screens) {
-        this.screens = new Screens(screens);
+    public SwitchScreenMode(Supplier<FrameFactory>... screens) {
+        this.screens = new CircularArrayBuffer(screens);
     }
 
     @Override

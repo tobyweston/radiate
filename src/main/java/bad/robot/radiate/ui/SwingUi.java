@@ -29,16 +29,16 @@ public class SwingUi implements Ui, Observer {
         Logging.initialise();
     }
 
-    public SwingUi(ScreenModeFactory screen) {
-        frames = new StatusFrames(screen);
-        console = new Console(frames.primary());
+    public SwingUi(FrameFactory frames) {
+        this.frames = new StatusFrames(frames);
+        this.console = new Console(this.frames.primary());
         setupGlobalEventListeners();
         setLookAndFeel();
     }
 
     private void setupGlobalEventListeners() {
         Toolkit.getDefaultToolkit().addAWTEventListener(new ExitOnEscape(), KEY_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new SwitchScreenMode(ScreenModeFactory::desktopScreen, ScreenModeFactory::fullScreen), KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(new SwitchScreenMode(FrameFactory::desktopMode, FrameFactory::fullScreen), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new ToggleConsoleDialog(console), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new MoveMonitors(frames.primary()), KEY_EVENT_MASK);
         Toolkit.getDefaultToolkit().addAWTEventListener(new Restart(singleAggregate(), VK_C), KEY_EVENT_MASK);
