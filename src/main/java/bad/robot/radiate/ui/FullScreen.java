@@ -1,26 +1,22 @@
 package bad.robot.radiate.ui;
 
 import javax.swing.*;
+import java.awt.*;
 
-import static bad.robot.radiate.ui.DesktopMode.desktopMode;
-import static java.awt.Frame.MAXIMIZED_BOTH;
+import static java.awt.Color.darkGray;
 
-@Deprecated
-class FullScreen extends ScreenMode {
+class FullScreen implements ScreenMode {
+    private final Rectangle bounds;
 
-    private final JFrame frame;
-
-    public static FullScreen fullScreen(JFrame frame) {
-        return new FullScreen(frame);
-    }
-
-    private FullScreen(JFrame frame) {
-        this.frame = frame;
+    public FullScreen(Rectangle bounds) {
+        this.bounds = bounds;
     }
 
     @Override
-    public DesktopMode switchTo() {
-        frame.setExtendedState(frame.getExtendedState() | MAXIMIZED_BOTH);
-        return desktopMode(frame);
+    public void accept(JFrame frame) {
+        frame.setSize(bounds.width, bounds.height);
+        frame.setLocation(bounds.x, bounds.y);
+        frame.getContentPane().setBackground(darkGray);
+        frame.setUndecorated(true);
     }
 }

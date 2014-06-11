@@ -1,7 +1,5 @@
 package bad.robot.radiate.ui;
 
-import bad.robot.radiate.Application;
-import bad.robot.radiate.Main;
 import bad.robot.radiate.monitor.MonitoringTasksFactory;
 
 import java.awt.*;
@@ -10,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import static bad.robot.radiate.Main.*;
+import static bad.robot.radiate.ui.ScreenModeFactory.fullScreen;
 
 class Restart extends KeyAdapter implements AWTEventListener {
 
@@ -25,7 +24,7 @@ class Restart extends KeyAdapter implements AWTEventListener {
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == keyCode) {
             Radiate.stop();
-            Radiate.start(taskFactory);
+            Radiate.start(taskFactory, fullScreen());
         }
     }
 

@@ -12,11 +12,11 @@ import static java.awt.event.KeyEvent.VK_M;
 class MaximiseToggle extends KeyAdapter implements AWTEventListener {
 
     private final JFrame frame;
-    private ScreenMode mode;
+    private DeprecatedScreenMode mode;
 
     public MaximiseToggle(JFrame frame) {
         this.frame = frame;
-        mode = ScreenMode.create(frame);
+        mode = DeprecatedScreenMode.create(frame);
     }
 
     @Override

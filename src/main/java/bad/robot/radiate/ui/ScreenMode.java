@@ -1,20 +1,8 @@
 package bad.robot.radiate.ui;
 
 import javax.swing.*;
+import java.util.function.Consumer;
 
-import static bad.robot.radiate.ui.DesktopMode.desktopMode;
-import static bad.robot.radiate.ui.FullScreen.fullScreen;
-import static java.awt.Frame.NORMAL;
-
-@Deprecated
-abstract class ScreenMode {
-
-    static ScreenMode create(JFrame frame) {
-        if (frame.getExtendedState() == NORMAL)
-            return fullScreen(frame);
-        return desktopMode(frame);
-    }
-
-    abstract ScreenMode switchTo();
-
+interface ScreenMode extends Consumer<JFrame> {
+    @Override void accept(JFrame jFrame);
 }

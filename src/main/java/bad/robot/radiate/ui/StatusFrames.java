@@ -13,9 +13,11 @@ class StatusFrames {
 
     private final java.util.List<StatusFrame> frames = new ArrayList<>();
 
-    StatusFrames() {
+    StatusFrames(ScreenModeFactory screen) {
         GraphicsDevice[] screens = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
-        range(0, screens.length).forEach(index -> frames.add(new StatusFrame(index, screens[index].getDefaultConfiguration().getBounds())));
+        range(0, screens.length).forEach(index -> {
+            frames.add(new StatusFrame(index, screen.create(screens[index].getDefaultConfiguration().getBounds())));
+        });
     }
 
     StatusFrame primary() {

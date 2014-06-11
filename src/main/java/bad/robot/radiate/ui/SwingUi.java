@@ -29,8 +29,8 @@ public class SwingUi implements Ui, Observer {
         Logging.initialise();
     }
 
-    public SwingUi() {
-        frames = new StatusFrames();
+    public SwingUi(ScreenModeFactory screen) {
+        frames = new StatusFrames(screen);
         console = new Console(frames.primary());
         setupGlobalEventListeners();
         setLookAndFeel();
