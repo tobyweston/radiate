@@ -22,6 +22,9 @@ There are a few key you can use to control the application. Hit any of the follo
 * **Esc** - quit
 * **F11** or **m** - switch from desktop to screen saver mode (full screen)
 * **F1** or **i** - toggle the console for additional information
+* **a** - monitor all projects & builds as a single aggregate (default)
+* **c** - chessboard mode; display each project as an aggregate 
+* **d** - demo mode; rotate each mode for demonstration purposes
 
 A log will also be created in the `user.home` folder.
 
