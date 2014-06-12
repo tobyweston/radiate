@@ -1,9 +1,4 @@
-package bad.robot.radiate;
-
-import bad.robot.radiate.monitor.MonitoringTask;
-import bad.robot.radiate.monitor.MonitoringTasksFactory;
-import bad.robot.radiate.monitor.RandomStatus;
-import bad.robot.radiate.monitor.ThreadSafeObservable;
+package bad.robot.radiate.monitor;
 
 import java.util.ArrayList;
 import java.util.List;

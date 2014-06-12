@@ -11,7 +11,7 @@ import java.awt.event.AWTEventListener;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-import static bad.robot.radiate.MonitoringTypes.*;
+import static bad.robot.radiate.monitor.MonitoringTasksFactory.*;
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
 import static java.awt.Toolkit.getDefaultToolkit;
 import static java.awt.event.KeyEvent.*;

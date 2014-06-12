@@ -1,6 +1,6 @@
 package bad.robot.radiate;
 
-import static bad.robot.radiate.MonitoringTypes.singleAggregate;
+import static bad.robot.radiate.monitor.MonitoringTasksFactory.singleAggregate;
 import static bad.robot.radiate.ui.FrameFactory.fullScreen;
 
 public class Main {

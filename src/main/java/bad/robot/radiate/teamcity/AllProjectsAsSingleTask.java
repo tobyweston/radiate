@@ -7,7 +7,7 @@ import bad.robot.radiate.monitor.ThreadSafeObservable;
 import java.util.Arrays;
 import java.util.List;
 
-/** @see {@link bad.robot.radiate.MonitoringTypes#singleAggregate()} */
+/** @see {@link bad.robot.radiate.monitor.MonitoringTasksFactory#singleAggregate()} */
 public class AllProjectsAsSingleTask extends ThreadSafeObservable implements MonitoringTasksFactory {
 
     @Override

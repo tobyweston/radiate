@@ -11,7 +11,7 @@ import java.util.List;
 import static bad.robot.radiate.teamcity.NonEmptyProject.nonEmpty;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-/** @see {@link bad.robot.radiate.MonitoringTypes#multipleProjects} */
+/** @see {@link bad.robot.radiate.monitor.MonitoringTasksFactory#multipleProjects} */
 public class AllProjectsOneTaskPerProject extends ThreadSafeObservable implements MonitoringTasksFactory {
 
     @Override
@@ -28,12 +28,7 @@ public class AllProjectsOneTaskPerProject extends ThreadSafeObservable implement
     }
 
     private Callable1<Project, MonitoringTask> toTasks(final TeamCityConfiguration configuration) {
-        return new Callable1<Project, MonitoringTask>() {
-            @Override
-            public MonitoringTask call(Project project) throws Exception {
-                return new SingleProjectMonitor(project, configuration);
-            }
-        };
+        return project -> new SingleProjectMonitor(project, configuration);
     }
 
     @Override

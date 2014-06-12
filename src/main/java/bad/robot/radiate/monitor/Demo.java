@@ -1,6 +1,8 @@
-package bad.robot.radiate;
+package bad.robot.radiate.monitor;
 
-import bad.robot.radiate.monitor.*;
+import bad.robot.radiate.NullProgress;
+import bad.robot.radiate.Progress;
+import bad.robot.radiate.Status;
 import com.googlecode.totallylazy.Lists;
 
 import java.util.List;
