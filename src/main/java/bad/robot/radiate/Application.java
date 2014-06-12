@@ -17,10 +17,10 @@ public class Application {
     private MonitoringTasks monitoring;
     private SwingUi ui;
 
-    public void start(MonitoringTasksFactory taskFactory, FrameFactory frames) {
+    public void start(MonitoringTasksFactory tasks, FrameFactory frames) {
         ui = new SwingUi(frames);
-        taskFactory.addObservers(logger, ui);
-        monitoring = new MonitoringTasks(taskFactory, monitor);
+        tasks.addObservers(logger, ui);
+        monitoring = new MonitoringTasks(tasks, monitor);
         for (MonitoringTask monitor : monitoring) {
             monitor.addObservers(ui.createStatusPanels());
             monitor.addObservers(ui, logger);

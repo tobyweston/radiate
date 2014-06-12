@@ -1,7 +1,5 @@
 package bad.robot.radiate.ui;
 
-import bad.robot.radiate.CircularArrayBuffer;
-
 import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.KeyAdapter;
@@ -10,21 +8,22 @@ import java.util.function.Supplier;
 
 import static bad.robot.radiate.Main.Radiate;
 import static bad.robot.radiate.MonitoringTypes.singleAggregate;
-import static java.awt.event.KeyEvent.VK_S;
 
-class SwitchScreenMode extends KeyAdapter implements AWTEventListener {
+class SwitchTo extends KeyAdapter implements AWTEventListener {
 
-    private final CircularArrayBuffer<FrameFactory> screens;
+    private final Supplier<FrameFactory> mode;
+    private final int keyCode;
 
-    public SwitchScreenMode(Supplier<FrameFactory>... screens) {
-        this.screens = new CircularArrayBuffer(screens);
+    public SwitchTo(Supplier<FrameFactory> mode, int keyCode) {
+        this.mode = mode;
+        this.keyCode = keyCode;
     }
 
     @Override
     public void keyPressed(KeyEvent event) {
-        if (event.getKeyCode() == VK_S) {
+        if (event.getKeyCode() == keyCode) {
             Radiate.stop();
-            Radiate.start(singleAggregate(), screens.next()); // TODO make singleAggregate() the current one, don't hardcode it
+            Radiate.start(singleAggregate(), mode.get()); // TODO make singleAggregate() the current one, don't hardcode it
         }
     }
 

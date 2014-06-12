@@ -38,15 +38,14 @@ public class SwingUi implements Ui, Observer {
         setLookAndFeel();
     }
 
-    private static final SwitchScreenMode switchScreenMode = new SwitchScreenMode(FrameFactory::desktopMode, FrameFactory::fullScreen);
-
     private void setupGlobalEventListeners() {
         addAwtEventListener(new ExitOnEscape());
-        addAwtEventListener(switchScreenMode);
+        addAwtEventListener(new SwitchTo(FrameFactory::desktopMode, VK_D));
+        addAwtEventListener(new SwitchTo(FrameFactory::fullScreen, VK_F));
         addAwtEventListener(new ToggleConsoleDialog(console));
         addAwtEventListener(new Restart(singleAggregate(), VK_A));
         addAwtEventListener(new Restart(multipleProjects(), VK_C));
-        addAwtEventListener(new Restart(multipleBuildsDemo(), VK_D));
+        addAwtEventListener(new Restart(multipleBuildsDemo(), VK_X));
     }
 
     private void addAwtEventListener(AWTEventListener listener) {
