@@ -8,16 +8,6 @@ import org.apache.log4j.Logger;
 public class LoggingObserver implements Observer {
 
     @Override
-    public void update(Observable source, Status status) {
-        // nothing for now
-    }
-
-    @Override
-    public void update(Observable source, Activity activity, Progress progress) {
-        // nothing for now
-    }
-
-    @Override
     public void update(Observable source, Exception exception) {
         Logger.getLogger(source.getClass()).error(exception.getMessage(), exception);
     }

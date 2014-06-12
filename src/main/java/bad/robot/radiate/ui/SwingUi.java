@@ -1,9 +1,6 @@
 package bad.robot.radiate.ui;
 
-import bad.robot.radiate.Activity;
 import bad.robot.radiate.Logging;
-import bad.robot.radiate.Progress;
-import bad.robot.radiate.Status;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
@@ -16,7 +13,7 @@ import java.util.stream.Stream;
 
 import static bad.robot.radiate.MonitoringTypes.*;
 import static java.awt.AWTEvent.KEY_EVENT_MASK;
-import static java.awt.Toolkit.*;
+import static java.awt.Toolkit.getDefaultToolkit;
 import static java.awt.event.KeyEvent.*;
 import static java.lang.String.format;
 import static javax.swing.SwingUtilities.invokeLater;
@@ -72,16 +69,6 @@ public class SwingUi implements Ui, Observer {
 
     public Stream<Observer> createStatusPanels() {
         return frames.createStatusPanels();
-    }
-
-    @Override
-    public void update(Observable source, Status status) {
-        // ignore status updates
-    }
-
-    @Override
-    public void update(Observable source, Activity activity, Progress progress) {
-        // ignore activity updates
     }
 
     @Override

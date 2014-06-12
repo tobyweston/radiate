@@ -4,7 +4,6 @@ import bad.robot.radiate.Activity;
 import bad.robot.radiate.NullProgress;
 import bad.robot.radiate.Progress;
 import bad.robot.radiate.Status;
-import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.Observable;
 import bad.robot.radiate.monitor.Observer;
 import bad.robot.radiate.ui.swing.Region;
@@ -16,7 +15,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.Activity.Busy;
-import static bad.robot.radiate.Activity.Idle;
 import static bad.robot.radiate.Status.*;
 import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
 import static bad.robot.radiate.ui.swing.Composite.getAlphaComposite;
@@ -60,10 +58,6 @@ public class StatusPanel extends JPanel implements Observer {
         this.activity = activity;
         this.progress = progress;
         repaint();
-    }
-
-    @Override
-    public void update(Observable source, Information information) {
     }
 
     @Override
