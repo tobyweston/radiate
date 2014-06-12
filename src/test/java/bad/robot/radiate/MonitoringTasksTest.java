@@ -57,7 +57,7 @@ public class MonitoringTasksTest {
         context.checking(new Expectations() {{
             oneOf(factory).create(); will(returnValue(tasks));
             oneOf(monitor).start(tasks); will(returnValue(scheduled));
-            oneOf(monitor).stop(scheduled);
+            oneOf(monitor).cancel(scheduled);
         }});
 
         MonitoringTasks monitoring = new MonitoringTasks(factory, monitor);

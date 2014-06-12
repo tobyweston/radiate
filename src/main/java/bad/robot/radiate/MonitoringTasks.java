@@ -37,7 +37,7 @@ public class MonitoringTasks implements Iterable<MonitoringTask> {
     }
 
     public void stop() {
-        monitor.stop(scheduled);
+        monitor.cancel(scheduled);
     }
 
     @Override

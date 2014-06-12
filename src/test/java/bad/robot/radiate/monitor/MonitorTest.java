@@ -36,7 +36,7 @@ public class MonitorTest {
         }});
         Iterable<ScheduledFuture<?>> scheduled = monitor.start(asList(task));
         assertThat(scheduled, hasSize(1));
-        monitor.stop(scheduled);
+        monitor.cancel(scheduled);
     }
 
     @Test

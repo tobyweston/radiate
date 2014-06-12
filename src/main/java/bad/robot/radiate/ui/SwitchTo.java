@@ -23,7 +23,7 @@ class SwitchTo extends KeyAdapter implements AWTEventListener {
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == keyCode) {
             Radiate.stop();
-            Radiate.start(singleAggregate(), mode.get()); // TODO make singleAggregate() the current one, don't hardcode it
+            Radiate.start(Radiate.getCurrentMonitoringTaskFactory(), mode.get());
         }
     }
 

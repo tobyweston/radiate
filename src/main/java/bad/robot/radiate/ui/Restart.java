@@ -24,7 +24,7 @@ class Restart extends KeyAdapter implements AWTEventListener {
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == keyCode) {
             Radiate.stop();
-            Radiate.start(taskFactory, fullScreen()); // TODO make factory use the current one
+            Radiate.start(taskFactory, Radiate.getCurrentFrameFactory());
         }
     }
 

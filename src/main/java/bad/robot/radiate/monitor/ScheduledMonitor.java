@@ -25,7 +25,7 @@ public class ScheduledMonitor implements Monitor {
     }
 
     @Override
-    public void stop(Iterable<ScheduledFuture<?>> tasks) {
+    public void cancel(Iterable<ScheduledFuture<?>> tasks) {
         for (ScheduledFuture<?> task : tasks)
             task.cancel(true);
     }

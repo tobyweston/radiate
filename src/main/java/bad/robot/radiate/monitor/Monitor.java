@@ -5,6 +5,6 @@ import java.util.concurrent.ScheduledFuture;
 
 public interface Monitor {
     Iterable<ScheduledFuture<?>> start(Iterable<MonitoringTask> tasks);
-    void stop(Iterable<ScheduledFuture<?>> tasks);
+    void cancel(Iterable<ScheduledFuture<?>> tasks);
     List<Runnable> stop();
 }
