@@ -8,7 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import static bad.robot.radiate.Main.*;
-import static bad.robot.radiate.ui.FrameFactory.fullScreen;
 
 class Restart extends KeyAdapter implements AWTEventListener {
 
@@ -24,7 +23,7 @@ class Restart extends KeyAdapter implements AWTEventListener {
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == keyCode) {
             Radiate.stop();
-            Radiate.start(taskFactory, Radiate.getCurrentFrameFactory());
+            Radiate.start(taskFactory, Radiate.getCurrentFrames());
         }
     }
 

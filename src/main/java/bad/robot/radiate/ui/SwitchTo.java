@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.util.function.Supplier;
 
 import static bad.robot.radiate.Main.Radiate;
-import static bad.robot.radiate.monitor.MonitoringTasksFactory.singleAggregate;
 
 class SwitchTo extends KeyAdapter implements AWTEventListener {
 
@@ -23,7 +22,7 @@ class SwitchTo extends KeyAdapter implements AWTEventListener {
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == keyCode) {
             Radiate.stop();
-            Radiate.start(Radiate.getCurrentMonitoringTaskFactory(), mode.get());
+            Radiate.start(Radiate.getCurrentTasks(), mode.get());
         }
     }
 

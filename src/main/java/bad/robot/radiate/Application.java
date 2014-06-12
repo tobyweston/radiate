@@ -15,14 +15,14 @@ public class Application {
     private final LoggingObserver logger = new LoggingObserver();
     private final Monitor monitor = new ScheduledMonitor(threadPool);
 
-    private MonitoringTasksFactory currentMonitoringTaskFactory;
-    private FrameFactory currentFrameFactory;
+    private MonitoringTasksFactory currentTasks;
+    private FrameFactory currentFrames;
     private MonitoringTasks monitoring;
     private SwingUi ui;
 
     public void start(MonitoringTasksFactory tasks, FrameFactory frames) {
-        currentMonitoringTaskFactory = tasks;
-        currentFrameFactory = frames;
+        currentTasks = tasks;
+        currentFrames = frames;
         ui = new SwingUi(frames);
         tasks.addObservers(logger, ui);
         monitoring = new MonitoringTasks(tasks, monitor);
@@ -38,6 +38,7 @@ public class Application {
     public void stop() {
         for (MonitoringTask monitor : monitoring)
             monitor.removeAllObservers();
+        currentTasks.removeAllObservers();
         monitoring.stop();
         ui.stop();
     }
@@ -46,11 +47,11 @@ public class Application {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> monitor.stop()));
     }
 
-    public FrameFactory getCurrentFrameFactory() {
-        return currentFrameFactory;
+    public FrameFactory getCurrentFrames() {
+        return currentFrames;
     }
 
-    public MonitoringTasksFactory getCurrentMonitoringTaskFactory() {
-        return currentMonitoringTaskFactory;
+    public MonitoringTasksFactory getCurrentTasks() {
+        return currentTasks;
     }
 }
