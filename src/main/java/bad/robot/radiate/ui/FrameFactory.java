@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui;
 
 import java.awt.*;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
@@ -23,7 +24,7 @@ public interface FrameFactory {
 
     static FrameFactory desktopMode() {
         return () -> {
-            ArrayList<StatusFrame> frames = new ArrayList<>(1);
+            List<StatusFrame> frames = new ArrayList<>(1);
             Rectangle bounds = getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().getBounds();
             frames.add(new StatusFrame(0, new DesktopMode(bounds)));
             return frames;

@@ -82,21 +82,11 @@ public class Build extends TeamCityObject implements Hypermedia, Monitorable {
 
     public static class Functions {
         public static Callable1<Build, Activity> toActivity() {
-            return new Callable1<Build, Activity>() {
-                @Override
-                public Activity call(Build build) throws Exception {
-                    return build.getActivity();
-                }
-            };
+            return build -> build.getActivity();
         }
 
         public static Callable1<Build, Status> toStatus() {
-            return new Callable1<Build, Status>() {
-                @Override
-                public Status call(Build build) throws Exception {
-                    return build.getStatus();
-                }
-            };
+            return build -> build.getStatus();
         }
     }
 

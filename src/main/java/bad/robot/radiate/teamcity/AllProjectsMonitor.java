@@ -5,10 +5,10 @@ import bad.robot.radiate.Aggregator;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.NonRepeatingObservable;
+import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.radiate.Aggregator.aggregate;
-import static bad.robot.radiate.Functions.asString;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
@@ -33,7 +33,7 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
     public void run() {
         try {
             Iterable<Project> projects = configuration.filter(teamcity.retrieveProjects());
-            monitored = sequence(projects).map(asString());
+            monitored = sequence(projects).map(project -> project.toString());
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
             Sequence<Build> builds = sequence(buildTypes).mapConcurrently(buildType -> teamcity.retrieveLatestBuild(buildType));
             Aggregator aggregated = aggregate(builds);

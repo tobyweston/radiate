@@ -33,12 +33,7 @@ public class Aggregator {
 
     public Progress progress() {
         Progress seed = sequence(builds).head().getProgress();
-        return sequence(builds).tail().fold(seed, new Callable2<Progress, Build, Progress>() {
-            @Override
-            public Progress call(Progress progress, Build build) throws Exception {
-                return progress.add(build.getProgress());
-            }
-        });
+        return sequence(builds).tail().fold(seed, (progress, build) -> progress.add(build.getProgress()));
     }
 
 
