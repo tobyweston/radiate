@@ -12,12 +12,12 @@ import bad.robot.radiate.ui.swing.Text;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.Activity.Busy;
 import static bad.robot.radiate.Status.*;
+import static bad.robot.radiate.ui.Transparency.SeventyFivePercent;
 import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
-import static bad.robot.radiate.ui.swing.Composite.getAlphaComposite;
+import static bad.robot.radiate.ui.swing.Composite.transparent;
 import static bad.robot.radiate.ui.swing.Region.Percentage.EightyPercent;
 import static bad.robot.radiate.ui.swing.Region.getReducedRegion;
 import static java.lang.String.format;
@@ -78,10 +78,10 @@ public class StatusPanel extends JPanel implements Observer {
         Graphics2D graphics = (Graphics2D) g;
         fillBackground(graphics);
         updateText(graphics);
-        progressIndicator.setVisiblityBasedOn(activity, progress);
-        overtimeIndicator.setVisiblityBasedOn(activity, progress);
-        busyIndicator.setVisiblityBasedOn(activity);
-        errorIndicator.setVisiblityBasedOn(activity);
+        progressIndicator.setVisibilityBasedOn(activity, progress);
+        overtimeIndicator.setVisibilityBasedOn(activity, progress);
+        busyIndicator.setVisibilityBasedOn(activity);
+        errorIndicator.setVisibilityBasedOn(activity);
     }
 
     private void fillBackground(Graphics2D graphics) {
@@ -94,14 +94,11 @@ public class StatusPanel extends JPanel implements Observer {
 
     private void updateText(final Graphics2D graphics) {
         if (text != null) {
-            applyWithComposite(graphics, getAlphaComposite(graphics, 0.75f), new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    Rectangle region = getReducedRegion(StatusPanel.this.getBounds(), EightyPercent, EightyPercent);
-                    Region.centerRegionWithinComponent(region, StatusPanel.this);
-                    Text.drawTextCenteredToRegion(region, graphics, text);
-                    return null;
-                }
+            applyWithComposite(graphics, transparent(graphics, SeventyFivePercent), () -> {
+                Rectangle region = getReducedRegion(StatusPanel.this.getBounds(), EightyPercent, EightyPercent);
+                Region.centerRegionWithinComponent(region, StatusPanel.this);
+                Text.drawTextCenteredToRegion(region, graphics, text);
+                return null;
             });
         }
     }

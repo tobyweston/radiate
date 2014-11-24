@@ -1,7 +1,6 @@
 package bad.robot.radiate.ui;
 
 import bad.robot.radiate.Progress;
-import bad.robot.radiate.ui.swing.Debug;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,7 @@ public class ExampleOvertimeIndicator {
 
     public static void main(String[] args) throws InterruptedException {
         OvertimeIndicator indicator = setupWindow();
-        indicator.setVisiblityBasedOn(Progressing, new Progress(100, 100));
+        indicator.setVisibilityBasedOn(Progressing, new Progress(100, 100));
     }
 
     private static OvertimeIndicator setupWindow() {

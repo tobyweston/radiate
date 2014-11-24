@@ -41,7 +41,7 @@ class ErrorIndicator extends LayerUI<JComponent> {
         graphics.draw(new Ellipse2D.Double(100, 100, 200, 200));
     }
 
-    public void setVisiblityBasedOn(Activity activity) {
+    public void setVisibilityBasedOn(Activity activity) {
         if (activity == Error)
             redraw = true;
     }

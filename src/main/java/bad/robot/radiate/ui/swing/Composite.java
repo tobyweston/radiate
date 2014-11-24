@@ -1,5 +1,8 @@
 package bad.robot.radiate.ui.swing;
 
+import bad.robot.radiate.ui.*;
+import bad.robot.radiate.ui.Transparency;
+
 import java.awt.*;
 import java.util.concurrent.Callable;
 
@@ -21,11 +24,15 @@ public class Composite {
     }
 
     /**
-     * Get the {@link java.awt.AlphaComposite} from the #graphics object and apply the #transparency to it. Use so that the transparency
+     * Create an {@link java.awt.AlphaComposite} from the #graphics object and apply the #transparency to it. Use so that the transparency
      * used is relative to the current transparency (ie, 50% of an already 50% transparent context).
      */
-    public static AlphaComposite getAlphaComposite(Graphics2D graphics, float transparency) {
-        AlphaComposite current = (AlphaComposite) graphics.getComposite();
-        return getInstance(SRC_OVER, current.getAlpha() * transparency);
+    public static AlphaComposite transparent(Graphics2D graphics, Transparency transparency) {
+        return transparency.createAlphaComposite((AlphaComposite) graphics.getComposite());
     }
+
+    public static AlphaComposite transparent(Transparency transparency) {
+        return transparency.createAlphaComposite();
+    }
+
 }

@@ -108,7 +108,7 @@ class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
             layer.repaint();
     }
 
-    public void setVisiblityBasedOn(Activity activity) {
+    public void setVisibilityBasedOn(Activity activity) {
         if (activity == Busy)
             start();
         else {

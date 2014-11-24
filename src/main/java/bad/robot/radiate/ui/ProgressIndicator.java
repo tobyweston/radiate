@@ -13,18 +13,16 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.Arc2D;
 import java.beans.PropertyChangeEvent;
-import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
-import static bad.robot.radiate.ui.swing.Composite.getAlphaComposite;
+import static bad.robot.radiate.ui.swing.Composite.transparent;
 import static bad.robot.radiate.ui.swing.Region.Percentage.*;
 import static bad.robot.radiate.ui.swing.Region.centerRegionWithinComponent;
 import static bad.robot.radiate.ui.swing.Region.getReducedRegion;
 import static bad.robot.radiate.ui.swing.Region.getReducedRegionAsSquare;
 import static bad.robot.radiate.ui.swing.Text.*;
-import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
@@ -35,7 +33,6 @@ import static java.lang.String.format;
 
 class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
-    public static final float Transparency = 0.20f;
     public static final int maximum = 100;
 
     private Progress progress = new Progress(0, maximum);
@@ -43,19 +40,16 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     private Timer timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
     private Timer fadeTimer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
     private Fade fade = new FadeIn();
-    private float alpha = 0.0f; // transparent
+    private Transparency transparency = Transparency.Transparent;
 
     @Override
     public void paint(Graphics g, final JComponent component) {
         super.paint(g, component);
         final Graphics2D graphics = (Graphics2D) g.create();
-        applyWithComposite(graphics, getInstance(SRC_OVER, alpha), new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                Rectangle drawArea = getDrawAreaAndCenterWithin(component);
-                drawProgressIndicator(drawArea, graphics, component);
-                return null;
-            }
+        applyWithComposite(graphics, transparent(transparency), () -> {
+            Rectangle drawArea = getDrawAreaAndCenterWithin(component);
+            drawProgressIndicator(drawArea, graphics, component);
+            return null;
         });
         graphics.dispose();
     }
@@ -84,13 +78,10 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
         if (timer.isRunning()) {
-            applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    graphics.setColor(white);
-                    graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
-                    return null;
-                }
+            applyWithComposite(graphics, transparent(graphics, Transparency.TwentyPercent), () -> {
+                graphics.setColor(white);
+                graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
+                return null;
             });
         }
     }
@@ -117,14 +108,11 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         final String numberOfBuilds = format("running %d build%s", progress.numberOfBuilds(), progress.numberOfBuilds() > 1 ? "s" : "");
         final Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
-        applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
-                Point center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
-                graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
-                return null;
-            }
+        applyWithComposite(graphics, transparent(graphics, Transparency.TwentyPercent), () -> {
+            setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
+            Point center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
+            graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
+            return null;
         });
     }
 
@@ -152,12 +140,12 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         if ("animateRadial".equals(event.getPropertyName()))
             layer.repaint();
         if ("fade".equals(event.getPropertyName())) {
-            alpha = (float) event.getNewValue();
+            transparency = new Transparency((float) event.getNewValue());
             layer.repaint();
         }
     }
 
-    public void setVisiblityBasedOn(Activity activity, Progress progress) {
+    public void setVisibilityBasedOn(Activity activity, Progress progress) {
         if (activity == Progressing && !progress.complete()) {
             this.progress = progress;
             start();

@@ -10,21 +10,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Arc2D;
 import java.beans.PropertyChangeEvent;
-import java.util.concurrent.Callable;
 
 import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
+import static bad.robot.radiate.ui.Transparency.Transparent;
 import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
-import static bad.robot.radiate.ui.swing.Composite.getAlphaComposite;
-import static bad.robot.radiate.ui.swing.Debug.drawCentreLines;
+import static bad.robot.radiate.ui.swing.Composite.transparent;
 import static bad.robot.radiate.ui.swing.Region.Percentage.FiftyPercent;
 import static bad.robot.radiate.ui.swing.Region.Percentage.TwentyPercent;
 import static bad.robot.radiate.ui.swing.Region.centerRegionWithinComponent;
 import static bad.robot.radiate.ui.swing.Region.getReducedRegionAsSquare;
 import static bad.robot.radiate.ui.swing.Text.getCenterPointOfTextWithinRegion;
 import static bad.robot.radiate.ui.swing.Text.setFontScaledToRegion;
-import static java.awt.AlphaComposite.SRC_OVER;
-import static java.awt.AlphaComposite.getInstance;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
@@ -34,25 +31,20 @@ import static java.lang.String.format;
 
 class OvertimeIndicator extends LayerUI<JComponent> {
 
-    public static final float Transparency = 0.20f;
-
     private Timer timer = new Timer(5, new AnimationActionListener());
     private Timer fadeTimer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), new FadeActionListener());
-    private Fade fade;// = new FadeIn();
+    private Fade fade; // = new FadeIn();
     private int overtimeIndicatorPosition = 90;
-    private float alpha = 0.0f; // transparent
+    private Transparency transparency = Transparent;
 
     @Override
     public void paint(Graphics g, final JComponent component) {
         super.paint(g, component);
         final Graphics2D graphics = (Graphics2D) g.create();
-        applyWithComposite(graphics, getInstance(SRC_OVER, alpha), new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                Rectangle drawArea = getDrawAreaAndCenterWithin(component);
-                drawOvertimeIndicator(drawArea, graphics, component);
-                return null;
-            }
+        applyWithComposite(graphics, transparent(transparency), () -> {
+            Rectangle drawArea = getDrawAreaAndCenterWithin(component);
+            drawOvertimeIndicator(drawArea, graphics, component);
+            return null;
         });
         graphics.dispose();
     }
@@ -79,13 +71,10 @@ class OvertimeIndicator extends LayerUI<JComponent> {
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
         if (timer.isRunning()) {
-            applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    graphics.setColor(white);
-                    graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
-                    return null;
-                }
+            applyWithComposite(graphics, transparent(graphics, Transparency.TwentyPercent), () -> {
+                graphics.setColor(white);
+                graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
+                return null;
             });
         }
     }
@@ -96,13 +85,10 @@ class OvertimeIndicator extends LayerUI<JComponent> {
         int lengthOfTail = 60;
         for (int i = 0; i < lengthOfTail; i++) {
             final int segment = i;
-            float transparency = 0.0f + (i / ((float) lengthOfTail));
-            applyWithComposite(graphics, getAlphaComposite(graphics, transparency), new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, overtimeIndicatorPosition - segment, 1, Arc2D.OPEN));
-                    return null;
-                }
+            Transparency transparency = Transparent.increase(i / (float) lengthOfTail);
+            applyWithComposite(graphics, transparent(graphics, transparency), () -> {
+                graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, overtimeIndicatorPosition - segment, 1, Arc2D.OPEN));
+                return null;
             });
         }
     }
@@ -112,13 +98,10 @@ class OvertimeIndicator extends LayerUI<JComponent> {
         final Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
         setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
-        applyWithComposite(graphics, getAlphaComposite(graphics, Transparency), new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                Point center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
-                graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
-                return null;
-            }
+        applyWithComposite(graphics, transparent(graphics, Transparency.TwentyPercent), () -> {
+            Point center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
+            graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
+            return null;
         });
     }
 
@@ -127,12 +110,12 @@ class OvertimeIndicator extends LayerUI<JComponent> {
         if ("animate".equals(event.getPropertyName()))
             layer.repaint();
         if ("fade".equals(event.getPropertyName())) {
-            alpha = (float) event.getNewValue();
+            transparency = new Transparency((float) event.getNewValue());
             layer.repaint();
         }
     }
 
-    public void setVisiblityBasedOn(Activity activity, Progress progress) {
+    public void setVisibilityBasedOn(Activity activity, Progress progress) {
         if (activity == Progressing && progress.complete()) {
             start();
         } else {

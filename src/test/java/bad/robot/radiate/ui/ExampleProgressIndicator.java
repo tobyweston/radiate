@@ -56,7 +56,7 @@ public class ExampleProgressIndicator {
 //                    if (goneBackwards)
 //                        progress[0] = progress[0] = 16;
                 if (progress[0] <= 100)
-                    indicator.setVisiblityBasedOn(Progressing, new Progress(progress[0], ProgressIndicator.maximum));
+                    indicator.setVisibilityBasedOn(Progressing, new Progress(progress[0], ProgressIndicator.maximum));
             }
         }, 1, 1, TimeUnit.SECONDS);
     }
