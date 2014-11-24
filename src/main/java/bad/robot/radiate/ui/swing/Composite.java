@@ -1,13 +1,9 @@
 package bad.robot.radiate.ui.swing;
 
-import bad.robot.radiate.ui.*;
 import bad.robot.radiate.ui.Transparency;
 
 import java.awt.*;
 import java.util.concurrent.Callable;
-
-import static java.awt.AlphaComposite.SRC_OVER;
-import static java.awt.AlphaComposite.getInstance;
 
 public class Composite {
 
@@ -17,7 +13,7 @@ public class Composite {
         try {
             callable.call();
         } catch (Exception e) {
-            // ignore
+            throw new RuntimeException(e);
         } finally {
             graphics.setComposite(original);
         }

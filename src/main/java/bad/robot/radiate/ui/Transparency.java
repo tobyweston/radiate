@@ -5,7 +5,6 @@ import bad.robot.http.configuration.AbstractValueType;
 import java.awt.*;
 
 import static java.awt.AlphaComposite.SRC_OVER;
-import static java.awt.AlphaComposite.getInstance;
 
 
 public class Transparency extends AbstractValueType<Float> {
