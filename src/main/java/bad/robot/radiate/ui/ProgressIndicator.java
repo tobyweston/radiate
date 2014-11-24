@@ -17,13 +17,11 @@ import java.beans.PropertyChangeEvent;
 import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
-import static bad.robot.radiate.ui.swing.Composite.transparent;
+import static bad.robot.radiate.ui.swing.Composite.transparentComposite;
 import static bad.robot.radiate.ui.swing.Region.Percentage.*;
-import static bad.robot.radiate.ui.swing.Region.centerRegionWithinComponent;
-import static bad.robot.radiate.ui.swing.Region.getReducedRegion;
-import static bad.robot.radiate.ui.swing.Region.getReducedRegionAsSquare;
-import static bad.robot.radiate.ui.swing.Text.*;
-import static java.awt.AlphaComposite.getInstance;
+import static bad.robot.radiate.ui.swing.Region.*;
+import static bad.robot.radiate.ui.swing.Text.getCenterPointOfTextWithinRegion;
+import static bad.robot.radiate.ui.swing.Text.setFontScaledToRegion;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import static java.awt.Color.white;
@@ -46,7 +44,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
     public void paint(Graphics g, final JComponent component) {
         super.paint(g, component);
         final Graphics2D graphics = (Graphics2D) g.create();
-        applyWithComposite(graphics, transparent(transparency), () -> {
+        applyWithComposite(graphics, transparentComposite(transparency), () -> {
             Rectangle drawArea = getDrawAreaAndCenterWithin(component);
             drawProgressIndicator(drawArea, graphics, component);
             return null;
@@ -78,7 +76,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
         if (timer.isRunning()) {
-            applyWithComposite(graphics, transparent(graphics, Transparency.TwentyPercent), () -> {
+            applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent), () -> {
                 graphics.setColor(white);
                 graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
                 return null;
@@ -108,7 +106,7 @@ class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
         final String numberOfBuilds = format("running %d build%s", progress.numberOfBuilds(), progress.numberOfBuilds() > 1 ? "s" : "");
         final Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
-        applyWithComposite(graphics, transparent(graphics, Transparency.TwentyPercent), () -> {
+        applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent), () -> {
             setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
             Point center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
             graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y

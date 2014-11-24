@@ -15,7 +15,7 @@ import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.FrameRate.videoFramesPerSecond;
 import static bad.robot.radiate.ui.Transparency.Transparent;
 import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
-import static bad.robot.radiate.ui.swing.Composite.transparent;
+import static bad.robot.radiate.ui.swing.Composite.transparentComposite;
 import static bad.robot.radiate.ui.swing.Region.Percentage.FiftyPercent;
 import static bad.robot.radiate.ui.swing.Region.Percentage.TwentyPercent;
 import static bad.robot.radiate.ui.swing.Region.centerRegionWithinComponent;
@@ -41,7 +41,7 @@ class OvertimeIndicator extends LayerUI<JComponent> {
     public void paint(Graphics g, final JComponent component) {
         super.paint(g, component);
         final Graphics2D graphics = (Graphics2D) g.create();
-        applyWithComposite(graphics, transparent(transparency), () -> {
+        applyWithComposite(graphics, transparentComposite(transparency), () -> {
             Rectangle drawArea = getDrawAreaAndCenterWithin(component);
             drawOvertimeIndicator(drawArea, graphics, component);
             return null;
@@ -71,7 +71,7 @@ class OvertimeIndicator extends LayerUI<JComponent> {
 
     private void drawBackgroundRadial(final Rectangle region, final Graphics2D graphics) {
         if (timer.isRunning()) {
-            applyWithComposite(graphics, transparent(graphics, Transparency.TwentyPercent), () -> {
+            applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent), () -> {
                 graphics.setColor(white);
                 graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360);
                 return null;
@@ -86,7 +86,7 @@ class OvertimeIndicator extends LayerUI<JComponent> {
         for (int i = 0; i < lengthOfTail; i++) {
             final int segment = i;
             Transparency transparency = Transparent.increase(i / (float) lengthOfTail);
-            applyWithComposite(graphics, transparent(graphics, transparency), () -> {
+            applyWithComposite(graphics, transparentComposite(graphics, transparency), () -> {
                 graphics.draw(new Arc2D.Double(region.x, region.y, region.width, region.height, overtimeIndicatorPosition - segment, 1, Arc2D.OPEN));
                 return null;
             });
@@ -98,7 +98,7 @@ class OvertimeIndicator extends LayerUI<JComponent> {
         final Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
         setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));
-        applyWithComposite(graphics, transparent(graphics, Transparency.TwentyPercent), () -> {
+        applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent), () -> {
             Point center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds);
             graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
             return null;

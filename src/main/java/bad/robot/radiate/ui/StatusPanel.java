@@ -17,7 +17,7 @@ import static bad.robot.radiate.Activity.Busy;
 import static bad.robot.radiate.Status.*;
 import static bad.robot.radiate.ui.Transparency.SeventyFivePercent;
 import static bad.robot.radiate.ui.swing.Composite.applyWithComposite;
-import static bad.robot.radiate.ui.swing.Composite.transparent;
+import static bad.robot.radiate.ui.swing.Composite.transparentComposite;
 import static bad.robot.radiate.ui.swing.Region.Percentage.EightyPercent;
 import static bad.robot.radiate.ui.swing.Region.getReducedRegion;
 import static java.lang.String.format;
@@ -94,7 +94,7 @@ public class StatusPanel extends JPanel implements Observer {
 
     private void updateText(final Graphics2D graphics) {
         if (text != null) {
-            applyWithComposite(graphics, transparent(graphics, SeventyFivePercent), () -> {
+            applyWithComposite(graphics, transparentComposite(graphics, SeventyFivePercent), () -> {
                 Rectangle region = getReducedRegion(StatusPanel.this.getBounds(), EightyPercent, EightyPercent);
                 Region.centerRegionWithinComponent(region, StatusPanel.this);
                 Text.drawTextCenteredToRegion(region, graphics, text);
