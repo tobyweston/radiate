@@ -5,21 +5,15 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 
 public class NullProgress extends Progress {
 
-    private final String id = "4de821a0-58cf-11e3-949a-0800200c9a66";
-
     public NullProgress() {
         super(0, 0);
     }
 
     @Override
-    public void increment() {
-        throw new UnsupportedOperationException();
-    }
+    public void increment() { }
 
     @Override
-    public void decrement() {
-        throw new UnsupportedOperationException();
-    }
+    public void decrement() { }
 
     @Override
     public Progress add(Progress progress) {
@@ -28,7 +22,7 @@ public class NullProgress extends Progress {
 
     @Override
     public int asAngle() {
-        throw new UnsupportedOperationException();
+        return 0;
     }
 
     @Override
