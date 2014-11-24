@@ -35,13 +35,13 @@ public class Text {
         FontMetrics metrics = graphics.getFontMetrics(font);
         float xScale = (float) (region.width / metrics.stringWidth(text));
         float yScale = (region.height / metrics.getHeight());
-        float scale = determineWhichAccessToScaleOn(xScale, yScale);
+        float scale = determineWhichAxisToScaleOn(xScale, yScale);
 
         graphics.setFont(font.deriveFont(getScaleInstance(scale, scale)));
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
     }
 
-    private static float determineWhichAccessToScaleOn(float xScale, float yScale) {
+    private static float determineWhichAxisToScaleOn(float xScale, float yScale) {
         if (xScale > yScale)
             return yScale;
         return xScale;
