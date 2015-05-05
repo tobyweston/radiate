@@ -5,7 +5,6 @@ import bad.robot.radiate.Aggregator;
 import bad.robot.radiate.monitor.Information;
 import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.NonRepeatingObservable;
-import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.radiate.Aggregator.aggregate;

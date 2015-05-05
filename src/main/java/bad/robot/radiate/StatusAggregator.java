@@ -1,6 +1,5 @@
 package bad.robot.radiate;
 
-import com.googlecode.totallylazy.Callable2;
 import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.radiate.Status.*;
@@ -22,16 +21,13 @@ class StatusAggregator {
         Sequence<Status> statuses = sequence(this.statuses);
         if (statuses.isEmpty())
             return Unknown;
-        return statuses.tail().fold(statuses.head(), new Callable2<Status, Status, Status>() {
-            @Override
-            public Status call(Status first, Status second) {
-                if (first == Broken || second == Broken)
-                    return Broken;
-                if (first == Unknown || second == Unknown)
-                    return Unknown;
-                return Ok;
-            }
-        });
+        return statuses.tail().fold(statuses.head(), (first, second) -> {
+			if (first == Broken || second == Broken)
+				return Broken;
+			if (first == Unknown || second == Unknown)
+				return Unknown;
+			return Ok;
+		});
     }
 
 }
