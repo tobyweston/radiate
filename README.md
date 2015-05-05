@@ -31,7 +31,8 @@ A log will also be created in the `user.home` folder.
 
 ### Environment configurations
 
-Radiate will try and bootstrap things with sensible defaults. Once started, the `config.yml` file is created with configuration and from that point out will override any environment variables. Environment variables are therefore a handy way to start the app with minimal configuration. The support variables are
+For *radiate* to work on start you need to add the environment variables described in the table below, otherwise you ll get an error (you can see this error pressing F1).
+Radiate will try and bootstrap things with sensible defaults. Once started, the `config.yml` file is created in <location??> with configuration and from that point out will override any environment variables. Environment variables are therefore a handy way to start the app with minimal configuration. The support variables are
 
 
 Environment variable | Required | Example
