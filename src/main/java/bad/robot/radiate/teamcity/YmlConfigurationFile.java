@@ -1,6 +1,5 @@
 package bad.robot.radiate.teamcity;
 
-import com.googlecode.totallylazy.Callable1;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -52,16 +51,7 @@ public class YmlConfigurationFile extends File {
 
     private List<String> getProjectIds(TeamCity teamcity) {
         Iterable<Project> projects = teamcity.retrieveProjects();
-        return sequence(projects).map(projectAsId()).toList();
-    }
-
-    private static Callable1<Project, String> projectAsId() {
-        return new Callable1<Project, String>() {
-            @Override
-            public String call(Project project) throws Exception {
-                return project.getId();
-            }
-        };
+        return sequence(projects).map(project -> project.getId()).toList();
     }
 
     private void createFolder() {

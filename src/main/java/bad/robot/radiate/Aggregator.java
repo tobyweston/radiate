@@ -1,12 +1,9 @@
 package bad.robot.radiate;
 
 import bad.robot.radiate.teamcity.Build;
-import com.googlecode.totallylazy.Callable2;
 import com.googlecode.totallylazy.Sequence;
 
 import static bad.robot.radiate.ActivityAggregator.aggregated;
-import static bad.robot.radiate.teamcity.Build.Functions.toActivity;
-import static bad.robot.radiate.teamcity.Build.Functions.toStatus;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class Aggregator {
@@ -22,12 +19,12 @@ public class Aggregator {
     }
 
     public Activity activity() {
-        Sequence<Activity> activities = sequence(builds).map(toActivity());
+        Sequence<Activity> activities = sequence(builds).map(build -> build.getActivity());
         return aggregated(activities).getActivity();
     }
 
     public Status status() {
-        Sequence<Status> statuses = sequence(builds).map(toStatus());
+        Sequence<Status> statuses = sequence(builds).map(build -> build.getStatus());
         return StatusAggregator.aggregated(statuses).getStatus();
     }
 

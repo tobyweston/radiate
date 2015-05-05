@@ -1,7 +1,6 @@
 package bad.robot.radiate.teamcity;
 
 import bad.robot.radiate.*;
-import com.googlecode.totallylazy.Callable1;
 
 import static bad.robot.radiate.Activity.Idle;
 import static bad.robot.radiate.Status.*;
@@ -78,16 +77,6 @@ public class Build extends TeamCityObject implements Hypermedia, Monitorable {
     @Override
     public String getHref() {
         return href;
-    }
-
-    public static class Functions {
-        public static Callable1<Build, Activity> toActivity() {
-            return build -> build.getActivity();
-        }
-
-        public static Callable1<Build, Status> toStatus() {
-            return build -> build.getStatus();
-        }
     }
 
 }
