@@ -31,9 +31,13 @@ A log will also be created in the `user.home` folder.
 
 ### Environment configurations
 
-For *radiate* to work on start you need to add the environment variables described in the table below, otherwise you ll get an error (you can see this error pressing F1).
-Radiate will try and bootstrap things with sensible defaults. Once started, the `config.yml` file is created in <location??> with configuration and from that point out will override any environment variables. Environment variables are therefore a handy way to start the app with minimal configuration. The support variables are
+For Radiate to start up, you'll need to add at least one environment variable to tell it where your TeamCity instance is running (described in below). It will try to bootstrap things with sensible defaults but if things don't start up, you can check for errors either in the generated log file or via the UI, by pressing `F1`.
 
+Once started, the `config.yml` file is created in a folder called `.radiate` in your `user.home` (ie `/Users/toby/.radiate/config.yml`). It will contain the default configuration and from that point on will override any environment variables. Environment variables are therefore a handy way to start the app with minimal configuration but to fine tune things (for example, set which projects to monitor), edit the config file. 
+
+**NB.** The location is set using [Java's notion of `user.home`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html). This will vary depending on platform and JVM version. Best run a Java app to print it out using `System.getEnvironment("user.home")` if you're not sure where it is. Don't forget that the folder `.radiate` might also show up as a hidden folder on your platform. 
+
+The bootstrap environment variables are
 
 Environment variable | Required | Example
 --- | --- | ---
