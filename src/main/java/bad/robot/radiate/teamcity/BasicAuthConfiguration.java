@@ -2,7 +2,6 @@ package bad.robot.radiate.teamcity;
 
 import bad.robot.http.CommonHttpClient;
 import bad.robot.http.configuration.BasicAuthCredentials;
-import bad.robot.radiate.Hypermedia;
 
 class BasicAuthConfiguration {
 
@@ -29,12 +28,7 @@ class BasicAuthConfiguration {
     }
 
     public void applyTo(CommonHttpClient client) {
-        client.with(BasicAuthCredentials.basicAuth(username.asSimpleHttp(), password.asSimpleHttp(), server.urlFor(new Hypermedia() {
-            @Override
-            public String getHref() {
-                return "/";
-            }
-        })));
+        client.with(BasicAuthCredentials.basicAuth(username.asSimpleHttp(), password.asSimpleHttp(), server.urlFor(() -> "/")));
     }
 
 }

@@ -44,7 +44,7 @@ public class Application {
     }
 
     private void addShutdownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> monitor.stop()));
+        Runtime.getRuntime().addShutdownHook(new Thread(monitor::stop));
     }
 
     public FrameFactory getCurrentFrames() {
