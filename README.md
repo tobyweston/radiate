@@ -35,7 +35,7 @@ For Radiate to start up, you'll need to add at least one environment variable to
 
 Once started, the `config.yml` file is created in a folder called `.radiate` in your `user.home` (ie `/Users/toby/.radiate/config.yml`). It will contain the default configuration and from that point on will override any environment variables. Environment variables are therefore a handy way to start the app with minimal configuration but to fine tune things (for example, set which projects to monitor), edit the config file. 
 
-**NB.** The location is set using [Java's notion of `user.home`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html). This will vary depending on platform and JVM version. Best run a Java app to print it out using `System.getEnvironment("user.home")` if you're not sure where it is. Don't forget that the folder `.radiate` might also show up as a hidden folder on your platform. 
+**NB.** The location is set using [Java's notion of `user.home`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html). This will vary depending on platform and JVM version. Best run a Java app to print it out using `System.getProperty("user.home")` if you're not sure where it is. Don't forget that the folder `.radiate` might also show up as a hidden folder on your platform. 
 
 The bootstrap environment variables are
 
