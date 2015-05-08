@@ -1,8 +1,10 @@
 package bad.robot.radiate.ui;
 
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 
 import static java.lang.String.format;
+import static java.util.Arrays.*;
 
 class FadeIn implements Fade {
 
@@ -12,9 +14,7 @@ class FadeIn implements Fade {
     @Override
     public void fireEvent(PropertyChangeListener... listeners) {
         if (++count <= limit) {
-            for (PropertyChangeListener listener : listeners) {
-                listener.propertyChange(new AlphaTransparencyChangeEvent(this, (count - 1) / limit, count / limit));
-            }
+            stream(listeners).forEach(listener -> listener.propertyChange(new AlphaTransparencyChangeEvent(this, (count - 1) / limit, count / limit)));
         }
     }
 
