@@ -1,7 +1,13 @@
 package bad.robot.radiate.monitor;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntFunction;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.range;
+import static java.util.stream.Stream.*;
 
 class MultipleBuildsDemo extends ThreadSafeObservable implements MonitoringTasksFactory {
 
@@ -9,9 +15,6 @@ class MultipleBuildsDemo extends ThreadSafeObservable implements MonitoringTasks
 
     @Override
     public List<MonitoringTask> create() {
-        ArrayList<MonitoringTask> tasks = new ArrayList<>();
-        for (int i = 0; i < builds; i++)
-            tasks.add(new RandomStatus());
-        return tasks;
+        return generate(RandomStatus::new).limit(4 * 4).collect(toList());
     }
 }

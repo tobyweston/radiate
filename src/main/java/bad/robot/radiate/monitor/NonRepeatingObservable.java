@@ -11,6 +11,6 @@ public class NonRepeatingObservable extends ThreadSafeObservable {
     public void notifyObservers(Information information) {
         if (previous.add(information)) {
             super.notifyObservers(information);
+        }
     }
-}
 }

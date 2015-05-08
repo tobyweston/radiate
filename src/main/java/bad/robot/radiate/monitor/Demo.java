@@ -34,10 +34,10 @@ class Demo extends ThreadSafeObservable implements MonitoringTasksFactory {
         }
     }
 
-    private static interface DemonstrativeMonitor {
+    private interface DemonstrativeMonitor {
         DemonstrativeMonitor notify(Observable observable);
 
-        static class BusyMonitorExample implements DemonstrativeMonitor {
+        class BusyMonitorExample implements DemonstrativeMonitor {
             public DemonstrativeMonitor notify(Observable observable) {
                 observable.notifyObservers(Busy, new NullProgress());
                 Status status = randomStatus();
@@ -47,7 +47,7 @@ class Demo extends ThreadSafeObservable implements MonitoringTasksFactory {
             }
         }
 
-        static class IdleMonitorExample implements DemonstrativeMonitor {
+        class IdleMonitorExample implements DemonstrativeMonitor {
             public DemonstrativeMonitor notify(Observable observable) {
                 observable.notifyObservers(Idle, new NullProgress());
                 Status status = randomStatus();
@@ -57,7 +57,7 @@ class Demo extends ThreadSafeObservable implements MonitoringTasksFactory {
             }
         }
 
-        static class ProgressingMonitorExample implements DemonstrativeMonitor {
+        class ProgressingMonitorExample implements DemonstrativeMonitor {
             public DemonstrativeMonitor notify(Observable observable) {
                 observable.notifyObservers(Progressing, randomProgress());
                 Status status = randomStatus();
@@ -67,7 +67,7 @@ class Demo extends ThreadSafeObservable implements MonitoringTasksFactory {
             }
         }
 
-        static class OvertimeMonitorExample implements DemonstrativeMonitor {
+        class OvertimeMonitorExample implements DemonstrativeMonitor {
             public DemonstrativeMonitor notify(Observable observable) {
                 observable.notifyObservers(Progressing, new Complete());
                 Status status = randomStatus();
@@ -84,7 +84,7 @@ class Demo extends ThreadSafeObservable implements MonitoringTasksFactory {
         }
 
         // back to the beginning
-        static class ErrorExample implements DemonstrativeMonitor {
+        class ErrorExample implements DemonstrativeMonitor {
             public DemonstrativeMonitor notify(Observable observable) {
                 observable.notifyObservers(Busy, new NullProgress());
                 observable.notifyObservers(new RuntimeException("An exception exception"));

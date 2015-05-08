@@ -1,11 +1,12 @@
 package bad.robot.radiate.monitor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
 
 public class ScheduledMonitor implements Monitor {
 
@@ -18,23 +19,18 @@ public class ScheduledMonitor implements Monitor {
 
     @Override
     public Iterable<ScheduledFuture<?>> start(Iterable<MonitoringTask> tasks) {
-        List<ScheduledFuture<?>> scheduled = new ArrayList<>();
-        for (MonitoringTask task : tasks)
-            scheduled.add(executor.scheduleWithFixedDelay(task, 0, frequency, SECONDS));
-        return scheduled;
+        return stream(tasks.spliterator(), false).map(task -> executor.scheduleWithFixedDelay(task, 0, frequency, SECONDS)).collect(toList());
     }
 
     @Override
     public void cancel(Iterable<ScheduledFuture<?>> tasks) {
-        for (ScheduledFuture<?> task : tasks)
-            task.cancel(true);
+        tasks.forEach(task -> task.cancel(true));
     }
 
     @Override
     public List<Runnable> stop() {
         List<Runnable> tasks = executor.shutdownNow();
-        for (Runnable task : tasks)
-            ((ScheduledFuture<?>) task).cancel(true);
+        tasks.stream().forEach(task -> ((ScheduledFuture<?>) task).cancel(true));
         return tasks;
     }
 }

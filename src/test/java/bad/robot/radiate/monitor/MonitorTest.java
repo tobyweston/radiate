@@ -11,9 +11,11 @@ import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.googlecode.totallylazy.matchers.IterableMatcher.hasSize;
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(JMock.class)

@@ -9,6 +9,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 import static bad.robot.radiate.Activity.*;
+import static bad.robot.radiate.Activity.Error;
 import static bad.robot.radiate.Status.*;
 
 public class RandomStatus extends ThreadSafeObservable implements MonitoringTask {
