@@ -56,12 +56,7 @@ public class YmlConfiguration implements TeamCityConfiguration {
     }
 
     private static Predicate<Project> by(final List<String> ids) {
-        return new Predicate<Project>() {
-            @Override
-            public boolean matches(Project other) {
-                return sequence(ids).contains(other.getId());
-            }
-        };
+        return other -> sequence(ids).contains(other.getId());
     }
 
     @Override

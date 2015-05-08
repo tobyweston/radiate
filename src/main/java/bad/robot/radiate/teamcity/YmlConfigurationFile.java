@@ -51,7 +51,7 @@ public class YmlConfigurationFile extends File {
 
     private List<String> getProjectIds(TeamCity teamcity) {
         Iterable<Project> projects = teamcity.retrieveProjects();
-        return sequence(projects).map(project -> project.getId()).toList();
+        return sequence(projects).map(Project::getId).toList();
     }
 
     private void createFolder() {
