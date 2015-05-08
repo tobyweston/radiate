@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: com.googlecode.totallylazy:totallylazy:1199:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.googlecode.totallylazy/totallylazy/jars/totallylazy-1199.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.googlecode.totallylazy/totallylazy/srcs/totallylazy-1199-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
