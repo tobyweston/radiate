@@ -6,6 +6,7 @@ import static bad.robot.radiate.Activity.*;
 import static bad.robot.radiate.Activity.Error;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
+@Deprecated
 class ActivityAggregator {
 
     private final Iterable<Activity> activity;
