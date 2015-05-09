@@ -13,10 +13,10 @@ class ActivityAggregatorS(activities: List[ActivityS.Activity]) {
     if (activities.isEmpty)
       Idle
     else
-      activities.tail.foldLeft(activities.head) {
+      activities.reduce[ActivityS.Activity] {
         case (first, second) if first == Error || second == Error => Error
         case (first, second) if first == Busy || second == Busy => Busy
-        case (first, second) if first == Progressing || second == Progressing => Progressing;
+        case (first, second) if first == Progressing || second == Progressing => Progressing
         case _ => Idle
       }
   }
