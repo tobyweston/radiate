@@ -12,6 +12,7 @@ import static bad.robot.radiate.Activity.*;
 import static bad.robot.radiate.Activity.Error;
 import static bad.robot.radiate.Status.*;
 
+@Deprecated
 public class RandomStatus extends ThreadSafeObservable implements MonitoringTask {
 
     private static final Random random = new SecureRandom();

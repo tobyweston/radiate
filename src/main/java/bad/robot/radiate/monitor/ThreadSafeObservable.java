@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
+@Deprecated
 public class ThreadSafeObservable implements Observable {
 
     private final List<Observer> observers = new CopyOnWriteArrayList<>();

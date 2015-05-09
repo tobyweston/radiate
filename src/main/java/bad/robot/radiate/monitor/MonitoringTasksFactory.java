@@ -5,6 +5,7 @@ import bad.robot.radiate.teamcity.AllProjectsOneTaskPerProject;
 
 import java.util.List;
 
+@Deprecated
 public interface MonitoringTasksFactory extends Observable {
 
     List<MonitoringTask> create();

@@ -6,6 +6,7 @@ import bad.robot.radiate.Status;
 
 import java.util.stream.Stream;
 
+@Deprecated
 public interface Observable {
     void addObservers(Stream<Observer> observer);
     boolean addObservers(Observer... observer);

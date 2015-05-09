@@ -8,6 +8,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
+@Deprecated
 public class ScheduledMonitor implements Monitor {
 
     private final ScheduledExecutorService executor;

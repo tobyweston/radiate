@@ -2,6 +2,7 @@ package bad.robot.radiate.monitor;
 
 import org.apache.log4j.Logger;
 
+@Deprecated
 public class LoggingObserver implements Observer {
 
     @Override

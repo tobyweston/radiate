@@ -1,5 +1,6 @@
 package bad.robot.radiate.monitor;
 
+@Deprecated
 public class NothingToMonitorException extends MonitoringException {
 
     public NothingToMonitorException() {

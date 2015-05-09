@@ -3,6 +3,7 @@ package bad.robot.radiate.monitor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Deprecated
 public class MonitoringThreadFactory implements ThreadFactory {
 
     private final AtomicInteger threadCount = new AtomicInteger();

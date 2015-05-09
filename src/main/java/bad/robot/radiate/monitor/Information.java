@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 
+@Deprecated
 public class Information {
 
     private final String information;

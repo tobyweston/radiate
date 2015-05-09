@@ -9,9 +9,8 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 import static java.util.stream.Stream.*;
 
+@Deprecated
 class MultipleBuildsDemo extends ThreadSafeObservable implements MonitoringTasksFactory {
-
-    public static final int builds = 4 * 4;
 
     @Override
     public List<MonitoringTask> create() {
