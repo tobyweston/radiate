@@ -66,7 +66,6 @@
     <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-common_2.11:3.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-core_2.11:3.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-matcher_2.11:3.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2_2.11:2.3.11:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.typelevel:scodec-bits_2.11:1.0.4:jar" level="project" />
     <orderEntry type="library" name="SBT: org.yaml:snakeyaml:1.15:jar" level="project" />
   </component>
