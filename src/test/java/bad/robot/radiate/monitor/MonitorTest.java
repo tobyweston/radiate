@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(JMock.class)
 public class MonitorTest {
 
-    public final Mockery context = new JUnit4Mockery();
+    private final Mockery context = new JUnit4Mockery();
 
     private final ScheduledExecutorService executor = context.mock(ScheduledExecutorService.class);
     private final MonitoringTask task = context.mock(MonitoringTask.class);

@@ -1,6 +1,5 @@
 package bad.robot.radiate.monitor
 
-import java.util
 import java.util.Arrays.asList
 import java.util.concurrent.{RunnableScheduledFuture, ScheduledExecutorService, ScheduledFuture}
 
@@ -14,7 +13,7 @@ class MonitorTestS extends Specification {
     val task = mock[MonitoringTask]
     val future = mock[ScheduledFuture[Any]]
 
-    (executor.scheduleWithFixedDelay _).expects(*, *, * , *).returning(future).anyNumberOfTimes
+    (executor.scheduleWithFixedDelay _).expects(*, *, * , *).returning(future)
     (future.cancel _).expects(true).once
 
     val monitor = new ScheduledMonitorS(executor)
