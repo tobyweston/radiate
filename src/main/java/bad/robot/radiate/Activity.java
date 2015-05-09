@@ -7,6 +7,7 @@ package bad.robot.radiate;
  * <ul><li>{@link Activity#Error} - Indicate an error.
  */
 
+@Deprecated
 public enum Activity {
 
     Busy,

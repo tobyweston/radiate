@@ -26,7 +26,6 @@ public class ActivityAggregatorTest {
     @Test
     public void shouldBeProgressing() throws Exception {
         assertThat(aggregated(asList(Idle, Progressing)).getActivity(), is(Progressing));
-
     }
 
     @Test
