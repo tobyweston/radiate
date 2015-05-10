@@ -6,11 +6,11 @@ import java.util.concurrent.{RunnableScheduledFuture, ScheduledExecutorService, 
 import org.scalamock.specs2.MockContext
 import org.specs2.mutable.Specification
 
-class MonitorTestS extends Specification {
+class MonitorSTest extends Specification {
 
   "Can stop previously scheduled tasks" in new MockContext {
     val executor = mock[ScheduledExecutorService]
-    val task = mock[MonitoringTask]
+    val task = mock[MonitoringTaskS]
     val future = mock[ScheduledFuture[Any]]
 
     (executor.scheduleWithFixedDelay _).expects(*, *, * , *).returning(future)

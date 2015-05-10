@@ -9,7 +9,7 @@ class ScheduledMonitorS(executor: ScheduledExecutorService) extends MonitorS {
 
   private val frequency: Int = 30
 
-  def start(tasks: List[MonitoringTask]): List[ScheduledFuture[_]] = {
+  def start(tasks: List[MonitoringTaskS]): List[ScheduledFuture[_]] = {
     tasks.map(task => executor.scheduleWithFixedDelay(task, 0, frequency, SECONDS))
   }
 
