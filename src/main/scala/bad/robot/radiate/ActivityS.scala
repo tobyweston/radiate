@@ -6,7 +6,17 @@ package bad.robot.radiate
  * <ul><li>Idle - Indicate an idle, this could be used dismiss any busy or progress indicators. Use having completed work.</li></ul>
  * <ul><li>Error - Indicate an error.
  */
-object ActivityS extends Enumeration {
-  type ActivityS = Value
-  val Busy, Progressing, Idle, Error = Value
+sealed trait ActivityS
+object ActivityS {
+  def fromJava(activity: Activity): ActivityS = activity match {
+    case Activity.Busy => Busy
+    case Activity.Progressing => Progressing
+    case Activity.Idle => Idle
+    case Activity.Error => Error
+    case _ => throw new IllegalArgumentException("unsupported activity: " + activity)
+  }
 }
+case object Busy extends ActivityS
+case object Progressing extends ActivityS
+case object Idle extends ActivityS
+case object Error extends ActivityS

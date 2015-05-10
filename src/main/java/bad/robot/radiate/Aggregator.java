@@ -6,6 +6,7 @@ import com.googlecode.totallylazy.Sequence;
 import static bad.robot.radiate.ActivityAggregator.aggregated;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
+@Deprecated
 public class Aggregator {
 
     private final Iterable<Build> builds;
