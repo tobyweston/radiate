@@ -22,7 +22,7 @@ class AggregatorS(builds: List[Build]) {
   }
 
   def progress: Progress = {
-    builds.foldLeft(builds.head.getProgress) { (progress, build) => {
+    builds.tail.foldLeft(builds.head.getProgress) { (progress, build) => {
       progress.add(build.getProgress)
     }}
   }

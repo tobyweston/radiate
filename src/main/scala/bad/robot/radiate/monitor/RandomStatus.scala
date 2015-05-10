@@ -2,26 +2,24 @@ package bad.robot.radiate.monitor
 
 import java.security.SecureRandom
 
-import bad.robot.radiate.Activity.{Error, _}
-import bad.robot.radiate.Status._
-import bad.robot.radiate.monitor.RandomStatusS.{randomActivity, _}
+import bad.robot.radiate.monitor.RandomStatusS._
 import bad.robot.radiate._
 
 object RandomStatusS {
 
   private val random = new SecureRandom
-  private val statuses = Array[Status](Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Broken, Unknown)
-  private val activities = Array[Activity](Busy, Error, Idle, Progressing)
+  private val statuses = Array(Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Broken, Unknown)
+  private val activities = Array(Busy, Error, Idle, Progressing)
 
   def randomProgress: Progress = {
     new Progress(random.nextInt(100) + 1, 100)
   }
 
-  def randomStatus: Status = {
+  def randomStatus: StatusS = {
     statuses(random.nextInt(statuses.length))
   }
 
-  private def randomActivity: Activity = {
+  private def randomActivity: ActivityS = {
     activities(random.nextInt(activities.length))
   }
 }
@@ -29,7 +27,7 @@ object RandomStatusS {
 class RandomStatusS extends ThreadSafeObservableS with MonitoringTaskS {
   def run {
     val activity = randomActivity
-    val status = RandomStatus.randomStatus
+    val status = randomStatus
     notifyObservers(activity, if (activity == Progressing) randomProgress else new NullProgress)
     notifyObservers(status)
     if (status == Broken)

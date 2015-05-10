@@ -1,10 +1,5 @@
 package bad.robot.radiate
 
-/**
- * <ul><li>Ok - A positive build state; for example, all tests passing.</li></ul>
- * <ul><li>Status#Broken - A negative build state; for example, tests breaking.</li></ul>
- * <ul><li>Status#Unknown - Unknown build state.
- */
 sealed trait StatusS
 object StatusS {
   def fromJava(status: Status): StatusS = status match {
@@ -14,6 +9,9 @@ object StatusS {
     case _ => throw new IllegalArgumentException("unsupported status: " + status)
   }
 }
+/** Ok - A positive build state; for example, all tests passing */
 case object Ok extends StatusS
+/** A negative build state; for example, tests failing. */
 case object Broken extends StatusS
+/** Unknown build state. */
 case object Unknown extends StatusS

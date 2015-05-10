@@ -3,7 +3,7 @@ package bad.robot.radiate
 import java.util.Arrays.asList
 import java.util.concurrent.CopyOnWriteArrayList
 import bad.robot.radiate.FunctionInterfaceOps._
-import bad.robot.radiate.monitor.{InformationS, ObservableS, Observer, ObserverS}
+import bad.robot.radiate.monitor.{InformationS, ObservableS, ObserverS}
 
 class ThreadSafeObservableS extends ObservableS {
 
@@ -25,7 +25,7 @@ class ThreadSafeObservableS extends ObservableS {
     observers.clear()
   }
 
-  def notifyObservers(status: Status) {
+  def notifyObservers(status: StatusS) {
     observers.forEach((observer: ObserverS) => observer.update(this, status))
   }
 
@@ -37,7 +37,7 @@ class ThreadSafeObservableS extends ObservableS {
     observers.forEach((observer: ObserverS) =>  observer.update(this, information))
   }
 
-  def notifyObservers(activity: Activity, progress: Progress) {
+  def notifyObservers(activity: ActivityS, progress: Progress) {
     observers.forEach((observer: ObserverS) =>  observer.update(this, activity, progress))
   }
 }
