@@ -7,6 +7,6 @@ package bad.robot.radiate
  * <ul><li>Error - Indicate an error.
  */
 object ActivityS extends Enumeration {
-  type Activity = Value
+  type ActivityS = Value
   val Busy, Progressing, Idle, Error = Value
 }
