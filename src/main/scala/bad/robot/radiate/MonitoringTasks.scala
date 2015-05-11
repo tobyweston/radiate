@@ -18,7 +18,8 @@ class MonitoringTasksS(factory: MonitoringTasksFactoryS, monitor: MonitorS) exte
       factory.notifyObservers(restartRequired)
     }
   } finally {
-    if (tasks.isEmpty) factory.notifyObservers(new NothingToMonitorExceptionS)
+    if (tasks.isEmpty)
+      factory.notifyObservers(new NothingToMonitorExceptionS)
   }
 
   def start() {
