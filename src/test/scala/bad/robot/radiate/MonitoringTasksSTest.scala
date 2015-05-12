@@ -4,14 +4,15 @@ import java.util.concurrent.ScheduledFuture
 
 import bad.robot.radiate.RestartRequiredS._
 import bad.robot.radiate.monitor._
-import org.scalamock.specs2.MockContext
+import org.scalamock.specs2.{IsolatedMockFactory, MockContext}
 import org.specs2.mutable.Specification
 
-class MonitoringTasksSTest extends Specification {
+class MonitoringTasksSTest extends Specification with IsolatedMockFactory {
 
-  "Gathers tasks" in new MockContext {
-    val factory = mock[MonitoringTasksFactoryS]
-    val monitor = mock[MonitorS]
+  val factory = mock[MonitoringTasksFactoryS]
+  val monitor = mock[MonitorS]
+
+  "Gathers tasks" >> {
     val task = stub[MonitoringTaskS]
 
     (factory.notifyObservers(_: Exception)).expects(*).anyNumberOfTimes
@@ -20,20 +21,14 @@ class MonitoringTasksSTest extends Specification {
     new MonitoringTasksS(factory, monitor)
   }
 
-  "When no tasks are generated, notify observer" in new MockContext {
-    val factory = mock[MonitoringTasksFactoryS]
-    val monitor = mock[MonitorS]
-
+  "When no tasks are generated, notify observer" >> {
     (factory.notifyObservers(_: Exception)).expects(anyTypedOf[Exception, NothingToMonitorExceptionS]).once
     (factory.create _).expects().once.returning(List())
 
     new MonitoringTasksS(factory, monitor)
   }
 
-  "Exceptions thrown when gathering tasks will notify observers" in new MockContext {
-    val factory = mock[MonitoringTasksFactoryS]
-    val monitor = mock[MonitorS]
-
+  "Exceptions thrown when gathering tasks will notify observers" >> {
     val exception = new Exception
     
     (factory.create _).expects().throws(exception).once
@@ -45,12 +40,9 @@ class MonitoringTasksSTest extends Specification {
     new MonitoringTasksS(factory, monitor)
   }
 
-  "Start and stop" in new MockContext {
+  "Start and stop" >> {
     val tasks = List(new RandomStatusS)
     val scheduled = List.empty[ScheduledFuture[_]]
-
-    val factory = mock[MonitoringTasksFactoryS]
-    val monitor = mock[MonitorS]
 
     (factory.create _).expects().returning(tasks).once
     (monitor.start _).expects(tasks).returning(scheduled).once
