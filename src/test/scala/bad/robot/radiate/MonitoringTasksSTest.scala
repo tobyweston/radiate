@@ -2,9 +2,11 @@ package bad.robot.radiate
 
 import java.util.concurrent.ScheduledFuture
 
+import bad.robot.radiate.specs2._
+import bad.robot.radiate.scalamock._
 import bad.robot.radiate.RestartRequiredS._
 import bad.robot.radiate.monitor._
-import org.scalamock.specs2.{IsolatedMockFactory, MockContext}
+import org.scalamock.specs2.{IsolatedMockFactory}
 import org.specs2.mutable.Specification
 
 class MonitoringTasksSTest extends Specification with IsolatedMockFactory {
