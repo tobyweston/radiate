@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="SBT: org.scalamock:scalamock-specs2-support_2.11:3.2.2:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scalamock/scalamock-specs2-support_2.11/jars/scalamock-specs2-support_2.11-3.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scalamock/scalamock-specs2-support_2.11/docs/scalamock-specs2-support_2.11-3.2.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scalamock/scalamock-specs2-support_2.11/srcs/scalamock-specs2-support_2.11-3.2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

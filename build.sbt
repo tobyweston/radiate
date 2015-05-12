@@ -10,8 +10,8 @@ libraryDependencies ++= Seq(
   "com.googlecode.totallylazy" % "totallylazy" % "1199" % "compile",
   "commons-io" % "commons-io" % "1.3.2" % "compile",
   "org.yaml" % "snakeyaml" % "1.15" % "compile",
-  "org.specs2" %% "specs2-core" % "3.0" % "test",
-  "org.scalamock" %% "scalamock-specs2-support" % "3.2" % "test",
+  "org.specs2" %% "specs2-core" % "3.6" % "test",
+  "org.scalamock" %% "scalamock-specs2-support" % "3.2.2" % "test",
   "org.jmock" % "jmock-junit4" % "2.8.1" % "test",
   "junit" % "junit" % "4.12" % "test"
 )
