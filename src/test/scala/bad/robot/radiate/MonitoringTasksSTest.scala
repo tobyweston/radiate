@@ -24,7 +24,7 @@ class MonitoringTasksSTest extends Specification with IsolatedMockFactory {
   }
 
   "When no tasks are generated, notify observer" >> {
-    (factory.notifyObservers(_: Exception)).expects(anyTypedOf[Exception, NothingToMonitorExceptionS]).once
+    (factory.notifyObservers(_: Exception)).expects(anyTypedOf[NothingToMonitorExceptionS]).once
     (factory.create _).expects().once.returning(List())
 
     new MonitoringTasksS(factory, monitor)
@@ -37,7 +37,7 @@ class MonitoringTasksSTest extends Specification with IsolatedMockFactory {
     (factory.notifyObservers(_: Exception)).expects(exception).once
     (factory.notifyObservers(_: InformationS)).expects(restartRequired).once
     // for finally block
-    (factory.notifyObservers(_: Exception)).expects(anyTypedOf[Exception, NothingToMonitorExceptionS]).once
+    (factory.notifyObservers(_: Exception)).expects(anyTypedOf[NothingToMonitorExceptionS]).once
 
     new MonitoringTasksS(factory, monitor)
   }

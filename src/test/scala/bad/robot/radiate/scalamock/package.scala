@@ -6,7 +6,7 @@ import scala.reflect.ClassTag
 
 package object scalamock {
 
-  def anyTypedOf[T, U: ClassTag]: ArgThat[T] = new ArgThat[T]({
+  def anyTypedOf[U: ClassTag]: ArgThat[Any] = new ArgThat[Any]({
     case x: U => true
     case _ => false
   })
