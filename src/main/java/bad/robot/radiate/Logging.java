@@ -4,6 +4,7 @@ import org.apache.log4j.*;
 
 import java.io.File;
 
+@Deprecated
 public class Logging {
 
     public static void initialise() {

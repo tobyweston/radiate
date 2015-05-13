@@ -19,6 +19,7 @@ import static java.lang.String.format;
 import static javax.swing.SwingUtilities.invokeLater;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 
+@Deprecated
 public class SwingUi implements Ui, Observer {
 
     private final StatusFrames frames;

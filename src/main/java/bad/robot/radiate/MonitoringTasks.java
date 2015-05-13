@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import static bad.robot.radiate.RestartRequired.restartRequired;
 import static java.util.Collections.emptyList;
 
+@Deprecated
 public class MonitoringTasks implements Iterable<MonitoringTask> {
 
     private final Monitor monitor;

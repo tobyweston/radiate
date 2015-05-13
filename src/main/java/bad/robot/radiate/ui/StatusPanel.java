@@ -23,6 +23,7 @@ import static bad.robot.radiate.ui.swing.Region.getReducedRegion;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.abbreviate;
 
+@Deprecated
 public class StatusPanel extends JPanel implements Observer {
 
     private static final Color Red = new Color(200, 0, 0);
@@ -88,7 +89,7 @@ public class StatusPanel extends JPanel implements Observer {
         int width = getWidth();
         int height = getHeight();
         Color colour = getColorFrom(status);
-        graphics.setPaint(new GradientPaint(0, 0, colour.darker(), 0 + width, 0 + height, colour.brighter()));
+        graphics.setPaint(new GradientPaint(0, 0, colour.darker(), width, height, colour.brighter()));
         graphics.fill(new Rectangle2D.Double(0, 0, width, height));
     }
 

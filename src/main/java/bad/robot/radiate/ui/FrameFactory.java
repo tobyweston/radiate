@@ -10,6 +10,7 @@ import static java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 
+@Deprecated
 public interface FrameFactory {
 
     Collection<StatusFrame> create();

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import static java.lang.String.*;
 
+@Deprecated
 public class StatusFrame extends JFrame {
 
     private final Set<StatusPanel> panels = new HashSet<>();

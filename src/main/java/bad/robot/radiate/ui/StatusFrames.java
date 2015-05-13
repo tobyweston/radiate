@@ -2,11 +2,11 @@ package bad.robot.radiate.ui;
 
 import bad.robot.radiate.monitor.Observer;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-import static java.awt.Frame.NORMAL;
-
+@Deprecated
 class StatusFrames {
 
     private final java.util.List<StatusFrame> frames = new ArrayList<>();
@@ -20,15 +20,15 @@ class StatusFrames {
     }
 
     public void display() {
-        frames.forEach(frame -> frame.display());
+        frames.forEach(StatusFrame::display);
     }
 
     public void dispose() {
-        frames.forEach(frame -> frame.dispose());
+        frames.forEach(Window::dispose);
     }
 
     public Stream<Observer> createStatusPanels() {
-        return frames.stream().map(frame -> frame.createStatusPanel());
+        return frames.stream().map(StatusFrame::createStatusPanel);
     }
 
 }

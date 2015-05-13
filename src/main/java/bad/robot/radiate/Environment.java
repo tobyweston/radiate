@@ -2,6 +2,7 @@ package bad.robot.radiate;
 
 import static java.lang.String.format;
 
+@Deprecated
 public class Environment {
 
     public static String getEnvironmentVariable(String variable) {
