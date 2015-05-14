@@ -8,6 +8,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import static java.util.concurrent.Executors.newScheduledThreadPool;
 
+@Deprecated
 public class Application {
 
     private static final ScheduledExecutorService threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory());

@@ -3,6 +3,7 @@ package bad.robot.radiate;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
+@Deprecated
 public class NullProgress extends Progress {
 
     public NullProgress() {
