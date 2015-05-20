@@ -37,7 +37,7 @@ class ThreadSafeObservableS extends ObservableS {
     observers.forEach((observer: ObserverS) =>  observer.update(this, information))
   }
 
-  def notifyObservers(activity: ActivityS, progress: Progress) {
+  def notifyObservers(activity: ActivityS, progress: ProgressS) {
     observers.forEach((observer: ObserverS) =>  observer.update(this, activity, progress))
   }
 }

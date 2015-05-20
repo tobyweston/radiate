@@ -11,4 +11,10 @@ object LegacyJavaConverters {
       case _ => throw new UnsupportedOperationException
     }
   }
+
+  implicit def toProgress(scala: ProgressS): Progress = {
+    new Progress(scala.asAngle, 360)
+  }
+
+
 }

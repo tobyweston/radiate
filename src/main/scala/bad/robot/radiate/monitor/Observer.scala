@@ -5,7 +5,7 @@ import org.apache.log4j.Logger
 
 trait ObserverS {
   def update(source: ObservableS, status: StatusS) { /* ignore status updates */ }
-  def update(source: ObservableS, activity: ActivityS, progress: Progress) { /* ignore status updates */ }
+  def update(source: ObservableS, activity: ActivityS, progress: ProgressS) { /* ignore status updates */ }
   def update(source: ObservableS, information: InformationS) { /* ignore status updates */ }
   def update(source: ObservableS, exception: Exception) { /* ignore status updates */ }
 }

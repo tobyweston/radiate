@@ -8,7 +8,7 @@ trait ObservableS {
   def removeObservers(observer: ObserverS*): Boolean
   def removeAllObservers
   def notifyObservers(status: StatusS)
-  def notifyObservers(activity: ActivityS, progress: Progress)
+  def notifyObservers(activity: ActivityS, progress: ProgressS)
   def notifyObservers(exception: Exception)
   def notifyObservers(information: InformationS)
 }

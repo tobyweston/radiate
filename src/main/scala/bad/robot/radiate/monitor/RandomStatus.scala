@@ -11,8 +11,8 @@ object RandomStatusS {
   private val statuses = Array(Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Ok, Broken, Unknown)
   private val activities = Array(Busy, Error, Idle, Progressing)
 
-  def randomProgress: Progress = {
-    new Progress(random.nextInt(100) + 1, 100)
+  def randomProgress: ProgressS = {
+    new ProgressS(random.nextInt(100) + 1, 100)
   }
 
   def randomStatus: StatusS = {
@@ -28,7 +28,7 @@ class RandomStatusS extends ThreadSafeObservableS with MonitoringTaskS {
   def run {
     val activity = randomActivity
     val status = randomStatus
-    notifyObservers(activity, if (activity == Progressing) randomProgress else new NullProgress)
+    notifyObservers(activity, if (activity == Progressing) randomProgress else new NullProgressS)
     notifyObservers(status)
     if (status == Broken)
       notifyObservers(new RuntimeException("Example problem"))

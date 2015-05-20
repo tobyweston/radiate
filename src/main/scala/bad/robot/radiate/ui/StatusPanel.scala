@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D
 import javax.swing._
 
 import bad.robot.radiate.LegacyJavaConverters.toActivity
+import bad.robot.radiate.LegacyJavaConverters.toProgress
 import bad.robot.radiate.monitor.{ObservableS, ObserverS}
 import bad.robot.radiate.ui.StatusPanelS._
 import bad.robot.radiate.ui.Transparency.SeventyFivePercent
@@ -31,7 +32,7 @@ class StatusPanelS(parent: JFrame, identifier: Int) extends JPanel with Observer
 
   private var status: StatusS = Unknown
   private var activity: ActivityS = Busy
-  private var progress = new Progress(0, 100)
+  private var progress = new ProgressS(0, 100)
   private var text = null
 
   parent.add(new JLayer[JComponent](new JLayer[JComponent](new JLayer[JComponent](new JLayer[JComponent](this, errorIndicator), progressIndicator), overtimeIndicator), busyIndicator))
@@ -43,14 +44,14 @@ class StatusPanelS(parent: JFrame, identifier: Int) extends JPanel with Observer
     repaint()
   }
 
-  override def update(source: ObservableS, activity: ActivityS, progress: Progress) {
+  override def update(source: ObservableS, activity: ActivityS, progress: ProgressS) {
     this.activity = activity
     this.progress = progress
     repaint()
   }
 
   override def update(source: ObservableS, exception: Exception) {
-    update(source, Busy, new NullProgress)
+    update(source, Busy, new NullProgressS)
   }
 
   private def getColorFrom(status: StatusS): Color = {
