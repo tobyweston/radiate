@@ -1,8 +1,8 @@
 package bad.robot.radiate.monitor
 
+import bad.robot.radiate.monitor.DemonstrativeMonitorS.BusyMonitorExampleS
+import bad.robot.radiate.monitor.RandomStatusS._
 import bad.robot.radiate._
-import bad.robot.radiate.monitor.DemonstrativeMonitorS._
-import bad.robot.radiate.monitor.RandomStatusS.{randomProgress, randomStatus}
 
 private class DemoMonitoringTaskS extends ThreadSafeObservableS with MonitoringTaskS {
   private var monitor: DemonstrativeMonitorS = new BusyMonitorExampleS
@@ -71,7 +71,6 @@ private object DemonstrativeMonitorS {
       new IdleMonitorExampleS
     }
   }
-
 }
 
 class DemoS extends ThreadSafeObservableS with MonitoringTasksFactoryS {

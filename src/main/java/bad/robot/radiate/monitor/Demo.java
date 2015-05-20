@@ -12,6 +12,7 @@ import static bad.robot.radiate.monitor.RandomStatus.randomProgress;
 import static bad.robot.radiate.monitor.RandomStatus.randomStatus;
 import static java.lang.String.format;
 
+@Deprecated
 class Demo extends ThreadSafeObservable implements MonitoringTasksFactory {
 
     @Override
