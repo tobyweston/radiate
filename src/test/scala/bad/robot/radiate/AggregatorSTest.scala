@@ -1,10 +1,6 @@
 package bad.robot.radiate
 
-import bad.robot.radiate.Aggregator._
 import bad.robot.radiate.teamcity.Any
-import com.googlecode.totallylazy.Sequences._
-import org.hamcrest.MatcherAssert._
-import org.hamcrest.Matchers._
 import org.specs2.mutable.Specification
 
 class AggregatorSTest extends Specification {

@@ -2,7 +2,7 @@ package bad.robot.radiate
 
 import java.util.concurrent.ScheduledFuture
 
-import bad.robot.radiate.specs2._
+import bad.robot.radiate.specs2.monitoringTasksAsResult
 import bad.robot.radiate.scalamock._
 import bad.robot.radiate.RestartRequiredS._
 import bad.robot.radiate.monitor._
@@ -53,5 +53,7 @@ class MonitoringTasksSTest extends Specification with IsolatedMockFactory {
     val monitoring = new MonitoringTasksS(factory, monitor)
     monitoring.start()
     monitoring.stop()
+
+    true must_== true
   }
 }

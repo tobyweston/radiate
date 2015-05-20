@@ -8,7 +8,8 @@ package object specs2 {
     def asResult(task: => MonitoringTasksS): Result = Success(task.toString())
   }
 
-  implicit def unitAsResult: AsResult[Unit] = new AsResult[Unit] {
-    def asResult(nothing: => Unit): Result = Success("Unit")
+  // not sure why this seems to not run the test
+  @deprecated implicit def unitAsResult: AsResult[Unit] = new AsResult[Unit] {
+    def asResult(nothing: => Unit): Result = Success()
   }
 }
