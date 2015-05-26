@@ -4,6 +4,7 @@ import bad.robot.radiate.Status;
 
 import static bad.robot.radiate.Status.Unknown;
 
+@Deprecated
 class NoBuild extends Build {
     public NoBuild() {
         super("", "", "/", "", "", "", "", new BuildType("", "", "/", "", ""));

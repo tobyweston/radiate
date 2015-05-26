@@ -5,6 +5,7 @@ import bad.robot.radiate.*;
 import static bad.robot.radiate.Activity.Idle;
 import static bad.robot.radiate.Status.*;
 
+@Deprecated
 public class Build extends TeamCityObject implements Hypermedia, Monitorable {
 
     private final String id;

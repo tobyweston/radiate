@@ -1,5 +1,6 @@
 package bad.robot.radiate;
 
+@Deprecated
 public interface Monitorable {
 
     Status getStatus();

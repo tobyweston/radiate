@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import static java.lang.String.format;
 
+@Deprecated
 class Project extends TeamCityObject implements Hypermedia, Iterable<BuildType> {
 
     private final String id;

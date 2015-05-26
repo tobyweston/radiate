@@ -2,6 +2,7 @@ package bad.robot.radiate.teamcity;
 
 import bad.robot.radiate.Hypermedia;
 
+@Deprecated
 class BuildType extends TeamCityObject implements Hypermedia {
 
     private final String id;

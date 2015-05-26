@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import static java.util.Arrays.asList;
 
+@Deprecated
 class BuildTypes extends TeamCityObject implements Iterable<BuildType> {
 
     @SerializedName("buildType")

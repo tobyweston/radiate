@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Iterator;
 
+@Deprecated
 class FullProject extends Project {
 
     @SerializedName("buildTypes")
