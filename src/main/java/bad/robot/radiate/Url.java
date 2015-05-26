@@ -3,6 +3,7 @@ package bad.robot.radiate;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+@Deprecated
 public class Url {
 
     public static URL url(String url) {
