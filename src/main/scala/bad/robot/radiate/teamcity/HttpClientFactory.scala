@@ -8,7 +8,7 @@ import com.google.code.tempusfugit.temporal.Duration.minutes
 class HttpClientFactoryS {
   def create(configuration: TeamCityConfigurationS): HttpClient = {
     val client = anApacheClient
-    BasicAuthConfigurationS(configuration).applyTo(client)
+    AuthConfiguration(configuration).applyTo(client)
     client.`with`(httpTimeout(minutes(10)))
   }
 }

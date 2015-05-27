@@ -5,7 +5,7 @@ import java.net.URL
 import bad.robot.radiate.teamcity.TeamCityEndpoints.buildsEndpointFor
 import bad.robot.radiate.{HypermediaS, UrlS}
 
-case class ServerS(private val host: String, port: Integer) {
+case class ServerS (private val host: String, port: Integer) {
 
   private val _host = host.replace("http://", "").replace("https://", "")
 
