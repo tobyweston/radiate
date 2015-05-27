@@ -5,7 +5,7 @@ import org.specs2.mutable.Specification
 
 class AggregatorSTest extends Specification {
 
-  "aggregate progress" >> {
+  "Aggregate progress" >> {
     val aggregate = new AggregatorS(List(
       Any.runningBuildPercentageCompleteAt(20),
       Any.build,
@@ -14,7 +14,7 @@ class AggregatorSTest extends Specification {
     aggregate.progress.toString must_== "8%"
   }
 
-  "aggregate number of builds" >> {
+  "Aggregate number of builds" >> {
     val aggregate = new AggregatorS(List(
       Any.runningBuildPercentageCompleteAt(20),
       Any.build,
@@ -23,12 +23,12 @@ class AggregatorSTest extends Specification {
     aggregate.progress.numberOfBuilds must_== 3
   }
 
-  "null object" >> {
+  "Null object" >> {
     val aggregate = new AggregatorS(List(Any.build, Any.runningBuildPercentageCompleteAt(2)))
     aggregate.progress.numberOfBuilds must_== 1
   }
 
-  "no progress" >> {
+  "No progress" >> {
     val aggregate = new AggregatorS(List(Any.build, Any.build, Any.build))
     aggregate.progress.numberOfBuilds must_== 0
     aggregate.progress.toString must_== "0%"
