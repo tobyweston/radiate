@@ -3,6 +3,7 @@ package bad.robot.radiate.teamcity;
 import bad.robot.http.CommonHttpClient;
 import bad.robot.http.configuration.BasicAuthCredentials;
 
+@Deprecated
 class BasicAuthConfiguration {
 
     private final Server server;

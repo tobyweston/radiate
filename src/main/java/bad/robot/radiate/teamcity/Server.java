@@ -8,6 +8,7 @@ import java.net.URL;
 import static bad.robot.radiate.teamcity.TeamCityEndpoints.buildsEndpointFor;
 import static java.lang.String.format;
 
+@Deprecated
 class Server {
 
     private final String host;

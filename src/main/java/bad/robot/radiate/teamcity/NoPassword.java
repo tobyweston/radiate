@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+@Deprecated
 class NoPassword extends Password {
 
     public NoPassword() {

@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+@Deprecated
 class NoUsername extends Username {
 
     NoUsername() {

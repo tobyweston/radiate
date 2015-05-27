@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+@Deprecated
 public class Username extends bad.robot.http.configuration.AbstractValueType<String> {
 
     public static Username username(String username) {

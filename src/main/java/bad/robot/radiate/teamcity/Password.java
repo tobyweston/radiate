@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+@Deprecated
 public class Password extends bad.robot.http.configuration.AbstractValueType<String> {
 
     public static Password password(String password) {

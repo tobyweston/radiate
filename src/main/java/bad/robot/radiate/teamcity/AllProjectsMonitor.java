@@ -11,6 +11,7 @@ import static bad.robot.radiate.Aggregator.aggregate;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
+@Deprecated
 /** @see {@link bad.robot.radiate.monitor.MonitoringTasksFactory#singleAggregate()} */
 public class AllProjectsMonitor extends NonRepeatingObservable implements MonitoringTask {
 

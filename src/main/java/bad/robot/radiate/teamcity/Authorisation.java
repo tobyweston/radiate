@@ -1,7 +1,7 @@
 package bad.robot.radiate.teamcity;
 
 @Deprecated
-enum Authorisation {
+public enum Authorisation {
 
     GuestAuthorisation("guestAuth"),
     BasicAuthorisation("httpAuth");

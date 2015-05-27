@@ -28,5 +28,12 @@ object FunctionInterfaceOps {
       override def call(): A = function
     }
   }
+
+  implicit def toHypermedia(value: String): HypermediaS = {
+    new HypermediaS {
+      override def href: String = value
+    }
+  }
+
 }
 
