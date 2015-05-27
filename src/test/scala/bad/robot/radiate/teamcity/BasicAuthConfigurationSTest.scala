@@ -36,5 +36,4 @@ class BasicAuthConfigurationSTest extends Specification {
     val auth = BasicAuthConfigurationS(configuration)
     auth must_== new BasicAuthConfigurationS(ServerS("http://example.com", 8008), UsernameS("El Darko"), PasswordS("secret"))
   }
-
 }
