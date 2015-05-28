@@ -6,8 +6,8 @@ sealed trait AuthorisationS {
 }
 
 object AuthorisationS {
-  def authorisationFor(username: Username, password: Password): AuthorisationS = {
-    if ((username == new NoUsername) || (password == new NoPassword))
+  def authorisationFor(username: UsernameS, password: PasswordS): AuthorisationS = {
+    if ((username == NoUsernameS) || (password == NoPasswordS))
       GuestAuthorisationS
     else
       BasicAuthorisationS
