@@ -5,6 +5,7 @@ import bad.robot.radiate.monitor.Information;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.defaultString;
 
+@Deprecated
 class FailedToCreateYmlFile extends Information {
 
 	public FailedToCreateYmlFile(Exception e) {
