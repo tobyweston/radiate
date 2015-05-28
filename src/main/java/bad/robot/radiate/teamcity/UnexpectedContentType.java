@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
+@Deprecated
 class UnexpectedContentType extends TeamCityException {
 
     public UnexpectedContentType(HttpResponse response) {
