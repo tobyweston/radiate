@@ -11,6 +11,7 @@ import java.util.Map;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static org.apache.commons.io.FileUtils.writeStringToFile;
 
+@Deprecated
 public class YmlConfigurationFile extends File {
 
     private final TeamCityConfiguration fallback = new EnvironmentVariableConfiguration();

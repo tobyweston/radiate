@@ -6,6 +6,7 @@ import java.net.URL;
 
 import static java.lang.String.format;
 
+@Deprecated
 public class UnexpectedResponse extends TeamCityException {
 
     public UnexpectedResponse(URL url, HttpResponse response) {
