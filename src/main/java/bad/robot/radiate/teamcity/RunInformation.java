@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+@Deprecated
 public class RunInformation extends TeamCityObject {
 
     private final Integer percentageComplete;
