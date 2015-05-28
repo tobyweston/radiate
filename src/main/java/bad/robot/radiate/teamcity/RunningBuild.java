@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import static bad.robot.radiate.Activity.Progressing;
 
+@Deprecated
 public class RunningBuild extends Build {
 
     @SerializedName("running-info")
