@@ -15,11 +15,12 @@ import java.util.Map;
 import static bad.robot.radiate.teamcity.Authorisation.authorisationFor;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
+@Deprecated
 public class YmlConfiguration implements TeamCityConfiguration {
 
     private final Map<String, Object> configuration;
 
-    public YmlConfiguration(YmlConfigurationFile file) throws IOException {
+    public YmlConfiguration(YmlConfigurationFile file) throws FileNotFoundException {
         this.configuration = load(file);
     }
 

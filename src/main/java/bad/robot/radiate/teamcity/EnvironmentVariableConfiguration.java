@@ -3,6 +3,7 @@ package bad.robot.radiate.teamcity;
 import static bad.robot.radiate.Environment.getEnvironmentVariable;
 import static java.lang.Integer.valueOf;
 
+@Deprecated
 public class EnvironmentVariableConfiguration implements TeamCityConfiguration {
 
     @Override
