@@ -5,11 +5,10 @@ import java.net.URL
 import bad.robot.http.EmptyHeaders._
 import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
-import bad.robot.http.{StringHttpResponse, Headers, HttpClient, HttpResponse}
+import bad.robot.http.{Headers, HttpClient, HttpResponse, StringHttpResponse}
 import bad.robot.radiate.Unmarshaller
-import bad.robot.radiate.teamcity.Authorisation._
+import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
-import org.scalamock.specs2.{IsolatedMockFactory, MockContext}
 
 class TeamCitySTest extends Specification with IsolatedMockFactory {
 
@@ -33,6 +32,11 @@ class TeamCitySTest extends Specification with IsolatedMockFactory {
     (projectsUnmarshaller.unmarshall _).expects(Ok).once.returning(projects)
 
     teamcity.retrieveProjects must_== projects
+  }
+
+  "Should handle Http error when retrieving projects" >> {
+    (http.get(_: URL, _: Headers)).expects(*, *).once.returning(Error)
+    teamcity.retrieveProjects must throwAn[UnexpectedResponseS]
   }
 
 }
