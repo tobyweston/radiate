@@ -19,6 +19,7 @@ import static com.googlecode.totallylazy.Monad.methods.sequenceE;
 import static com.googlecode.totallylazy.Sequences.flatten;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
+@Deprecated
 class TeamCity {
 
     private final Headers headers = headers(header("Accept", "application/json"));

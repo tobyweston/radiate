@@ -6,9 +6,9 @@ import bad.robot.http.{HttpClient, HttpResponse => SimpleHttpResponse}
 import bad.robot.radiate.Sequence.sequence
 import bad.robot.radiate.teamcity.BuildLocatorBuilderS.{latest, running}
 import bad.robot.radiate.teamcity.TeamCityEndpointsS._
-import bad.robot.radiate.{AggregateException, HttpResponse, Unmarshaller}
+import bad.robot.radiate.{UnmarshallerS, AggregateException, HttpResponse}
 
-class TeamCityS(server: ServerS, authorisation: AuthorisationS, http: HttpClient, projects: Unmarshaller[SimpleHttpResponse, Iterable[ProjectScala]], project: Unmarshaller[SimpleHttpResponse, ProjectScala], build: Unmarshaller[SimpleHttpResponse, BuildS]) {
+class TeamCityS(server: ServerS, authorisation: AuthorisationS, http: HttpClient, projects: UnmarshallerS[SimpleHttpResponse, Iterable[ProjectScala]], project: UnmarshallerS[SimpleHttpResponse, ProjectScala], build: UnmarshallerS[SimpleHttpResponse, BuildS]) {
 
   private val asJson = headers(header("Accept", "application/json"))
 

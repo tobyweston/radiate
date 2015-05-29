@@ -12,6 +12,8 @@ case class BuildS(id: String, number: String, href: String, private val _status:
     }
   }
 
+  def statusString = _status
+
   def activity: ActivityS = Idle
 
   def progress: ProgressS = new NullProgressS

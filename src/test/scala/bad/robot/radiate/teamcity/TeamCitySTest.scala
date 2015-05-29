@@ -6,7 +6,7 @@ import bad.robot.http.EmptyHeaders._
 import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.{Headers, HttpClient, HttpResponse, StringHttpResponse}
-import bad.robot.radiate.Unmarshaller
+import bad.robot.radiate.{UnmarshallerS, Unmarshaller}
 import com.googlecode.totallylazy.Sequences._
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
@@ -23,9 +23,9 @@ class TeamCitySTest extends Specification with IsolatedMockFactory {
 
   private val projects = AnyS.projects
 
-  private val projectsUnmarshaller = mock[Unmarshaller[HttpResponse, Iterable[ProjectScala]]]
-  private val projectUnmarshaller = mock[Unmarshaller[HttpResponse, ProjectScala]]
-  private val buildUnmarshaller = mock[Unmarshaller[HttpResponse, BuildS]]
+  private val projectsUnmarshaller = mock[UnmarshallerS[HttpResponse, Iterable[ProjectScala]]]
+  private val projectUnmarshaller = mock[UnmarshallerS[HttpResponse, ProjectScala]]
+  private val buildUnmarshaller = mock[UnmarshallerS[HttpResponse, BuildS]]
   private val teamcity = new TeamCityS(new ServerS("example.com", 8111), GuestAuthorisationS, http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller)
 
   "Should retrieve projects" >> {

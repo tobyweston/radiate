@@ -4,6 +4,7 @@ import bad.robot.http.HttpResponse;
 import bad.robot.radiate.Unmarshaller;
 import com.google.gson.Gson;
 
+@Deprecated
 class JsonBuildUnmarshaller implements Unmarshaller<HttpResponse, Build> {
 
     @Override

@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+@Deprecated
 class BootstrapTeamCity extends TeamCity {
 
     public BootstrapTeamCity() {
