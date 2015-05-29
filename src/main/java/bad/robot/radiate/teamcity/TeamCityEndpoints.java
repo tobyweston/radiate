@@ -2,6 +2,7 @@ package bad.robot.radiate.teamcity;
 
 import bad.robot.radiate.Hypermedia;
 
+@Deprecated
 public class TeamCityEndpoints {
 
     public static Hypermedia projectsEndpointFor(final Authorisation authorisation) {

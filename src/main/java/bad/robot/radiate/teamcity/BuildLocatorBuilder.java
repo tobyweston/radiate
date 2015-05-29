@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+@Deprecated
 class BuildLocatorBuilder {
 
     private final StringBuilder locator = new StringBuilder();
