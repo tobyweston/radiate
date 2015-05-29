@@ -5,6 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Deprecated
 public class Any {
 
     private static final AtomicInteger number = new AtomicInteger(0);

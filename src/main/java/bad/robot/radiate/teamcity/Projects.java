@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+@Deprecated
 class Projects extends TeamCityObject implements Iterable<Project> {
 
     @SerializedName("project")
