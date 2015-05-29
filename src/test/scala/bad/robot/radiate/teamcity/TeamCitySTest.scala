@@ -7,6 +7,7 @@ import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.{Headers, HttpClient, HttpResponse, StringHttpResponse}
 import bad.robot.radiate.Unmarshaller
+import com.googlecode.totallylazy.Sequences._
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
 
@@ -37,6 +38,20 @@ class TeamCitySTest extends Specification with IsolatedMockFactory {
   "Should handle Http error when retrieving projects" >> {
     (http.get(_: URL, _: Headers)).expects(*, *).once.returning(Error)
     teamcity.retrieveProjects must throwAn[UnexpectedResponseS]
+  }
+
+  "Should retrieve full projects" >> {
+    val buildTypes = new BuildTypesScala(List(AnyS.buildType))
+    val anotherBuildTypes = new BuildTypesScala(List(AnyS.buildType))
+    val project = AnyS.project(buildTypes)
+    val anotherProject = AnyS.project(anotherBuildTypes)
+
+    (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111${projects.head.href}"), accept).once.returning(Ok)
+    (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111${projects.tail.head.href}"), accept).once.returning(AnotherOk)
+    (projectUnmarshaller.unmarshall _).expects(Ok).once.returning(project)
+    (projectUnmarshaller.unmarshall _).expects(AnotherOk).once.returning(anotherProject)
+
+    teamcity.retrieveFullProjects(projects) must_== List(project, anotherProject)
   }
 
 }

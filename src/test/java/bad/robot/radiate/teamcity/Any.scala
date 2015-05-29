@@ -3,7 +3,10 @@ package bad.robot.radiate.teamcity
 import org.apache.commons.lang3.RandomStringUtils
 
 object AnyS {
-  def projects: ProjectsScala = new ProjectsScala(List(
+
+  def project(buildTypes: BuildTypesScala) = new FullProjectS(anyId, anyName, anyHref, buildTypes)
+
+  def projects = new ProjectsScala(List(
     new FullProjectS(anyId, anyName, anyHref, buildTypes),
     new FullProjectS(anyId, anyName, anyHref, buildTypes)
   ))
