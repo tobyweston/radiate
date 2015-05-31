@@ -6,6 +6,7 @@ import com.googlecode.totallylazy.Predicate;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
 
+@Deprecated
 class JsonResponse {
 
     private final HttpResponse response;
