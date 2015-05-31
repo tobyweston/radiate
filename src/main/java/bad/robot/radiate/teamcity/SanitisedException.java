@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.ClassUtils.getShortClassName;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCause;
 
+@Deprecated
 public class SanitisedException {
 
     private final Exception underlying;
