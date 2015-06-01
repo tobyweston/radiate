@@ -11,7 +11,7 @@ object FrameFactoryS {
   def fullScreen = new FrameFactoryS {
     def create = {
       val screens = getLocalGraphicsEnvironment.getScreenDevices
-      val frames = (0 to screens.length).map(index => new StatusFrameS(index, new FullScreen(screens(index).getDefaultConfiguration.getBounds)))
+      val frames = (0 until screens.length).map(index => new StatusFrameS(index, new FullScreen(screens(index).getDefaultConfiguration.getBounds)))
       frames.toList
     }
   }
