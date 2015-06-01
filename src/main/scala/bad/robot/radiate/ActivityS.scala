@@ -7,15 +7,6 @@ package bad.robot.radiate
  * <ul><li>Error - Indicate an error.
  */
 sealed trait ActivityS
-object ActivityS {
-  def fromJava(activity: Activity): ActivityS = activity match {
-    case Activity.Busy => Busy
-    case Activity.Progressing => Progressing
-    case Activity.Idle => Idle
-    case Activity.Error => Error
-    case _ => throw new IllegalArgumentException("unsupported activity: " + activity)
-  }
-}
 case object Busy extends ActivityS
 case object Progressing extends ActivityS
 case object Idle extends ActivityS

@@ -1,7 +1,6 @@
 package bad.robot.radiate.teamcity
 
 import java.io.{File, FileNotFoundException, FileReader}
-import java.util.{List, Map}
 
 import bad.robot.radiate.monitor.{InformationS, ObservableS}
 import bad.robot.radiate.teamcity.AuthorisationS.authorisationFor
@@ -9,9 +8,9 @@ import org.yaml.snakeyaml.Yaml
 
 object YmlConfigurationS {
   
-  private[teamcity] def loadOrCreate(teamcity: TeamCity, observable: ObservableS): TeamCityConfigurationS = {
+  private[teamcity] def loadOrCreate(teamcity: TeamCityS, observable: ObservableS): TeamCityConfigurationS = {
     try {
-      val file = new YmlConfigurationFile
+      val file = new YmlConfigurationFileS
       file.initialise(teamcity)
       observable.notifyObservers(new InformationS(s"Configuration stored in ${file.getPath}"))
       new YmlConfigurationS(file)
@@ -24,7 +23,7 @@ object YmlConfigurationS {
   }
 }
 
-class YmlConfigurationS(file: YmlConfigurationFile) extends TeamCityConfigurationS {
+class YmlConfigurationS(file: YmlConfigurationFileS) extends TeamCityConfigurationS {
   private val configuration: Map[String, Any] = load(file)
 
   @throws(classOf[FileNotFoundException])

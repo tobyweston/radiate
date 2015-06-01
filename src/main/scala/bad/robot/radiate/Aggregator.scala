@@ -1,29 +1,28 @@
 package bad.robot.radiate
 
-import bad.robot.radiate.teamcity.Build
+import bad.robot.radiate.teamcity.BuildS
 
 object AggregatorS {
-  def aggregate(statuses: List[Build]): AggregatorS = {
+  def aggregate(statuses: List[BuildS]): AggregatorS = {
     new AggregatorS(statuses)
   }
 }
 
-class AggregatorS(builds: List[Build]) {
+class AggregatorS(builds: List[BuildS]) {
 
   def activity: ActivityS = {
-    val activities = builds.map(_.getActivity).map(ActivityS.fromJava)
+    val activities = builds.map(_.activity)
     ActivityAggregatorS.aggregated(activities).getActivity
   }
 
-  def status: Status = {
-    import scala.collection.JavaConverters._
-    val statuses = builds.map(_.getStatus).asJava
-    StatusAggregator.aggregated(statuses).getStatus
+  def status: StatusS = {
+    val statuses = builds.map(_.status)
+    StatusAggregatorS.aggregated(statuses).getStatus
   }
 
-  def progress: Progress = {
-    builds.tail.foldLeft(builds.head.getProgress) { (progress, build) => {
-      progress.add(build.getProgress)
+  def progress: ProgressS = {
+    builds.tail.foldLeft(builds.head.progress) { (progress, build) => {
+      progress.add(build.progress)
     }}
   }
 }

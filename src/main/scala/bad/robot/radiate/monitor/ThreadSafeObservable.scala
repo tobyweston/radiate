@@ -1,9 +1,10 @@
-package bad.robot.radiate
+package bad.robot.radiate.monitor
 
 import java.util.Arrays.asList
 import java.util.concurrent.CopyOnWriteArrayList
+
 import bad.robot.radiate.FunctionInterfaceOps._
-import bad.robot.radiate.monitor.{InformationS, ObservableS, ObserverS}
+import bad.robot.radiate.{ActivityS, ProgressS, StatusS}
 
 class ThreadSafeObservableS extends ObservableS {
 

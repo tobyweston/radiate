@@ -1,6 +1,6 @@
 package bad.robot.radiate.monitor
 
-import bad.robot.radiate.ThreadSafeObservableS
+import bad.robot.radiate.monitor.ThreadSafeObservableS
 
 import scala.collection.mutable
 

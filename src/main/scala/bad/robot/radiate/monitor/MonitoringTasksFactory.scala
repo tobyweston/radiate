@@ -1,7 +1,6 @@
 package bad.robot.radiate.monitor
 
-import bad.robot.radiate.ThreadSafeObservableS
-import bad.robot.radiate.teamcity.{AllProjectsOneTaskPerProject, AllProjectsAsSingleTask}
+import bad.robot.radiate.teamcity.{AllProjectsOneTaskPerProject, AllProjectsAsSingleTaskS}
 
 trait MonitoringTasksFactoryS extends ObservableS {
   def create: List[MonitoringTaskS]
@@ -9,7 +8,7 @@ trait MonitoringTasksFactoryS extends ObservableS {
 
 object MonitoringTasksFactoryS {
   /** Default mode */
-  def singleAggregate = new AllProjectsAsSingleTask
+  def singleAggregate = new AllProjectsAsSingleTaskS
 
   /** Chessboard mode */
   def multipleProjects = new AllProjectsOneTaskPerProject

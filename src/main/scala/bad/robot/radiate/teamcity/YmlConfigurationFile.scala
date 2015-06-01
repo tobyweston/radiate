@@ -10,8 +10,8 @@ class YmlConfigurationFileS extends File(System.getProperty("user.home") + File.
   private val fallback = new EnvironmentVariableConfigurationS
 
   @throws(classOf[IOException])
-  private[teamcity] def initialise(teamcity: TeamCity) {
-    createFolder
+  private[teamcity] def initialise(teamcity: TeamCityS) {
+    createFolder()
     val created = createNewFile
     if (created) populateConfiguration(teamcity)
   }
@@ -20,7 +20,7 @@ class YmlConfigurationFileS extends File(System.getProperty("user.home") + File.
   override def createNewFile = if (exists && length == 0) true else super.createNewFile
 
   @throws(classOf[IOException])
-  private def populateConfiguration(teamcity: TeamCity) {
+  private def populateConfiguration(teamcity: TeamCityS) {
     try {
       val yaml = new Yaml
       val data = Map[String, Any](
@@ -39,10 +39,9 @@ class YmlConfigurationFileS extends File(System.getProperty("user.home") + File.
     }
   }
 
-  private def getProjectIds(teamcity: TeamCity): List[String] = {
-    import scala.collection.JavaConverters._
-    val projects = teamcity.retrieveProjects.asScala
-    projects.map(_.getId).toList
+  private def getProjectIds(teamcity: TeamCityS): List[String] = {
+    val projects = teamcity.retrieveProjects
+    projects.map(_.id).toList
   }
 
   private def createFolder() {

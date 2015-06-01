@@ -1,6 +1,6 @@
 package bad.robot.radiate
 
-import bad.robot.radiate.teamcity.Any
+import bad.robot.radiate.teamcity.{AnyS => Any}
 import org.specs2.mutable.Specification
 
 class AggregatorSTest extends Specification {
