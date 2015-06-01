@@ -3,6 +3,8 @@ package bad.robot.radiate
 import java.util.concurrent.Callable
 import java.util.function.{Supplier, Consumer}
 
+import bad.robot.http.MessageContent
+
 object FunctionInterfaceOps {
 
   implicit def toConsumer[A](function: A => Unit): Consumer[A] = {
@@ -32,6 +34,12 @@ object FunctionInterfaceOps {
   implicit def toHypermedia(value: String): HypermediaS = {
     new HypermediaS {
       override def href: String = value
+    }
+  }
+
+  implicit def toMessageContent(content: String): MessageContent = {
+    new MessageContent {
+      override def asString() = content
     }
   }
 

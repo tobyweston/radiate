@@ -6,7 +6,7 @@ import com.google.gson.Gson
 
 class JsonProjectUnmarshallerS extends UnmarshallerS[HttpResponse, ProjectScala] {
   def unmarshall(response: HttpResponse): ProjectScala = {
-    val project = new Gson().fromJson(new JsonResponse(response).body, classOf[FullProjectS])
+    val project = new Gson().fromJson(new JsonResponseS(response).body, classOf[FullProjectS])
     if (!project.iterator.hasNext) new ProjectScala(project.id, project.name, project.href)
     else project
   }

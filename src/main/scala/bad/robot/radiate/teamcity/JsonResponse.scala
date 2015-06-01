@@ -21,7 +21,5 @@ class JsonResponseS(response: HttpResponse) {
 
   if (!isJson(response)) throw new UnexpectedContentTypeS(response)
 
-  def body: String = {
-    response.getContent.asString
-  }
+  def body = response.getContent.asString
 }

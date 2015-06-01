@@ -6,6 +6,6 @@ import com.google.gson.Gson
 
 class JsonProjectsUnmarshallerS extends UnmarshallerS[HttpResponse, Iterable[ProjectScala]] {
   def unmarshall(response: HttpResponse): Iterable[ProjectScala] = {
-    new Gson().fromJson(new JsonResponse(response).body, classOf[ProjectsScala])
+    new Gson().fromJson(new JsonResponseS(response).body, classOf[ProjectsScala])
   }
 }
