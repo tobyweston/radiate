@@ -15,7 +15,7 @@ import bad.robot.radiate.teamcity.SanitisedException
 
 class SwingUiS(factory: FrameFactoryS) extends Ui with ObserverS {
   
-  private val frames = new StatusFramesS(factory)
+  private val frames = new StatusFramesScala(factory)
   private val console = new Console(frames.primary)
 
   setupGlobalEventListeners()

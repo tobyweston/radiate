@@ -8,7 +8,7 @@ import bad.robot.radiate.monitor.ObserverS
 import scala.collection.JavaConversions._
 import scala.collection._
 
-class StatusFrameS(index: Int, screen: ScreenMode) extends JFrame {
+class StatusFrameScala(index: Int, screen: ScreenMode) extends JFrame {
 
   private val panels = mutable.MutableList[StatusPanelS]()
 

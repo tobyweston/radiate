@@ -2,11 +2,11 @@ package bad.robot.radiate.ui
 
 import bad.robot.radiate.monitor.ObserverS
 
-class StatusFramesS(factory: FrameFactoryS) {
+class StatusFramesScala(factory: FrameFactoryS) {
 
   private val frames = factory.create
 
-  private[ui] def primary: StatusFrameS = {
+  private[ui] def primary: StatusFrameScala = {
      frames.head
   }
 
