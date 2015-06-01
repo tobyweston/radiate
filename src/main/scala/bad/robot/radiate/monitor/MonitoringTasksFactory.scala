@@ -1,6 +1,6 @@
 package bad.robot.radiate.monitor
 
-import bad.robot.radiate.teamcity.{AllProjectsOneTaskPerProject, AllProjectsAsSingleTaskS}
+import bad.robot.radiate.teamcity.{AllProjectsOneTaskPerProjectS, AllProjectsOneTaskPerProject, AllProjectsAsSingleTaskS}
 
 trait MonitoringTasksFactoryS extends ObservableS {
   def create: List[MonitoringTaskS]
@@ -11,11 +11,11 @@ object MonitoringTasksFactoryS {
   def singleAggregate = new AllProjectsAsSingleTaskS
 
   /** Chessboard mode */
-  def multipleProjects = new AllProjectsOneTaskPerProject
+  def multipleProjects = new AllProjectsOneTaskPerProjectS
 
   def multipleBuildsDemo = new MultipleBuildsDemoS
 
-  def demo = new Demo
+  def demo = new DemoS
 
   def erroring = new Error
 

@@ -12,6 +12,7 @@ import static bad.robot.radiate.teamcity.NonEmptyProject.nonEmpty;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 /** @see {@link bad.robot.radiate.monitor.MonitoringTasksFactory#multipleProjects} */
+@Deprecated
 public class AllProjectsOneTaskPerProject extends ThreadSafeObservable implements MonitoringTasksFactory {
 
     @Override

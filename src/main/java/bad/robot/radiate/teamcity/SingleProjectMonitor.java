@@ -7,14 +7,12 @@ import bad.robot.radiate.monitor.MonitoringTask;
 import bad.robot.radiate.monitor.NonRepeatingObservable;
 import com.googlecode.totallylazy.Sequence;
 
-import java.util.Collections;
-
 import static bad.robot.radiate.Aggregator.aggregate;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
+@Deprecated
 public class SingleProjectMonitor extends NonRepeatingObservable implements MonitoringTask {
 
     private final HttpClient http;

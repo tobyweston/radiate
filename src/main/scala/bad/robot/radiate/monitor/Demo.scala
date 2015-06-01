@@ -11,7 +11,7 @@ private class DemoMonitoringTaskS extends ThreadSafeObservableS with MonitoringT
     monitor = monitor.notify(this)
   }
 
-  override def toString: String = "demonstration"
+  override def toString = "demonstration"
 }
 
 private trait DemonstrativeMonitorS {
@@ -74,7 +74,5 @@ private object DemonstrativeMonitorS {
 }
 
 class DemoS extends ThreadSafeObservableS with MonitoringTasksFactoryS {
-  def create: List[MonitoringTaskS] = {
-    List[MonitoringTaskS](new DemoMonitoringTaskS)
-  }
+  def create: List[MonitoringTaskS] = List[MonitoringTaskS](new DemoMonitoringTaskS)
 }

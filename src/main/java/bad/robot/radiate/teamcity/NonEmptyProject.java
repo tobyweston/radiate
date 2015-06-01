@@ -2,6 +2,7 @@ package bad.robot.radiate.teamcity;
 
 import com.googlecode.totallylazy.Predicate;
 
+@Deprecated
 class NonEmptyProject implements Predicate<Project> {
 
     static NonEmptyProject nonEmpty() {
