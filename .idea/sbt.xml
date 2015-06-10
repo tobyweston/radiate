@@ -14,7 +14,6 @@
         <option name="resolveClassifiers" value="true" />
         <option name="sbtVersion" value="0.13.5" />
         <option name="useAutoImport" value="true" />
-        <option name="useOurOwnAutoImport" value="true" />
       </SbtProjectSettings>
     </option>
   </component>

@@ -6,8 +6,7 @@ import bad.robot.http.EmptyHeaders._
 import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.{Headers, HttpClient, HttpResponse, StringHttpResponse}
-import bad.robot.radiate.{UnmarshallerS, Unmarshaller}
-import com.googlecode.totallylazy.Sequences._
+import bad.robot.radiate.UnmarshallerS
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
 

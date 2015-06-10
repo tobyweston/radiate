@@ -1,8 +1,16 @@
 package bad.robot.radiate.teamcity
 
-import com.google.gson.annotations.SerializedName
+import argonaut.DecodeJson
 
-case class BuildTypesScala(@SerializedName("buildType") private val buildTypes: List[BuildTypeScala]) extends TeamCityObjectS with Iterable[BuildTypeScala] {
+object BuildTypesScala {
+  implicit def buildTypesDecoder: DecodeJson[BuildTypesScala] = {
+    DecodeJson(cursor => {
+      (cursor --\ "buildType").as[List[BuildTypeScala]] map { BuildTypesScala(_) }
+    })
+  }
+}
+
+case class BuildTypesScala(buildTypes: List[BuildTypeScala]) extends TeamCityObjectS with Iterable[BuildTypeScala] {
 
   def iterator: Iterator[BuildTypeScala] = {
     buildTypes.iterator
