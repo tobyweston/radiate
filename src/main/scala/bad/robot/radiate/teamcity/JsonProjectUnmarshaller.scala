@@ -9,12 +9,8 @@ import scalaz.{\/-, -\/}
 class JsonProjectUnmarshallerS extends UnmarshallerS[HttpResponse, ProjectScala] {
   def unmarshall(response: HttpResponse): ProjectScala = {
     val json = new JsonResponseS(response).body
-    try {
-      val project = json.decodeEither[FullProjectS].valueOr(error => throw new Exception(error))
-      project
-    } catch {
-      case e: Exception => println(e); throw e
-    }
+    val project = json.decodeEither[FullProjectS].valueOr(error => throw new Exception(error))
+    project
   }
 }
 
