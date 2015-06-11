@@ -6,71 +6,12 @@ import bad.robot.radiate.UnmarshallerS
 
 import scalaz.{\/-, -\/}
 
-class JsonProjectUnmarshallerS extends UnmarshallerS[HttpResponse, ProjectScala] {
-  def unmarshall(response: HttpResponse): ProjectScala = {
+class JsonProjectUnmarshallerS extends UnmarshallerS[HttpResponse, FullProjectS] {
+  def unmarshall(response: HttpResponse): FullProjectS = {
     val json = new JsonResponseS(response).body
     val project = json.decodeEither[FullProjectS].valueOr(error => throw new Exception(error))
     project
   }
-}
-
-object Test extends App {
-  val json = """{
-               |  "id": "example",
-               |  "name": "example",
-               |  "href": "/guestAuth/app/rest/projects/id:example",
-               |  "description": "",
-               |  "archived": false,
-               |  "webUrl": "http://localhost:8111/project.html?projectId=example",
-               |  "parentProject": {
-               |    "id": "_Root",
-               |    "name": "<Root project>",
-               |    "href": "/guestAuth/app/rest/projects/id:_Root"
-               |  },
-               |  "buildTypes": {
-               |    "buildType": [
-               |      {
-               |        "id": "example_1",
-               |        "name": "First",
-               |        "href": "/guestAuth/app/rest/buildTypes/id:example_1",
-               |        "projectName": "example",
-               |        "projectId": "example",
-               |        "webUrl": "http://localhost:8111/viewType.html?buildTypeId=example_1"
-               |      },
-               |      {
-               |        "id": "example_2",
-               |        "name": "Second",
-               |        "href": "/guestAuth/app/rest/buildTypes/id:example_2",
-               |        "projectName": "example",
-               |        "projectId": "example",
-               |        "webUrl": "http://localhost:8111/viewType.html?buildTypeId=example_2"
-               |      }
-               |    ]
-               |  },
-               |  "templates": {
-               |    "buildType": []
-               |  },
-               |  "parameters": {
-               |    "property": []
-               |  },
-               |  "vcsRoots": {
-               |    "href": "/guestAuth/app/rest/vcs-roots?locator=project:(id:example)"
-               |  },
-               |  "projects": {
-               |    "project": []
-               |  }
-               |}""".stripMargin
-  json.decodeEither[FullProjectS] match {
-    case -\/(msg) => println(msg)
-    case \/-(project) => {
-      println(project)
-      project.foreach(println)
-    }
-  }
-
-  val x: FullProjectS = json.decodeEither[FullProjectS].valueOr(error => throw new scala.Exception(error))
-  println(x.buildTypes)
-
 }
 
 object DecodeExample extends App {

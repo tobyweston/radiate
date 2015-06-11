@@ -2,6 +2,7 @@ package bad.robot.radiate.teamcity
 
 import argonaut.Argonaut._
 import argonaut.DecodeJson
+import bad.robot.radiate.HypermediaS
 
 object FullProjectS {
   implicit def fullProjectDecoder: DecodeJson[FullProjectS] =
@@ -17,6 +18,6 @@ object FullProjectS {
     })
 }
 
-class FullProjectS(id: String, name: String, href: String, val buildTypes: BuildTypesScala) extends ProjectScala(id, name, href) {
-  override def iterator = buildTypes.iterator
+case class FullProjectS(id: String, name: String, href: String, buildTypes: BuildTypesScala) extends TeamCityObjectS with HypermediaS {
+  override def toString = s"$name ($id)"
 }

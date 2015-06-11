@@ -32,10 +32,11 @@ class JsonProjectsUnmarshallerTestS extends Specification with IsolatedMockFacto
     (response.getHeaders _).when().returns(headers(HeaderPair.header("content-type", "application/json")))
 
     val projects = unmarshaller.unmarshall(response)
-    projects must contain(allOf(
-      new ProjectScala("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root"),
-      new ProjectScala("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel")
-    ).inOrder)
+//    projects must contain(allOf(
+//      FullProjectS("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypes),
+//      FullProjectS("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel", List())
+//    ).inOrder)
+    true must_== false
   }
 
   "Unmarshall empty Http Response without shitting itself" >> {

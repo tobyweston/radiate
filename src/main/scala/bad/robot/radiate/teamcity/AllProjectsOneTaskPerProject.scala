@@ -10,11 +10,11 @@ object AllProjectsOneTaskPerProjectS {
     new TeamCityS(server, configuration.authorisation, new HttpClientFactoryS().create(configuration), new JsonProjectsUnmarshallerS, new JsonProjectUnmarshallerS, new JsonBuildUnmarshallerS)
   }
 
-  private def toTasks(configuration: TeamCityConfigurationS): ProjectScala => MonitoringTaskS = {
+  private def toTasks(configuration: TeamCityConfigurationS): FullProjectS => MonitoringTaskS = {
     project => new SingleProjectMonitorS(project, configuration)
   }
 
-  private def nonEmpty: ProjectScala => Boolean = _.iterator.hasNext
+  private def nonEmpty: FullProjectS => Boolean = _.buildTypes.nonEmpty
 }
 
 class AllProjectsOneTaskPerProjectS extends ThreadSafeObservableS with MonitoringTasksFactoryS {

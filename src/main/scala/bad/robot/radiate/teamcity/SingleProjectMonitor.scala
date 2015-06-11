@@ -3,7 +3,7 @@ package bad.robot.radiate.teamcity
 import bad.robot.radiate.AggregatorS.aggregate
 import bad.robot.radiate.monitor.{InformationS, MonitoringTaskS, NonRepeatingObservableS}
 
-class SingleProjectMonitorS(project: ProjectScala, configuration: TeamCityConfigurationS) extends NonRepeatingObservableS with MonitoringTaskS {
+class SingleProjectMonitorS(project: FullProjectS, configuration: TeamCityConfigurationS) extends NonRepeatingObservableS with MonitoringTaskS {
   private val http = new HttpClientFactoryS().create(configuration)
   private val server = new ServerS(configuration.host, configuration.port)
   private val teamcity = new TeamCityS(server, configuration.authorisation, http, new JsonProjectsUnmarshallerS, new JsonProjectUnmarshallerS, new JsonBuildUnmarshallerS)

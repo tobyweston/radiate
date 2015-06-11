@@ -11,8 +11,5 @@ object BuildTypesScala {
 }
 
 case class BuildTypesScala(buildTypes: List[BuildTypeScala]) extends TeamCityObjectS with Iterable[BuildTypeScala] {
-
-  def iterator: Iterator[BuildTypeScala] = {
-    buildTypes.iterator
-  }
+  def iterator: Iterator[BuildTypeScala] = buildTypes.iterator
 }
