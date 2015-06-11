@@ -1,7 +1,15 @@
 package bad.robot.radiate.teamcity
 
-import com.google.gson.annotations.SerializedName
+import argonaut.DecodeJson
 
-class ProjectsScala(@SerializedName("project") private val projects: List[ProjectScala]) extends TeamCityObjectS with Iterable[ProjectScala] {
+object ProjectsScala {
+  implicit def projectsDecoder: DecodeJson[ProjectsScala] = {
+    DecodeJson(cursor => {
+      (cursor --\ "project").as[List[ProjectScala]] map { new ProjectsScala(_) }
+    })
+  }
+}
+
+class ProjectsScala(projects: List[ProjectScala]) extends TeamCityObjectS with Iterable[ProjectScala] {
   def iterator = projects.iterator
 }

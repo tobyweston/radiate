@@ -16,7 +16,7 @@ class JsonProjectUnmarshallerTestS extends Specification with IsolatedMockFactor
     (response.getContent _).when().returns(projectJson)
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
-    val buildTypes = new BuildTypesScala(List(
+    val buildTypes = BuildTypesScala(List(
       new BuildTypeScala("example_1", "First", "/guestAuth/app/rest/buildTypes/id:example_1", "example", "example"),
       new BuildTypeScala("example_2", "Second", "/guestAuth/app/rest/buildTypes/id:example_2", "example", "example")
     ))
@@ -29,7 +29,7 @@ class JsonProjectUnmarshallerTestS extends Specification with IsolatedMockFactor
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
     val project = unmarshaller.unmarshall(response)
-    project must_== new ProjectScala("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", new BuildTypesScala(List()))
+    project must_== new ProjectScala("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypesScala(List()))
   }
 
   "Bad JSON" >> {
@@ -37,6 +37,20 @@ class JsonProjectUnmarshallerTestS extends Specification with IsolatedMockFactor
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
     unmarshaller.unmarshall(response) must throwA[Exception]
+  }
+
+  "Minimal project json" >> {
+    val json = """ {
+                 |      "id": "_Root",
+                 |      "name": "<Root project>",
+                 |      "href": "/guestAuth/app/rest/projects/id:_Root"
+                 | }""".stripMargin
+
+    (response.getContent _).when().returns(json)
+    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+
+    val project = unmarshaller.unmarshall(response)
+    project must_== new ProjectScala("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypesScala(List()))
   }
 
   val projectJson = """{

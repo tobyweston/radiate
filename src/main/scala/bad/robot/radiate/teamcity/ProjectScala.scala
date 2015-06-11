@@ -5,7 +5,7 @@ import argonaut.DecodeJson
 import bad.robot.radiate.HypermediaS
 
 object ProjectScala {
-  implicit def fullProjectDecoder: DecodeJson[ProjectScala] =
+  implicit def projectDecoder: DecodeJson[ProjectScala] = {
     DecodeJson(cursor => {
       for {
         id <- (cursor --\ "id").as[String]
@@ -16,6 +16,7 @@ object ProjectScala {
         new ProjectScala(id, name, href, buildTypes)
       }
     })
+  }
 }
 
 case class ProjectScala(id: String, name: String, href: String, buildTypes: BuildTypesScala) extends TeamCityObjectS with HypermediaS {
