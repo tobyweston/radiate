@@ -22,8 +22,8 @@ class TeamCitySTest extends Specification with IsolatedMockFactory {
 
   private val projects = AnyS.projects
 
-  private val projectsUnmarshaller = mock[UnmarshallerS[HttpResponse, Iterable[FullProjectS]]]
-  private val projectUnmarshaller = mock[UnmarshallerS[HttpResponse, FullProjectS]]
+  private val projectsUnmarshaller = mock[UnmarshallerS[HttpResponse, Iterable[ProjectScala]]]
+  private val projectUnmarshaller = mock[UnmarshallerS[HttpResponse, ProjectScala]]
   private val buildUnmarshaller = mock[UnmarshallerS[HttpResponse, BuildS]]
   private val teamcity = new TeamCityS(new ServerS("example.com", 8111), GuestAuthorisationS, http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller)
 

@@ -20,7 +20,7 @@ class JsonProjectUnmarshallerTestS extends Specification with IsolatedMockFactor
       new BuildTypeScala("example_2", "Second", "/guestAuth/app/rest/buildTypes/id:example_2", "example", "example")
     ))
     val project = unmarshaller.unmarshall(response)
-    project must_== new FullProjectS("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes)
+    project must_== new ProjectScala("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes)
   }
 
   val projectJson = """{

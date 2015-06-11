@@ -8,11 +8,11 @@ import bad.robot.radiate.teamcity.BuildLocatorBuilderS.{latest, running}
 import bad.robot.radiate.teamcity.TeamCityEndpointsS._
 import bad.robot.radiate.{UnmarshallerS, AggregateException, HttpResponse}
 
-class TeamCityS(server: ServerS, authorisation: AuthorisationS, http: HttpClient, projects: UnmarshallerS[SimpleHttpResponse, Iterable[FullProjectS]], project: UnmarshallerS[SimpleHttpResponse, FullProjectS], build: UnmarshallerS[SimpleHttpResponse, BuildS]) {
+class TeamCityS(server: ServerS, authorisation: AuthorisationS, http: HttpClient, projects: UnmarshallerS[SimpleHttpResponse, Iterable[ProjectScala]], project: UnmarshallerS[SimpleHttpResponse, ProjectScala], build: UnmarshallerS[SimpleHttpResponse, BuildS]) {
 
   private val asJson = headers(header("Accept", "application/json"))
 
-  def retrieveProjects: Iterable[FullProjectS] = {
+  def retrieveProjects: Iterable[ProjectScala] = {
     val url = server.urlFor(projectsEndpointFor(authorisation))
     val response = http.get(url, asJson)
     response match {
@@ -21,14 +21,14 @@ class TeamCityS(server: ServerS, authorisation: AuthorisationS, http: HttpClient
     }
   }
 
-  def retrieveFullProjects(projects: Iterable[FullProjectS]): Iterable[FullProjectS] = {
+  def retrieveFullProjects(projects: Iterable[ProjectScala]): Iterable[ProjectScala] = {
     sequence(projects.par.map(expandingToFullProject).toList) match {
       case Left(errors) => throw new AggregateException(errors)
       case Right(projects) => projects
     }
   }
 
-  def retrieveBuildTypes(projects: Iterable[FullProjectS]): Iterable[BuildTypeScala] = {
+  def retrieveBuildTypes(projects: Iterable[ProjectScala]): Iterable[BuildTypeScala] = {
     retrieveFullProjects(projects).flatMap(_.buildTypes)
   }
 
@@ -50,7 +50,7 @@ class TeamCityS(server: ServerS, authorisation: AuthorisationS, http: HttpClient
     }
   }
 
-  private def expandingToFullProject: FullProjectS => Either[TeamCityExceptionS, FullProjectS] = {
+  private def expandingToFullProject: ProjectScala => Either[TeamCityExceptionS, ProjectScala] = {
     project => {
       val url = server.urlFor(project)
       http.get(url, asJson) match {

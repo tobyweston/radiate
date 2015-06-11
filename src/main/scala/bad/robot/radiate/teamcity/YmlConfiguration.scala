@@ -33,7 +33,7 @@ class YmlConfigurationS(file: YmlConfigurationFileS) extends TeamCityConfigurati
 
   def port = configuration.get("port").asInstanceOf[Integer]
 
-  def filter(projects: Iterable[FullProjectS]) = {
+  def filter(projects: Iterable[ProjectScala]) = {
     val ids = configuration.get("projects").asInstanceOf[List[String]]
     projects.filter(project => ids.contains(project.id))
   }

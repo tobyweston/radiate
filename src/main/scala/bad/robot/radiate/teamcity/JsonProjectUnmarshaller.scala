@@ -4,9 +4,9 @@ import argonaut.Argonaut._
 import bad.robot.http.HttpResponse
 import bad.robot.radiate.UnmarshallerS
 
-class JsonProjectUnmarshallerS extends UnmarshallerS[HttpResponse, FullProjectS] {
-  def unmarshall(response: HttpResponse): FullProjectS = {
+class JsonProjectUnmarshallerS extends UnmarshallerS[HttpResponse, ProjectScala] {
+  def unmarshall(response: HttpResponse): ProjectScala = {
     val json = new JsonResponseS(response).body
-    json.decodeEither[FullProjectS].valueOr(error => throw new Exception(error))
+    json.decodeEither[ProjectScala].valueOr(error => throw new Exception(error))
   }
 }
