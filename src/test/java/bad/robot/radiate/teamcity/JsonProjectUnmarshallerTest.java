@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity;
 
+import com.google.gson.JsonSyntaxException;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -28,6 +29,12 @@ public class JsonProjectUnmarshallerTest {
         Project project = unmarshaller.unmarshall(context.stubResponseReturning(emptyProjectJson));
         assertThat(project, is(new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root")));
     }
+
+    @Test (expected = JsonSyntaxException.class)
+    public void badJson() {
+        unmarshaller.unmarshall(context.stubResponseReturning("I'm not even json"));
+    }
+
 
     private final String projectJson = "{" +
             "    \"id\": \"example\"," +
