@@ -1,13 +1,12 @@
 package bad.robot.radiate.teamcity
 
+import argonaut.Argonaut._
 import bad.robot.http.HttpResponse
 import bad.robot.radiate.UnmarshallerS
-import com.google.gson.Gson
 
 class JsonProjectUnmarshallerS extends UnmarshallerS[HttpResponse, ProjectScala] {
   def unmarshall(response: HttpResponse): ProjectScala = {
-    val project = new Gson().fromJson(new JsonResponseS(response).body, classOf[FullProjectS])
-    if (!project.iterator.hasNext) new ProjectScala(project.id, project.name, project.href)
-    else project
+    val json = new JsonResponseS(response).body
+    json.decodeEither[ProjectScala].valueOr(error => throw new Exception(error))
   }
 }

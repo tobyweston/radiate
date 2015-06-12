@@ -14,7 +14,7 @@ object AllProjectsOneTaskPerProjectS {
     project => new SingleProjectMonitorS(project, configuration)
   }
 
-  private def nonEmpty: ProjectScala => Boolean = _.iterator.hasNext
+  private def nonEmpty: ProjectScala => Boolean = _.buildTypes.nonEmpty
 }
 
 class AllProjectsOneTaskPerProjectS extends ThreadSafeObservableS with MonitoringTasksFactoryS {

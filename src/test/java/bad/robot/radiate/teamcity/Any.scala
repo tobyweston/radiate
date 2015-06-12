@@ -8,11 +8,11 @@ object AnyS {
 
   private val number = new AtomicInteger(0)
 
-  def project(buildTypes: BuildTypesScala) = new FullProjectS(anyId, anyName, anyHref, buildTypes)
+  def project(buildTypes: BuildTypesScala) = new ProjectScala(anyId, anyName, anyHref, buildTypes)
 
   def projects = new ProjectsScala(List(
-    new FullProjectS(anyId, anyName, anyHref, buildTypes),
-    new FullProjectS(anyId, anyName, anyHref, buildTypes)
+    new ProjectScala(anyId, anyName, anyHref, buildTypes),
+    new ProjectScala(anyId, anyName, anyHref, buildTypes)
   ))
 
   def buildTypes = new BuildTypesScala(List(buildType, buildType, buildType))

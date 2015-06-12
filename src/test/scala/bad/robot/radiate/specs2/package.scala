@@ -5,7 +5,9 @@ import org.specs2.execute.{AsResult, Result, Success}
 package object specs2 {
 
   implicit def monitoringTasksAsResult: AsResult[MonitoringTasksS] = new AsResult[MonitoringTasksS] {
-    def asResult(task: => MonitoringTasksS): Result = Success(task.toString())
+    def asResult(function: => MonitoringTasksS): Result = {
+      Success(function.toString())
+    }
   }
 
   implicit def unitAsResult: AsResult[Unit] = new AsResult[Unit] {
@@ -16,6 +18,8 @@ package object specs2 {
   }
   
   implicit def iterableAsResult[A]: AsResult[Iterable[A]] = new AsResult[Iterable[A]] {
-    override def asResult(iterable: => Iterable[A]): Result = Success(iterable.mkString)
+    override def asResult(function: => Iterable[A]): Result = {
+      Success(function.mkString)
+    }
   }
 }

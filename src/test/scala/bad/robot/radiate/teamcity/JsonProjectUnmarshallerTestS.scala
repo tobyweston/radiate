@@ -1,10 +1,11 @@
 package bad.robot.radiate.teamcity
 
 import bad.robot.http.HeaderList._
-import bad.robot.http.{HeaderPair, HttpResponse}
+import bad.robot.http.HeaderPair._
+import bad.robot.http.HttpResponse
+import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
-import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
 
 class JsonProjectUnmarshallerTestS extends Specification with IsolatedMockFactory {
 
@@ -13,14 +14,43 @@ class JsonProjectUnmarshallerTestS extends Specification with IsolatedMockFactor
 
   "Unmarshall Project with build types" >> {
     (response.getContent _).when().returns(projectJson)
-    (response.getHeaders _).when().returns(headers(HeaderPair.header("content-type", "application/json")))
+    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
-    val buildTypes = new BuildTypesScala(List(
+    val buildTypes = BuildTypesScala(List(
       new BuildTypeScala("example_1", "First", "/guestAuth/app/rest/buildTypes/id:example_1", "example", "example"),
       new BuildTypeScala("example_2", "Second", "/guestAuth/app/rest/buildTypes/id:example_2", "example", "example")
     ))
-    val project = unmarshaller.unmarshall(response).asInstanceOf[FullProjectS]
-    project must_== new FullProjectS("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes)
+    val project = unmarshaller.unmarshall(response)
+    project must_== new ProjectScala("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes)
+  }
+
+  "Unmarshall empty project" >> {
+    (response.getContent _).when().returns(emptyProjectJson)
+    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+
+    val project = unmarshaller.unmarshall(response)
+    project must_== new ProjectScala("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypesScala(List()))
+  }
+
+  "Bad JSON" >> {
+    (response.getContent _).when().returns("I'm not even json")
+    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+
+    unmarshaller.unmarshall(response) must throwA[Exception]
+  }
+
+  "Minimal project json" >> {
+    val json = """ {
+                 |      "id": "_Root",
+                 |      "name": "<Root project>",
+                 |      "href": "/guestAuth/app/rest/projects/id:_Root"
+                 | }""".stripMargin
+
+    (response.getContent _).when().returns(json)
+    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+
+    val project = unmarshaller.unmarshall(response)
+    project must_== new ProjectScala("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypesScala(List()))
   }
 
   val projectJson = """{
@@ -66,6 +96,36 @@ class JsonProjectUnmarshallerTestS extends Specification with IsolatedMockFactor
                       |  },
                       |  "projects": {
                       |    "project": []
+                      |  }
+                      |}""".stripMargin
+
+  val emptyProjectJson = """{
+                      |  "id": "_Root",
+                      |  "name": "<Root project>",
+                      |  "href": "/guestAuth/app/rest/projects/id:_Root",
+                      |  "description": "Contains all other projects",
+                      |  "archived": false,
+                      |  "webUrl": "http://example.com:8111/project.html?projectId=_Root",
+                      |  "buildTypes": {
+                      |    "buildType": []
+                      |  },
+                      |  "templates": {
+                      |    "buildType": []
+                      |  },
+                      |  "parameters": {
+                      |    "property": []
+                      |  },
+                      |  "vcsRoots": {
+                      |    "href": "/guestAuth/app/rest/vcs-roots?locator=project:(id:_Root)"
+                      |  },
+                      |  "projects": {
+                      |    "project": [
+                      |      {
+                      |        "id": "example",
+                      |        "name": "example",
+                      |        "href": "/guestAuth/app/rest/projects/id:example"
+                      |      }
+                      |    ]
                       |  }
                       |}""".stripMargin
 }

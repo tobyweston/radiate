@@ -29,7 +29,7 @@ class TeamCityS(server: ServerS, authorisation: AuthorisationS, http: HttpClient
   }
 
   def retrieveBuildTypes(projects: Iterable[ProjectScala]): Iterable[BuildTypeScala] = {
-    retrieveFullProjects(projects).flatten
+    retrieveFullProjects(projects).flatMap(_.buildTypes)
   }
 
   def retrieveLatestBuild(buildType: BuildTypeScala): BuildS = {
