@@ -11,9 +11,9 @@ object ProjectScala {
         id <- (cursor --\ "id").as[String]
         name <- (cursor --\ "name").as[String]
         href <- (cursor --\ "href").as[String]
-        buildTypes <- (cursor --\ "buildTypes").as[BuildTypesScala]
+        buildTypes <- (cursor --\ "buildTypes").as[Option[BuildTypesScala]]
       } yield {
-        new ProjectScala(id, name, href, buildTypes)
+        ProjectScala(id, name, href, buildTypes.getOrElse(BuildTypesScala(List())))
       }
     })
   }

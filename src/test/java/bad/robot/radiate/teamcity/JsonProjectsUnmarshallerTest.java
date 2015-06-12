@@ -3,6 +3,7 @@ package bad.robot.radiate.teamcity;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
@@ -37,7 +38,8 @@ public class JsonProjectsUnmarshallerTest {
 
     @Test
     public void unmarshallEmptyHttpResponseWithoutShittingItself() {
-        unmarshaller.unmarshall(context.stubResponseReturning(""));
+        Iterable<Project> projects = unmarshaller.unmarshall(context.stubResponseReturning(""));
+        assertThat(projects, is(null));
     }
 
 }
