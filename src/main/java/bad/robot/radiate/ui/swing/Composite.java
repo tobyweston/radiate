@@ -5,6 +5,7 @@ import bad.robot.radiate.ui.Transparency;
 import java.awt.*;
 import java.util.concurrent.Callable;
 
+@Deprecated
 public class Composite {
 
     public static void applyWithComposite(Graphics2D graphics, java.awt.Composite composite, Callable<Void> callable) {

@@ -1,7 +1,8 @@
 package bad.robot.radiate.ui.swing
 
-import bad.robot.radiate.ui.Transparency
 import java.awt._
+
+import bad.robot.radiate.ui.Transparency
 
 object CompositeS {
 

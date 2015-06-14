@@ -6,6 +6,7 @@ import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_MITER;
 import static java.awt.Color.darkGray;
 
+@Deprecated
 public class Debug {
 
     public static void drawOutlineOfRegion(Rectangle region, Graphics2D graphics) {

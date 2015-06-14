@@ -4,6 +4,7 @@ import bad.robot.http.configuration.AbstractValueType;
 
 import java.awt.*;
 
+@Deprecated
 public class Region {
 
     public static Rectangle getReducedRegion(Rectangle region, Percentage percentage) {
@@ -51,8 +52,9 @@ public class Region {
             super(value);
         }
 
-        private Double of(Integer number) {
+        Double of(Integer number) {
             return number * (value / 100);
         }
     }
 }
+
