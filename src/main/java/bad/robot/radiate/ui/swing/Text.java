@@ -8,6 +8,7 @@ import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import static java.awt.geom.AffineTransform.getScaleInstance;
 
+@Deprecated
 public class Text {
 
     public static void drawTextCenteredToRegion(Rectangle region, Graphics2D graphics, String text) {
