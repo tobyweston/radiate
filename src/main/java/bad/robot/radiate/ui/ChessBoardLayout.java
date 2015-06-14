@@ -3,6 +3,7 @@ package bad.robot.radiate.ui;
 import java.awt.*;
 import java.util.Collection;
 
+@Deprecated
 class ChessboardLayout extends GridLayout {
 
     private final Collection<?> tiles;
@@ -17,7 +18,6 @@ class ChessboardLayout extends GridLayout {
         setRows(tiles.rows());
         setColumns(tiles.columns());
         super.layoutContainer(parent);
-//        System.out.println(this.tiles.size() + " tiles => (" + tiles.rows() + "," + tiles.columns() + ")");
     }
 
 }
