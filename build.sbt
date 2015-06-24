@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
   "io.argonaut" %% "argonaut" % "6.1" % "compile",
   "org.yaml" % "snakeyaml" % "1.15" % "compile",
   "org.specs2" %% "specs2-core" % "3.6" % "test",
-  "org.scalamock" %% "scalamock-specs2-support" % "3.2.2" % "test",
+  "org.scalamock" %% "scalamock-specs2-support" % "3.2.2" % "test" excludeAll(ExclusionRule("org.specs2", "specs2_2.11")),
   "org.jmock" % "jmock-junit4" % "2.8.1" % "test",
   "junit" % "junit" % "4.12" % "test"
 )
