@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated
 public class CompositeLayerUI<C extends JComponent> extends LayerUI<C> {
     
     private final List<LayerUI<C>> layers;
