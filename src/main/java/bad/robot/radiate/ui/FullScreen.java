@@ -5,6 +5,7 @@ import java.awt.*;
 
 import static java.awt.Color.darkGray;
 
+@Deprecated
 class FullScreen implements ScreenMode {
     private final Rectangle bounds;
 
