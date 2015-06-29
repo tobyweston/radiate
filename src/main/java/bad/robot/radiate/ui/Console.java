@@ -9,6 +9,7 @@ import static java.awt.event.KeyEvent.VK_C;
 import static java.lang.String.format;
 import static javax.swing.JFrame.DISPOSE_ON_CLOSE;
 
+@Deprecated
 class Console extends TransparentDialog {
 
     private final JTextArea text = new TransparentTextArea();
