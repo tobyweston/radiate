@@ -5,6 +5,7 @@ import java.awt.*;
 
 import static java.awt.Color.darkGray;
 
+@Deprecated
 /* aka resizable screen mode */
 class DesktopMode implements ScreenMode {
     private final Rectangle bounds;

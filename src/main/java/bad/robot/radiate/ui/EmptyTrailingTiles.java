@@ -2,6 +2,7 @@ package bad.robot.radiate.ui;
 
 import static java.lang.String.format;
 
+@Deprecated
 class EmptyTrailingTiles implements Tiles {
 
     private final int numberOfTiles;
