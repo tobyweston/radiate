@@ -1,13 +1,13 @@
 package bad.robot.radiate.ui;
 
+@Deprecated
 class FrameRate {
 
     public static final FrameRate videoFramesPerSecond = framesPerSecond(24);
 
     private final int framesPerSecond;
 
-    static FrameRate
-    framesPerSecond(int framesPerSecond) {
+    static FrameRate framesPerSecond(int framesPerSecond) {
         return new FrameRate(framesPerSecond);
     }
 
