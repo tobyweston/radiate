@@ -6,10 +6,11 @@ import java.util.Arrays;
 import static java.lang.String.format;
 import static java.util.Arrays.*;
 
+@Deprecated
 class FadeIn implements Fade {
 
-    protected float limit = 50f;
-    protected float count = 0f;
+    private float limit = 50f;
+    private float count = 0f;
 
     @Override
     public void fireEvent(PropertyChangeListener... listeners) {

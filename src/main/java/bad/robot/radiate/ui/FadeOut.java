@@ -5,10 +5,11 @@ import java.beans.PropertyChangeListener;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 
+@Deprecated
 class FadeOut implements Fade {
 
-    protected float limit = 10f;
-    protected float count = limit;
+    private float limit = 10f;
+    private float count = limit;
 
     @Override
     public void fireEvent(PropertyChangeListener... listeners) {
