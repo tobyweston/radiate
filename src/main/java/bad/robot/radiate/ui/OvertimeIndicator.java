@@ -29,6 +29,7 @@ import static java.awt.Font.PLAIN;
 import static java.awt.RenderingHints.*;
 import static java.lang.String.format;
 
+@Deprecated
 class OvertimeIndicator extends LayerUI<JComponent> {
 
     private Timer timer = new Timer(5, new AnimationActionListener());

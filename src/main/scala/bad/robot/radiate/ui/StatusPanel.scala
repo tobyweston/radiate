@@ -4,16 +4,14 @@ import java.awt._
 import java.awt.geom.Rectangle2D
 import javax.swing._
 
-import bad.robot.radiate.LegacyJavaConverters.toActivity
-import bad.robot.radiate.LegacyJavaConverters.toProgress
+import bad.robot.radiate.LegacyJavaConverters.{toActivity, toProgress}
 import bad.robot.radiate.monitor.{ObservableS, ObserverS}
 import bad.robot.radiate.ui.StatusPanelS._
 import bad.robot.radiate.ui.Transparency.SeventyFivePercent
-import bad.robot.radiate.ui.swing.Composite.transparentComposite
-import bad.robot.radiate.ui.swing.CompositeS._
-import bad.robot.radiate.ui.swing.Region.Percentage.EightyPercent
-import bad.robot.radiate.ui.swing.Region.getReducedRegion
-import bad.robot.radiate.ui.swing.{Region, Text}
+import bad.robot.radiate.ui.swing.CompositeS.{transparentComposite, _}
+import bad.robot.radiate.ui.swing.PercentageS.EightyPercent
+import bad.robot.radiate.ui.swing.RegionS.{getReducedRegion, _}
+import bad.robot.radiate.ui.swing.TextS._
 import bad.robot.radiate.{Broken, Busy, Ok, Unknown, _}
 import org.apache.commons.lang3.StringUtils.abbreviate
 
@@ -26,9 +24,9 @@ object StatusPanelS {
 class StatusPanelS(parent: JFrame, identifier: Int) extends JPanel with ObserverS {
 
   private val progressIndicator = new ProgressIndicator
-  private val overtimeIndicator = new OvertimeIndicator
-  private val busyIndicator = new BusyIndicator
-  private val errorIndicator = new ErrorIndicator
+  private val overtimeIndicator = new OvertimeIndicatorS
+  private val busyIndicator = new BusyIndicatorS
+  private val errorIndicator = new ErrorIndicatorS
 
   private var status: StatusS = Unknown
   private var activity: ActivityS = Busy
@@ -84,8 +82,8 @@ class StatusPanelS(parent: JFrame, identifier: Int) extends JPanel with Observer
     if (text != null) {
       applyWithComposite(graphics, transparentComposite(graphics, SeventyFivePercent)) {
         val region = getReducedRegion(StatusPanelS.this.getBounds, EightyPercent, EightyPercent)
-        Region.centerRegionWithinComponent(region, StatusPanelS.this)
-        Text.drawTextCenteredToRegion(region, graphics, text)
+        centerRegionWithinComponent(region, StatusPanelS.this)
+        drawTextCenteredToRegion(region, graphics, text)
       }
     }
   }
