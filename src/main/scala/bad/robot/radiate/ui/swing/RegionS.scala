@@ -1,6 +1,7 @@
 package bad.robot.radiate.ui.swing
 
 import java.awt.{Component, Rectangle}
+import math._
 
 object RegionS {
 
@@ -16,14 +17,14 @@ object RegionS {
 
   def getReducedRegionAsSquare(component: Component, percentage: PercentageS): Rectangle = {
     val region = new Rectangle(component.getX, component.getY, component.getWidth, component.getHeight)
-    val width = percentage.of(Math.min(region.width, region.height))
+    val width = percentage.of(min(region.width, region.height))
     val height = width
     new Rectangle(region.x, region.y, width.toInt, height.toInt)
   }
 
   def centerRegionWithinComponent(region: Rectangle, component: Component) {
-    val x = Math.abs(region.width - component.getWidth) / 2 + region.x
-    var y = Math.abs(region.height - component.getHeight) / 2 + region.y
+    val x = abs(region.width - component.getWidth) / 2 + region.x
+    var y = abs(region.height - component.getHeight) / 2 + region.y
     if (y < region.y) y = region.y
     region.setLocation(x, y)
   }

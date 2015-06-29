@@ -12,6 +12,7 @@ import javax.swing.plaf.LayerUI
 
 import bad.robot.radiate.{ActivityS, Busy}
 import bad.robot.radiate.ui.FrameRate.videoFramesPerSecond
+import math._
 
 class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {
   private var running = false
@@ -37,17 +38,17 @@ class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {
 
   private def drawBusyIndicator(width: Int, height: Int, graphics: Graphics2D, fade: Float) {
     val reductionPercentage: Int = 20
-    val size = Math.min(width, height) / reductionPercentage
+    val size = min(width, height) / reductionPercentage
     val x = width / 2
     val y = height / 2
     graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON)
     graphics.setStroke(new BasicStroke(size / 4, CAP_ROUND, JOIN_ROUND))
     graphics.setPaint(white)
-    graphics.rotate(Math.PI * angle / 180, x, y)
+    graphics.rotate(Pi * angle / 180, x, y)
     for (i <- 0 until 12) {
       val scale = (11.0f - i.toFloat) / 11.0f
       graphics.drawLine(x + size, y, x + size * 2, y)
-      graphics.rotate(-Math.PI / 6, x, y)
+      graphics.rotate(-Pi / 6, x, y)
       setCompositeToTransparent(graphics, scale * fade)
     }
   }

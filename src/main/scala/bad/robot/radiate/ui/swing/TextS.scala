@@ -5,6 +5,7 @@ import java.awt.Font._
 import java.awt.RenderingHints._
 import java.awt._
 import java.awt.geom.AffineTransform._
+import math._
 
 object TextS {
 
@@ -26,7 +27,7 @@ object TextS {
     val textSize = metrics.getStringBounds(text, graphics)
     val x = region.x + (region.width - textSize.getWidth) / 2
     val y = region.y + (region.height - textSize.getHeight) / 2 + metrics.getAscent
-    new Point(Math.abs(x).toInt, Math.abs(y).toInt)
+    new Point(abs(x).toInt, abs(y).toInt)
   }
 
   def setFontScaledToRegion(region: Rectangle, graphics: Graphics2D, text: String, font: Font) {
