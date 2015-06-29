@@ -19,6 +19,7 @@ import static java.awt.Color.white;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
+@Deprecated
 class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
 
     private boolean running;
@@ -34,13 +35,13 @@ class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
         int width = component.getWidth();
         int height = component.getHeight();
         super.paint(g, component);
-        if (!running)
-            return;
-        Graphics2D graphics = (Graphics2D) g.create();
-        float fade = (float) fadeCount / (float) fadeLimit;
-        fadeOut(width, height, graphics, fade);
-        drawBusyIndicator(width, height, graphics, fade);
-        graphics.dispose();
+        if (running) {
+            Graphics2D graphics = (Graphics2D) g.create();
+            float fade = (float) fadeCount / (float) fadeLimit;
+            fadeOut(width, height, graphics, fade);
+            drawBusyIndicator(width, height, graphics, fade);
+            graphics.dispose();
+        }
     }
 
     private void drawBusyIndicator(int width, int height, Graphics2D graphics, float fade) {
@@ -74,13 +75,13 @@ class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
     }
 
     private void start() {
-        if (running)
-            return;
-        running = true;
-        fadingOut = false;
-        fadeCount = 0;
-        timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
-        timer.start();
+        if (!running) {
+            running = true;
+            fadingOut = false;
+            fadeCount = 0;
+            timer = new Timer(videoFramesPerSecond.asFrequencyInMillis(), this);
+            timer.start();
+        }
     }
 
     @Override
@@ -91,7 +92,8 @@ class BusyIndicator extends LayerUI<JComponent> implements ActionListener {
             if (angle >= 360)
                 angle = 0;
             if (fadingOut) {
-                if (--fadeCount <= 0) {
+                --fadeCount;
+                if (fadeCount <= 0) {
                     running = false;
                     fadingOut = false;
                     timer.stop();
