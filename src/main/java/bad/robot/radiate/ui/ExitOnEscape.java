@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 
+@Deprecated
 class ExitOnEscape extends KeyAdapter implements AWTEventListener {
     @Override
     public void keyPressed(KeyEvent e) {
