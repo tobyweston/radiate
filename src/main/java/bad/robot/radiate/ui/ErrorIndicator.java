@@ -14,6 +14,7 @@ import static java.awt.Color.white;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
+@Deprecated
 class ErrorIndicator extends LayerUI<JComponent> {
 
     private Boolean redraw = false;
