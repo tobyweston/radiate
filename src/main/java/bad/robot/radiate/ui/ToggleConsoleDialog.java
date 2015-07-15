@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_F1;
 import static java.awt.event.KeyEvent.VK_I;
 
+@Deprecated
 class ToggleConsoleDialog extends KeyAdapter implements AWTEventListener {
 
     private final TransparentDialog dialog;
