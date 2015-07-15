@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 
 import static bad.robot.radiate.Main.*;
 
+@Deprecated
 class Restart extends KeyAdapter implements AWTEventListener {
 
     private final MonitoringTasksFactory taskFactory;
