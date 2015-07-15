@@ -29,6 +29,7 @@ import static java.awt.Font.PLAIN;
 import static java.awt.RenderingHints.*;
 import static java.lang.String.format;
 
+@Deprecated
 class ProgressIndicator extends LayerUI<JComponent> implements ActionListener {
 
     public static final int maximum = 100;
