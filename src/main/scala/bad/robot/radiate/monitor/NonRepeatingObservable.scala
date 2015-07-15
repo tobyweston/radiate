@@ -1,7 +1,5 @@
 package bad.robot.radiate.monitor
 
-import bad.robot.radiate.monitor.ThreadSafeObservableS
-
 import scala.collection.mutable
 
 class NonRepeatingObservableS extends ThreadSafeObservableS {

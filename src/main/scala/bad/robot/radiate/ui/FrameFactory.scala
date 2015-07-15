@@ -11,7 +11,7 @@ object FrameFactoryS {
   def fullScreen = new FrameFactoryS {
     def create = {
       val screens = getLocalGraphicsEnvironment.getScreenDevices
-      val frames = (0 until screens.length).map(index => new StatusFrameScala(index, new FullScreen(screens(index).getDefaultConfiguration.getBounds)))
+      val frames = (0 until screens.length).map(index => new StatusFrameScala(index, new FullScreenS(screens(index).getDefaultConfiguration.getBounds)))
       frames.toList
     }
   }
@@ -19,7 +19,7 @@ object FrameFactoryS {
   def desktopMode = new FrameFactoryS {
     def create = {
       val bounds = getLocalGraphicsEnvironment.getDefaultScreenDevice.getDefaultConfiguration.getBounds
-      val frames = Array(new StatusFrameScala(0, new DesktopMode(bounds)))
+      val frames = Array(new StatusFrameScala(0, new DesktopModeS(bounds)))
       frames.toList
     }
   }

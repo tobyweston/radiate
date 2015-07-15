@@ -9,6 +9,6 @@ class FailedToCreateYmlFileS(e: Exception) extends InformationS(
 
 object StringOps {
     def defaultString(string: String) {
-        if (string == null) () else string
+        if (string == null) () else string.toString
     }
 }

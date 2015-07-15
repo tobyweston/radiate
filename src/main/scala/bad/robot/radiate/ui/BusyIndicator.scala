@@ -65,7 +65,7 @@ class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {
     if (alpha >= 0.0f && alpha <= 1.0f) graphics.setComposite(getInstance(SRC_OVER, alpha))
   }
 
-  private def start {
+  private def start() {
     if (!running) {
       running = true
       fadingOut = false

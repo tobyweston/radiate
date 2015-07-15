@@ -1,12 +1,14 @@
 package bad.robot.radiate
 
+import bad.robot.radiate.{Status => LegacyStatus}
+
 sealed trait StatusS
 
 object StatusS {
-  def fromJava(status: Status): StatusS = status match {
-    case Status.Ok => Ok
-    case Status.Broken => Broken
-    case Status.Unknown => Unknown
+  def fromJava(status: LegacyStatus): StatusS = status match {
+    case LegacyStatus.Ok => Ok
+    case LegacyStatus.Broken => Broken
+    case LegacyStatus.Unknown => Unknown
     case _ => throw new IllegalArgumentException("unsupported status: " + status)
   }
 }

@@ -25,7 +25,7 @@ class MonitorSTest extends Specification {
 
   "Can terminate monitoring" in new MockContext {
     val executor = mock[ScheduledExecutorService]
-    val task = mock[MonitoringTask]
+    val task = mock[MonitoringTaskS]
     val future = mock[ScheduledFuture[Any]]
     val waiting = mock[RunnableScheduledFuture[Any]]
 

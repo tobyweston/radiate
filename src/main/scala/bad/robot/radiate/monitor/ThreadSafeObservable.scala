@@ -22,7 +22,7 @@ class ThreadSafeObservableS extends ObservableS {
     this.observers.removeAll(asList(observers))
   }
 
-  def removeAllObservers {
+  def removeAllObservers() {
     observers.clear()
   }
 

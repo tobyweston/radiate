@@ -24,3 +24,5 @@ resolvers ++= Seq(
 )
 
 compileOrder := CompileOrder.JavaThenScala
+
+scalacOptions := Seq("-Xlint", "-Xfatal-warnings", "-deprecation", "-feature", "-language:implicitConversions,reflectiveCalls,higherKinds")

@@ -23,7 +23,7 @@ object StatusPanelS {
 
 class StatusPanelS(parent: JFrame, identifier: Int) extends JPanel with ObserverS {
 
-  private val progressIndicator = new ProgressIndicator
+  private val progressIndicator = new ProgressIndicatorS
   private val overtimeIndicator = new OvertimeIndicatorS
   private val busyIndicator = new BusyIndicatorS
   private val errorIndicator = new ErrorIndicatorS
@@ -31,7 +31,7 @@ class StatusPanelS(parent: JFrame, identifier: Int) extends JPanel with Observer
   private var status: StatusS = Unknown
   private var activity: ActivityS = Busy
   private var progress = new ProgressS(0, 100)
-  private var text = null
+  private var text: String = _
 
   parent.add(new JLayer[JComponent](new JLayer[JComponent](new JLayer[JComponent](new JLayer[JComponent](this, errorIndicator), progressIndicator), overtimeIndicator), busyIndicator))
 

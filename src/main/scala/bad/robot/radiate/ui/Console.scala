@@ -42,7 +42,7 @@ class ConsoleS(owner: Frame) extends TransparentDialog("", owner) {
   }
 
   implicit def toKeyListener(f: KeyEvent => Unit): KeyListener = new KeyAdapter {
-    override def keyReleased(e: KeyEvent): Unit = f
+    override def keyReleased(e: KeyEvent): Unit = f.apply(e)
   }
 
 }

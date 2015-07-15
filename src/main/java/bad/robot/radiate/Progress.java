@@ -1,6 +1,5 @@
 package bad.robot.radiate;
 
-@Deprecated
 public class Progress {
 
     private int current;

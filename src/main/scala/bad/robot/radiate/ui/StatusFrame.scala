@@ -5,17 +5,16 @@ import javax.swing._
 
 import bad.robot.radiate.monitor.ObserverS
 
-import scala.collection.JavaConversions._
 import scala.collection._
 
-class StatusFrameScala(index: Int, screen: ScreenMode) extends JFrame {
+class StatusFrameScala(index: Int, screen: ScreenModeS) extends JFrame {
 
   private val panels = mutable.MutableList[StatusPanelS]()
 
-  setLayout(new ChessboardLayout(panels))
+  setLayout(new ChessboardLayoutS(panels))
   setupWindowing(index, screen)
 
-  private def setupWindowing(index: Int, screen: ScreenMode) {
+  private def setupWindowing(index: Int, screen: ScreenModeS) {
     setDefaultCloseOperation(EXIT_ON_CLOSE)
     setTitle(s"Radiate:$index")
     screen.accept(this)

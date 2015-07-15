@@ -6,7 +6,7 @@ trait ObservableS {
   def addObservers(observer: List[ObserverS])
   def addObservers(observer: ObserverS*): Boolean
   def removeObservers(observer: ObserverS*): Boolean
-  def removeAllObservers
+  def removeAllObservers()
   def notifyObservers(status: StatusS)
   def notifyObservers(activity: ActivityS, progress: ProgressS)
   def notifyObservers(exception: Exception)
