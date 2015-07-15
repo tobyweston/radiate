@@ -8,27 +8,28 @@ import javax.swing.SwingUtilities.invokeLater
 import javax.swing.UIManager.getSystemLookAndFeelClassName
 import javax.swing._
 
-import bad.robot.radiate.FunctionInterfaceOps.{toRunnable, toSupplier}
-import bad.robot.radiate.monitor.MonitoringTasksFactory._
+import bad.robot.radiate.FunctionInterfaceOps.{toRunnable}
+import bad.robot.radiate.monitor.MonitoringTasksFactoryS._
 import bad.robot.radiate.monitor._
-import bad.robot.radiate.teamcity.SanitisedException
+import bad.robot.radiate.teamcity.SanitisedExceptionS
+import bad.robot.radiate.ui.FrameFactoryS._
 
-class SwingUiS(factory: FrameFactoryS) extends Ui with ObserverS {
+class SwingUiS(factory: FrameFactoryS) extends UiScala with ObserverS {
   
   private val frames = new StatusFramesScala(factory)
-  private val console = new Console(frames.primary)
+  private val console = new ConsoleS(frames.primary)
 
   setupGlobalEventListeners()
   setLookAndFeel()
 
   private def setupGlobalEventListeners() {
-    addAwtEventListener(new ExitOnEscape)
-    addAwtEventListener(new SwitchTo(FrameFactory.desktopMode, VK_D))
-    addAwtEventListener(new SwitchTo(FrameFactory.fullScreen, VK_F))
+    addAwtEventListener(new ExitOnEscapeS)
+    addAwtEventListener(new SwitchToS(desktopMode, VK_D))
+    addAwtEventListener(new SwitchToS(fullScreen, VK_F))
     addAwtEventListener(new ToggleConsoleDialog(console))
-    addAwtEventListener(new Restart(singleAggregate, VK_A))
-    addAwtEventListener(new Restart(multipleProjects, VK_C))
-    addAwtEventListener(new Restart(multipleBuildsDemo, VK_X))
+    addAwtEventListener(new RestartS(singleAggregate, VK_A))
+    addAwtEventListener(new RestartS(multipleProjects, VK_C))
+    addAwtEventListener(new RestartS(multipleBuildsDemo, VK_X))
   }
 
   private def addAwtEventListener(listener: AWTEventListener) {
@@ -40,11 +41,11 @@ class SwingUiS(factory: FrameFactoryS) extends Ui with ObserverS {
   }
 
   def start() {
-    frames.display
+    frames.display()
   }
 
   def stop() {
-    frames.dispose
+    frames.dispose()
     getDefaultToolkit.getAWTEventListeners.foreach(listener => getDefaultToolkit.removeAWTEventListener(listener))
   }
 
@@ -57,7 +58,7 @@ class SwingUiS(factory: FrameFactoryS) extends Ui with ObserverS {
   }
 
   override def update(source: ObservableS, exception: Exception) {
-    val message = new SanitisedException(exception).getMessage
+    val message = new SanitisedExceptionS(exception).getMessage
     invokeLater(console.append(s"$message when monitoring ${if (source == null) "" else source.toString}"))
   }
 }

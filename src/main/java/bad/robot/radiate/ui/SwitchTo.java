@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import static bad.robot.radiate.Main.Radiate;
 
+@Deprecated
 class SwitchTo extends KeyAdapter implements AWTEventListener {
 
     private final Supplier<FrameFactory> mode;
