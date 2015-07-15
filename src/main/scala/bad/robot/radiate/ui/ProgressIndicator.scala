@@ -20,7 +20,7 @@ import bad.robot.radiate.ui.swing.PercentageS._
 import bad.robot.radiate.ui.swing.RegionS._
 import bad.robot.radiate.ui.swing.TextS.{getCenterPointOfTextWithinRegion, setFontScaledToRegion}
 
-import math._
+import scala.math._
 
 object ProgressIndicatorS {
   val maximum: Int = 100
