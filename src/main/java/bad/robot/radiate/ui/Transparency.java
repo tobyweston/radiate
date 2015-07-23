@@ -7,6 +7,8 @@ import java.awt.*;
 import static java.awt.AlphaComposite.SRC_OVER;
 
 
+
+@Deprecated
 public class Transparency extends AbstractValueType<Float> {
 
     public static Transparency Transparent = new Transparency(0.0f);
