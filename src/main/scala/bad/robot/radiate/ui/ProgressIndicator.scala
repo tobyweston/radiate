@@ -32,7 +32,7 @@ class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
   private val timer = new Timer(videoFramesPerSecond.asFrequencyInMillis, this)
   private val fadeTimer = new Timer(videoFramesPerSecond.asFrequencyInMillis, this)
   private var fade: FadeScala = new FadeInScala
-  private var transparency = Transparency.Transparent
+  private var transparency = TransparencyS.Transparent
 
   override def paint(g: Graphics, component: JComponent) {
     super.paint(g, component)
@@ -68,7 +68,7 @@ class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
 
   private def drawBackgroundRadial(region: Rectangle, graphics: Graphics2D) {
     if (timer.isRunning) {
-      applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent)) {
+      applyWithComposite(graphics, transparentComposite(graphics, TransparencyS.TwentyPercent)) {
         graphics.setColor(white)
         graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360)
       }
@@ -95,7 +95,7 @@ class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
     val numberOfBuilds = s"running ${progress.numberOfBuilds} build${if (progress.numberOfBuilds > 1) "s" else ""}"
     val drawArea = getReducedRegionAsSquare(component, FiftyPercent)
     centerRegionWithinComponent(drawArea, component)
-    applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent)) {
+    applyWithComposite(graphics, transparentComposite(graphics, TransparencyS.TwentyPercent)) {
       setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10))
       val center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont, numberOfBuilds)
       graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
@@ -124,7 +124,7 @@ class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
     if ("animateRadial" == event.getPropertyName)
       layer.repaint()
     if ("fade" == event.getPropertyName) {
-      transparency = new Transparency(event.getNewValue.asInstanceOf[Float])
+      transparency = TransparencyS(event.getNewValue.asInstanceOf[Float])
       layer.repaint()
     }
   }

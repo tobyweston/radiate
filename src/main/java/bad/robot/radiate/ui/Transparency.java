@@ -11,10 +11,10 @@ import static java.awt.AlphaComposite.SRC_OVER;
 @Deprecated
 public class Transparency extends AbstractValueType<Float> {
 
-    public static Transparency Transparent = new Transparency(0.0f);
-    public static Transparency TwentyPercent = new Transparency(0.20f);
-    public static Transparency SeventyFivePercent = new Transparency(0.75f);
-    public static Transparency Opaque = new Transparency(1.0f);
+    @Deprecated public static Transparency Transparent = new Transparency(0.0f);
+    @Deprecated public static Transparency TwentyPercent = new Transparency(0.20f);
+    @Deprecated public static Transparency SeventyFivePercent = new Transparency(0.75f);
+    @Deprecated public static Transparency Opaque = new Transparency(1.0f);
 
     public Transparency(float percentage) {
         super(percentage);

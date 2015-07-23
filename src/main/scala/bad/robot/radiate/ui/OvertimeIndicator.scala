@@ -12,7 +12,7 @@ import javax.swing._
 import javax.swing.plaf.LayerUI
 
 import bad.robot.radiate.ui.FrameRateS.videoFramesPerSecond
-import bad.robot.radiate.ui.Transparency.Transparent
+import bad.robot.radiate.ui.TransparencyS.Transparent
 import bad.robot.radiate.ui.swing.CompositeS.{applyWithComposite, transparentComposite}
 import bad.robot.radiate.ui.swing.PercentageS.{FiftyPercent, TwentyPercent}
 import bad.robot.radiate.ui.swing.RegionS.{centerRegionWithinComponent, getReducedRegionAsSquare}
@@ -61,7 +61,7 @@ class OvertimeIndicatorS extends LayerUI[JComponent] {
 
   private def drawBackgroundRadial(region: Rectangle, graphics: Graphics2D) {
     if (timer.isRunning) {
-      applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent)) {
+      applyWithComposite(graphics, transparentComposite(graphics, TransparencyS.TwentyPercent)) {
         graphics.setColor(white)
         graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360)
       }
@@ -86,7 +86,7 @@ class OvertimeIndicatorS extends LayerUI[JComponent] {
     val drawArea = getReducedRegionAsSquare(component, FiftyPercent)
     centerRegionWithinComponent(drawArea, component)
     setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10))
-    applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent)) {
+    applyWithComposite(graphics, transparentComposite(graphics, TransparencyS.TwentyPercent)) {
       val center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds)
       graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)) // nudge down y
     }
@@ -96,7 +96,7 @@ class OvertimeIndicatorS extends LayerUI[JComponent] {
     if ("animate" == event.getPropertyName)
       layer.repaint()
     if ("fade" == event.getPropertyName) {
-      transparency = new Transparency(event.getNewValue.asInstanceOf[Float])
+      transparency = TransparencyS(event.getNewValue.asInstanceOf[Float])
       layer.repaint()
     }
   }

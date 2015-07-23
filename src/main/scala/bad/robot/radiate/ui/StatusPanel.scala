@@ -4,10 +4,9 @@ import java.awt._
 import java.awt.geom.Rectangle2D
 import javax.swing._
 
-import bad.robot.radiate.LegacyJavaConverters.{toActivity, toProgress}
 import bad.robot.radiate.monitor.{ObservableS, ObserverS}
 import bad.robot.radiate.ui.StatusPanelS._
-import bad.robot.radiate.ui.Transparency.SeventyFivePercent
+import bad.robot.radiate.ui.TransparencyS.SeventyFivePercent
 import bad.robot.radiate.ui.swing.CompositeS.{transparentComposite, _}
 import bad.robot.radiate.ui.swing.PercentageS.EightyPercent
 import bad.robot.radiate.ui.swing.RegionS.{getReducedRegion, _}

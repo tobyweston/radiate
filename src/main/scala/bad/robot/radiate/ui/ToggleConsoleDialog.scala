@@ -4,7 +4,7 @@ import java.awt._
 import java.awt.event.{AWTEventListener, KeyAdapter, KeyEvent}
 import java.awt.event.KeyEvent.{VK_F1, VK_I}
 
-class ToggleConsoleDialogS(dialog: TransparentDialog) extends KeyAdapter with AWTEventListener {
+class ToggleConsoleDialogS(dialog: TransparentDialogS) extends KeyAdapter with AWTEventListener {
 
   override def keyPressed(event: KeyEvent) {
     if (event.getKeyCode == VK_F1 || event.getKeyCode == VK_I) dialog.setVisible(!dialog.isVisible)

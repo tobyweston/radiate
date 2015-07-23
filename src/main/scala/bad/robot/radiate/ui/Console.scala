@@ -21,17 +21,17 @@ object ConsoleS {
   }
 }
 
-class ConsoleS(owner: Frame) extends TransparentDialog("", owner) {
+class ConsoleS(owner: Frame) extends TransparentDialogS("", owner) {
 
   private val text: JTextArea = new TransparentTextArea
 
-  makeResizeable
+  makeResizeable()
   val dialog = getJDialog
   dialog.setSize(ConsoleS.calculateSize(owner))
   dialog.setLocationRelativeTo(owner)
   dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE)
   dialog.add(new TransparentJScrollPane(text))
-  text.addKeyListener { (event: KeyEvent) => if (event.getKeyCode == VK_C) clear }
+  text.addKeyListener { (event: KeyEvent) => if (event.getKeyCode == VK_C) clear() }
 
   def append(string: String) {
     text.append(format("%s\n", string))

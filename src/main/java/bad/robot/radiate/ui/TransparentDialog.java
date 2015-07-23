@@ -19,7 +19,7 @@ import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import static java.awt.event.WindowEvent.*;
 
-
+@Deprecated
 public class TransparentDialog {
 
     private final JDialog dialog;

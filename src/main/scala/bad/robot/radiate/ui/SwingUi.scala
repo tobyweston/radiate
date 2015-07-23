@@ -26,7 +26,7 @@ class SwingUiS(factory: FrameFactoryS) extends UiScala with ObserverS {
     addAwtEventListener(new ExitOnEscapeS)
     addAwtEventListener(new SwitchToS(desktopMode, VK_D))
     addAwtEventListener(new SwitchToS(fullScreen, VK_F))
-    addAwtEventListener(new ToggleConsoleDialog(console))
+    addAwtEventListener(new ToggleConsoleDialogS(console))
     addAwtEventListener(new RestartS(singleAggregate, VK_A))
     addAwtEventListener(new RestartS(multipleProjects, VK_C))
     addAwtEventListener(new RestartS(multipleBuildsDemo, VK_X))
