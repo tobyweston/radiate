@@ -2,6 +2,7 @@ package bad.robot.radiate.ui;
 
 import javax.swing.*;
 
+@Deprecated
 class TransparentJScrollPane extends JScrollPane {
     public TransparentJScrollPane(JTextArea text) {
         super(text, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);

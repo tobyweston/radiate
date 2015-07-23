@@ -10,6 +10,7 @@ import static java.awt.Font.BOLD;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
+@Deprecated
 public class TransparentLabelUI extends BasicLabelUI {
 
     private boolean isDarkColorScheme = true;

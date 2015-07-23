@@ -30,7 +30,7 @@ class ConsoleS(owner: Frame) extends TransparentDialogS("", owner) {
   dialog.setSize(ConsoleS.calculateSize(owner))
   dialog.setLocationRelativeTo(owner)
   dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE)
-  dialog.add(new TransparentJScrollPane(text))
+  dialog.add(new TransparentJScrollPaneS(text))
   text.addKeyListener { (event: KeyEvent) => if (event.getKeyCode == VK_C) clear() }
 
   def append(string: String) {

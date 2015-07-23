@@ -7,6 +7,7 @@ import java.awt.*;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
+@Deprecated
 class TransparentScrollBarUI extends BasicScrollBarUI {
     private final Dimension dimension = new Dimension();
 
