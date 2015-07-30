@@ -23,7 +23,7 @@ object ConsoleS {
 
 class ConsoleS(owner: Frame) extends TransparentDialogS("", owner) {
 
-  private val text: JTextArea = new TransparentTextArea
+  private val text: JTextArea = new TransparentTextAreaS
 
   makeResizeable()
   val dialog = getJDialog

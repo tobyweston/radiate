@@ -7,7 +7,7 @@ import bad.robot.radiate.ui.TransparentScrollPaneLayoutS._
 
 object TransparentScrollPaneLayoutS {
   private def calculateAvailableRegion(parent: Container, scrollPane: JScrollPane): Rectangle = {
-    val available = scrollPane.getBounds
+    val available = scrollPane.getBounds(null) // hack to avoid ambiguous method java inter-op problem
     available.x = 0
     available.y = 0
     

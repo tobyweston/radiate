@@ -5,6 +5,7 @@ import java.awt.*;
 
 import static java.awt.Font.BOLD;
 
+@Deprecated
 class TransparentTextArea extends JTextArea {
 
     TransparentTextArea() {
