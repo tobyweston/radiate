@@ -3,6 +3,7 @@ package bad.robot.radiate.ui;
 import javax.swing.*;
 import java.awt.*;
 
+@Deprecated
 class TransparentScrollPaneLayout extends ScrollPaneLayout {
     @Override
     public void layoutContainer(Container parent) {
