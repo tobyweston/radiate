@@ -18,6 +18,7 @@ import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Deprecated
 @RunWith(JMock.class)
 public class MonitorTest {
 
