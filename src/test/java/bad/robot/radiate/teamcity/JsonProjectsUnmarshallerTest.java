@@ -7,6 +7,7 @@ import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
+@Deprecated
 public class JsonProjectsUnmarshallerTest {
 
     @Rule public final HttpResponseStubMockery context = new HttpResponseStubMockery();

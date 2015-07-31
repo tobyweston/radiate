@@ -19,16 +19,16 @@ object AnyS {
 
   def buildType = new BuildTypeScala(anyId, anyName, anyHref, "project:" + anyString(8), "pid:" + anyString(5))
 
-  def build = new BuildS(anyId, incrementingNumber, anyHref, "SUCCESS", "Success", anyString(10), anyString(10), buildType)
+  def build = new BuildS(anyId, incrementingNumber, anyHref, "SUCCESS", "Success", anyString(10), Some(anyString(10)), buildType, None)
 
   def runningBuild = {
     val runInformation = new RunInformationS(74, 12, 23, false, false)
-    new RunningBuildS(anyId, incrementingNumber, anyHref, "SUCCESS", "Success", anyString(10), anyString(10), buildType, runInformation)
+    new BuildS(anyId, incrementingNumber, anyHref, "SUCCESS", "Success", anyString(10), Some(anyString(10)), buildType, Some(runInformation))
   }
 
   def runningBuildPercentageCompleteAt(percentageComplete: Int) = {
     val runInformation = new RunInformationS(percentageComplete, 12, 23, false, false)
-    new RunningBuildS(anyId, incrementingNumber, anyHref, "SUCCESS", "Success", anyString(10), anyString(10), buildType, runInformation)
+    new BuildS(anyId, incrementingNumber, anyHref, "SUCCESS", "Success", anyString(10), Some(anyString(10)), buildType, Some(runInformation))
   }
 
   private def incrementingNumber: String = {
