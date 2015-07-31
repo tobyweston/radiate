@@ -8,6 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 
+@Deprecated
 public class JsonProjectUnmarshallerTest {
 
     @Rule public final HttpResponseStubMockery context = new HttpResponseStubMockery();

@@ -43,6 +43,13 @@ class JsonBuildUnmarshallerTestS extends Specification with IsolatedMockFactory 
     build must_== BuildS("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Step 1/1", "20130726T161108+0100", None, buildType, runInformation)
   }
 
+  "Bad JSON" >> {
+    (response.getContent _).when().returns("I'm not even json")
+    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+
+    unmarshaller.unmarshall(response) must throwA[Exception]
+  }
+
   val buildJson = """{
     |    "id": 465,
     |    "number": "159",

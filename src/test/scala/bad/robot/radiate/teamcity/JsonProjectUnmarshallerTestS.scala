@@ -12,7 +12,7 @@ class JsonProjectUnmarshallerTestS extends Specification with IsolatedMockFactor
   val response = stub[HttpResponse]
   val unmarshaller = new JsonProjectUnmarshallerS
 
-  "Unmarshall Project with build types" >> {
+  "Unmarshall project with build types" >> {
     (response.getContent _).when().returns(projectJson)
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 

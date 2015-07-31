@@ -39,4 +39,11 @@ class JsonProjectsUnmarshallerTestS extends Specification with IsolatedMockFacto
     ).inOrder)
 
   }
+
+  "Bad JSON" >> {
+    (response.getContent _).when().returns("I'm not even json")
+    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+
+    unmarshaller.unmarshall(response) must throwA[Exception]
+  }
 }

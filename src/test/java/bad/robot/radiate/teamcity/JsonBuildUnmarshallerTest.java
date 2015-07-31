@@ -6,6 +6,7 @@ import org.junit.Test;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+@Deprecated
 public class JsonBuildUnmarshallerTest {
 
     @Rule public final HttpResponseStubMockery context = new HttpResponseStubMockery();
