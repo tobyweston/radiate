@@ -2,14 +2,12 @@ package bad.robot.radiate.teamcity
 
 import java.net.URL
 
+import bad.robot.UrlMatcher._
 import bad.robot.http.EmptyHeaders._
 import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.{Headers, HttpClient, HttpResponse, StringHttpResponse}
 import bad.robot.radiate.{AggregateException, UnmarshallerS}
-import com.googlecode.totallylazy.Sequences._
-import org.hamcrest.MatcherAssert._
-import org.hamcrest.Matchers
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
 
@@ -89,16 +87,16 @@ class TeamCitySTest extends Specification with IsolatedMockFactory {
     teamcity.retrieveLatestBuild(buildType) must_== build
   }
 
-  "Should handle Http rrror when retrieving latest running build" >> {
+  "Should handle Http error when retrieving latest running build" >> {
     val buildType = AnyS.buildType
-    (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id},running:true"), accept).once.returning(Error)
+    (http.get(_: URL, _: Headers)).expects(urlContainingPath(s"${buildType.id},running:true"), accept).once.returning(Error)
     teamcity.retrieveLatestBuild(buildType) must throwAn[UnexpectedResponseS]
   }
 
   "Should retrieve latest latest non-running build" >> {
     val buildType = AnyS.buildType
     val build = AnyS.build
-    (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id},running:true"), accept).once.returning(NotFound)
+    (http.get(_: URL, _: Headers)).expects(urlContainingPath("running:true"), accept).once.returning(NotFound)
     (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id}"), accept).once.returning(Ok)
     (buildUnmarshaller.unmarshall _).expects(Ok).once.returning(build)
 
@@ -107,7 +105,7 @@ class TeamCitySTest extends Specification with IsolatedMockFactory {
 
   "Should handle Http error when retrieving latest non-running build" >> {
     val buildType = AnyS.buildType
-    (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id},running:true"), *).once.returning(NotFound)
+    (http.get(_: URL, _: Headers)).expects(urlContainingPath("running:true"), *).once.returning(NotFound)
     (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id}"), accept).once.returning(Error)
 
     teamcity.retrieveLatestBuild(buildType) must throwAn[UnexpectedResponseS]
@@ -115,7 +113,7 @@ class TeamCitySTest extends Specification with IsolatedMockFactory {
 
   "Should handle projects with no build history" >> {
     val buildType = AnyS.buildType
-    (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id},running:true"), *).once.returning(NotFound)
+    (http.get(_: URL, _: Headers)).expects(urlContainingPath("running:true"), *).once.returning(NotFound)
     (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id}"), accept).once.returning(NotFound)
 
     teamcity.retrieveLatestBuild(buildType) must_== new NoBuildS()
