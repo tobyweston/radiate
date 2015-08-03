@@ -5,6 +5,7 @@ import org.junit.Test;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Deprecated
 public class NoUsernameTest {
 
     @Test

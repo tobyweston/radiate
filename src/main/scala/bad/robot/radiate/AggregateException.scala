@@ -10,6 +10,6 @@ object AggregateException {
   }
 }
 
-class AggregateException(errors: List[Exception]) extends Exception(summary(errors)) {
+class AggregateException(val errors: List[Exception]) extends Exception(summary(errors)) {
 
 }
