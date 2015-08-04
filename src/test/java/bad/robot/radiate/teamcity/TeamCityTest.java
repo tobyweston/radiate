@@ -24,6 +24,7 @@ import static com.googlecode.totallylazy.Sequences.*;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Deprecated
 public class TeamCityTest {
 
     @Rule public JUnitRuleMockery context = new JUnitRuleMockery() {{

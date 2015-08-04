@@ -9,6 +9,7 @@ import static bad.robot.radiate.ui.swing.Region.getReducedRegion;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Deprecated
 public class SwingTest {
 
     @Test

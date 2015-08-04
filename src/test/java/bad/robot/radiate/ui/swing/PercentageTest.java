@@ -7,6 +7,7 @@ import static bad.robot.radiate.ui.swing.Region.Percentage.percentage;
 import static com.googlecode.totallylazy.matchers.NumberMatcher.is;
 import static org.junit.Assert.assertThat;
 
+@Deprecated
 public class PercentageTest {
 
 	@Test
@@ -15,6 +16,5 @@ public class PercentageTest {
 		assertThat(OneHundredPercent.of(50), is(50));
 		assertThat(percentage(68).of(50), is(34));
 	}
-
 
 }
