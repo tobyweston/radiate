@@ -11,6 +11,7 @@ import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThat;
 
+@Deprecated
 public class ActivityAggregatorTest {
 
     @Test

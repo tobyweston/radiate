@@ -26,7 +26,7 @@ class ActivityAggregatorSTest extends Specification {
     aggregated(List(Busy, Idle, Progressing, Progressing, Idle)).getActivity must_== Busy
   }
 
-  "Should be indicating an Error" >> {
+  "Should be Error" >> {
     aggregated(List(Error)).getActivity must_== Error
     aggregated(List(Busy, Idle, Error, Progressing)).getActivity must_== Error
     aggregated(List(Idle, Idle, Progressing, Busy, Error, Idle)).getActivity must_== Error

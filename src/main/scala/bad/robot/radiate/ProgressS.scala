@@ -45,11 +45,11 @@ case class ProgressS(private var current: Int, private var max: Double) {
     _numberOfBuilds
   }
 
-  def lessThan(progress: ProgressS): Boolean = {
+  def <(progress: ProgressS): Boolean = {
     asPercentage < progress.asPercentage
   }
 
-  def greaterThan(progress: ProgressS): Boolean = {
+  def >(progress: ProgressS): Boolean = {
     asPercentage > progress.asPercentage
   }
 

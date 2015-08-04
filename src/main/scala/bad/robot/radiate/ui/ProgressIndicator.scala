@@ -114,9 +114,9 @@ class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
   }
 
   private def updateProgressReadyToAnimate() {
-    if (animation.lessThan(progress))
+    if (animation < progress)
       animation.increment()
-    else if (animation.greaterThan(progress))
+    else if (animation > progress)
       animation.decrement()
   }
 

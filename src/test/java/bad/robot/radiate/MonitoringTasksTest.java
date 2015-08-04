@@ -13,6 +13,7 @@ import java.util.concurrent.ScheduledFuture;
 import static bad.robot.radiate.RestartRequired.restartRequired;
 import static java.util.Collections.emptyList;
 
+@Deprecated
 public class MonitoringTasksTest {
 
     @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();

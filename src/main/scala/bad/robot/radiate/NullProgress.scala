@@ -12,9 +12,9 @@ class NullProgressS extends ProgressS(0, 0) {
 
   override def complete = throw new UnsupportedOperationException
 
-  override def lessThan(progress: ProgressS) = throw new UnsupportedOperationException
+  override def <(progress: ProgressS) = throw new UnsupportedOperationException
 
-  override def greaterThan(progress: ProgressS) = throw new UnsupportedOperationException
+  override def >(progress: ProgressS) = throw new UnsupportedOperationException
 
   override def numberOfBuilds = 0
 
