@@ -10,7 +10,7 @@ case class PotentiallySingleRowOfTilesScala(numberOfTiles: Int) extends TilesSca
   private var _rows = 0
   private var _columns = 0
 
-  for (i <- 1 until sqrt(numberOfTiles).toInt) {
+  for (i <- 1 to sqrt(numberOfTiles).toInt) {
     if (numberOfTiles % i == 0) {
       _rows = i
       _columns = numberOfTiles / i
