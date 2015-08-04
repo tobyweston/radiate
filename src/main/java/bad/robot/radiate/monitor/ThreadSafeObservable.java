@@ -21,7 +21,7 @@ public class ThreadSafeObservable implements Observable {
 
     @Override
     public void addObservers(Stream<Observer> observers) {
-        observers.forEach(observer -> this.observers.add(observer));
+        observers.forEach(this.observers::add);
     }
 
     @Override
@@ -36,25 +36,21 @@ public class ThreadSafeObservable implements Observable {
 
     @Override
     public void notifyObservers(Status status) {
-        for (Observer observer : observers)
-            observer.update(this, status);
+        observers.forEach(observer -> observer.update(this, status));
     }
 
     @Override
     public void notifyObservers(Exception exception) {
-        for (Observer observer : observers)
-            observer.update(this, exception);
+        observers.forEach(observer -> observer.update(this, exception));
     }
 
     @Override
     public void notifyObservers(Information information) {
-        for (Observer observer : observers)
-            observer.update(this, information);
+        observers.forEach(observer -> observer.update(this, information));
     }
 
     @Override
     public void notifyObservers(Activity activity, Progress progress) {
-        for (Observer observer : observers)
-            observer.update(this, activity, progress);
+        observers.forEach(observer -> observer.update(this, activity, progress));
     }
 }

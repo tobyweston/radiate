@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MonitoringTasksFactory extends Observable {
 
-    public List<MonitoringTask> create();
+    List<MonitoringTask> create();
 
     /** Default mode */
     static MonitoringTasksFactory singleAggregate() {
@@ -19,7 +19,7 @@ public interface MonitoringTasksFactory extends Observable {
         return new AllProjectsOneTaskPerProject();
     }
 
-   static MonitoringTasksFactory multipleBuildsDemo() {
+    static MonitoringTasksFactory multipleBuildsDemo() {
         return new MultipleBuildsDemo();
     }
 
@@ -31,7 +31,7 @@ public interface MonitoringTasksFactory extends Observable {
         return new Error();
     }
 
-    static class Error extends ThreadSafeObservable implements MonitoringTasksFactory {
+    class Error extends ThreadSafeObservable implements MonitoringTasksFactory {
         public List<MonitoringTask> create() {
             throw new RuntimeException("An unrecoverable error occurred");
         }

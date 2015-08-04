@@ -19,12 +19,12 @@ public class Aggregator {
     }
 
     public Activity activity() {
-        Sequence<Activity> activities = sequence(builds).map(build -> build.getActivity());
+        Sequence<Activity> activities = sequence(builds).map(Build::getActivity);
         return aggregated(activities).getActivity();
     }
 
     public Status status() {
-        Sequence<Status> statuses = sequence(builds).map(build -> build.getStatus());
+        Sequence<Status> statuses = sequence(builds).map(Build::getStatus);
         return StatusAggregator.aggregated(statuses).getStatus();
     }
 

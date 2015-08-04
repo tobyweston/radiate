@@ -99,20 +99,11 @@ public class TransparentDialog {
     }
 
     private PropertyChangeListener createTitlePropertyChangeListener() {
-        return new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                titlePanel.setTitle(dialog.getTitle());
-            }
-        };
+        return event -> titlePanel.setTitle(dialog.getTitle());
     }
 
     private ActionListener createCloseButtonActionListener() {
-        return new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                // simulate clicking the "real" close button on a window.
-                dialog.dispatchEvent(new WindowEvent(dialog, WINDOW_CLOSING));
-            }
-        };
+        return event -> dialog.dispatchEvent(new WindowEvent(dialog, WINDOW_CLOSING)); // simulate clicking the "real" close button on a window.
     }
 
     public void setVisible(boolean visible) {

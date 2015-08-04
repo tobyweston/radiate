@@ -32,9 +32,9 @@ public class AllProjectsMonitor extends NonRepeatingObservable implements Monito
     public void run() {
         try {
             Iterable<Project> projects = configuration.filter(teamcity.retrieveProjects());
-            monitored = sequence(projects).map(project -> project.toString());
+            monitored = sequence(projects).map(Project::toString);
             Iterable<BuildType> buildTypes = teamcity.retrieveBuildTypes(projects);
-            Sequence<Build> builds = sequence(buildTypes).mapConcurrently(buildType -> teamcity.retrieveLatestBuild(buildType));
+            Sequence<Build> builds = sequence(buildTypes).mapConcurrently(teamcity::retrieveLatestBuild);
             Aggregator aggregated = aggregate(builds);
             notifyObservers(aggregated.activity(), aggregated.progress());
             notifyObservers(aggregated.status());

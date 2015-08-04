@@ -26,18 +26,17 @@ public class Application {
         ui = new SwingUi(frames);
         tasks.addObservers(logger, ui);
         monitoring = new MonitoringTasks(tasks, monitor);
-        for (MonitoringTask monitor : monitoring) {
+        monitoring.forEach(monitor -> {
             monitor.addObservers(ui.createStatusPanels());
             monitor.addObservers(ui, logger);
-        }
+        });
         monitoring.start();
         ui.start();
         addShutdownHook();
     }
 
     public void stop() {
-        for (MonitoringTask monitor : monitoring)
-            monitor.removeAllObservers();
+        monitoring.forEach(Observable::removeAllObservers);
         currentTasks.removeAllObservers();
         monitoring.stop();
         ui.stop();

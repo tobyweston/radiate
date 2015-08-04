@@ -94,7 +94,7 @@ class OvertimeIndicator extends LayerUI<JComponent> {
     }
 
     private void drawOvertimeText(JComponent component, final Graphics2D graphics) {
-        final String numberOfBuilds = format("build overtime");
+        final String numberOfBuilds = "build overtime";
         final Rectangle drawArea = getReducedRegionAsSquare(component, FiftyPercent);
         centerRegionWithinComponent(drawArea, component);
         setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10));

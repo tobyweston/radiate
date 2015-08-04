@@ -20,22 +20,19 @@ public class CompositeLayerUI<C extends JComponent> extends LayerUI<C> {
 
     @Override
     public void installUI(JComponent component) {
-        for (LayerUI<C> layer : layers)
-            layer.installUI(component);
+        layers.forEach(layer -> layer.installUI(component));
         super.installUI(component);
     }
 
     @Override
     public void paint(Graphics graphics, JComponent component) {
         super.paint(graphics, component);
-        for (LayerUI<C> layer : layers)
-            layer.paint(graphics, component);
+        layers.forEach(layer -> layer.paint(graphics, component));
     }
 
     @Override
     public void uninstallUI(JComponent component) {
-        for (LayerUI<C> layer : layers)
-            layer.uninstallUI(component);
+        layers.forEach(layer -> layer.uninstallUI(component));
         super.uninstallUI(component);
     }
 }

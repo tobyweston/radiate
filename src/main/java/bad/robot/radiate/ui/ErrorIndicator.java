@@ -33,8 +33,6 @@ class ErrorIndicator extends LayerUI<JComponent> {
     private void drawErrorIndicator(int width, int height, Graphics2D graphics) {
         int reductionPercentage = 20;
         int size = Math.min(width, height) / reductionPercentage;
-        int x = width / 2;
-        int y = height / 2;
         graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         graphics.setStroke(new BasicStroke(size / 4, CAP_ROUND, JOIN_ROUND));
         graphics.setPaint(white);

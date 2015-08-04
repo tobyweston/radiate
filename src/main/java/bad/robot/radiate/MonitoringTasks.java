@@ -8,6 +8,7 @@ import bad.robot.radiate.monitor.NothingToMonitorException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
+import java.util.stream.Stream;
 
 import static bad.robot.radiate.RestartRequired.restartRequired;
 import static java.util.Collections.emptyList;

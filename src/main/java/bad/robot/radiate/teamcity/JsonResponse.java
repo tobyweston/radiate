@@ -23,12 +23,7 @@ class JsonResponse {
     }
 
     private static Predicate<Header> json() {
-        return new Predicate<Header>() {
-            @Override
-            public boolean matches(Header header) {
-                return header.name().equalsIgnoreCase("content-type") && header.value().contains("application/json");
-            }
-        };
+        return header -> header.name().equalsIgnoreCase("content-type") && header.value().contains("application/json");
     }
 
     public String body() {

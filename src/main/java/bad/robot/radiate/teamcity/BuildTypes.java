@@ -14,7 +14,7 @@ class BuildTypes extends TeamCityObject implements Iterable<BuildType> {
     private final Collection<BuildType> buildTypes;
 
     public BuildTypes(BuildType... buildTypes) {
-        this.buildTypes = new ArrayList<BuildType>(asList(buildTypes));
+        this.buildTypes = new ArrayList<>(asList(buildTypes));
     }
 
     @Override

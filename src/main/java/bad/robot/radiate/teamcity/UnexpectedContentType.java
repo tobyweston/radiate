@@ -20,12 +20,7 @@ class UnexpectedContentType extends TeamCityException {
     }
 
     private static Predicate<Header> contentType() {
-        return new Predicate<Header>() {
-            @Override
-            public boolean matches(Header header) {
-                return header.name().equalsIgnoreCase("content-type");
-            }
-        };
+        return header -> header.name().equalsIgnoreCase("content-type");
     }
 
 }

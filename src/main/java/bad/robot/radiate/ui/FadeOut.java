@@ -3,6 +3,7 @@ package bad.robot.radiate.ui;
 import java.beans.PropertyChangeListener;
 
 import static java.lang.String.format;
+import static java.util.Arrays.stream;
 
 class FadeOut implements Fade {
 
@@ -12,9 +13,7 @@ class FadeOut implements Fade {
     @Override
     public void fireEvent(PropertyChangeListener... listeners) {
         if (--count >= 0) {
-            for (PropertyChangeListener listener : listeners) {
-                listener.propertyChange(new AlphaTransparencyChangeEvent(this, (count + 1) / limit, count / limit));
-            }
+            stream(listeners).forEach(listener -> listener.propertyChange(new AlphaTransparencyChangeEvent(this, (count + 1) / limit, count / limit)));
         }
     }
 
