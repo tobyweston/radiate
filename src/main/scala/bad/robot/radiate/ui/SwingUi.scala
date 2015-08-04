@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities.invokeLater
 import javax.swing.UIManager.getSystemLookAndFeelClassName
 import javax.swing._
 
-import bad.robot.radiate.FunctionInterfaceOps.{toRunnable}
+import bad.robot.radiate.FunctionInterfaceOps.toRunnable
 import bad.robot.radiate.monitor.MonitoringTasksFactoryS._
 import bad.robot.radiate.monitor._
 import bad.robot.radiate.teamcity.SanitisedExceptionS

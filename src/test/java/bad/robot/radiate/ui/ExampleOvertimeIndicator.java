@@ -9,6 +9,7 @@ import static bad.robot.radiate.Activity.Progressing;
 import static bad.robot.radiate.ui.swing.Debug.drawCentreLines;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
+@Deprecated
 public class ExampleOvertimeIndicator {
 
     public static void main(String[] args) throws InterruptedException {

@@ -12,12 +12,13 @@ import java.util.concurrent.TimeUnit;
 import static bad.robot.radiate.Activity.Progressing;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
+@Deprecated
 public class ExampleProgressIndicator {
 
     public static void main(String[] args) throws InterruptedException {
         ProgressIndicator indicator = setupWindow();
         updateProgressInAThread(indicator);
-            Thread.sleep(2000);
+            Thread.sleep(8000);
             updateProgressInAThread(indicator);
 //            Thread.sleep(12000);
 //            updateProgressInAThread(indicator);
@@ -46,18 +47,15 @@ public class ExampleProgressIndicator {
     private static void updateProgressInAThread(final ProgressIndicator indicator) {
         ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(1);
         final Integer[] progress = {0};
-        threadPool.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                boolean goneBackwards = false;
-                progress[0] = progress[0] + 50;
-                if (progress[0] > 50 && !goneBackwards)
-                    goneBackwards = true;
+        threadPool.scheduleAtFixedRate(() -> {
+			boolean goneBackwards = false;
+			progress[0] = progress[0] + 50;
+            if (progress[0] > 50 && !goneBackwards)
+				goneBackwards = true;
 //                    if (goneBackwards)
 //                        progress[0] = progress[0] = 16;
-                if (progress[0] <= 100)
-                    indicator.setVisibilityBasedOn(Progressing, new Progress(progress[0], ProgressIndicator.maximum));
-            }
-        }, 1, 1, TimeUnit.SECONDS);
+			if (progress[0] <= 100)
+				indicator.setVisibilityBasedOn(Progressing, new Progress(progress[0], ProgressIndicator.maximum));
+		}, 1, 1, TimeUnit.SECONDS);
     }
 }
