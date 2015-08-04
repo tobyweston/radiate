@@ -11,7 +11,7 @@ import org.specs2.mutable.Specification
 class JsonProjectsUnmarshallerTestS extends Specification with IsolatedMockFactory {
 
   val response = stub[HttpResponse]
-  val unmarshaller = new JsonProjectsUnmarshallerS
+  val unmarshaller = new JsonProjectsUnmarshaller
 
   "Unmarshalls Http Response" >> {
     val json = """{
@@ -34,8 +34,8 @@ class JsonProjectsUnmarshallerTestS extends Specification with IsolatedMockFacto
 
     val projects = unmarshaller.unmarshall(response)
     projects must contain(allOf(
-      ProjectScala("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypesScala(List())),
-      ProjectScala("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel", BuildTypesScala(List()))
+      Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypes(List())),
+      Project("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel", BuildTypes(List()))
     ).inOrder)
 
   }

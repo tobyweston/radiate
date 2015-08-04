@@ -3,19 +3,19 @@ package bad.robot.radiate.monitor
 import bad.robot.radiate._
 import org.apache.log4j.Logger
 
-trait ObserverS {
-  def update(source: ObservableS, status: StatusS) { /* ignore status updates */ }
-  def update(source: ObservableS, activity: ActivityS, progress: ProgressS) { /* ignore status updates */ }
-  def update(source: ObservableS, information: InformationS) { /* ignore status updates */ }
-  def update(source: ObservableS, exception: Exception) { /* ignore status updates */ }
+trait Observer {
+  def update(source: Observable, status: Status) { /* ignore status updates */ }
+  def update(source: Observable, activity: Activity, progress: Progress) { /* ignore status updates */ }
+  def update(source: Observable, information: Information) { /* ignore status updates */ }
+  def update(source: Observable, exception: Exception) { /* ignore status updates */ }
 }
 
-class LoggingObserverS extends ObserverS {
-  override def update(source: ObservableS, exception: Exception) {
+class LoggingObserver extends Observer {
+  override def update(source: Observable, exception: Exception) {
     Logger.getLogger(source.getClass).error(exception.getMessage, exception)
   }
 
-  override def update(source: ObservableS, information: InformationS) {
+  override def update(source: Observable, information: Information) {
     Logger.getLogger(source.getClass).info(information)
   }
 }

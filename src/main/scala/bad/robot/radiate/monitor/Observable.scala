@@ -2,13 +2,13 @@ package bad.robot.radiate.monitor
 
 import bad.robot.radiate._
 
-trait ObservableS {
-  def addObservers(observer: List[ObserverS])
-  def addObservers(observer: ObserverS*): Boolean
-  def removeObservers(observer: ObserverS*): Boolean
+trait Observable {
+  def addObservers(observer: List[Observer])
+  def addObservers(observer: Observer*): Boolean
+  def removeObservers(observer: Observer*): Boolean
   def removeAllObservers()
-  def notifyObservers(status: StatusS)
-  def notifyObservers(activity: ActivityS, progress: ProgressS)
+  def notifyObservers(status: Status)
+  def notifyObservers(activity: Activity, progress: Progress)
   def notifyObservers(exception: Exception)
-  def notifyObservers(information: InformationS)
+  def notifyObservers(information: Information)
 }

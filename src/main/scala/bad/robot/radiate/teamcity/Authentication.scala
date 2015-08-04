@@ -5,16 +5,16 @@ import bad.robot.http.configuration.BasicAuthCredentials._
 import bad.robot.radiate.FunctionInterfaceOps.toHypermedia
 
 object Authentication {
-  def apply(configuration: TeamCityConfigurationS): BasicAuthentication = {
+  def apply(configuration: TeamCityConfiguration): BasicAuthentication = {
     (configuration.username, configuration.password) match {
-      case (NoUsernameS, _) => GuestAuthenticationS
-      case (_, NoPasswordS) => GuestAuthenticationS
-      case (username, password) => BasicAuthentication(ServerS(configuration.host, configuration.port), username, password)
+      case (NoUsername, _) => GuestAuthenticationS
+      case (_, NoPassword) => GuestAuthenticationS
+      case (username, password) => BasicAuthentication(Server(configuration.host, configuration.port), username, password)
     }
   }
 }
 
-case class BasicAuthentication(server: ServerS, username: UsernameS, password: PasswordS) {
+case class BasicAuthentication(server: Server, username: Username, password: Password) {
   def applyTo(client: CommonHttpClient) {
     client.`with`(basicAuth(username.asSimpleHttp, password.asSimpleHttp, server.urlFor("/")))
   }

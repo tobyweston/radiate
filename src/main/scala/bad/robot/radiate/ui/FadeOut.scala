@@ -2,7 +2,7 @@ package bad.robot.radiate.ui
 
 import java.beans.PropertyChangeListener
 
-class FadeOutS extends FadeScala {
+class FadeOut extends Fade {
 
   private val limit = 10f
 
@@ -11,7 +11,7 @@ class FadeOutS extends FadeScala {
   def fireEvent(listeners: List[PropertyChangeListener]) {
     count -= 1
     if (count >= 0) {
-      listeners.foreach(_.propertyChange(new AlphaTransparencyChangeEventS(this, (count + 1) / limit, count / limit)))
+      listeners.foreach(_.propertyChange(new AlphaTransparencyChangeEvent(this, (count + 1) / limit, count / limit)))
     }
   }
 

@@ -3,9 +3,9 @@ package bad.robot.radiate.ui
 import java.awt._
 import java.awt.event.{AWTEventListener, KeyAdapter, KeyEvent}
 
-import bad.robot.radiate.MainS.Radiate
+import bad.robot.radiate.Main.Radiate
 
-class SwitchToS(mode: => FrameFactoryS, keyCode: Int) extends KeyAdapter with AWTEventListener {
+class SwitchTo(mode: => FrameFactory, keyCode: Int) extends KeyAdapter with AWTEventListener {
 
   override def keyPressed(event: KeyEvent) {
     if (event.getKeyCode == keyCode) {

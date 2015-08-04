@@ -1,14 +1,14 @@
 package bad.robot.radiate.ui.swing
 
-object PercentageS {
-  val TwentyPercent = PercentageS(20.0)
-  val FiftyPercent = PercentageS(50.0)
-  val EightyPercent = PercentageS(80.0)
-  val NinetyPercent = PercentageS(90.0)
-  val OneHundredPercent = PercentageS(100.0)
+object Percentage {
+  val TwentyPercent = Percentage(20.0)
+  val FiftyPercent = Percentage(50.0)
+  val EightyPercent = Percentage(80.0)
+  val NinetyPercent = Percentage(90.0)
+  val OneHundredPercent = Percentage(100.0)
 }
 
-case class PercentageS(value: Double) {
+case class Percentage(value: Double) {
   def of(number: Int): Double = {
     number * (value / 100)
   }

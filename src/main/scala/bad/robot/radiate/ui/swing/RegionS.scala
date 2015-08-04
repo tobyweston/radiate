@@ -3,19 +3,19 @@ package bad.robot.radiate.ui.swing
 import java.awt.{Component, Rectangle}
 import math._
 
-object RegionS {
+object Region {
 
-  def getReducedRegion(region: Rectangle, percentage: PercentageS): Rectangle = {
+  def getReducedRegion(region: Rectangle, percentage: Percentage): Rectangle = {
     getReducedRegion(region, percentage, percentage)
   }
 
-  def getReducedRegion(region: Rectangle, x: PercentageS, y: PercentageS): Rectangle = {
+  def getReducedRegion(region: Rectangle, x: Percentage, y: Percentage): Rectangle = {
     val width = x.of(region.width)
     val height = y.of(region.height)
     new Rectangle(region.x, region.y, width.toInt, height.toInt)
   }
 
-  def getReducedRegionAsSquare(component: Component, percentage: PercentageS): Rectangle = {
+  def getReducedRegionAsSquare(component: Component, percentage: Percentage): Rectangle = {
     val region = new Rectangle(component.getX, component.getY, component.getWidth, component.getHeight)
     val width = percentage.of(min(region.width, region.height))
     val height = width

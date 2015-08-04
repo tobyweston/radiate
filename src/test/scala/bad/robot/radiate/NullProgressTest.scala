@@ -5,10 +5,10 @@ import org.specs2.mutable.Specification
 class NullProgressTestS extends Specification {
   
   "Basic equality" >> {
-    new NullProgressS() must_== new NullProgressS()
+    new NullProgress() must_== new NullProgress()
   }
 
   "Show the number of things progress is over" >> {
-    new NullProgressS().numberOfBuilds must_== 0
+    new NullProgress().numberOfBuilds must_== 0
   }
 }

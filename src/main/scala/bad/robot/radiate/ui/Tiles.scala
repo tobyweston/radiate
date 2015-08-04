@@ -1,6 +1,6 @@
 package bad.robot.radiate.ui
 
-trait TilesScala {
+trait Tiles {
   val rows: Int
   val columns: Int
 }

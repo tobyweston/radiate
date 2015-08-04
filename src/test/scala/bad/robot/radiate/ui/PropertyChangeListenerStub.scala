@@ -2,7 +2,7 @@ package bad.robot.radiate.ui
 
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 
-class PropertyChangeListenerScalaStub extends PropertyChangeListener {
+class PropertyChangeListenerStub extends PropertyChangeListener {
 
   private val results = new scala.collection.mutable.MutableList[String]
 

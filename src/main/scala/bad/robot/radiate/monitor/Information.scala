@@ -1,5 +1,5 @@
 package bad.robot.radiate.monitor
 
-case class InformationS(information: String) {
+case class Information(information: String) {
   override def toString = information
 }

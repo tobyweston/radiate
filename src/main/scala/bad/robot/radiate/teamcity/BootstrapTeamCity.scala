@@ -1,3 +1,3 @@
 package bad.robot.radiate.teamcity
 
-class BootstrapTeamCityS extends TeamCityS(new BootstrapServerS, new EnvironmentVariableConfigurationS().authorisation, new HttpClientFactoryS().create(new EnvironmentVariableConfigurationS), new JsonProjectsUnmarshallerS, new JsonProjectUnmarshallerS, new JsonBuildUnmarshallerS)
+class BootstrapTeamCity extends TeamCity(new BootstrapServer, new EnvironmentVariableConfiguration().authorisation, new HttpClientFactory().create(new EnvironmentVariableConfiguration), new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)

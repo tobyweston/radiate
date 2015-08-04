@@ -5,11 +5,11 @@ import java.util.concurrent.{ScheduledExecutorService, ScheduledFuture}
 
 import scala.collection.JavaConverters._
 
-class ScheduledMonitorS(executor: ScheduledExecutorService) extends MonitorS {
+class ScheduledMonitor(executor: ScheduledExecutorService) extends Monitor {
 
   private val frequency: Int = 30
 
-  def start(tasks: List[MonitoringTaskS]): List[ScheduledFuture[_]] = {
+  def start(tasks: List[MonitoringTask]): List[ScheduledFuture[_]] = {
     tasks.map(task => executor.scheduleWithFixedDelay(task, 0, frequency, SECONDS))
   }
 

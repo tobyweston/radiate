@@ -5,8 +5,8 @@ import bad.robot.http.HttpClients.anApacheClient
 import bad.robot.http.configuration.HttpTimeout.httpTimeout
 import com.google.code.tempusfugit.temporal.Duration.minutes
 
-class HttpClientFactoryS {
-  def create(configuration: TeamCityConfigurationS): HttpClient = {
+class HttpClientFactory {
+  def create(configuration: TeamCityConfiguration): HttpClient = {
     val client = anApacheClient
     Authentication(configuration).applyTo(client)
     client.`with`(httpTimeout(minutes(10)))

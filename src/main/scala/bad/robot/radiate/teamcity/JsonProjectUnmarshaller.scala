@@ -2,11 +2,11 @@ package bad.robot.radiate.teamcity
 
 import argonaut.Argonaut._
 import bad.robot.http.HttpResponse
-import bad.robot.radiate.UnmarshallerS
+import bad.robot.radiate.Unmarshaller
 
-class JsonProjectUnmarshallerS extends UnmarshallerS[HttpResponse, ProjectScala] {
-  def unmarshall(response: HttpResponse): ProjectScala = {
-    val json = new JsonResponseS(response).body
-    json.decodeEither[ProjectScala].valueOr(error => throw new Exception(error))
+class JsonProjectUnmarshaller extends Unmarshaller[HttpResponse, Project] {
+  def unmarshall(response: HttpResponse): Project = {
+    val json = new JsonResponse(response).body
+    json.decodeEither[Project].valueOr(error => throw new Exception(error))
   }
 }

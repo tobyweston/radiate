@@ -1,14 +1,14 @@
 package bad.robot.radiate
 
-object StatusAggregatorS {
-  def aggregated(statuses: Iterable[StatusS]) = new StatusAggregatorS(statuses)
+object StatusAggregator {
+  def aggregated(statuses: Iterable[Status]) = new StatusAggregator(statuses)
 }
 
-class StatusAggregatorS(statuses: Iterable[StatusS]) {
+class StatusAggregator(statuses: Iterable[Status]) {
 
-  def getStatus: StatusS = {
+  def getStatus: Status = {
     if (statuses.isEmpty) Unknown
-    else statuses.reduce[StatusS] {
+    else statuses.reduce[Status] {
       case (first, second) if first == Broken || second == Broken => Broken
       case (first, second) if first == Unknown || second == Unknown => Unknown
       case _ => Ok;

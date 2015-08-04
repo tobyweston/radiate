@@ -5,12 +5,12 @@ import java.io.{File, IOException}
 import org.apache.commons.io.FileUtils.writeStringToFile
 import org.yaml.snakeyaml.Yaml
 
-class YmlConfigurationFileS extends File(System.getProperty("user.home") + File.separator + ".radiate" + File.separator + "config.yml") {
+class YmlConfigurationFile extends File(System.getProperty("user.home") + File.separator + ".radiate" + File.separator + "config.yml") {
 
-  private val fallback = new EnvironmentVariableConfigurationS
+  private val fallback = new EnvironmentVariableConfiguration
 
   @throws(classOf[IOException])
-  private[teamcity] def initialise(teamcity: TeamCityS) {
+  private[teamcity] def initialise(teamcity: TeamCity) {
     createFolder()
     val created = createNewFile
     if (created) populateConfiguration(teamcity)
@@ -20,7 +20,7 @@ class YmlConfigurationFileS extends File(System.getProperty("user.home") + File.
   override def createNewFile = if (exists && length == 0) true else super.createNewFile
 
   @throws(classOf[IOException])
-  private def populateConfiguration(teamcity: TeamCityS) {
+  private def populateConfiguration(teamcity: TeamCity) {
     try {
       val yaml = new Yaml
       val data = Map[String, Any](
@@ -39,7 +39,7 @@ class YmlConfigurationFileS extends File(System.getProperty("user.home") + File.
     }
   }
 
-  private def getProjectIds(teamcity: TeamCityS): List[String] = {
+  private def getProjectIds(teamcity: TeamCity): List[String] = {
     val projects = teamcity.retrieveProjects
     projects.map(_.id).toList
   }

@@ -1,6 +1,6 @@
 package bad.robot.radiate
 
-object EnvironmentS {
+object Environment {
   def getEnvironmentVariable(variable: String): String = {
     sys.env.get(variable) match {
       case Some(value) => value

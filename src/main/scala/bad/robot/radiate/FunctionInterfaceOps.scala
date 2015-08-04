@@ -31,8 +31,8 @@ object FunctionInterfaceOps {
     }
   }
 
-  implicit def toHypermedia(value: String): HypermediaS = {
-    new HypermediaS {
+  implicit def toHypermedia(value: String): Hypermedia = {
+    new Hypermedia {
       override def href: String = value
     }
   }

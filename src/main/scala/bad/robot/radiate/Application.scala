@@ -3,25 +3,25 @@ package bad.robot.radiate
 import java.util.concurrent.Executors.newScheduledThreadPool
 
 import bad.robot.radiate.monitor._
-import bad.robot.radiate.ui.{FrameFactoryS, SwingUiS}
+import bad.robot.radiate.ui.{FrameFactory, SwingUi}
 
-object ApplicationS {
-  private val threadPool = newScheduledThreadPool(5, new MonitoringThreadFactoryS)
+object Application {
+  private val threadPool = newScheduledThreadPool(5, new MonitoringThreadFactory)
 }
 
-class ApplicationS {
-  private val logger = new LoggingObserverS
-  private val monitor: MonitorS = new ScheduledMonitorS(ApplicationS.threadPool)
+class Application {
+  private val logger = new LoggingObserver
+  private val monitor: Monitor = new ScheduledMonitor(Application.threadPool)
   
-  private var currentTasks: MonitoringTasksFactoryS = null
-  private var currentFrames: FrameFactoryS = null
+  private var currentTasks: MonitoringTasksFactory = null
+  private var currentFrames: FrameFactory = null
   private var monitoring: MonitoringTasksS = null
-  private var ui: SwingUiS = null
+  private var ui: SwingUi = null
 
-  def start(tasks: MonitoringTasksFactoryS, frames: FrameFactoryS) {
+  def start(tasks: MonitoringTasksFactory, frames: FrameFactory) {
     currentTasks = tasks
     currentFrames = frames
-    ui = new SwingUiS(frames)
+    ui = new SwingUi(frames)
     tasks.addObservers(logger, ui)
     monitoring = new MonitoringTasksS(tasks, monitor)
     monitoring.foreach(monitor => {
@@ -46,11 +46,11 @@ class ApplicationS {
     }))
   }
 
-  def getCurrentFrames: FrameFactoryS = {
+  def getCurrentFrames: FrameFactory = {
     currentFrames
   }
 
-  def getCurrentTasks: MonitoringTasksFactoryS = {
+  def getCurrentTasks: MonitoringTasksFactory = {
     currentTasks
   }
 }

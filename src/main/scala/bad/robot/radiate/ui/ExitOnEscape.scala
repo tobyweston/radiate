@@ -4,7 +4,7 @@ import java.awt._
 import java.awt.event.{AWTEventListener, KeyAdapter, KeyEvent}
 import java.awt.event.KeyEvent.VK_ESCAPE
 
-class ExitOnEscapeS extends KeyAdapter with AWTEventListener {
+class ExitOnEscape extends KeyAdapter with AWTEventListener {
   override def keyPressed(e: KeyEvent) {
     if (e.getKeyCode == VK_ESCAPE) System.exit(0)
   }

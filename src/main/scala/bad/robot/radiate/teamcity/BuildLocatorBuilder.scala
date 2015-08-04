@@ -1,25 +1,25 @@
 package bad.robot.radiate.teamcity
 
-object BuildLocatorBuilderS {
+object BuildLocatorBuilder {
   
-  def latest(buildType: BuildTypeScala): BuildLocatorBuilderS = {
-    new BuildLocatorBuilderS().`with`(buildType)
+  def latest(buildType: BuildType): BuildLocatorBuilder = {
+    new BuildLocatorBuilder().`with`(buildType)
   }
 
-  def running(buildType: BuildTypeScala): BuildLocatorBuilderS = {
-    new BuildLocatorBuilderS().`with`(buildType).running
+  def running(buildType: BuildType): BuildLocatorBuilder = {
+    new BuildLocatorBuilder().`with`(buildType).running
   }
 }
 
-class BuildLocatorBuilderS {
+class BuildLocatorBuilder {
   private val locator = new StringBuilder
 
-  private[teamcity] def `with`(`type`: BuildTypeScala): BuildLocatorBuilderS = {
+  private[teamcity] def `with`(`type`: BuildType): BuildLocatorBuilder = {
     withSeparator.append("buildType:").append(`type`.id)
     this
   }
 
-  private[teamcity] def running: BuildLocatorBuilderS = {
+  private[teamcity] def running: BuildLocatorBuilder = {
     withSeparator.append("running:true")
     this
   }

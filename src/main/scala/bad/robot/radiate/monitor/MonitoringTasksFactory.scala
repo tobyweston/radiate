@@ -1,26 +1,26 @@
 package bad.robot.radiate.monitor
 
-import bad.robot.radiate.teamcity.{AllProjectsAsSingleTaskS, AllProjectsOneTaskPerProjectS}
+import bad.robot.radiate.teamcity.{AllProjectsAsSingleTask, AllProjectsOneTaskPerProject}
 
-trait MonitoringTasksFactoryS extends ObservableS {
-  def create: List[MonitoringTaskS]
+trait MonitoringTasksFactory extends Observable {
+  def create: List[MonitoringTask]
 }
 
-object MonitoringTasksFactoryS {
+object MonitoringTasksFactory {
   /** Default mode */
-  def singleAggregate = new AllProjectsAsSingleTaskS
+  def singleAggregate = new AllProjectsAsSingleTask
 
   /** Chessboard mode */
-  def multipleProjects = new AllProjectsOneTaskPerProjectS
+  def multipleProjects = new AllProjectsOneTaskPerProject
 
-  def multipleBuildsDemo = new MultipleBuildsDemoS
+  def multipleBuildsDemo = new MultipleBuildsDemo
 
-  def demo = new DemoS
+  def demo = new Demo
 
   def erroring = new Error
 
-  class Error extends ThreadSafeObservableS with MonitoringTasksFactoryS {
-    def create: List[MonitoringTaskS] = {
+  class Error extends ThreadSafeObservable with MonitoringTasksFactory {
+    def create: List[MonitoringTask] = {
       throw new RuntimeException("An unrecoverable error occurred")
     }
   }

@@ -13,12 +13,12 @@ import javax.swing._
 import javax.swing.plaf.LayerUI
 
 import bad.robot.radiate._
-import bad.robot.radiate.ui.FrameRateS.videoFramesPerSecond
+import bad.robot.radiate.ui.FrameRate.videoFramesPerSecond
 import bad.robot.radiate.ui.ProgressIndicatorS._
-import bad.robot.radiate.ui.swing.CompositeS.{applyWithComposite, transparentComposite}
-import bad.robot.radiate.ui.swing.PercentageS._
-import bad.robot.radiate.ui.swing.RegionS._
-import bad.robot.radiate.ui.swing.TextS.{getCenterPointOfTextWithinRegion, setFontScaledToRegion}
+import bad.robot.radiate.ui.swing.Composite.{applyWithComposite, transparentComposite}
+import bad.robot.radiate.ui.swing.Percentage._
+import bad.robot.radiate.ui.swing.Region._
+import bad.robot.radiate.ui.swing.Text.{getCenterPointOfTextWithinRegion, setFontScaledToRegion}
 
 import scala.math._
 
@@ -27,12 +27,12 @@ object ProgressIndicatorS {
 }
 
 class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
-  private var progress = ProgressS(0, maximum)
-  private var animation: ProgressS = new NullProgressS
+  private var progress = Progress(0, maximum)
+  private var animation: Progress = new NullProgress
   private val timer = new Timer(videoFramesPerSecond.asFrequencyInMillis, this)
   private val fadeTimer = new Timer(videoFramesPerSecond.asFrequencyInMillis, this)
-  private var fade: FadeScala = new FadeInScala
-  private var transparency = TransparencyS.Transparent
+  private var fade: Fade = new FadeIn
+  private var transparency = Transparency.Transparent
 
   override def paint(g: Graphics, component: JComponent) {
     super.paint(g, component)
@@ -68,7 +68,7 @@ class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
 
   private def drawBackgroundRadial(region: Rectangle, graphics: Graphics2D) {
     if (timer.isRunning) {
-      applyWithComposite(graphics, transparentComposite(graphics, TransparencyS.TwentyPercent)) {
+      applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent)) {
         graphics.setColor(white)
         graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360)
       }
@@ -95,7 +95,7 @@ class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
     val numberOfBuilds = s"running ${progress.numberOfBuilds} build${if (progress.numberOfBuilds > 1) "s" else ""}"
     val drawArea = getReducedRegionAsSquare(component, FiftyPercent)
     centerRegionWithinComponent(drawArea, component)
-    applyWithComposite(graphics, transparentComposite(graphics, TransparencyS.TwentyPercent)) {
+    applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent)) {
       setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10))
       val center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont, numberOfBuilds)
       graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)); // nudge down y
@@ -124,20 +124,20 @@ class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
     if ("animateRadial" == event.getPropertyName)
       layer.repaint()
     if ("fade" == event.getPropertyName) {
-      transparency = TransparencyS(event.getNewValue.asInstanceOf[Float])
+      transparency = Transparency(event.getNewValue.asInstanceOf[Float])
       layer.repaint()
     }
   }
 
-  def setVisibilityBasedOn(activity: ActivityS, progress: ProgressS) = activity match {
+  def setVisibilityBasedOn(activity: Activity, progress: Progress) = activity match {
     case Progressing if !progress.complete => this.progress = progress; start()
     case _ => stop()
   }
 
   private def start() {
     if (!timer.isRunning) {
-      animation = ProgressS(0, maximum)
-      fade = new FadeInScala
+      animation = Progress(0, maximum)
+      fade = new FadeIn
     }
     timer.start()
     fadeTimer.start()
@@ -145,7 +145,7 @@ class ProgressIndicatorS extends LayerUI[JComponent] with ActionListener {
 
   private def stop() {
     if (timer.isRunning)
-      fade = new FadeOutS
+      fade = new FadeOut
     timer.stop()
   }
 }

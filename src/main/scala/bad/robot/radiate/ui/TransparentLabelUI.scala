@@ -7,7 +7,7 @@ import java.awt._
 import javax.swing._
 import javax.swing.plaf.basic.BasicLabelUI
 
-object TransparentLabelUIS {
+object TransparentLabelUI {
   def initHudComponent(component: JComponent, isDarkColorScheme: Boolean) {
     val font = UIManager.getFont("Button.font").deriveFont(BOLD, 11.0f)
     component.setFont(font)
@@ -24,16 +24,16 @@ object TransparentLabelUIS {
   }
 }
 
-class TransparentLabelUIS extends BasicLabelUI {
+class TransparentLabelUI extends BasicLabelUI {
   private val isDarkColorScheme = true
 
   protected override def installDefaults(label: JLabel) {
     super.installDefaults(label)
-    TransparentLabelUIS.initHudComponent(label, isDarkColorScheme)
+    TransparentLabelUI.initHudComponent(label, isDarkColorScheme)
   }
 
   override def paint(graphics: Graphics, component: JComponent) {
-    TransparentLabelUIS.updateGraphicsToPaintDisabledControlIfNecessary(graphics.asInstanceOf[Graphics2D], component)
+    TransparentLabelUI.updateGraphicsToPaintDisabledControlIfNecessary(graphics.asInstanceOf[Graphics2D], component)
     graphics.asInstanceOf[Graphics2D].setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON)
     super.paint(graphics, component)
   }

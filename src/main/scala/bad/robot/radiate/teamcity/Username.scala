@@ -1,16 +1,16 @@
 package bad.robot.radiate.teamcity
 
-object UsernameS {
-  def username(username: String): UsernameS = {
-    if (username == null) NoUsernameS else new UsernameS(username)
+object Username {
+  def username(username: String): Username = {
+    if (username == null) NoUsername else new Username(username)
   }
 }
 
 // todo implicit to convert the SimpleHTTP username
-case class UsernameS (value: String) {
+case class Username (value: String) {
   private[teamcity] def asSimpleHttp: bad.robot.http.configuration.Username = {
     bad.robot.http.configuration.Username.username(value)
   }
 }
 
-object NoUsernameS extends UsernameS("no username")
+object NoUsername extends Username("no username")

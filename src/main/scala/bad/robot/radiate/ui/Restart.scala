@@ -3,10 +3,10 @@ package bad.robot.radiate.ui
 import java.awt._
 import java.awt.event.{AWTEventListener, KeyAdapter, KeyEvent}
 
-import bad.robot.radiate.MainS._
-import bad.robot.radiate.monitor.MonitoringTasksFactoryS
+import bad.robot.radiate.Main._
+import bad.robot.radiate.monitor.MonitoringTasksFactory
 
-class RestartS(taskFactory: MonitoringTasksFactoryS, keyCode: Int) extends KeyAdapter with AWTEventListener {
+class RestartS(taskFactory: MonitoringTasksFactory, keyCode: Int) extends KeyAdapter with AWTEventListener {
 
   override def keyPressed(event: KeyEvent) {
     if (event.getKeyCode == keyCode) {

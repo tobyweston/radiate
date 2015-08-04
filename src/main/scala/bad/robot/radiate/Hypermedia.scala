@@ -1,5 +1,5 @@
 package bad.robot.radiate
 
-trait HypermediaS {
+trait Hypermedia {
   def href: String
 }

@@ -3,9 +3,9 @@ package bad.robot.radiate.ui
 import java.awt._
 import javax.swing._
 
-import bad.robot.radiate.ui.TransparentScrollPaneLayoutS._
+import bad.robot.radiate.ui.TransparentScrollPaneLayout._
 
-object TransparentScrollPaneLayoutS {
+object TransparentScrollPaneLayout {
   private def calculateAvailableRegion(parent: Container, scrollPane: JScrollPane): Rectangle = {
     val available = scrollPane.getBounds(null) // hack to avoid ambiguous method java inter-op problem
     available.x = 0
@@ -29,7 +29,7 @@ object TransparentScrollPaneLayoutS {
   }
 }
 
-class TransparentScrollPaneLayoutS extends ScrollPaneLayout {
+class TransparentScrollPaneLayout extends ScrollPaneLayout {
   override def layoutContainer(parent: Container) {
     val scrollPane = parent.asInstanceOf[JScrollPane]
     val availableRegion = calculateAvailableRegion(parent, scrollPane)

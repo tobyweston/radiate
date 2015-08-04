@@ -1,12 +1,12 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.radiate.AggregatorS.aggregate
-import bad.robot.radiate.monitor.{InformationS, MonitoringTaskS, NonRepeatingObservableS}
+import bad.robot.radiate.Aggregator.aggregate
+import bad.robot.radiate.monitor.{Information, MonitoringTask, NonRepeatingObservable}
 
-class SingleProjectMonitorS(project: ProjectScala, configuration: TeamCityConfigurationS) extends NonRepeatingObservableS with MonitoringTaskS {
-  private val http = new HttpClientFactoryS().create(configuration)
-  private val server = new ServerS(configuration.host, configuration.port)
-  private val teamcity = new TeamCityS(server, configuration.authorisation, http, new JsonProjectsUnmarshallerS, new JsonProjectUnmarshallerS, new JsonBuildUnmarshallerS)
+class SingleProjectMonitor(project: Project, configuration: TeamCityConfiguration) extends NonRepeatingObservable with MonitoringTask {
+  private val http = new HttpClientFactory().create(configuration)
+  private val server = new Server(configuration.host, configuration.port)
+  private val teamcity = new TeamCity(server, configuration.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
 
   def run {
     try {
@@ -15,7 +15,7 @@ class SingleProjectMonitorS(project: ProjectScala, configuration: TeamCityConfig
       val aggregated = aggregate(builds)
       notifyObservers(aggregated.activity, aggregated.progress)
       notifyObservers(aggregated.status)
-      notifyObservers(new InformationS(toString))
+      notifyObservers(new Information(toString))
     } catch {
       case e: Exception => notifyObservers(e)
     }

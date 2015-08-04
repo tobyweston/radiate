@@ -2,14 +2,14 @@ package bad.robot.radiate.teamcity
 
 import argonaut.DecodeJson
 
-object ProjectsScala {
-  implicit def projectsDecoder: DecodeJson[ProjectsScala] = {
+object Projects {
+  implicit def projectsDecoder: DecodeJson[Projects] = {
     DecodeJson(cursor => {
-      (cursor --\ "project").as[List[ProjectScala]] map { new ProjectsScala(_) }
+      (cursor --\ "project").as[List[Project]] map { new Projects(_) }
     })
   }
 }
 
-class ProjectsScala(projects: List[ProjectScala]) extends TeamCityObjectS with Iterable[ProjectScala] {
+class Projects(projects: List[Project]) extends TeamCityObject with Iterable[Project] {
   def iterator = projects.iterator
 }

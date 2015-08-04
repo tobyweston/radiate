@@ -4,13 +4,13 @@ import java.awt.Graphics
 import javax.swing._
 import javax.swing.plaf.LayerUI
 
-object CompositeLayerUIS {
+object CompositeLayerUI {
   def apply[C <: JComponent](layers: List[LayerUI[C]]): LayerUI[C] = {
-    new CompositeLayerUIS[C](layers)
+    new CompositeLayerUI[C](layers)
   }
 }
 
-class CompositeLayerUIS[C <: JComponent](layers: List[LayerUI[C]]) extends LayerUI[C] {
+class CompositeLayerUI[C <: JComponent](layers: List[LayerUI[C]]) extends LayerUI[C] {
 
   override def installUI(component: JComponent) {
     layers.foreach(layer => layer.installUI(component))

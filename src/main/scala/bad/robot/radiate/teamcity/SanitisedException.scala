@@ -4,7 +4,7 @@ import org.apache.commons.lang3.ClassUtils.getShortClassName
 import org.apache.commons.lang3.StringUtils._
 import org.apache.commons.lang3.exception.ExceptionUtils.getRootCause
 
-object SanitisedExceptionS {
+object SanitisedException {
   private def removeClassPreamble(exception: Throwable): String = {
     getExpandedClassShortName(exception.getClass) + ": " + defaultString(exception.getMessage)
   }
@@ -15,10 +15,10 @@ object SanitisedExceptionS {
   }
 }
 
-class SanitisedExceptionS(underlying: Exception) {
+class SanitisedException(underlying: Exception) {
 
   def getMessage: String = {
-    if (getRootCause(underlying) != null) SanitisedExceptionS.removeClassPreamble(getRootCause(underlying)) 
+    if (getRootCause(underlying) != null) SanitisedException.removeClassPreamble(getRootCause(underlying))
     else underlying.getMessage
   }
 }

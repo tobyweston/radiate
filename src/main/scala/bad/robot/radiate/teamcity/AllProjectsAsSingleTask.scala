@@ -1,11 +1,11 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.radiate.monitor.{ThreadSafeObservableS, MonitoringTaskS, MonitoringTasksFactoryS}
+import bad.robot.radiate.monitor.{ThreadSafeObservable, MonitoringTask, MonitoringTasksFactory}
 
-class AllProjectsAsSingleTaskS extends ThreadSafeObservableS with MonitoringTasksFactoryS {
-  def create: List[MonitoringTaskS] = {
-    val configuration = YmlConfigurationS.loadOrCreate(new BootstrapTeamCityS, this)
-    List(new AllProjectsMonitorS(configuration))
+class AllProjectsAsSingleTask extends ThreadSafeObservable with MonitoringTasksFactory {
+  def create: List[MonitoringTask] = {
+    val configuration = YmlConfiguration.loadOrCreate(new BootstrapTeamCity, this)
+    List(new AllProjectsMonitor(configuration))
   }
 
   override def toString = "multiple projects as a single aggregate"

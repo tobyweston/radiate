@@ -5,7 +5,7 @@ import java.awt._
 import javax.swing._
 
 /** aka resizable screen mode */
-class DesktopModeS(bounds: Rectangle) extends ScreenModeS {
+class DesktopMode(bounds: Rectangle) extends ScreenMode {
 
   def accept(frame: JFrame) {
     frame.setSize((bounds.width * 0.80).toInt, (bounds.height * 0.80).toInt)

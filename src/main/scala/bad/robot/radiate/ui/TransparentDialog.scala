@@ -13,9 +13,9 @@ import javax.swing.border.Border
 import javax.swing.event.{AncestorEvent, AncestorListener}
 import javax.swing.{FocusManager, _}
 
-import bad.robot.radiate.ui.TransparentDialogS._
+import bad.robot.radiate.ui.TransparentDialog._
 
-object TransparentDialogS {
+object TransparentDialog {
   val ROUNDED_RECT_DIAMETER: Int = 16
 
   private object TitlePanel {
@@ -319,7 +319,7 @@ object TransparentDialogS {
 
 }
 
-class TransparentDialogS(title: String, owner: Frame) {
+class TransparentDialog(title: String, owner: Frame) {
   private val dialog: JDialog = new JDialog(owner)
   private var contentPane: JComponent = null
   private val titlePanel = new TitlePanel(title, createCloseButtonActionListener)

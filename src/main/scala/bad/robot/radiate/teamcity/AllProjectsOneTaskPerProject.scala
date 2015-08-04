@@ -1,25 +1,25 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.radiate.monitor.{MonitoringTaskS, MonitoringTasksFactoryS, ThreadSafeObservableS}
-import bad.robot.radiate.teamcity.AllProjectsOneTaskPerProjectS._
+import bad.robot.radiate.monitor.{MonitoringTask, MonitoringTasksFactory, ThreadSafeObservable}
+import bad.robot.radiate.teamcity.AllProjectsOneTaskPerProject._
 
-/** @see [[bad.robot.radiate.monitor.MonitoringTasksFactoryS.multipleProjects]] */
-object AllProjectsOneTaskPerProjectS {
-  private def createTeamCity(configuration: TeamCityConfigurationS): TeamCityS = {
-    val server = new ServerS(configuration.host, configuration.port)
-    new TeamCityS(server, configuration.authorisation, new HttpClientFactoryS().create(configuration), new JsonProjectsUnmarshallerS, new JsonProjectUnmarshallerS, new JsonBuildUnmarshallerS)
+/** @see [[bad.robot.radiate.monitor.MonitoringTasksFactory.multipleProjects]] */
+object AllProjectsOneTaskPerProject {
+  private def createTeamCity(configuration: TeamCityConfiguration): TeamCity = {
+    val server = new Server(configuration.host, configuration.port)
+    new TeamCity(server, configuration.authorisation, new HttpClientFactory().create(configuration), new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
   }
 
-  private def toTasks(configuration: TeamCityConfigurationS): ProjectScala => MonitoringTaskS = {
-    project => new SingleProjectMonitorS(project, configuration)
+  private def toTasks(configuration: TeamCityConfiguration): Project => MonitoringTask = {
+    project => new SingleProjectMonitor(project, configuration)
   }
 
-  private def nonEmpty: ProjectScala => Boolean = _.buildTypes.nonEmpty
+  private def nonEmpty: Project => Boolean = _.buildTypes.nonEmpty
 }
 
-class AllProjectsOneTaskPerProjectS extends ThreadSafeObservableS with MonitoringTasksFactoryS {
-  def create: List[MonitoringTaskS] = {
-    val configuration = YmlConfigurationS.loadOrCreate(new BootstrapTeamCityS, this)
+class AllProjectsOneTaskPerProject extends ThreadSafeObservable with MonitoringTasksFactory {
+  def create: List[MonitoringTask] = {
+    val configuration = YmlConfiguration.loadOrCreate(new BootstrapTeamCity, this)
     val teamcity = createTeamCity(configuration)
     val projects = configuration.filter(teamcity.retrieveProjects)
     teamcity.retrieveFullProjects(projects).filter(nonEmpty).map(toTasks(configuration)).toList

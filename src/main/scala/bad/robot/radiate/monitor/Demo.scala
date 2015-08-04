@@ -1,11 +1,11 @@
 package bad.robot.radiate.monitor
 
-import bad.robot.radiate.monitor.DemonstrativeMonitorS.BusyMonitorExampleS
-import bad.robot.radiate.monitor.RandomStatusS._
+import bad.robot.radiate.monitor.DemonstrativeMonitor.BusyMonitorExample
+import bad.robot.radiate.monitor.RandomStatus._
 import bad.robot.radiate._
 
-private class DemoMonitoringTaskS extends ThreadSafeObservableS with MonitoringTaskS {
-  private var monitor: DemonstrativeMonitorS = new BusyMonitorExampleS
+private class DemoMonitoringTask extends ThreadSafeObservable with MonitoringTask {
+  private var monitor: DemonstrativeMonitor = new BusyMonitorExample
 
   def run {
     monitor = monitor.notify(this)
@@ -14,65 +14,65 @@ private class DemoMonitoringTaskS extends ThreadSafeObservableS with MonitoringT
   override def toString = "demonstration"
 }
 
-private trait DemonstrativeMonitorS {
-  def notify(observable: ObservableS): DemonstrativeMonitorS
+private trait DemonstrativeMonitor {
+  def notify(observable: Observable): DemonstrativeMonitor
 }
 
-private object DemonstrativeMonitorS {
-  class BusyMonitorExampleS extends DemonstrativeMonitorS {
-    def notify(observable: ObservableS): DemonstrativeMonitorS = {
-      observable.notifyObservers(Busy, new NullProgressS)
+private object DemonstrativeMonitor {
+  class BusyMonitorExample extends DemonstrativeMonitor {
+    def notify(observable: Observable): DemonstrativeMonitor = {
+      observable.notifyObservers(Busy, new NullProgress)
       val status = randomStatus
       observable.notifyObservers(status)
-      observable.notifyObservers(new InformationS(s"Example busy monitor with random status $status"))
-      new IdleMonitorExampleS
+      observable.notifyObservers(new Information(s"Example busy monitor with random status $status"))
+      new IdleMonitorExample
     }
   }
 
-  class IdleMonitorExampleS extends DemonstrativeMonitorS {
-    def notify(observable: ObservableS): DemonstrativeMonitorS = {
-      observable.notifyObservers(Idle, new NullProgressS)
+  class IdleMonitorExample extends DemonstrativeMonitor {
+    def notify(observable: Observable): DemonstrativeMonitor = {
+      observable.notifyObservers(Idle, new NullProgress)
       val status = randomStatus
       observable.notifyObservers(status)
-      observable.notifyObservers(new InformationS(s"Example of an idle monitor with random status of $status"))
-      new ProgressingMonitorExampleS
+      observable.notifyObservers(new Information(s"Example of an idle monitor with random status of $status"))
+      new ProgressingMonitorExample
     }
   }
 
-  class ProgressingMonitorExampleS extends DemonstrativeMonitorS {
-    def notify(observable: ObservableS): DemonstrativeMonitorS = {
+  class ProgressingMonitorExample extends DemonstrativeMonitor {
+    def notify(observable: Observable): DemonstrativeMonitor = {
       observable.notifyObservers(Progressing, randomProgress)
       val status = randomStatus
       observable.notifyObservers(status)
-      observable.notifyObservers(new InformationS(s"Example of a progressing monitor with random status $status"))
-      new OvertimeMonitorExampleS
+      observable.notifyObservers(new Information(s"Example of a progressing monitor with random status $status"))
+      new OvertimeMonitorExample
     }
   }
 
-  private class CompleteS extends ProgressS(100, 100)
+  private class Complete extends Progress(100, 100)
 
-  class OvertimeMonitorExampleS extends DemonstrativeMonitorS {
-    def notify(observable: ObservableS): DemonstrativeMonitorS = {
-      observable.notifyObservers(Progressing, new CompleteS)
+  class OvertimeMonitorExample extends DemonstrativeMonitor {
+    def notify(observable: Observable): DemonstrativeMonitor = {
+      observable.notifyObservers(Progressing, new Complete)
       val status = randomStatus
       observable.notifyObservers(status)
-      observable.notifyObservers(new InformationS(s"Example of an overtime monitor with random status of $status"))
-      new ErrorExampleS
+      observable.notifyObservers(new Information(s"Example of an overtime monitor with random status of $status"))
+      new ErrorExample
     }
   }
 
-  class ErrorExampleS extends DemonstrativeMonitorS {
-    def notify(observable: ObservableS): DemonstrativeMonitorS = {
-      observable.notifyObservers(Busy, new NullProgressS)
+  class ErrorExample extends DemonstrativeMonitor {
+    def notify(observable: Observable): DemonstrativeMonitor = {
+      observable.notifyObservers(Busy, new NullProgress)
       observable.notifyObservers(new RuntimeException("An exception exception"))
       val status = randomStatus
       observable.notifyObservers(status)
-      observable.notifyObservers(new InformationS(s"Example of an error with random status of $status"))
-      new IdleMonitorExampleS
+      observable.notifyObservers(new Information(s"Example of an error with random status of $status"))
+      new IdleMonitorExample
     }
   }
 }
 
-class DemoS extends ThreadSafeObservableS with MonitoringTasksFactoryS {
-  def create: List[MonitoringTaskS] = List[MonitoringTaskS](new DemoMonitoringTaskS)
+class Demo extends ThreadSafeObservable with MonitoringTasksFactory {
+  def create: List[MonitoringTask] = List[MonitoringTask](new DemoMonitoringTask)
 }

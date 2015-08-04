@@ -4,4 +4,4 @@ import java.net.URL
 
 import bad.robot.http.HttpResponse
 
-class UnexpectedResponseS(url: URL, response: HttpResponse) extends TeamCityExceptionS(s"Unexpected HTTP response from $url (${response.getStatusCode}, ${response.getStatusMessage})")
+class UnexpectedResponse(url: URL, response: HttpResponse) extends TeamCityException(s"Unexpected HTTP response from $url (${response.getStatusCode}, ${response.getStatusMessage})")

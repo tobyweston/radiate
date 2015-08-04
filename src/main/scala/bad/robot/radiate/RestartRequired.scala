@@ -1,9 +1,9 @@
 package bad.robot.radiate
 
-import bad.robot.radiate.monitor.InformationS
+import bad.robot.radiate.monitor.Information
 
-object RestartRequiredS{
-  def restartRequired: RestartRequiredS = new RestartRequiredS
+object RestartRequired{
+  def restartRequired: RestartRequired = new RestartRequired
 }
 
-class RestartRequiredS extends InformationS("Restart required")
+class RestartRequired extends Information("Restart required")
