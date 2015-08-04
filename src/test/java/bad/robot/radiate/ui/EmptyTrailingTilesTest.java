@@ -6,6 +6,7 @@ import static bad.robot.radiate.ui.EmptyTrailingTiles.tiles;
 import static bad.robot.radiate.ui.TilesMatcher.requiresGridOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Deprecated
 public class EmptyTrailingTilesTest {
 
     @Test
