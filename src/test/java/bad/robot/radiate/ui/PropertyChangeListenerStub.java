@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 class PropertyChangeListenerStub implements PropertyChangeListener {
 
     private final List<String> results = new ArrayList<>();

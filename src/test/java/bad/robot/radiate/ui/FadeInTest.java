@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+@Deprecated
 public class FadeInTest {
 
     private final PropertyChangeListenerStub listener = new PropertyChangeListenerStub();

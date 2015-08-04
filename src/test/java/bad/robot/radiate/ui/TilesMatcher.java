@@ -5,6 +5,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import static java.lang.String.format;
 
+@Deprecated
 class TilesMatcher extends TypeSafeDiagnosingMatcher<Tiles> {
     private final int rows;
     private final int columns;
