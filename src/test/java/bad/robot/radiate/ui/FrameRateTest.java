@@ -6,6 +6,7 @@ import static bad.robot.radiate.ui.FrameRate.framesPerSecond;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Deprecated
 public class FrameRateTest {
 
     @Test
