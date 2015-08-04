@@ -11,7 +11,7 @@ import javax.swing._
 import javax.swing.plaf.LayerUI
 
 import bad.robot.radiate.{ActivityS, Busy}
-import bad.robot.radiate.ui.FrameRate.videoFramesPerSecond
+import bad.robot.radiate.ui.FrameRateS.videoFramesPerSecond
 import math._
 
 class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {
@@ -71,7 +71,7 @@ class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {
       fadingOut = false
       fadeCount = 0
       timer = new Timer(videoFramesPerSecond.asFrequencyInMillis, this)
-      timer.start
+      timer.start()
     }
   }
 
@@ -99,8 +99,8 @@ class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {
   }
 
   def setVisibilityBasedOn(activity: ActivityS) = activity match {
-    case Busy => start
-    case _ => stop
+    case Busy => start()
+    case _ => stop()
   }
 
   private def stop() = {

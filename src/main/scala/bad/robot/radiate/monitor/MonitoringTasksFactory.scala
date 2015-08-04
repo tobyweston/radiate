@@ -1,6 +1,6 @@
 package bad.robot.radiate.monitor
 
-import bad.robot.radiate.teamcity.{AllProjectsOneTaskPerProjectS, AllProjectsOneTaskPerProject, AllProjectsAsSingleTaskS}
+import bad.robot.radiate.teamcity.{AllProjectsAsSingleTaskS, AllProjectsOneTaskPerProjectS}
 
 trait MonitoringTasksFactoryS extends ObservableS {
   def create: List[MonitoringTaskS]
