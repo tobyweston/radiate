@@ -34,8 +34,8 @@ class Application {
   }
 
   def stop() {
-    monitoring.foreach(observable => observable.removeAllObservers)
-    currentTasks.removeAllObservers
+    monitoring.foreach(observable => observable.removeAllObservers())
+    currentTasks.removeAllObservers()
     monitoring.stop()
     ui.stop()
   }
@@ -46,11 +46,7 @@ class Application {
     }))
   }
 
-  def getCurrentFrames: FrameFactory = {
-    currentFrames
-  }
+  def getCurrentFrames: FrameFactory = currentFrames
 
-  def getCurrentTasks: MonitoringTasksFactory = {
-    currentTasks
-  }
+  def getCurrentTasks: MonitoringTasksFactory = currentTasks
 }
