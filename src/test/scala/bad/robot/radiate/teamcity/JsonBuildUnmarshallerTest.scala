@@ -4,8 +4,6 @@ import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.HttpResponse
 import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
-import com.googlecode.totallylazy.matchers.Matchers._
-import org.junit.Assert._
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
 
