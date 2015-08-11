@@ -9,6 +9,7 @@ import javax.swing.UIManager.getSystemLookAndFeelClassName
 import javax.swing._
 
 import bad.robot.radiate.FunctionInterfaceOps.toRunnable
+import bad.robot.radiate.Logging
 import bad.robot.radiate.monitor.MonitoringTasksFactory._
 import bad.robot.radiate.monitor._
 import bad.robot.radiate.teamcity.SanitisedException
@@ -19,6 +20,7 @@ class SwingUi(factory: FrameFactory) extends Ui with Observer {
   private val frames = new StatusFrames(factory)
   private val console = new Console(frames.primary)
 
+  Logging.initialise()
   setupGlobalEventListeners()
   setLookAndFeel()
 
