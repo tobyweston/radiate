@@ -1,9 +1,13 @@
 package bad.robot.radiate.monitor
 
+import bad.robot.radiate.ParseError
+import bad.robot.radiate.RadiateError.Error
 import bad.robot.radiate.teamcity.{AllProjectsAsSingleTask, AllProjectsOneTaskPerProject}
 
+import scalaz.\/
+
 trait MonitoringTasksFactory extends Observable {
-  def create: List[MonitoringTask]
+  def create: Error \/ List[MonitoringTask]
 }
 
 object MonitoringTasksFactory {
@@ -20,9 +24,8 @@ object MonitoringTasksFactory {
   def erroring = new Error
 
   class Error extends ThreadSafeObservable with MonitoringTasksFactory {
-    def create: List[MonitoringTask] = {
-      throw new RuntimeException("An unrecoverable error occurred")
-    }
+    import scalaz.syntax.either._
+    def create = ParseError("An unrecoverable error occurred").left
   }
 
 }

@@ -1,7 +1,10 @@
 package bad.robot.radiate.teamcity
 
+import bad.robot.radiate.RadiateError.Error
 import bad.robot.radiate.monitor.{MonitoringTask, MonitoringTasksFactory, ThreadSafeObservable}
 import bad.robot.radiate.teamcity.AllProjectsOneTaskPerProject._
+import scalaz.\/
+import scalaz.syntax.either._
 
 /** @see [[bad.robot.radiate.monitor.MonitoringTasksFactory.multipleProjects]] */
 object AllProjectsOneTaskPerProject {
@@ -18,11 +21,17 @@ object AllProjectsOneTaskPerProject {
 }
 
 class AllProjectsOneTaskPerProject extends ThreadSafeObservable with MonitoringTasksFactory {
-  def create: List[MonitoringTask] = {
+  def create: Error \/ List[MonitoringTask] = {
     val configuration = YmlConfiguration.loadOrCreate(new BootstrapTeamCity, this)
     val teamcity = createTeamCity(configuration)
-    val projects = configuration.filter(teamcity.retrieveProjects)
-    teamcity.retrieveFullProjects(projects).filter(nonEmpty).map(toTasks(configuration)).toList
+
+    for {
+      all       <- teamcity.retrieveProjects
+      projects  <- configuration.filter(all).right
+      full      <- teamcity.retrieveFullProjects(projects)
+      filtered  <- full.filter(nonEmpty).right
+      tasks     <- filtered.map(toTasks(configuration)).right
+    } yield tasks
   }
 
   override def toString = "monitoring multiple projects"

@@ -5,6 +5,7 @@ import java.io.{File, IOException}
 import org.apache.commons.io.FileUtils.writeStringToFile
 import org.yaml.snakeyaml.Yaml
 import collection.JavaConverters._
+import scalaz.\/-
 
 class YmlConfigurationFile extends File(System.getProperty("user.home") + File.separator + ".radiate" + File.separator + "config.yml") {
 
@@ -41,8 +42,10 @@ class YmlConfigurationFile extends File(System.getProperty("user.home") + File.s
   }
 
   private def getProjectIds(teamcity: TeamCity): List[String] = {
-    val projects = teamcity.retrieveProjects
-    projects.map(_.id).toList
+    teamcity.retrieveProjects match {
+      case \/-(projects) => projects.map(_.id).toList
+      case _ => List()
+    }
   }
 
   private def createFolder() {

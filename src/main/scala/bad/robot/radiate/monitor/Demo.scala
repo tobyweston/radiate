@@ -1,8 +1,10 @@
 package bad.robot.radiate.monitor
 
+import bad.robot.radiate._
 import bad.robot.radiate.monitor.DemonstrativeMonitor.BusyMonitorExample
 import bad.robot.radiate.monitor.RandomStatus._
-import bad.robot.radiate._
+
+import scalaz.syntax.either._
 
 private class DemoMonitoringTask extends ThreadSafeObservable with MonitoringTask {
   private var monitor: DemonstrativeMonitor = new BusyMonitorExample
@@ -74,5 +76,5 @@ private object DemonstrativeMonitor {
 }
 
 class Demo extends ThreadSafeObservable with MonitoringTasksFactory {
-  def create: List[MonitoringTask] = List[MonitoringTask](new DemoMonitoringTask)
+  def create = List[MonitoringTask](new DemoMonitoringTask).right
 }
