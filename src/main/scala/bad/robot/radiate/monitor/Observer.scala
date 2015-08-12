@@ -2,12 +2,14 @@ package bad.robot.radiate.monitor
 
 import bad.robot.radiate._
 import org.apache.log4j.Logger
+import bad.robot.radiate.RadiateError.Error
 
 trait Observer {
   def update(source: Observable, status: Status) { /* ignore status updates */ }
   def update(source: Observable, activity: Activity, progress: Progress) { /* ignore status updates */ }
   def update(source: Observable, information: Information) { /* ignore status updates */ }
   def update(source: Observable, exception: Exception) { /* ignore status updates */ }
+  def update(source: Observable, error: Error) { /* ignore status updates */ }
 }
 
 class LoggingObserver extends Observer {

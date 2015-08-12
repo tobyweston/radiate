@@ -10,6 +10,6 @@ object BuildTypes {
   }
 }
 
-case class BuildTypes(buildTypes: List[BuildType]) extends TeamCityObject with Iterable[BuildType] {
-  def iterator: Iterator[BuildType] = buildTypes.iterator
+case class BuildTypes(list: List[BuildType]) extends TeamCityObject with Iterable[BuildType] {
+  def iterator: Iterator[BuildType] = list.iterator
 }

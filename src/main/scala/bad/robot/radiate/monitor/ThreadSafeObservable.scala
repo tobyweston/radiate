@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 import bad.robot.radiate.FunctionInterfaceOps._
 import bad.robot.radiate.{Activity, Progress, Status}
+import bad.robot.radiate.RadiateError.Error
 
 class ThreadSafeObservable extends Observable {
 
@@ -32,6 +33,10 @@ class ThreadSafeObservable extends Observable {
 
   def notifyObservers(exception: Exception) {
     observers.forEach((observer: Observer) =>  observer.update(this, exception))
+  }
+
+  def notifyObservers(error: Error) {
+    observers.forEach((observer: Observer) =>  observer.update(this, error))
   }
 
   def notifyObservers(information: Information) {

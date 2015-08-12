@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/radiate.iml" filepath="$PROJECT_DIR$/.idea/modules/radiate.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/radiate-build.iml" filepath="$PROJECT_DIR$/.idea/modules/radiate-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/radiate-scala.iml" filepath="$PROJECT_DIR$/.idea/modules/radiate-scala.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/radiate-scala-build.iml" filepath="$PROJECT_DIR$/.idea/modules/radiate-scala-build.iml" />
     </modules>
   </component>
 </project>

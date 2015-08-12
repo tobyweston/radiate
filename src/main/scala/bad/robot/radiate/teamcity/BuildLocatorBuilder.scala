@@ -25,7 +25,7 @@ class BuildLocatorBuilder {
   }
 
   private def withSeparator: StringBuilder = {
-    if (locator.length > 0) locator.append(",")
+    if (locator.nonEmpty) locator.append(",")
     locator
   }
 
