@@ -1,6 +1,6 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.radiate.Aggregator.aggregate
+import bad.robot.radiate.Aggregate.aggregate
 import bad.robot.radiate.monitor.{Information, MonitoringTask, NonRepeatingObservable}
 import bad.robot.radiate.teamcity.ListBuildTypesSyntax._
 

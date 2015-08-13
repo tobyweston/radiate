@@ -1,6 +1,6 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.radiate.Aggregator.aggregate
+import bad.robot.radiate.Aggregate.aggregate
 import bad.robot.radiate.monitor.{Information, MonitoringTask, NonRepeatingObservable}
 import bad.robot.radiate.teamcity.ListBuildTypesSyntax._
 
@@ -18,20 +18,21 @@ class AllProjectsMonitor(configuration: TeamCityConfiguration) extends NonRepeat
     val builds = for {
       all         <- teamcity.retrieveProjects
       projects    <- configuration.filter(all).right
-      monitored   <- projects.map(_.toString).right                                              /* side affect, use = */
+      monitored   <- projects.map(_.toString).toList.right
       buildTypes  <- teamcity.retrieveBuildTypes(projects)
       builds      <- buildTypes.getBuilds(teamcity)
       aggregation <- aggregate(builds).right
-    } yield aggregation
-
-//    this.monitored = monitored
+    } yield (monitored, aggregation)
 
     builds.fold(errors => {
       notifyObservers(errors)
-    }, aggregated => {
-      notifyObservers(aggregated.activity, aggregated.progress)
-      notifyObservers(aggregated.status)
-      notifyObservers(new Information(toString))
+    }, {
+      case (monitored, aggregated) => {
+        this.monitored = monitored
+        notifyObservers(aggregated.activity, aggregated.progress)
+        notifyObservers(aggregated.status)
+        notifyObservers(new Information(toString))
+      }
     })
   }
 

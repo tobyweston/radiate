@@ -2,13 +2,13 @@ package bad.robot.radiate
 
 import bad.robot.radiate.teamcity.Build
 
-object Aggregator {
-  def aggregate(statuses: List[Build]): Aggregator = {
-    new Aggregator(statuses)
+object Aggregate {
+  def aggregate(statuses: List[Build]): Aggregate = {
+    new Aggregate(statuses)
   }
 }
 
-class Aggregator(builds: List[Build]) {
+class Aggregate(builds: List[Build]) {
 
   def activity: Activity = {
     val activities = builds.map(_.activity)
