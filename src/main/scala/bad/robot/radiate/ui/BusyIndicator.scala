@@ -10,8 +10,9 @@ import java.beans.PropertyChangeEvent
 import javax.swing._
 import javax.swing.plaf.LayerUI
 
-import bad.robot.radiate.{Activity, Busy}
 import bad.robot.radiate.ui.FrameRate.videoFramesPerSecond
+import bad.robot.radiate._
+import activity._
 import math._
 
 class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {

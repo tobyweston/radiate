@@ -7,7 +7,10 @@ package bad.robot.radiate
  * <ul><li>Error - Indicate an error.
  */
 sealed trait Activity
-case object Busy extends Activity
-case object Progressing extends Activity
-case object Idle extends Activity
-case object Error extends Activity
+
+package activity {
+  case object Busy extends Activity
+  case object Progressing extends Activity
+  case object Idle extends Activity
+  case object Error extends Activity
+}

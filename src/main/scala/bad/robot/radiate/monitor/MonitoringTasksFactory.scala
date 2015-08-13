@@ -1,8 +1,8 @@
 package bad.robot.radiate.monitor
 
 import bad.robot.radiate.ParseError
-import bad.robot.radiate.RadiateError.Error
 import bad.robot.radiate.teamcity.{AllProjectsAsSingleTask, AllProjectsOneTaskPerProject}
+import bad.robot.radiate.Error
 
 import scalaz.\/
 

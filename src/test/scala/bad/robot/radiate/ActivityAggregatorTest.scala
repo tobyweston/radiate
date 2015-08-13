@@ -1,6 +1,7 @@
 package bad.robot.radiate
 
 import bad.robot.radiate.ActivityAggregator._
+import bad.robot.radiate.activity._
 import org.specs2.mutable.Specification
 
 class ActivityAggregatorTest extends Specification {

@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 import bad.robot.radiate.FunctionInterfaceOps._
 import bad.robot.radiate.{Activity, Progress, Status}
-import bad.robot.radiate.RadiateError.Error
+import bad.robot.radiate.Error
 
 class ThreadSafeObservable extends Observable {
 

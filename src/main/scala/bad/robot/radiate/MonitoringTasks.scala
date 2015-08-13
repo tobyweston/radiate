@@ -1,10 +1,9 @@
 package bad.robot.radiate
 
 import java.util.concurrent.ScheduledFuture
-
 import bad.robot.radiate.monitor._
 
-class MonitoringTasksS(factory: MonitoringTasksFactory, monitor: Monitor) extends Iterable[MonitoringTask] {
+class MonitoringTasks(factory: MonitoringTasksFactory, monitor: Monitor) extends Iterable[MonitoringTask] {
 
   private var scheduled = List.empty[ScheduledFuture[_]]
 

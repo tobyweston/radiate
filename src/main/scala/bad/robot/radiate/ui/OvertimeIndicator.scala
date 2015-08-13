@@ -17,7 +17,8 @@ import bad.robot.radiate.ui.swing.Composite.{applyWithComposite, transparentComp
 import bad.robot.radiate.ui.swing.Percentage.{FiftyPercent, TwentyPercent}
 import bad.robot.radiate.ui.swing.Region.{centerRegionWithinComponent, getReducedRegionAsSquare}
 import bad.robot.radiate.ui.swing.Text.{getCenterPointOfTextWithinRegion, setFontScaledToRegion}
-import bad.robot.radiate.{Activity, Progress, Progressing}
+import bad.robot.radiate._
+import activity._
 
 import scala.math._
 

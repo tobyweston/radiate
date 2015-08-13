@@ -19,6 +19,7 @@ import bad.robot.radiate.ui.swing.Composite.{applyWithComposite, transparentComp
 import bad.robot.radiate.ui.swing.Percentage._
 import bad.robot.radiate.ui.swing.Region._
 import bad.robot.radiate.ui.swing.Text.{getCenterPointOfTextWithinRegion, setFontScaledToRegion}
+import activity._
 
 import scala.math._
 

@@ -5,7 +5,8 @@ import javax.swing.WindowConstants._
 import javax.swing.{JComponent, JFrame, JLayer, JPanel}
 
 import bad.robot.radiate.ui.swing.Debug._
-import bad.robot.radiate.{Progress, Progressing}
+import bad.robot.radiate.Progress
+import bad.robot.radiate.activity.Progressing
 
 object ExampleOvertimeIndicator extends App {
 

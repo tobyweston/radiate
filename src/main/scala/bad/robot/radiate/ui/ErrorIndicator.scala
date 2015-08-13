@@ -7,8 +7,8 @@ import java.awt._
 import java.awt.geom.Ellipse2D
 import javax.swing._
 import javax.swing.plaf.LayerUI
-
-import bad.robot.radiate.{Activity, Error}
+import bad.robot.radiate._
+import activity._
 
 class ErrorIndicator extends LayerUI[JComponent] {
   private var redraw: Boolean = false

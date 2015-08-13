@@ -5,6 +5,8 @@ import bad.robot.radiate.monitor.DemonstrativeMonitor.BusyMonitorExample
 import bad.robot.radiate.monitor.RandomStatus._
 
 import scalaz.syntax.either._
+import bad.robot.radiate._
+import activity._
 
 private class DemoMonitoringTask extends ThreadSafeObservable with MonitoringTask {
   private var monitor: DemonstrativeMonitor = new BusyMonitorExample

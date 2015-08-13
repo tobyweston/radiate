@@ -11,7 +11,8 @@ import bad.robot.radiate.ui.swing.Composite.{transparentComposite, _}
 import bad.robot.radiate.ui.swing.Percentage.EightyPercent
 import bad.robot.radiate.ui.swing.Region.{getReducedRegion, _}
 import bad.robot.radiate.ui.swing.Text._
-import bad.robot.radiate.{Broken, Busy, Ok, Unknown, _}
+import bad.robot.radiate._
+import activity._
 import org.apache.commons.lang3.StringUtils.abbreviate
 
 object StatusPanel {

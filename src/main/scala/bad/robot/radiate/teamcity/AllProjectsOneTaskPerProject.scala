@@ -1,6 +1,6 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.radiate.RadiateError.Error
+import bad.robot.radiate.Error
 import bad.robot.radiate.monitor.{MonitoringTask, MonitoringTasksFactory, ThreadSafeObservable}
 import bad.robot.radiate.teamcity.AllProjectsOneTaskPerProject._
 import scalaz.\/

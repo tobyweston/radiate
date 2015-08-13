@@ -15,7 +15,7 @@ class Application {
   
   private var currentTasks: MonitoringTasksFactory = null
   private var currentFrames: FrameFactory = null
-  private var monitoring: MonitoringTasksS = null
+  private var monitoring: MonitoringTasks = null
   private var ui: SwingUi = null
 
   def start(tasks: MonitoringTasksFactory, frames: FrameFactory) {
@@ -23,7 +23,7 @@ class Application {
     currentFrames = frames
     ui = new SwingUi(frames)
     tasks.addObservers(logger, ui)
-    monitoring = new MonitoringTasksS(tasks, monitor)
+    monitoring = new MonitoringTasks(tasks, monitor)
     monitoring.foreach(monitor => {
       monitor.addObservers(ui.createStatusPanels)
       monitor.addObservers(ui, logger)

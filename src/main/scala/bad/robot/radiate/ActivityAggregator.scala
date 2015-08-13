@@ -1,5 +1,7 @@
 package bad.robot.radiate
 
+import activity._
+
 object ActivityAggregator {
   def aggregated(statuses: List[Activity]) = new ActivityAggregator(statuses)
 }

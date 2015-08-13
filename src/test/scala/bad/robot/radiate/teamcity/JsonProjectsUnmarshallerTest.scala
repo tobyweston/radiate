@@ -7,6 +7,7 @@ import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
 import bad.robot.radiate.specs2.iterableAsResult
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
+import org.specs2.matcher.DisjunctionMatchers._
 
 class JsonProjectsUnmarshallerTestS extends Specification with IsolatedMockFactory {
 
@@ -33,10 +34,10 @@ class JsonProjectsUnmarshallerTestS extends Specification with IsolatedMockFacto
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
     val projects = unmarshaller.unmarshall(response)
-    projects must contain(allOf(
+    projects must be_\/-(contain(allOf(
       Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypes(List())),
       Project("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel", BuildTypes(List()))
-    ).inOrder)
+    ).inOrder))
 
   }
 

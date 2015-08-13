@@ -4,14 +4,10 @@ import java.net.URL
 
 import bad.robot.http.{HttpResponse => SimpleHttpResponse}
 
-sealed class RadiateError(val message: String)
+sealed class Error(val message: String)
 
-object RadiateError {
-  type Error = RadiateError
-}
-
-case class AggregateError(errors: List[RadiateError]) extends RadiateError("???")
-case class ParseError(details: String) extends RadiateError(details)
-case class UnexpectedResponse(url: URL, response: SimpleHttpResponse) extends RadiateError(
+case class AggregateError(errors: List[Error]) extends Error("???")
+case class ParseError(details: String) extends Error(details)
+case class UnexpectedResponse(url: URL, response: SimpleHttpResponse) extends Error(
   s"Unexpected HTTP response from $url (${response.getStatusCode}, ${response.getStatusMessage})"
 )

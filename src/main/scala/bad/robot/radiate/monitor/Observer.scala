@@ -2,7 +2,7 @@ package bad.robot.radiate.monitor
 
 import bad.robot.radiate._
 import org.apache.log4j.Logger
-import bad.robot.radiate.RadiateError.Error
+import bad.robot.radiate.Error
 
 trait Observer {
   def update(source: Observable, status: Status) { /* ignore status updates */ }

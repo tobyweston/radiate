@@ -4,8 +4,8 @@ import org.specs2.execute.{AsResult, Result, Success}
 
 package object specs2 {
 
-  implicit def monitoringTasksAsResult: AsResult[MonitoringTasksS] = new AsResult[MonitoringTasksS] {
-    def asResult(function: => MonitoringTasksS): Result = {
+  implicit def monitoringTasksAsResult: AsResult[MonitoringTasks] = new AsResult[MonitoringTasks] {
+    def asResult(function: => MonitoringTasks): Result = {
       Success(function.toString())
     }
   }

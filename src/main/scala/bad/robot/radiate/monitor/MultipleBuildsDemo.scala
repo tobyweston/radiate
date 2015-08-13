@@ -1,6 +1,6 @@
 package bad.robot.radiate.monitor
 
-import bad.robot.radiate.RadiateError.Error
+import bad.robot.radiate.Error
 import scalaz.\/
 import scalaz.syntax.either._
 

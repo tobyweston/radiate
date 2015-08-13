@@ -9,7 +9,7 @@ import bad.robot.radiate.Sequence.sequence
 import bad.robot.radiate.teamcity.BuildLocatorBuilder.{latest, running}
 import bad.robot.radiate.teamcity.TeamCityEndpoints._
 import bad.robot.radiate._
-import bad.robot.radiate.RadiateError.Error
+import bad.robot.radiate.Error
 import bad.robot.radiate.teamcity.HttpClientSyntax._
 
 import scalaz.{-\/, \/-, \/}
@@ -49,7 +49,7 @@ class TeamCity(server: Server, authorisation: Authorisation, http: HttpClient, p
     http.get(url, asJson) match {
       case HttpResponse(404) => retrieveBuild(latest(buildType))
       case response @ HttpResponse(200) => build.unmarshall(response)
-      case response => throw new UnexpectedResponse(url, response)
+      case response => throw new UnexpectedHttpResponse(url, response)
     }
   }
 

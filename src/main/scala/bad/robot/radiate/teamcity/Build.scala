@@ -1,7 +1,8 @@
 package bad.robot.radiate.teamcity
 
 import argonaut.DecodeJson
-import bad.robot.radiate.{Idle, _}
+import bad.robot.radiate._
+import activity._
 
 object Build {
   implicit def buildDecoder: DecodeJson[Build] = {

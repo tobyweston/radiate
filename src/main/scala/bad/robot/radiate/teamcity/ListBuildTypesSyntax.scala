@@ -1,7 +1,7 @@
 package bad.robot.radiate.teamcity
 
 import bad.robot.radiate.AggregateError
-import bad.robot.radiate.RadiateError.Error
+import bad.robot.radiate.Error
 import bad.robot.radiate.Sequence.sequence
 
 import scalaz.\/
