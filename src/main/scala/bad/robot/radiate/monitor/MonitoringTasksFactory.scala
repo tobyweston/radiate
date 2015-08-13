@@ -21,9 +21,7 @@ object MonitoringTasksFactory {
 
   def demo = new Demo
 
-  def erroring = new Error
-
-  class Error extends ThreadSafeObservable with MonitoringTasksFactory {
+  def erroring = new ThreadSafeObservable with MonitoringTasksFactory {
     import scalaz.syntax.either._
     def create = ParseError("An unrecoverable error occurred").left
   }
