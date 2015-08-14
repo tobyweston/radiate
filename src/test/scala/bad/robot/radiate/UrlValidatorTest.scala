@@ -30,4 +30,10 @@ class UrlValidatorTest extends Specification {
     validate("http://example.com/path/example") must be_\/-(new URL("http://example.com:8111/path/example"))
   }
 
+  "Urls can be added" >> {
+    import UrlSyntax._
+    new URL("http://example.com:80") / "/path/example" must_== new URL("http://example.com:80/path/example")
+    new URL("http://example.com:80") / "/path/a bc" must_== new URL("http://example.com:80/path/a%20bc")
+    new URL("http://example.com:80") / "path/example" must_== new URL("http://example.com:80/path/example")
+  }
 }

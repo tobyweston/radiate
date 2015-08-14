@@ -30,7 +30,7 @@ class TeamCityTest extends Specification with IsolatedMockFactory {
   private val projectsUnmarshaller = mock[Unmarshaller[HttpResponse, Iterable[Project]]]
   private val projectUnmarshaller = mock[Unmarshaller[HttpResponse, Project]]
   private val buildUnmarshaller = mock[Unmarshaller[HttpResponse, Build]]
-  private val teamcity = new TeamCity(new Server("example.com", 8111), GuestAuthorisationS, http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller)
+  private val teamcity = new TeamCity(Server("example.com", 8111), GuestAuthorisationS, http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller)
 
   private val buildTypes = new BuildTypes(List(Any.buildType))
   private val anotherBuildTypes = new BuildTypes(List(Any.buildType))

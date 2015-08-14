@@ -29,7 +29,10 @@ class YmlConfiguration(file: YmlConfigurationFile) extends TeamCityConfiguration
   @throws(classOf[FileNotFoundException])
   private def load(configuration: File) = new Yaml().load(new FileReader(configuration)).asInstanceOf[java.util.Map[String, Any]]
 
-  def host = configuration.get("host").asInstanceOf[String]
+
+  def server = ???
+
+  def host = Option(configuration.get("host").asInstanceOf[String])
 
   def port = configuration.get("port").asInstanceOf[Integer]
 

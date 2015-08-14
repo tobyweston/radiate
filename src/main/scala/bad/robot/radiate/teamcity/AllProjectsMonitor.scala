@@ -10,12 +10,15 @@ class AllProjectsMonitor(configuration: TeamCityConfiguration) extends NonRepeat
 
   private val http = new HttpClientFactory().create(configuration)
   private val server = new Server(configuration.host, configuration.port)
-  private val teamcity = new TeamCity(server, configuration.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+  private val betterServer = BetterServer(_)
+  private val _teamcity: (BetterServer) => TeamCity = TeamCity(_, configuration.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
 
   private var monitored = List("unknown")
 
   def run() {
     val builds = for {
+      url         <- configuration.server
+      teamcity    = _teamcity(betterServer(url))
       all         <- teamcity.retrieveProjects
       projects    <- configuration.filter(all).right
       monitored   <- projects.map(_.toString).toList.right

@@ -11,3 +11,4 @@ case class ParseError(details: String) extends Error(details)
 case class UnexpectedResponse(url: URL, response: SimpleHttpResponse) extends Error(
   s"Unexpected HTTP response from $url (${response.getStatusCode}, ${response.getStatusMessage})"
 )
+case class ConfigurationError(details: String) extends Error(details)

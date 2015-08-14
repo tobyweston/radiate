@@ -27,7 +27,13 @@ object HttpClientSyntax {
   }
 }
 
-class TeamCity(server: Server, authorisation: Authorisation, http: HttpClient, projects: Unmarshaller[SimpleHttpResponse, Iterable[Project]], project: Unmarshaller[SimpleHttpResponse, Project], build: Unmarshaller[SimpleHttpResponse, Build]) {
+object TeamCity {
+  def apply(server: BetterServer, authorisation: Authorisation, http: HttpClient, projects: Unmarshaller[SimpleHttpResponse, Iterable[Project]], project: Unmarshaller[SimpleHttpResponse, Project], build: Unmarshaller[SimpleHttpResponse, Build]) = {
+    new TeamCity(server, authorisation, http, projects, project, build)
+  }
+}
+
+class TeamCity(server: BetterServer, authorisation: Authorisation, http: HttpClient, projects: Unmarshaller[SimpleHttpResponse, Iterable[Project]], project: Unmarshaller[SimpleHttpResponse, Project], build: Unmarshaller[SimpleHttpResponse, Build]) {
 
   private val asJson = headers(header("Accept", "application/json"))
 

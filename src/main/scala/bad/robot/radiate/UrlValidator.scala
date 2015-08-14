@@ -2,7 +2,7 @@ package bad.robot.radiate
 
 import java.net.URL
 
-import bad.robot.radiate.Url._
+import bad.robot.radiate.UrlSyntax._
 import bad.robot.radiate.OptionSyntax.NonEmptyOption
 
 import scalaz.\/

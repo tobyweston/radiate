@@ -30,10 +30,10 @@ class AuthenticationTest extends Specification {
 
     (configuration.username _).when().returns(Username("El Darko"))
     (configuration.password _).when().returns(Password("secret"))
-    (configuration.host _).when().returns("http://example.com")
+    (configuration.host _).when().returns(Some("http://example.com"))
     (configuration.port _).when().returns(8008)
 
     val auth = Authentication(configuration)
-    auth must_== new BasicAuthentication(Server("http://example.com", 8008), Username("El Darko"), Password("secret"))
+    auth must_== new BasicAuthentication(Server(Some("http://example.com"), 8008), Username("El Darko"), Password("secret"))
   }
 }
