@@ -27,8 +27,7 @@ class YmlConfigurationFile extends File(System.getProperty("user.home") + File.s
       val yaml = new Yaml
       val data = Map[String, Any](
         "projects" -> getProjectIds(teamcity).asJava,
-        "host" -> fallback.host,
-        "port" -> fallback.port,
+        "serverUrl" -> fallback.serverUrl.valueOr(error => throw new Exception(error.message)),
         "user" -> null,
         "password" -> null
       )

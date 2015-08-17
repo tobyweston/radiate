@@ -6,10 +6,8 @@ import bad.robot.radiate.Error
 import scalaz.\/
 
 trait TeamCityConfiguration {
-  def server: Error \/ URL
-  def host: Option[String]
-  def port: Integer
-  def filter(projects: Iterable[Project]): Iterable[Project]
+  def serverUrl: Error \/ URL
+  def filter(projects: Iterable[Project]): Iterable[Project] // rename to project ids and filter outside of the function
   def username: Username
   def password: Password
   def authorisation: Authorisation

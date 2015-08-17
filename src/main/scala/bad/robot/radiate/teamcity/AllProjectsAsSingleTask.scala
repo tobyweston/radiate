@@ -5,10 +5,10 @@ import bad.robot.radiate.Error
 import scalaz.\/
 import scalaz.syntax.either._
 
+// todo do we need this?
 class AllProjectsAsSingleTask extends ThreadSafeObservable with MonitoringTasksFactory {
   def create: Error \/ List[MonitoringTask] = {
-    val configuration = YmlConfiguration.loadOrCreate(new BootstrapTeamCity, this)
-    List(new AllProjectsMonitor(configuration)).right
+    List(new AllProjectsMonitor).right
   }
 
   override def toString = "multiple projects as a single aggregate"

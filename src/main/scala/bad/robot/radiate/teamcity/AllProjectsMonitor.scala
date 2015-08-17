@@ -2,25 +2,25 @@ package bad.robot.radiate.teamcity
 
 import bad.robot.radiate.Aggregate.aggregate
 import bad.robot.radiate.monitor.{Information, MonitoringTask, NonRepeatingObservable}
+import bad.robot.radiate.teamcity.KnobsConfiguration._
 import bad.robot.radiate.teamcity.ListBuildTypesSyntax._
 
 import scalaz.syntax.either._
 
-class AllProjectsMonitor(configuration: TeamCityConfiguration) extends NonRepeatingObservable with MonitoringTask {
+class AllProjectsMonitor extends NonRepeatingObservable with MonitoringTask {
 
-  private val http = new HttpClientFactory().create(configuration)
-  private val server = new Server(configuration.host, configuration.port)
-  private val betterServer = BetterServer(_)
-  private val _teamcity: (BetterServer) => TeamCity = TeamCity(_, configuration.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+  private val server = TeamCityUrl(_)
 
   private var monitored = List("unknown")
 
   def run() {
     val builds = for {
-      url         <- configuration.server
-      teamcity    = _teamcity(betterServer(url))
+      config      <- load orElse create
+      url         <- config.serverUrl
+      http        = HttpClientFactory().create(config)
+      teamcity    = TeamCity(server(url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       all         <- teamcity.retrieveProjects
-      projects    <- configuration.filter(all).right
+      projects    <- config.filter(all).right
       monitored   <- projects.map(_.toString).toList.right
       buildTypes  <- teamcity.retrieveBuildTypes(projects)
       builds      <- buildTypes.getBuilds(teamcity)

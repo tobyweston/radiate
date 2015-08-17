@@ -30,7 +30,7 @@ class YmlConfiguration(file: YmlConfigurationFile) extends TeamCityConfiguration
   private def load(configuration: File) = new Yaml().load(new FileReader(configuration)).asInstanceOf[java.util.Map[String, Any]]
 
 
-  def server = ???
+  def serverUrl = ???
 
   def host = Option(configuration.get("host").asInstanceOf[String])
 
