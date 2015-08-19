@@ -2,7 +2,7 @@ package bad.robot.radiate.config
 
 import java.net.URL
 
-import bad.robot.radiate.teamcity.{Authorisation, Username}
+import bad.robot.radiate.teamcity.Authorisation
 import bad.robot.radiate.{ConfigurationError, Error}
 
 import scalaz.Scalaz._

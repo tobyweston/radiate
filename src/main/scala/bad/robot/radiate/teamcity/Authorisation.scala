@@ -1,6 +1,6 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.radiate.config.{NoPassword, Password}
+import bad.robot.radiate.config.{NoUsername, Username, NoPassword, Password}
 
 sealed trait Authorisation {
   val pathSegment: String

@@ -1,9 +1,8 @@
-package bad.robot.radiate.teamcity
+package bad.robot.radiate.config
 
 import bad.robot.radiate.OptionSyntax._
 
 import scalaz.{Success, Validation}
-import scalaz.syntax.std.option._
 
 object Username {
 
@@ -19,7 +18,7 @@ object Username {
 
 // todo implicit to convert the SimpleHTTP username
 case class Username (value: String) {
-  private[teamcity] def asSimpleHttp: bad.robot.http.configuration.Username = {
+  def asSimpleHttp: bad.robot.http.configuration.Username = {
     bad.robot.http.configuration.Username.username(value)
   }
 }

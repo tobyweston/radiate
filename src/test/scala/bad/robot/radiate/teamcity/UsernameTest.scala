@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity
 
+import bad.robot.radiate.config.{NoUsername, Username}
 import org.specs2.mutable.Specification
 
 class UsernameTest extends Specification {
