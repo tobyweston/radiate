@@ -24,6 +24,16 @@ class KnobsConfigTest extends Specification {
     }}
   }
 
+  "Retrieve 'none' for configuration items" >> {
+    load(Required(ClassPathResource("bad/robot/radiate/teamcity/example-empty.cfg"))) must be_\/-.like { case config => {
+      config.url must none
+      config.username must none
+      config.password must none
+      config.authorisation must none
+      config.projects must_== List()
+    }}
+  }
+
   "Retrieve the values configuration items" >> {
     load(Required(ClassPathResource("bad/robot/radiate/teamcity/example.cfg"))) must be_\/-.like { case config => {
       config.url must_== Some("http://example.com:8111")
@@ -52,6 +62,9 @@ class KnobsConfigTest extends Specification {
     }
     load(Required(ClassPathResource("bad/robot/radiate/teamcity/bad-example-missing-fields.cfg"))) must be_-\/.like {
       case error: ConfigurationError => error.details must contain("expected '}', comment, newline, or whitespace")
+    }
+    load(Required(ClassPathResource("bad/robot/radiate/teamcity/bad-example-empty.cfg"))) must be_-\/.like {
+      case error: ConfigurationError => error.details must contain("expected bind directive, comment, group directive, import directive,\n    newline, or whitespace")
     }
   }
 }
