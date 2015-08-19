@@ -4,31 +4,24 @@ import java.net.URL
 
 import bad.robot.radiate.UrlSyntax._
 import bad.robot.radiate.OptionSyntax.NonEmptyOption
+import knobs.CfgValue
 
 import scalaz.\/
 
 object UrlValidator {
   def validate(url: String): String \/ URL = {
     \/.fromTryCatchNonFatal(new URL(url)).leftMap(e => s"${message(url, e)}")
-      .ensure("Not a valid Url, please add a host")(_.getHost.nonEmpty)
+      .ensure("Not a valid Url")(_.getHost.nonEmpty)
       .map(_.withDefaultPort(8111))
   }
 
-  private def buildUrl(url: String) = {
-    new URL(if (url.startsWith("http://") || url.startsWith("https://")) url else s"http://$url")
+  private def message(url: String, error: Throwable): String = NonEmptyOption(url) match {
+    case Some(value) => s"$value is not a valid url${message(error)}"
+    case None => "No Url was found"
   }
 
-  private def message(url: String, error: Throwable): String = {
-    NonEmptyOption(url) match {
-      case Some(value) => s"$value is not a valid url${message(error)}"
-      case None => "No Url was found"
-    }
-  }
-
-  private def message(e: Throwable): String = {
-    NonEmptyOption(e.getMessage) match {
-      case Some(msg) => " " + msg.trim
-      case None => ""
-    }
+  private def message(e: Throwable): String = NonEmptyOption(e.getMessage) match {
+    case Some(msg) => " " + msg.trim
+    case None => ""
   }
 }

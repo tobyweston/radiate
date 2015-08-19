@@ -1,19 +1,18 @@
 package bad.robot.radiate.teamcity
 
 import bad.robot.radiate.Aggregate.aggregate
+import bad.robot.radiate.config.Config
 import bad.robot.radiate.monitor.{Information, MonitoringTask, NonRepeatingObservable}
 import bad.robot.radiate.teamcity.ListBuildTypesSyntax._
 
 import scalaz.syntax.either._
 
-class SingleProjectMonitor(project: Project, configuration: TeamCityConfiguration) extends NonRepeatingObservable with MonitoringTask {
-  private val http = new HttpClientFactory().create(configuration)
-  private val server = new TeamCityUrl(_)
+class SingleProjectMonitor(project: Project, config: Config) extends NonRepeatingObservable with MonitoringTask {
+  private val http = HttpClientFactory().create(config)
+  private val teamcity = new TeamCity(new TeamCityUrl(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
 
   def run() {
     val builds = for {
-      url         <- configuration.serverUrl
-      teamcity    = new TeamCity(server(url), configuration.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       buildTypes  <- teamcity.retrieveBuildTypes(List(project))
       builds      <- buildTypes.getBuilds(teamcity)
       aggregation <- aggregate(builds).right

@@ -1,8 +1,10 @@
 package bad.robot.radiate.teamcity
 
 import bad.robot.radiate.Aggregate.aggregate
+import bad.robot.radiate.config.KnobsConfig
+import bad.robot.radiate.config.Config
 import bad.robot.radiate.monitor.{Information, MonitoringTask, NonRepeatingObservable}
-import bad.robot.radiate.teamcity.KnobsConfiguration._
+import KnobsConfig._
 import bad.robot.radiate.teamcity.ListBuildTypesSyntax._
 
 import scalaz.syntax.either._
@@ -15,12 +17,12 @@ class AllProjectsMonitor extends NonRepeatingObservable with MonitoringTask {
 
   def run() {
     val builds = for {
-      config      <- load orElse create
-      url         <- config.serverUrl
+      file        <- load() orElse create
+      config      <- Config(file)
       http        = HttpClientFactory().create(config)
-      teamcity    = TeamCity(server(url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+      teamcity    = TeamCity(server(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       all         <- teamcity.retrieveProjects
-      projects    <- config.filter(all).right
+      projects    <- all.filter(project => config.projects.contains(project.id)).right
       monitored   <- projects.map(_.toString).toList.right
       buildTypes  <- teamcity.retrieveBuildTypes(projects)
       builds      <- buildTypes.getBuilds(teamcity)

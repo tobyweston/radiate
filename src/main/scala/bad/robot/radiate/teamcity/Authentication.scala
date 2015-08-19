@@ -4,13 +4,14 @@ import java.net.URL
 
 import bad.robot.http.CommonHttpClient
 import bad.robot.http.configuration.BasicAuthCredentials._
+import bad.robot.radiate.config.Config
 
 object Authentication {
-  def apply(configuration: TeamCityConfiguration): BasicAuthentication = {
-    (configuration.username, configuration.password) match {
+  def apply(config: Config): BasicAuthentication = {
+    (config.username, config.password) match {
       case (NoUsername, _) => GuestAuthenticationS
       case (_, NoPassword) => GuestAuthenticationS
-      case (username, password) => BasicAuthentication(configuration.serverUrl.valueOr(error => throw new Exception(error.message)), username, password)
+      case (username, password) => BasicAuthentication(config.url, username, password)
     }
   }
 }

@@ -12,3 +12,4 @@ case class UnexpectedResponse(url: URL, response: SimpleHttpResponse) extends Er
   s"Unexpected HTTP response from $url (${response.getStatusCode}, ${response.getStatusMessage})"
 )
 case class ConfigurationError(details: String) extends Error(details)
+case class MissingConfigurationError(field: String) extends Error(s"No 'field' found in configuration, check the ${sys.props.get("user.home")}/.radiate/radiate.cfg file")

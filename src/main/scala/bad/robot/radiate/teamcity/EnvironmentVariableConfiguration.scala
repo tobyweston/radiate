@@ -8,7 +8,7 @@ import bad.robot.radiate.teamcity.Username.{username => teamcityUsername}
 
 import scalaz.syntax.std.option._
 
-class EnvironmentVariableConfiguration extends TeamCityConfiguration {
+class EnvironmentVariableConfiguration extends DeprecatedConfig {
   def serverUrl = {
     val server = getEnvironmentVariable("TEAMCITY_SERVER")
     for {

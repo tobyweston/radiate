@@ -5,7 +5,7 @@ import bad.robot.radiate.Error
 
 import scalaz.\/
 
-trait TeamCityConfiguration {
+trait DeprecatedConfig {
   def serverUrl: Error \/ URL
   def filter(projects: Iterable[Project]): Iterable[Project] // rename to project ids and filter outside of the function
   def username: Username

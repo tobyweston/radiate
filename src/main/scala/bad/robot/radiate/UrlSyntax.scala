@@ -15,7 +15,9 @@ object UrlSyntax {
       new URL(url.toString + p.replace(" ", "%20"))
     }
   }
-  
+
+  implicit def stringToUrl(url: String): URL = new URL(url)
+
 }
 
 

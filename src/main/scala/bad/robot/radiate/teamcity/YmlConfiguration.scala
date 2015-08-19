@@ -8,7 +8,7 @@ import org.yaml.snakeyaml.Yaml
 
 object YmlConfiguration {
   
-  private[teamcity] def loadOrCreate(teamcity: TeamCity, observable: Observable): TeamCityConfiguration = {
+  private[teamcity] def loadOrCreate(teamcity: TeamCity, observable: Observable): DeprecatedConfig = {
     try {
       val file = new YmlConfigurationFile
       file.initialise(teamcity)
@@ -23,7 +23,7 @@ object YmlConfiguration {
   }
 }
 
-class YmlConfiguration(file: YmlConfigurationFile) extends TeamCityConfiguration {
+class YmlConfiguration(file: YmlConfigurationFile) extends DeprecatedConfig {
   private val configuration: java.util.Map[String, Any] = load(file)
 
   @throws(classOf[FileNotFoundException])

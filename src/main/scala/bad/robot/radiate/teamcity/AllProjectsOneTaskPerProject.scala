@@ -1,8 +1,9 @@
 package bad.robot.radiate.teamcity
 
 import bad.robot.radiate.Error
+import bad.robot.radiate.config.{Config, KnobsConfig}
 import bad.robot.radiate.monitor.{MonitoringTask, MonitoringTasksFactory, ThreadSafeObservable}
-import bad.robot.radiate.teamcity.KnobsConfiguration._
+import KnobsConfig._
 
 import scalaz.\/
 import scalaz.syntax.either._
@@ -10,16 +11,14 @@ import scalaz.syntax.either._
 /** @see [[bad.robot.radiate.monitor.MonitoringTasksFactory.multipleProjects]] */
 class AllProjectsOneTaskPerProject extends ThreadSafeObservable with MonitoringTasksFactory {
   def create: Error \/ List[MonitoringTask] = {
-
     val server = TeamCityUrl(_)
-
     for {
-      config    <- load orElse KnobsConfiguration.create
-      url       <- config.serverUrl
+      file      <- load() orElse KnobsConfig.create
+      config    <- Config(file)
       http      = HttpClientFactory().create(config)
-      teamcity  = TeamCity(server(url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+      teamcity  = TeamCity(server(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       all       <- teamcity.retrieveProjects
-      projects  <- config.filter(all).right
+      projects  <- all.filter(project => config.projects.contains(project.id)).right
       full      <- teamcity.retrieveFullProjects(projects)
       filtered  <- full.filter(_.buildTypes.nonEmpty).right
     } yield {
