@@ -16,11 +16,6 @@ object Username {
   }
 }
 
-// todo implicit to convert the SimpleHTTP username
-case class Username (value: String) {
-  def asSimpleHttp: bad.robot.http.configuration.Username = {
-    bad.robot.http.configuration.Username.username(value)
-  }
-}
+case class Username (value: String) 
 
 object NoUsername extends Username("no username")

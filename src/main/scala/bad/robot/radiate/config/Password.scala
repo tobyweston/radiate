@@ -16,11 +16,6 @@ object Password {
   }
 }
 
-// todo implicit to convert the SimpleHTTP password
-case class Password(value: String) {
-  def asSimpleHttp: bad.robot.http.configuration.Password = {
-    bad.robot.http.configuration.Password.password(value)
-  }
-}
+case class Password(value: String)
 
 object NoPassword extends Password("no password")

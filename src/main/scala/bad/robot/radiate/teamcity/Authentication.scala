@@ -17,8 +17,9 @@ object Authentication {
 }
 
 case class BasicAuthentication(url: URL, username: Username, password: Password) {
+  import bad.robot.http._
   def applyTo(client: CommonHttpClient) {
-    client.`with`(basicAuth(username.asSimpleHttp, password.asSimpleHttp, url))
+    client.`with`(basicAuth(username, password, url))
   }
 }
 
