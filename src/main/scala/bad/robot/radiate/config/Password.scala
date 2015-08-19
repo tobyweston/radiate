@@ -6,11 +6,9 @@ import scalaz.{Success, Validation}
 
 object Password {
 
-  def validate(password: Option[String]): Validation[String, Password] = {
-    Success(NonEmptyOption(password).map(Password.apply).getOrElse(NoPassword))
+  def validate(password: Option[String]): Validation[String, Option[Password]] = {
+    Success(NonEmptyOption(password).map(value => Password(value.trim)))
   }
 }
 
 case class Password(value: String)
-
-object NoPassword extends Password("no password")

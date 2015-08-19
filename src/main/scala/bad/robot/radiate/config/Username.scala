@@ -5,11 +5,9 @@ import bad.robot.radiate.OptionSyntax._
 import scalaz.{Success, Validation}
 
 object Username {
-  def validate(username: Option[String]): Validation[String, Username] = {
-    Success(NonEmptyOption(username).map(Username.apply).getOrElse(NoUsername))
+  def validate(username: Option[String]): Validation[String, Option[Username]] = {
+    Success(NonEmptyOption(username).map(value => Username(value.trim)))
   }
 }
 
-case class Username (value: String) 
-
-object NoUsername extends Username("no username")
+case class Username (value: String)

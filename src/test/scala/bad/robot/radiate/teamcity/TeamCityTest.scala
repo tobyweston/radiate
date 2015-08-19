@@ -43,7 +43,7 @@ class TeamCityTest extends Specification with IsolatedMockFactory {
     (http.get(_: URL, _: Headers)).expects(new URL("http://example.com:8111/guestAuth/app/rest/projects"), accept).once.returning(Ok)
     (projectsUnmarshaller.unmarshall _).expects(Ok).once.returning(\/-(projects))
 
-    teamcity.retrieveProjects must_== projects
+    teamcity.retrieveProjects must be_\/-(projects)
   }
 
   "Should handle Http error when retrieving projects" >> {

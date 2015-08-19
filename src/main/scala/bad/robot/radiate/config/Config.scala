@@ -24,5 +24,5 @@ object Config {
   }
 }
 
-case class Config(url: URL, projects: List[String], username: Username, password: Password, authorisation: Authorisation)
+case class Config(url: URL, projects: List[String], username: Option[Username], password: Option[Password], authorisation: Authorisation)
 

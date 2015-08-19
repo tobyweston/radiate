@@ -4,13 +4,10 @@ import java.io.File
 import java.net.URL
 
 import bad.robot.radiate.Environment._
-import bad.robot.radiate.UrlValidator._
-import bad.robot.radiate.teamcity.{Project, DeprecatedConfig}
 import bad.robot.radiate.{ConfigurationError, Error, UrlValidator}
 import knobs._
 
 import scalaz.\/
-import scalaz.syntax.std.option._
 
 object KnobsConfig {
 
@@ -28,10 +25,8 @@ object KnobsConfig {
   }
 
   def create: Error \/ ConfigFile = {
-    val server = getEnvironmentVariable("TEAMCITY_SERVER")
     for {
-      string <- server.toRightDisjunction(ConfigurationError("Please set environment variable 'TEAMCITY_SERVER'"))
-      url <- validate(string).leftMap(cause => ConfigurationError(s"Invalid environment variable for 'TEAMCITY_SERVER'. $cause"))
+      url <- Url.validate(getEnvironmentVariable("TEAMCITY_URL")).leftMap(cause => ConfigurationError(s"Invalid environment variable for 'TEAMCITY_URL'. $cause"))
     } yield url
     ???
   }

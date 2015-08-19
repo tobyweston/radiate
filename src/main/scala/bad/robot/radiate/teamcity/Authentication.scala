@@ -9,9 +9,9 @@ import bad.robot.radiate.config._
 object Authentication {
   def apply(config: Config): BasicAuthentication = {
     (config.username, config.password) match {
-      case (NoUsername, _) => GuestAuthenticationS
-      case (_, NoPassword) => GuestAuthenticationS
-      case (username, password) => BasicAuthentication(config.url, username, password)
+      case (None, _) => GuestAuthentication
+      case (_, None) => GuestAuthentication
+      case (Some(username), Some(password)) => BasicAuthentication(config.url, username, password)
     }
   }
 }
@@ -23,6 +23,6 @@ case class BasicAuthentication(url: URL, username: Username, password: Password)
   }
 }
 
-object GuestAuthenticationS extends BasicAuthentication(null, null, null) {
+object GuestAuthentication extends BasicAuthentication(null, null, null) {
   override def applyTo(client: CommonHttpClient) {}
 }
