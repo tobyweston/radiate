@@ -12,20 +12,10 @@ sealed trait Authorisation {
 
 object Authorisation {
   def validate(authorisation: Option[String], username: Option[String], password: Option[String]): Validation[String, Authorisation] = {
-    NonEmptyOption(authorisation) match {
-      case Some("guest") => Success(GuestAuthorisation)
-      case Some("basic") => validate(username, password)
-      case _ => Failure("'authorisation' must be either 'guest' or 'basic'")
-    }
-  }
-
-  private def validate(username: Option[String], password: Option[String]): Validation[String, Authorisation] = {
-    for {
-      user <- Username.validate(username)
-      pass <- Password.validate(password)
-    } yield {
-      if ((user == NoUsername) || (pass == NoPassword)) GuestAuthorisation
-      else BasicAuthorisation
+    (NonEmptyOption(authorisation), NonEmptyOption(username), NonEmptyOption(password)) match {
+      case (Some("guest"), _, _) => Success(GuestAuthorisation)
+      case (Some("basic"), Some(_), Some(_)) => Success(BasicAuthorisation)
+      case _ => Failure("The value for 'authorisation' must be either 'guest' or 'basic'. If 'basic', both 'username' and 'password' must be supplied.")
     }
   }
 }
