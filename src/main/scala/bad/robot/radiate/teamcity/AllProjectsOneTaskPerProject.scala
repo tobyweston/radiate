@@ -11,12 +11,11 @@ import scalaz.syntax.either._
 /** @see [[bad.robot.radiate.monitor.MonitoringTasksFactory.multipleProjects]] */
 class AllProjectsOneTaskPerProject extends ThreadSafeObservable with MonitoringTasksFactory {
   def create: Error \/ List[MonitoringTask] = {
-    val server = TeamCityUrl(_)
     for {
       file      <- load() orElse KnobsConfig.create
       config    <- Config(file)
       http      = HttpClientFactory().create(config)
-      teamcity  = TeamCity(server(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+      teamcity  = TeamCity(TeamCityUrl(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       all       <- teamcity.retrieveProjects
       projects  <- all.filter(project => config.projects.contains(project.id)).right
       full      <- teamcity.retrieveFullProjects(projects)

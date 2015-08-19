@@ -2,9 +2,8 @@ package bad.robot.radiate.teamcity
 
 import java.io.{File, FileNotFoundException, FileReader}
 
-import bad.robot.radiate.config.{Username, Password}
+import bad.robot.radiate.config.{Authorisation, Username, Password}
 import bad.robot.radiate.monitor.{Information, Observable}
-import bad.robot.radiate.teamcity.Authorisation.authorisationFor
 import org.yaml.snakeyaml.Yaml
 
 object YmlConfiguration {
@@ -42,9 +41,9 @@ class YmlConfiguration(file: YmlConfigurationFile) extends DeprecatedConfig {
     projects.filter(project => ids.contains(project.id))
   }
 
-  def password = Password.password(configuration.get("password").asInstanceOf[String])
+  def password = ???
 
-  def username = Username.username(configuration.get("user").asInstanceOf[String])
+  def username = ???
 
-  def authorisation = authorisationFor(username, password)
+  def authorisation = ???
 }

@@ -6,6 +6,7 @@ import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair.header
 import bad.robot.http.{HttpClient, HttpResponse => SimpleHttpResponse}
 import bad.robot.radiate.Sequence.sequence
+import bad.robot.radiate.config.Authorisation
 import bad.robot.radiate.teamcity.BuildLocatorBuilder.{latest, running}
 import bad.robot.radiate.teamcity.TeamCityEndpoints._
 import bad.robot.radiate._

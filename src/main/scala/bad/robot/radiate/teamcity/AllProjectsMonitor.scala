@@ -11,8 +11,6 @@ import scalaz.syntax.either._
 
 class AllProjectsMonitor extends NonRepeatingObservable with MonitoringTask {
 
-  private val server = TeamCityUrl(_)
-
   private var monitored = List("unknown")
 
   def run() {
@@ -20,7 +18,7 @@ class AllProjectsMonitor extends NonRepeatingObservable with MonitoringTask {
       file        <- load() orElse create
       config      <- Config(file)
       http        = HttpClientFactory().create(config)
-      teamcity    = TeamCity(server(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+      teamcity    = TeamCity(TeamCityUrl(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       all         <- teamcity.retrieveProjects
       projects    <- all.filter(project => config.projects.contains(project.id)).right
       monitored   <- projects.map(_.toString).toList.right

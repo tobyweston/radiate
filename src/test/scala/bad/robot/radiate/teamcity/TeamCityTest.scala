@@ -8,6 +8,7 @@ import bad.robot.http.EmptyHeaders._
 import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.{Headers, HttpClient, HttpResponse, StringHttpResponse}
+import bad.robot.radiate.config.GuestAuthorisation
 import bad.robot.radiate.teamcity.{UnexpectedHttpResponse => _}
 import bad.robot.radiate.{AggregateException, UnexpectedResponse, Unmarshaller}
 import org.scalamock.specs2.IsolatedMockFactory
@@ -31,7 +32,7 @@ class TeamCityTest extends Specification with IsolatedMockFactory {
   private val projectsUnmarshaller = mock[Unmarshaller[HttpResponse, Iterable[Project]]]
   private val projectUnmarshaller = mock[Unmarshaller[HttpResponse, Project]]
   private val buildUnmarshaller = mock[Unmarshaller[HttpResponse, Build]]
-  private val teamcity = new TeamCity(TeamCityUrl("http://example.com:8111"), GuestAuthorisationS, http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller)
+  private val teamcity = new TeamCity(TeamCityUrl("http://example.com:8111"), GuestAuthorisation, http, projectsUnmarshaller, projectUnmarshaller, buildUnmarshaller)
 
   private val buildTypes = new BuildTypes(List(Any.buildType))
   private val anotherBuildTypes = new BuildTypes(List(Any.buildType))

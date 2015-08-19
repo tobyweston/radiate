@@ -9,11 +9,6 @@ object Password {
   def validate(password: Option[String]): Validation[String, Password] = {
     Success(NonEmptyOption(password).map(Password.apply).getOrElse(NoPassword))
   }
-
-  // deprecated
-  def password(password: String): Password = {
-    if (password == null) NoPassword else new Password(password)
-  }
 }
 
 case class Password(value: String)

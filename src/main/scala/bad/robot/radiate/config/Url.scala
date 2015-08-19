@@ -2,14 +2,12 @@ package bad.robot.radiate.config
 
 import java.net.URL
 
-import bad.robot.radiate.Error
-import bad.robot.radiate.UrlSyntax._
 import bad.robot.radiate.OptionSyntax._
-import bad.robot.radiate.teamcity.Authorisation
-import scalaz.Validation.FlatMap._
+import bad.robot.radiate.UrlSyntax._
 
+import scalaz.Validation
+import scalaz.Validation.FlatMap._
 import scalaz.syntax.std.option._
-import scalaz.{Validation, \/}
 
 object Url {
   def validate(url: Option[String]): Validation[String, URL] = {
