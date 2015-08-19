@@ -2,7 +2,7 @@ package bad.robot.radiate.teamcity
 
 import java.net.URL
 
-import bad.robot.radiate.config.Config
+import bad.robot.radiate.config.{NoPassword, Password, Config}
 import org.scalamock.specs2.MockContext
 import org.specs2.mutable.Specification
 

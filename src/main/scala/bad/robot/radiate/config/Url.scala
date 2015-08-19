@@ -5,7 +5,7 @@ import java.net.URL
 import bad.robot.radiate.Error
 import bad.robot.radiate.UrlSyntax._
 import bad.robot.radiate.OptionSyntax._
-import bad.robot.radiate.teamcity.{Username, Authorisation, Password}
+import bad.robot.radiate.teamcity.{Username, Authorisation}
 import scalaz.Validation.FlatMap._
 
 import scalaz.syntax.std.option._

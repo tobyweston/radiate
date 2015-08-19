@@ -2,6 +2,7 @@ package bad.robot.radiate.teamcity
 
 import java.io.{File, FileNotFoundException, FileReader}
 
+import bad.robot.radiate.config.Password
 import bad.robot.radiate.monitor.{Information, Observable}
 import bad.robot.radiate.teamcity.Authorisation.authorisationFor
 import org.yaml.snakeyaml.Yaml

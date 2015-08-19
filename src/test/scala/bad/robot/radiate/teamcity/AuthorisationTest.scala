@@ -1,5 +1,6 @@
 package bad.robot.radiate.teamcity
 
+import bad.robot.radiate.config.{NoPassword, Password}
 import org.specs2.mutable.Specification
 
 class AuthorisationTest extends Specification {

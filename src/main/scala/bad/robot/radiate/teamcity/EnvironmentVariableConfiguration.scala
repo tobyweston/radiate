@@ -3,7 +3,8 @@ package bad.robot.radiate.teamcity
 import bad.robot.radiate.ConfigurationError
 import bad.robot.radiate.Environment.getEnvironmentVariable
 import bad.robot.radiate.UrlValidator._
-import bad.robot.radiate.teamcity.Password.{password => teamcityPassword}
+import bad.robot.radiate.config.Password
+import Password.{password => teamcityPassword}
 import bad.robot.radiate.teamcity.Username.{username => teamcityUsername}
 
 import scalaz.syntax.std.option._

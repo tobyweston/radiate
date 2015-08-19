@@ -2,7 +2,7 @@ package bad.robot.radiate.config
 
 import java.net.URL
 
-import bad.robot.radiate.teamcity.{Authorisation, Password, Username}
+import bad.robot.radiate.teamcity.{Authorisation, Username}
 import bad.robot.radiate.{ConfigurationError, Error}
 
 import scalaz.Scalaz._
@@ -16,9 +16,10 @@ object Config {
   private def validate(internal: ConfigFile) = {
     (
       Url.validate(internal.url).toValidationNel |@|
-      Username.validate(internal.username).toValidationNel
-    ) { (url, username) =>
-      Config(url, null, username, null, null)
+      Username.validate(internal.username).toValidationNel |@|
+      Password.validate(internal.password).toValidationNel
+    ) { (url, username, password) =>
+      Config(url, null, username, password, null)
     }
   }
 }

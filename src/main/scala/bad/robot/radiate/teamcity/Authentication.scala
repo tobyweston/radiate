@@ -4,7 +4,7 @@ import java.net.URL
 
 import bad.robot.http.CommonHttpClient
 import bad.robot.http.configuration.BasicAuthCredentials._
-import bad.robot.radiate.config.Config
+import bad.robot.radiate.config.{NoPassword, Password, Config}
 
 object Authentication {
   def apply(config: Config): BasicAuthentication = {

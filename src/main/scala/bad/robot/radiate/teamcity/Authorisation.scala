@@ -1,5 +1,7 @@
 package bad.robot.radiate.teamcity
 
+import bad.robot.radiate.config.{NoPassword, Password}
+
 sealed trait Authorisation {
   val pathSegment: String
   override def toString = pathSegment
