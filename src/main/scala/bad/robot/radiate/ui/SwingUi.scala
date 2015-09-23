@@ -9,7 +9,7 @@ import javax.swing.UIManager.getSystemLookAndFeelClassName
 import javax.swing._
 
 import bad.robot.radiate.FunctionInterfaceOps.toRunnable
-import bad.robot.radiate.Logging
+import bad.robot.radiate._
 import bad.robot.radiate.monitor.MonitoringTasksFactory._
 import bad.robot.radiate.monitor._
 import bad.robot.radiate.teamcity.SanitisedException
@@ -55,6 +55,10 @@ class SwingUi(factory: FrameFactory) extends Ui with Observer {
     frames.createStatusPanels
   }
 
+  override def update(source: Observable, status: Status): Unit = () /** ignore status updates **/
+
+  override def update(source: Observable, activity: Activity, progress: Progress): Unit = () /** ignore progress updates **/
+
   override def update(source: Observable, information: Information) {
     invokeLater(console.append(s"$information"))
   }
@@ -62,5 +66,9 @@ class SwingUi(factory: FrameFactory) extends Ui with Observer {
   override def update(source: Observable, exception: Exception) {
     val message = new SanitisedException(exception).getMessage
     invokeLater(console.append(s"$message when monitoring ${if (source == null) "" else source.toString}"))
+  }
+
+  override def update(source: Observable, error: Error): Unit = {
+    invokeLater(console.append(s"${error.message} when monitoring ${if (source == null) "" else source.toString}"))
   }
 }

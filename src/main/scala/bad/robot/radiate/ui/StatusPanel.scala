@@ -4,7 +4,7 @@ import java.awt._
 import java.awt.geom.Rectangle2D
 import javax.swing._
 
-import bad.robot.radiate.monitor.{Observable, Observer}
+import bad.robot.radiate.monitor.{Information, Observable, Observer}
 import bad.robot.radiate.ui.StatusPanel._
 import bad.robot.radiate.ui.Transparency.SeventyFivePercent
 import bad.robot.radiate.ui.swing.Composite.{transparentComposite, _}
@@ -46,6 +46,12 @@ class StatusPanel(parent: JFrame, identifier: Int) extends JPanel with Observer 
     this.activity = activity
     this.progress = progress
     repaint()
+  }
+
+  override def update(source: Observable, information: Information): Unit = () /** ignore information updates **/
+
+  override def update(source: Observable, error: Error) {
+    update(source, Busy, new NullProgress)
   }
 
   override def update(source: Observable, exception: Exception) {
