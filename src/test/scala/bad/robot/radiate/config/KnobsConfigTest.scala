@@ -67,4 +67,5 @@ class KnobsConfigTest extends Specification {
       case error: ConfigurationError => error.details must contain("expected bind directive, comment, group directive, import directive,\n    newline, or whitespace")
     }
   }
+
 }

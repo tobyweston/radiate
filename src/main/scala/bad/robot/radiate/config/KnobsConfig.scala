@@ -4,10 +4,12 @@ import java.io.File
 import java.net.URL
 
 import bad.robot.radiate.Environment._
+import bad.robot.radiate.teamcity._
 import bad.robot.radiate.{ConfigurationError, Error, UrlValidator}
 import knobs._
 
-import scalaz.\/
+import scalaz.{Validation, \/, Failure, Success}
+import scalaz.Validation.FlatMap._
 
 object KnobsConfig {
 
@@ -25,10 +27,27 @@ object KnobsConfig {
   }
 
   def create: Error \/ ConfigFile = {
-    for {
-      url <- Url.validate(getEnvironmentVariable("TEAMCITY_URL")).leftMap(cause => ConfigurationError(s"Invalid environment variable for 'TEAMCITY_URL'. $cause"))
-    } yield url
-    ???
+
+    val bootstrap = for {
+      _url            <- Url.validate(getEnvironmentVariable("TEAMCITY_URL")).leftMap(cause => ConfigurationError(s"Invalid environment variable for 'TEAMCITY_URL'. $cause"))
+      _username       <- Username.validate(getEnvironmentVariable("TEAMCITY_USERNAME")).leftMap(cause => ConfigurationError(s"Not expecting to see this, no username is still valid. $cause"))
+      _password       <- Password.validate(getEnvironmentVariable("TEAMCITY_PASSWORD")).leftMap(cause => ConfigurationError(s"Not expecting to see this, no password is still valid. $cause"))
+      _authorisation  <- Authorisation.validate(_username, _password).leftMap(cause => ConfigurationError(s"Not expecting to see this, authorisation is derived from username and password. $cause"))
+      config          = Config(_url, null, _username, _password, _authorisation)
+      http            = HttpClientFactory().create(config)
+      teamcity        = TeamCity(TeamCityUrl(_url), _authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+      projects        <- teamcity.retrieveProjects.validation
+    } yield (config, projects.map(_.id))
+
+    bootstrap.map {
+      case (config, _projects) => new ConfigFile {
+        def url = Some(config.url.toExternalForm)
+        def projects = _projects.toList
+        def username = config.username.map(_.value)
+        def password = config.password.map(_.value)
+        def authorisation = Some(config.authorisation.name)
+      }
+    }.disjunction
   }
 
   implicit val configuredUrl: Configured[URL] = new Configured[URL] {

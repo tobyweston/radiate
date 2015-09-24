@@ -8,18 +8,18 @@ import scalaz.Scalaz._
 import scalaz._
 
 object Config {
-  def apply(internal: ConfigFile): Error \/ Config = {
-    validate(internal).leftMap(errors => ConfigurationError(errors.list.mkString(", "))).disjunction
+  def apply(file: ConfigFile): Error \/ Config = {
+    validate(file).leftMap(errors => ConfigurationError(errors.list.mkString(", "))).disjunction
   }
 
-  private def validate(internal: ConfigFile) = {
+  private def validate(file: ConfigFile) = {
     (
-      Url.validate(internal.url).toValidationNel |@|
-      Username.validate(internal.username).toValidationNel |@|
-      Password.validate(internal.password).toValidationNel |@|
-      Authorisation.validate(internal.authorisation, internal.username, internal.password).toValidationNel
+      Url.validate(file.url).toValidationNel |@|
+      Username.validate(file.username).toValidationNel |@|
+      Password.validate(file.password).toValidationNel |@|
+      Authorisation.validate(file.authorisation, file.username, file.password).toValidationNel
     ) { (url, username, password, authorisation) =>
-      Config(url, internal.projects, username, password, authorisation)
+      Config(url, file.projects, username, password, authorisation)
     }
   }
 }
