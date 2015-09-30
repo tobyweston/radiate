@@ -17,6 +17,7 @@ class AllProjectsMonitor extends NonRepeatingObservable with MonitoringTask {
     val builds = for {
       file        <- load() orElse create
       config      <- Config(file)
+      _           <- store(file)
       http        = HttpClientFactory().create(config)
       teamcity    = TeamCity(TeamCityUrl(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       all         <- teamcity.retrieveProjects

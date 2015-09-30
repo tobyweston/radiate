@@ -14,6 +14,7 @@ class AllProjectsOneTaskPerProject extends ThreadSafeObservable with MonitoringT
     for {
       file      <- load() orElse KnobsConfig.create
       config    <- Config(file)
+      _         <- store(file)
       http      = HttpClientFactory().create(config)
       teamcity  = TeamCity(TeamCityUrl(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       all       <- teamcity.retrieveProjects
