@@ -56,7 +56,7 @@ class TeamCity(server: TeamCityUrl, authorisation: Authorisation, http: HttpClie
     http.get(url, asJson) match {
       case HttpResponse(404) => retrieveBuild(latest(buildType))
       case response @ HttpResponse(200) => build.unmarshall(response)
-      case response => throw new UnexpectedHttpResponse(url, response)
+      case response => -\/(UnexpectedResponse(url, response))
     }
   }
 

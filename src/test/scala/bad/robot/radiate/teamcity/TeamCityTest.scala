@@ -9,8 +9,7 @@ import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.{Headers, HttpClient, HttpResponse, StringHttpResponse}
 import bad.robot.radiate.config.GuestAuthorisation
-import bad.robot.radiate.teamcity.{UnexpectedHttpResponse => _}
-import bad.robot.radiate.{AggregateException, UnexpectedResponse, Unmarshaller}
+import bad.robot.radiate.{AggregateError, UnexpectedResponse, Unmarshaller}
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.matcher.DisjunctionMatchers._
 import org.specs2.mutable.Specification
@@ -48,7 +47,7 @@ class TeamCityTest extends Specification with IsolatedMockFactory {
 
   "Should handle Http error when retrieving projects" >> {
     (http.get(_: URL, _: Headers)).expects(*, *).once.returning(Error)
-    teamcity.retrieveProjects must throwAn[UnexpectedHttpResponse]
+    teamcity.retrieveProjects must be_-\/.like { case e: UnexpectedResponse => ok }
   }
 
   "Should retrieve full projects" >> {
@@ -57,13 +56,13 @@ class TeamCityTest extends Specification with IsolatedMockFactory {
     (projectUnmarshaller.unmarshall _).expects(Ok).once.returning(\/-(project))
     (projectUnmarshaller.unmarshall _).expects(AnotherOk).once.returning(\/-(anotherProject))
 
-    teamcity.retrieveFullProjects(projects) must_== List(project, anotherProject)
+    teamcity.retrieveFullProjects(projects) must be_\/-(List(project, anotherProject))
   }
 
   "Should handle Http error(s) when retrieving full projects (this example attempts to load two projects and fails for both)" >> {
     (http.get(_: URL, _: Headers)).expects(*, *).anyNumberOfTimes.returning(Error)
-    teamcity.retrieveFullProjects(projects) must throwAn[AggregateException].like {
-      case e: AggregateException => e.errors must contain(beAnInstanceOf[UnexpectedHttpResponse])
+    teamcity.retrieveFullProjects(projects) must be_-\/.like {
+      case e: AggregateError => e.errors must contain(beAnInstanceOf[UnexpectedResponse])
     }
   }
 
@@ -74,13 +73,13 @@ class TeamCityTest extends Specification with IsolatedMockFactory {
     (projectUnmarshaller.unmarshall _).expects(AnotherOk).once.returning(\/-(anotherProject))
 
     val actual = teamcity.retrieveBuildTypes(projects)
-    actual must_== List(buildTypes.head, anotherBuildTypes.head)
+    actual must be_\/-(List(buildTypes.head, anotherBuildTypes.head))
   }
 
   "Should handle Http error when retrieving build types" >> {
     (http.get(_: URL, _: Headers)).expects(*, *).anyNumberOfTimes.returning(Error)
-    teamcity.retrieveBuildTypes(projects) must throwAn[AggregateException].like {
-      case e: AggregateException => e.errors must contain(beAnInstanceOf[UnexpectedHttpResponse])
+    teamcity.retrieveBuildTypes(projects) must be_-\/.like {
+      case e: AggregateError => e.errors must contain(beAnInstanceOf[UnexpectedResponse])
     }
   }
 
@@ -90,13 +89,13 @@ class TeamCityTest extends Specification with IsolatedMockFactory {
     (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id},running:true"), accept).once.returning(Ok)
     (buildUnmarshaller.unmarshall _).expects(Ok).once.returning(\/-(build))
 
-    teamcity.retrieveLatestBuild(buildType) must_== build
+    teamcity.retrieveLatestBuild(buildType) must be_\/-(build)
   }
 
   "Should handle Http error when retrieving latest running build" >> {
     val buildType = Any.buildType
     (http.get(_: URL, _: Headers)).expects(urlContainingPath(s"${buildType.id},running:true"), accept).once.returning(Error)
-    teamcity.retrieveLatestBuild(buildType) must throwAn[UnexpectedHttpResponse]
+    teamcity.retrieveLatestBuild(buildType) must be_-\/.like { case e: UnexpectedResponse => ok }
   }
 
   "Should retrieve latest latest non-running build" >> {
@@ -106,7 +105,7 @@ class TeamCityTest extends Specification with IsolatedMockFactory {
     (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id}"), accept).once.returning(Ok)
     (buildUnmarshaller.unmarshall _).expects(Ok).once.returning(\/-(build))
 
-    teamcity.retrieveLatestBuild(buildType) must_== build
+    teamcity.retrieveLatestBuild(buildType) must be_\/-(build)
   }
 
   "Should handle Http error when retrieving latest non-running build" >> {
@@ -114,7 +113,7 @@ class TeamCityTest extends Specification with IsolatedMockFactory {
     (http.get(_: URL, _: Headers)).expects(urlContainingPath("running:true"), *).once.returning(NotFound)
     (http.get(_: URL, _: Headers)).expects(new URL(s"http://example.com:8111/guestAuth/app/rest/builds/buildType:${buildType.id}"), accept).once.returning(Error)
 
-    teamcity.retrieveLatestBuild(buildType) must be_-\/(UnexpectedResponse)
+    teamcity.retrieveLatestBuild(buildType) must be_-\/.like { case e: UnexpectedResponse => ok }
   }
 
   "Should handle projects with no build history" >> {
