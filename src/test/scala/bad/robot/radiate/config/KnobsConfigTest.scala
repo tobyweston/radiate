@@ -68,4 +68,24 @@ class KnobsConfigTest extends Specification {
     }
   }
 
+  def getEnvironmentVariableStub(url: Option[String], username: Option[String], password: Option[String]): (String) => Option[String] = {
+    case "TEAMCITY_URL" => url
+    case "TEAMCITY_USERNAME" => username
+    case "TEAMCITY_PASSWORD" => password
+    case _ => ???
+  }
+
+  "Invalid URL when attempting to bootstrap config from environment variables" >> {
+    val error = create(getEnvironmentVariableStub(Some("example.com:8912"), Some("bob"), Some("secret")))
+    error must be_-\/(ConfigurationError("Invalid environment variable for 'TEAMCITY_URL'. example.com:8912 is not a valid url unknown protocol: example.com"))
+  }
+
+  "Missing URL when attempting to bootstrap config from environment variables" >> {
+    val error = create(getEnvironmentVariableStub(None, Some("bob"), Some("secret")))
+    error must be_-\/(ConfigurationError("Invalid environment variable for 'TEAMCITY_URL'. No Url was found or it was empty"))
+
+    val anotherError = create(getEnvironmentVariableStub(Some(""), Some("bob"), Some("secret")))
+    anotherError must be_-\/(ConfigurationError("Invalid environment variable for 'TEAMCITY_URL'. No Url was found or it was empty"))
+  }
+
 }

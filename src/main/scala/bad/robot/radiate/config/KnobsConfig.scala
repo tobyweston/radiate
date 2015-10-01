@@ -28,6 +28,10 @@ object KnobsConfig {
   }
 
   def create: Error \/ ConfigFile = {
+    create(getEnvironmentVariable(_))
+  }
+
+  def create(getEnvironmentVariable: (String) => Option[String]): Error \/ ConfigFile = {
     val bootstrap = for {
       _url            <- Url.validate(getEnvironmentVariable("TEAMCITY_URL")).leftMap(cause => ConfigurationError(s"Invalid environment variable for 'TEAMCITY_URL'. $cause"))
       _username       <- Username.validate(getEnvironmentVariable("TEAMCITY_USERNAME")).leftMap(cause => ConfigurationError(s"Not expecting to see this, no username is still valid. $cause"))
