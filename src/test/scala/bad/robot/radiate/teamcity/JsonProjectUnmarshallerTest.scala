@@ -4,8 +4,10 @@ import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.HttpResponse
 import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
+import bad.robot.radiate.ParseError
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
+import org.specs2.matcher.DisjunctionMatchers._
 
 class JsonProjectUnmarshallerTest extends Specification with IsolatedMockFactory {
 
@@ -21,7 +23,7 @@ class JsonProjectUnmarshallerTest extends Specification with IsolatedMockFactory
       new BuildType("example_2", "Second", "/guestAuth/app/rest/buildTypes/id:example_2", "example", "example")
     ))
     val project = unmarshaller.unmarshall(response)
-    project must_== new Project("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes)
+    project must be_\/-(new Project("example", "example", "/guestAuth/app/rest/projects/id:example", buildTypes))
   }
 
   "Unmarshall empty project" >> {
@@ -29,14 +31,14 @@ class JsonProjectUnmarshallerTest extends Specification with IsolatedMockFactory
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
     val project = unmarshaller.unmarshall(response)
-    project must_== new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypes(List()))
+    project must be_\/-(new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypes(List())))
   }
 
   "Bad JSON" >> {
     (response.getContent _).when().returns("I'm not even json")
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
-    unmarshaller.unmarshall(response) must throwA[Exception]
+    unmarshaller.unmarshall(response) must be_-\/(ParseError("Unexpected content found: I'm not even json"))
   }
 
   "Minimal project json" >> {
@@ -50,7 +52,7 @@ class JsonProjectUnmarshallerTest extends Specification with IsolatedMockFactory
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
     val project = unmarshaller.unmarshall(response)
-    project must_== new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypes(List()))
+    project must be_\/-(new Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypes(List())))
   }
 
   val projectJson = """{
