@@ -1,6 +1,10 @@
+enablePlugins(JavaAppPackaging)
+
 name := "radiate"
 
 version := "1.0"
+
+jarName in assembly := "radiate-1.0.jar"
 
 scalaVersion := "2.11.6"
 
@@ -19,3 +23,17 @@ resolvers ++= Seq(
 )
 
 scalacOptions := Seq("-Xlint", "-Xfatal-warnings", "-deprecation", "-feature", "-language:implicitConversions,reflectiveCalls,higherKinds")
+
+sources in(Compile, doc) := Seq.empty
+publishArtifact in(Compile, packageDoc) := false
+
+mappings in Universal := {
+  val universalMappings = (mappings in Universal).value
+  val fatJar = (assembly in Compile).value
+  val filtered = universalMappings filter {
+    case (file, name) => !name.endsWith(".jar")
+  }
+  filtered :+ (fatJar -> ("lib/" + fatJar.getName))
+}
+
+scriptClasspath := Seq((jarName in assembly).value)
