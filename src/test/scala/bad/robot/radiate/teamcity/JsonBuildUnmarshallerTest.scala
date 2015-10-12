@@ -4,8 +4,10 @@ import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.HttpResponse
 import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
+import bad.robot.radiate.ParseError
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
+import org.specs2.matcher.DisjunctionMatchers._
 
 class JsonBuildUnmarshallerTest extends Specification with IsolatedMockFactory {
 
@@ -18,7 +20,7 @@ class JsonBuildUnmarshallerTest extends Specification with IsolatedMockFactory {
 
     val build = unmarshaller.unmarshall(response)
     val buildType = BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example")
-    build must_== Build("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Success", "20130726T150432+0100", Some("20130726T150541+0100"), buildType, None)
+    build must be_\/-(Build("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Success", "20130726T150432+0100", Some("20130726T150541+0100"), buildType, None))
   }
 
   "Unmarshall a running build" >> {
@@ -28,7 +30,7 @@ class JsonBuildUnmarshallerTest extends Specification with IsolatedMockFactory {
     val build = unmarshaller.unmarshall(response)
     val buildType  = BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example")
     val runInformation = Some(RunInformation(9, 7, 85, false, false))
-    build must_== Build("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Step 1/1", "20130726T161108+0100", None, buildType, runInformation)
+    build must be_\/-(Build("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Step 1/1", "20130726T161108+0100", None, buildType, runInformation))
   }
 
   "Unmarshall outdated build" >> {
@@ -38,14 +40,14 @@ class JsonBuildUnmarshallerTest extends Specification with IsolatedMockFactory {
     val build = unmarshaller.unmarshall(response)
     val buildType = BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example")
     val runInformation = Some(RunInformation(9, 7, 85, true, false))
-    build must_== Build("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Step 1/1", "20130726T161108+0100", None, buildType, runInformation)
+    build must be_\/-(Build("465", "159", "/guestAuth/app/rest/builds/id:465", "SUCCESS", "Step 1/1", "20130726T161108+0100", None, buildType, runInformation))
   }
 
   "Bad JSON" >> {
     (response.getContent _).when().returns("I'm not even json")
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
-    unmarshaller.unmarshall(response) must throwA[Exception]
+    unmarshaller.unmarshall(response) must be_-\/(ParseError("Unexpected content found: I'm not even json"))
   }
 
   val buildJson = """{
