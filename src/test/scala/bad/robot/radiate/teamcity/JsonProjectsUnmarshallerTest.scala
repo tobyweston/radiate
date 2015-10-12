@@ -4,12 +4,13 @@ import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
 import bad.robot.http.HttpResponse
 import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
+import bad.robot.radiate.ParseError
 import bad.robot.radiate.specs2.iterableAsResult
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
 import org.specs2.matcher.DisjunctionMatchers._
 
-class JsonProjectsUnmarshallerTestS extends Specification with IsolatedMockFactory {
+class JsonProjectsUnmarshallerTest extends Specification with IsolatedMockFactory {
 
   val response = stub[HttpResponse]
   val unmarshaller = new JsonProjectsUnmarshaller
@@ -45,6 +46,6 @@ class JsonProjectsUnmarshallerTestS extends Specification with IsolatedMockFacto
     (response.getContent _).when().returns("I'm not even json")
     (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
 
-    unmarshaller.unmarshall(response) must throwA[Exception]
+    unmarshaller.unmarshall(response) must be_-\/(ParseError("Unexpected content found: I'm not even json"))
   }
 }
