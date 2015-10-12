@@ -6,7 +6,7 @@ version := "1.0"
 
 jarName in assembly := "radiate-1.0.jar"
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
   "bad.robot" % "simple-http" % "1.0-SNAPSHOT" % "compile" exclude("junit", "junit"),
