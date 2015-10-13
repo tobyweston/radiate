@@ -1,7 +1,7 @@
 # Radiate
 [![](https://travis-ci.org/tobyweston/radiate.png?branch=master)](https://travis-ci.org/tobyweston/radiate)
 
-TeamCity build monitor. Run as a Windows **screensaver** or from the desktop.
+`radiate` is a TeamCity build monitor written in Scala. It can be run as a Windows **screensaver** or from the desktop.
 
 It will auto detect your TeamCity projects and aggregate the builds to an overall RED or GREEN. Have a look on YouTube for [an introduction video](http://www.youtube.com/watch?v=ZMQn-J435Lk).
 
