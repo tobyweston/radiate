@@ -1,6 +1,8 @@
 
 name := "radiate"
 
+organization := "bad.robot"
+
 assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 
 scalaVersion := "2.11.7"
@@ -30,7 +32,7 @@ publishArtifact in(Compile, packageDoc) := false
 
 // publish (see https://github.com/sbt/sbt-assembly)
 
-publishTo := Some(Resolver.file("file", new File("temp/maven/")))
+publishTo := Some(Resolver.file("file", new File("/Users/toby/Workspace/robotooling/maven/")))
 
 addArtifact(artifact in(Compile, assembly), assembly)
 
