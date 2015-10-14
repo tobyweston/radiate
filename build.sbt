@@ -50,8 +50,8 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  // publishArtifacts,
+  releaseStepTask(publish),
   setNextVersion,
-  commitNextVersion
-  // pushChanges
+  commitNextVersion,
+  pushChanges
 )
