@@ -2,7 +2,7 @@ enablePlugins(JavaAppPackaging)
 
 name := "radiate"
 
-version := "1.0"
+version := "2.0"
 
 jarName in assembly := "radiate-1.0.jar"
 
