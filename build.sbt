@@ -22,6 +22,9 @@ resolvers ++= Seq(
 
 scalacOptions := Seq("-Xlint", "-Xfatal-warnings", "-deprecation", "-feature", "-language:implicitConversions,reflectiveCalls,higherKinds")
 
+
+// universal:package-bin
+
 sources in(Compile, doc) := Seq.empty
 publishArtifact in(Compile, packageDoc) := false
 
@@ -36,7 +39,17 @@ mappings in Universal := {
 
 scriptClasspath := Seq((assemblyJarName in assembly).value)
 
-import sbtrelease._
+
+// publish (see https://github.com/sbt/sbt-assembly)
+
+publishTo := Some(Resolver.file("file", new File("temp/maven/")))
+
+addArtifact(artifact in(Compile, assembly), assembly)
+
+
+
+// release (see https://github.com/sbt/sbt-release)
+
 import sbtrelease.ReleaseStateTransformations._
 
 releaseProcess := Seq[ReleaseStep](
