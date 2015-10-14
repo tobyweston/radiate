@@ -1,12 +1,12 @@
 package bad.robot.radiate.ui
 
-import bad.robot.radiate.monitor.ObserverS
+import bad.robot.radiate.monitor.Observer
 
-class StatusFramesScala(factory: FrameFactoryS) {
+class StatusFrames(factory: FrameFactory) {
 
   private val frames = factory.create
 
-  private[ui] def primary: StatusFrameScala = {
+  private[ui] def primary: StatusFrame = {
      frames.head
   }
 
@@ -18,7 +18,7 @@ class StatusFramesScala(factory: FrameFactoryS) {
     frames.foreach(frame => frame.dispose())
   }
   
-  def createStatusPanels: List[ObserverS] = {
+  def createStatusPanels: List[Observer] = {
      frames.map(frame => frame.createStatusPanel)
   }
 }

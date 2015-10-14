@@ -2,8 +2,8 @@ package bad.robot.radiate.teamcity
 
 import argonaut.DecodeJson
 
-object RunInformationS {
-  implicit def runInformationDecoder: DecodeJson[RunInformationS] = {
+object RunInformation {
+  implicit def runInformationDecoder: DecodeJson[RunInformation] = {
     DecodeJson(cursor => {
       for {
         percentageComplete <- cursor.get[Int]("percentageComplete")
@@ -12,10 +12,10 @@ object RunInformationS {
         outdated <- cursor.get[Boolean]("outdated")
         probablyHanging <- cursor.get[Boolean]("probablyHanging")
       } yield {
-        RunInformationS(percentageComplete, elapsedSeconds, estimatedTotalSeconds, outdated, probablyHanging)
+        RunInformation(percentageComplete, elapsedSeconds, estimatedTotalSeconds, outdated, probablyHanging)
       }
     })
   }
 }
 
-case class RunInformationS(percentageComplete: Integer, elapsedSeconds: Integer, estimatedTotalSeconds: Integer, outdated: Boolean, probablyHanging: Boolean) extends TeamCityObjectS
+case class RunInformation(percentageComplete: Integer, elapsedSeconds: Integer, estimatedTotalSeconds: Integer, outdated: Boolean, probablyHanging: Boolean) extends TeamCityObject

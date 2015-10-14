@@ -4,7 +4,7 @@ import java.awt.BasicStroke.{CAP_BUTT, JOIN_MITER}
 import java.awt.Color.darkGray
 import java.awt._
 
-object DebugS {
+object Debug {
   def drawOutlineOfRegion(region: Rectangle, graphics: Graphics2D) {
     graphics.drawRect(region.x, region.y, region.width, region.height)
   }

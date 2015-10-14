@@ -2,11 +2,11 @@ package bad.robot.radiate.ui
 
 import math._
 
-object EmptyTrailingTilesScala {
-  def tiles(numberOfTiles: Int): EmptyTrailingTilesScala = new EmptyTrailingTilesScala(numberOfTiles)
+object EmptyTrailingTiles {
+  def tiles(numberOfTiles: Int): EmptyTrailingTiles = new EmptyTrailingTiles(numberOfTiles)
 }
 
-class EmptyTrailingTilesScala(numberOfTiles: Int) extends TilesScala {
+class EmptyTrailingTiles(numberOfTiles: Int) extends Tiles {
 
   val rows = floor(sqrt(numberOfTiles)).toInt
 

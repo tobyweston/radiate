@@ -1,24 +1,30 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.radiate.AggregatorS.aggregate
-import bad.robot.radiate.monitor.{InformationS, MonitoringTaskS, NonRepeatingObservableS}
+import bad.robot.radiate.Aggregate.aggregate
+import bad.robot.radiate.config.Config
+import bad.robot.radiate.monitor.{Information, MonitoringTask, NonRepeatingObservable}
+import bad.robot.radiate.teamcity.ListBuildTypesSyntax._
 
-class SingleProjectMonitorS(project: ProjectScala, configuration: TeamCityConfigurationS) extends NonRepeatingObservableS with MonitoringTaskS {
-  private val http = new HttpClientFactoryS().create(configuration)
-  private val server = new ServerS(configuration.host, configuration.port)
-  private val teamcity = new TeamCityS(server, configuration.authorisation, http, new JsonProjectsUnmarshallerS, new JsonProjectUnmarshallerS, new JsonBuildUnmarshallerS)
+import scalaz.syntax.either._
 
-  def run {
-    try {
-      val buildTypes = teamcity.retrieveBuildTypes(List(project))
-      val builds = buildTypes.par.map(teamcity.retrieveLatestBuild).toList
-      val aggregated = aggregate(builds)
-      notifyObservers(aggregated.activity, aggregated.progress)
-      notifyObservers(aggregated.status)
-      notifyObservers(new InformationS(toString))
-    } catch {
-      case e: Exception => notifyObservers(e)
-    }
+class SingleProjectMonitor(project: Project, config: Config) extends NonRepeatingObservable with MonitoringTask {
+  private val http = HttpClientFactory().create(config)
+  private val teamcity = new TeamCity(new TeamCityUrl(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+
+  def run() {
+    val builds = for {
+      buildTypes  <- teamcity.retrieveBuildTypes(List(project))
+      builds      <- buildTypes.getBuilds(teamcity)
+      aggregation <- aggregate(builds).right
+    } yield aggregation
+
+    builds.fold(error => {
+      notifyObservers(error)
+    }, aggregation => {
+      notifyObservers(aggregation.activity, aggregation.progress)
+      notifyObservers(aggregation.status)
+      notifyObservers(new Information(toString))
+    })
   }
 
   override def toString = s"${project.name} (${project.id})"

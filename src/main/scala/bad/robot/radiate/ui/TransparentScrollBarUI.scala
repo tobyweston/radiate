@@ -5,7 +5,7 @@ import java.awt._
 import javax.swing._
 import javax.swing.plaf.basic.BasicScrollBarUI
 
-class TransparentScrollBarUIS extends BasicScrollBarUI {
+class TransparentScrollBarUI extends BasicScrollBarUI {
   private val dimension = new Dimension
 
   protected override def createDecreaseButton(orientation: Int): JButton = {

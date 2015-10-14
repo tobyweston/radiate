@@ -2,11 +2,14 @@ package bad.robot.radiate.teamcity
 
 import argonaut.Argonaut._
 import bad.robot.http.HttpResponse
-import bad.robot.radiate.UnmarshallerS
+import bad.robot.radiate.{ParseError, Unmarshaller}
+import bad.robot.radiate.Error
 
-class JsonProjectsUnmarshallerS extends UnmarshallerS[HttpResponse, Iterable[ProjectScala]] {
-  def unmarshall(response: HttpResponse): Iterable[ProjectScala] = {
-    val json = new JsonResponseS(response).body
-    json.decodeEither[ProjectsScala].valueOr(error => throw new Exception(error))
+import scalaz.\/
+
+class JsonProjectsUnmarshaller extends Unmarshaller[HttpResponse, Iterable[Project]] {
+  def unmarshall(response: HttpResponse): Error \/ Iterable[Project] = {
+    val json = new JsonResponse(response).body
+    json.decodeEither[Projects].leftMap(ParseError)
   }
 }

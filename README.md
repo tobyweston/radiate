@@ -1,19 +1,33 @@
 # Radiate
 [![](https://travis-ci.org/tobyweston/radiate.png?branch=master)](https://travis-ci.org/tobyweston/radiate)
 
-TeamCity build monitor. Run as a Windows **screensaver** or from the desktop.
+`radiate` is a TeamCity build monitor written in Scala. It can be run as a Windows **screensaver** or from the desktop.
 
 It will auto detect your TeamCity projects and aggregate the builds to an overall RED or GREEN. Have a look on YouTube for [an introduction video](http://www.youtube.com/watch?v=ZMQn-J435Lk).
 
 ![](grey-busy.png) ![](green-radial.png) ![](red-radial.png)
 
-### Configuration
 
-Set the environment property `TEAMCITY_HOST` and optionally `TEAMCITY_PORT` (the port defaults to `8111` if you don't set it).
+### Version 2.0 Released!
 
-Both TeamCity user and guest login are supported. To enable TeamCity guest login see instructions for [TeamCity 8](http://confluence.jetbrains.com/display/TCD8/Enabling+Guest+Login) and [TeamCity 7](http://confluence.jetbrains.com/display/TCD7/Enabling+Guest+Login)).
+Version 2.x is a conversion from Java to Scala. The Java version is still available on a branch. Note that the config file format has changed. If you're upgrading from version 1.x, **you'll need to migrate to the new `.cfg` format from `.yml`**. Locate the `radiate.cfg` after first boot and customise as required. See the [Setup]() section below for more details.
 
-It reports builds form **all** projects on the TeamCity instance. Once you've run the app once, `config.yml` will be created in your `user.home` where you can prune the list of projects and change other settings.
+
+### Setup
+
+To setup, simply set the environment property `TEAMCITY_URL` to point to your TeamCity instance.
+
+For example, the following are all valid. If you don't set a port, it will default to `8111`
+
+    http://localhost
+    http://myteamcity.com:8991
+    https://localhost.com:80
+
+The first time it loads, `radiate` will attempt to load the list of projects using the guest login and start monitoring those. Once you've run the app once, a `radiate.cfg` will be created in your `user.home` where you can prune the list of projects and change other settings.
+ 
+The app supports both TeamCity user and guest login. To switch on TeamCity guest login, see instructions for [TeamCity 8](http://confluence.jetbrains.com/display/TCD8/Enabling+Guest+Login) and [TeamCity 7](http://confluence.jetbrains.com/display/TCD7/Enabling+Guest+Login)).
+
+
 
 ### Usage
 
@@ -29,27 +43,28 @@ There are a few key you can use to control the application. Hit any of the follo
 
 A log will also be created in the `user.home` folder.
 
-### Environment configurations
 
-For Radiate to start up, you'll need to add at least one environment variable to tell it where your TeamCity instance is running (described in below). It will try to bootstrap things with sensible defaults but if things don't start up, you can check for errors either in the generated log file or via the UI, by pressing `F1`.
+### Configuration
 
-Once started, the `config.yml` file is created in a folder called `.radiate` in your `user.home` (ie `/Users/toby/.radiate/config.yml`). It will contain the default configuration and from that point on will override any environment variables. Environment variables are therefore a handy way to start the app with minimal configuration but to fine tune things (for example, set which projects to monitor), edit the config file. 
+For `radiate` to start up, you'll need to add at least one environment variable to tell it where your TeamCity instance is running (`TEAMCITY_URL` described above). It will try to bootstrap with sensible defaults but if things don't start up, you can check for errors either in the generated log file or via the UI, by pressing `F1`.
+
+Once started, the `radiate.cfg` file is created in a folder called `.radiate` in your `user.home` (ie `/Users/toby/.radiate/radiate.cfg`). It will contain the default configuration and from that point on, will override any environment variables. Environment variables are therefore a handy way to start the app with minimal configuration but to fine tune things (for example, set which projects to monitor), edit the config file.
 
 **NB.** The location is set using [Java's notion of `user.home`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html). This will vary depending on platform and JVM version. Best run a Java app to print it out using `System.getProperty("user.home")` if you're not sure where it is. Don't forget that the folder `.radiate` might also show up as a hidden folder on your platform. 
 
-The bootstrap environment variables are
+The bootstraping environment variables are below (remember, these will be ignored once the `radiate.cfg` is in place).
 
 Environment variable | Required | Example
 --- | --- | ---
-TEAMCITY_HOST | Required | http://localhost
-TEAMCITY_PORT | Optional, defaults to 8111 | 8001
-TEAMCITY_PASSWORD | Optional, defaults to guest auth | bob_fossil
-TEAMCITY_USER | Optional, defaults to guest auth | secret
+TEAMCITY_URL | Required, port defaults to `8111` is missing | http://localhost:80
+TEAMCITY_USERNAME | Optional, defaults to guest auth if missing | secret
+TEAMCITY_PASSWORD | Optional, defaults to guest auth if missing | bob_fossil
 
 
 ### Download
 
 Download the .exe, .scr or executable jar from the [bad robot repository](http://robotooling.com/maven/bad/robot/radiate/).
+
 
 ### Finer grained views
 

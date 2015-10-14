@@ -1,39 +1,25 @@
 package bad.robot.radiate.teamcity
 
+import java.net.URL
+
+import bad.robot.radiate.config._
 import org.scalamock.specs2.MockContext
 import org.specs2.mutable.Specification
 
 class AuthenticationTest extends Specification {
 
   "Factory creates 'Guest Authentication' when no password is supplied" in new MockContext {
-    val configuration = stub[TeamCityConfigurationS]
-
-    (configuration.username _).when().returns(UsernameS("Dale"))
-    (configuration.password _).when().returns(NoPasswordS)
-
-    val auth = Authentication(configuration)
-    auth must_== GuestAuthenticationS
+    val auth = Authentication(Config(null, List(), Some(Username("Dale")), None, null))
+    auth must_== GuestAuthentication
   }
 
   "Factory creates 'Guest Authentication' when no username is supplied" in new MockContext {
-    val configuration = stub[TeamCityConfigurationS]
-
-    (configuration.username _).when().returns(NoUsernameS)
-    (configuration.password _).when().returns(PasswordS("secret"))
-
-    val auth = Authentication(configuration)
-    auth must_== GuestAuthenticationS
+    val auth = Authentication(Config(null, List(), None, Some(Password("secret")), null))
+    auth must_== GuestAuthentication
   }
 
   "Factory creates 'Basic Authentication'" in new MockContext {
-    val configuration = stub[TeamCityConfigurationS]
-
-    (configuration.username _).when().returns(UsernameS("El Darko"))
-    (configuration.password _).when().returns(PasswordS("secret"))
-    (configuration.host _).when().returns("http://example.com")
-    (configuration.port _).when().returns(8008)
-
-    val auth = Authentication(configuration)
-    auth must_== new BasicAuthentication(ServerS("http://example.com", 8008), UsernameS("El Darko"), PasswordS("secret"))
+    val auth = Authentication(Config(new URL("http://example.com:8008"), List(), Some(Username("El Darko")), Some(Password("secret")), null))
+    auth must_== new BasicAuthentication(new URL("http://example.com:8008"), Username("El Darko"), Password("secret"))
   }
 }

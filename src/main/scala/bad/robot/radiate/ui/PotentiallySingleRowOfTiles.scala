@@ -2,11 +2,11 @@ package bad.robot.radiate.ui
 
 import scala.math._
 
-object PotentiallySingleRowOfTilesScala {
-  def tiles(numberOfTiles: Int) = new PotentiallySingleRowOfTilesScala(numberOfTiles)
+object PotentiallySingleRowOfTiles {
+  def tiles(numberOfTiles: Int) = new PotentiallySingleRowOfTiles(numberOfTiles)
 }
 
-case class PotentiallySingleRowOfTilesScala(numberOfTiles: Int) extends TilesScala {
+case class PotentiallySingleRowOfTiles(numberOfTiles: Int) extends Tiles {
   private var _rows = 0
   private var _columns = 0
 

@@ -1,3 +1,3 @@
 package bad.robot.radiate.teamcity
 
-abstract class TeamCityExceptionS(message: String) extends Exception(message)
+abstract class TeamCityException(message: String) extends Exception(message)

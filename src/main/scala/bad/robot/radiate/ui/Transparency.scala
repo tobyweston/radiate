@@ -3,19 +3,19 @@ package bad.robot.radiate.ui
 import java.awt.AlphaComposite.SRC_OVER
 import java.awt._
 
-object TransparencyS {
-  var Transparent = TransparencyS(0.0f)
-  var TwentyPercent = TransparencyS(0.20f)
-  var SeventyFivePercent = TransparencyS(0.75f)
-  var Opaque = TransparencyS(1.0f)
+object Transparency {
+  var Transparent = Transparency(0.0f)
+  var TwentyPercent = Transparency(0.20f)
+  var SeventyFivePercent = Transparency(0.75f)
+  var Opaque = Transparency(1.0f)
 }
 
-case class TransparencyS(percentage: Float) {
+case class Transparency(percentage: Float) {
 
   def +(percentage: Float) = increase(percentage)
 
-  def increase(percentage: Float): TransparencyS = {
-    TransparencyS(this.percentage + percentage)
+  def increase(percentage: Float): Transparency = {
+    Transparency(this.percentage + percentage)
   }
 
   /**

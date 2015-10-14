@@ -9,24 +9,26 @@ import javax.swing.UIManager.getSystemLookAndFeelClassName
 import javax.swing._
 
 import bad.robot.radiate.FunctionInterfaceOps.toRunnable
-import bad.robot.radiate.monitor.MonitoringTasksFactoryS._
+import bad.robot.radiate._
+import bad.robot.radiate.monitor.MonitoringTasksFactory._
 import bad.robot.radiate.monitor._
-import bad.robot.radiate.teamcity.SanitisedExceptionS
-import bad.robot.radiate.ui.FrameFactoryS._
+import bad.robot.radiate.teamcity.SanitisedException
+import bad.robot.radiate.ui.FrameFactory._
 
-class SwingUiS(factory: FrameFactoryS) extends UiScala with ObserverS {
+class SwingUi(factory: FrameFactory) extends Ui with Observer {
   
-  private val frames = new StatusFramesScala(factory)
-  private val console = new ConsoleS(frames.primary)
+  private val frames = new StatusFrames(factory)
+  private val console = new Console(frames.primary)
 
+  Logging.initialise()
   setupGlobalEventListeners()
   setLookAndFeel()
 
   private def setupGlobalEventListeners() {
-    addAwtEventListener(new ExitOnEscapeS)
-    addAwtEventListener(new SwitchToS(desktopMode, VK_D))
-    addAwtEventListener(new SwitchToS(fullScreen, VK_F))
-    addAwtEventListener(new ToggleConsoleDialogS(console))
+    addAwtEventListener(new ExitOnEscape)
+    addAwtEventListener(new SwitchTo(desktopMode, VK_D))
+    addAwtEventListener(new SwitchTo(fullScreen, VK_F))
+    addAwtEventListener(new ToggleConsoleDialog(console))
     addAwtEventListener(new RestartS(singleAggregate, VK_A))
     addAwtEventListener(new RestartS(multipleProjects, VK_C))
     addAwtEventListener(new RestartS(multipleBuildsDemo, VK_X))
@@ -49,16 +51,24 @@ class SwingUiS(factory: FrameFactoryS) extends UiScala with ObserverS {
     getDefaultToolkit.getAWTEventListeners.foreach(listener => getDefaultToolkit.removeAWTEventListener(listener))
   }
 
-  def createStatusPanels: List[ObserverS] = {
+  def createStatusPanels: List[Observer] = {
     frames.createStatusPanels
   }
 
-  override def update(source: ObservableS, information: InformationS) {
+  override def update(source: Observable, status: Status): Unit = () /** ignore status updates **/
+
+  override def update(source: Observable, activity: Activity, progress: Progress): Unit = () /** ignore progress updates **/
+
+  override def update(source: Observable, information: Information) {
     invokeLater(console.append(s"$information"))
   }
 
-  override def update(source: ObservableS, exception: Exception) {
-    val message = new SanitisedExceptionS(exception).getMessage
+  override def update(source: Observable, exception: Exception) {
+    val message = new SanitisedException(exception).getMessage
     invokeLater(console.append(s"$message when monitoring ${if (source == null) "" else source.toString}"))
+  }
+
+  override def update(source: Observable, error: Error): Unit = {
+    invokeLater(console.append(s"${error.message} when monitoring ${if (source == null) "" else source.toString}"))
   }
 }

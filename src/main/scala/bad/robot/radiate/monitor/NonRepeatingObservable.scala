@@ -2,10 +2,10 @@ package bad.robot.radiate.monitor
 
 import scala.collection.mutable
 
-class NonRepeatingObservableS extends ThreadSafeObservableS {
-  private val previous = new mutable.LinkedHashSet[InformationS]()
+class NonRepeatingObservable extends ThreadSafeObservable {
+  private val previous = new mutable.LinkedHashSet[Information]()
 
-  override def notifyObservers(information: InformationS) {
+  override def notifyObservers(information: Information) {
     if (previous.add(information)) {
       super.notifyObservers(information)
     }

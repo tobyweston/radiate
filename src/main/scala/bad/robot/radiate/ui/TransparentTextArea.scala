@@ -4,7 +4,7 @@ import java.awt.Font.BOLD
 import java.awt._
 import javax.swing._
 
-class TransparentTextAreaS extends JTextArea {
+class TransparentTextArea extends JTextArea {
   setOpaque(false)
   setFont(UIManager.getFont("Button.font").deriveFont(BOLD, 11.0f))
   setForeground(Color.white)

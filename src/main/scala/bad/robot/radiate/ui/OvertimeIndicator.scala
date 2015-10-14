@@ -11,21 +11,22 @@ import java.beans.PropertyChangeEvent
 import javax.swing._
 import javax.swing.plaf.LayerUI
 
-import bad.robot.radiate.ui.FrameRateS.videoFramesPerSecond
-import bad.robot.radiate.ui.TransparencyS.Transparent
-import bad.robot.radiate.ui.swing.CompositeS.{applyWithComposite, transparentComposite}
-import bad.robot.radiate.ui.swing.PercentageS.{FiftyPercent, TwentyPercent}
-import bad.robot.radiate.ui.swing.RegionS.{centerRegionWithinComponent, getReducedRegionAsSquare}
-import bad.robot.radiate.ui.swing.TextS.{getCenterPointOfTextWithinRegion, setFontScaledToRegion}
-import bad.robot.radiate.{ActivityS, ProgressS, Progressing}
+import bad.robot.radiate.ui.FrameRate.videoFramesPerSecond
+import bad.robot.radiate.ui.Transparency.Transparent
+import bad.robot.radiate.ui.swing.Composite.{applyWithComposite, transparentComposite}
+import bad.robot.radiate.ui.swing.Percentage.{FiftyPercent, TwentyPercent}
+import bad.robot.radiate.ui.swing.Region.{centerRegionWithinComponent, getReducedRegionAsSquare}
+import bad.robot.radiate.ui.swing.Text.{getCenterPointOfTextWithinRegion, setFontScaledToRegion}
+import bad.robot.radiate._
+import activity._
 
 import scala.math._
 
-class OvertimeIndicatorS extends LayerUI[JComponent] {
+class OvertimeIndicator extends LayerUI[JComponent] {
   private val timer = new Timer(5, new AnimationActionListenerS)
   private val fadeTimer = new Timer(videoFramesPerSecond.asFrequencyInMillis, new FadeActionListenerS)
 
-  private var fade: FadeScala = _
+  private var fade: Fade = _
   private var overtimeIndicatorPosition = 90
   private var transparency = Transparent
 
@@ -61,7 +62,7 @@ class OvertimeIndicatorS extends LayerUI[JComponent] {
 
   private def drawBackgroundRadial(region: Rectangle, graphics: Graphics2D) {
     if (timer.isRunning) {
-      applyWithComposite(graphics, transparentComposite(graphics, TransparencyS.TwentyPercent)) {
+      applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent)) {
         graphics.setColor(white)
         graphics.drawArc(region.x, region.y, region.width, region.height, 90, 360)
       }
@@ -86,7 +87,7 @@ class OvertimeIndicatorS extends LayerUI[JComponent] {
     val drawArea = getReducedRegionAsSquare(component, FiftyPercent)
     centerRegionWithinComponent(drawArea, component)
     setFontScaledToRegion(drawArea, graphics, numberOfBuilds, new Font("Arial", PLAIN, 10))
-    applyWithComposite(graphics, transparentComposite(graphics, TransparencyS.TwentyPercent)) {
+    applyWithComposite(graphics, transparentComposite(graphics, Transparency.TwentyPercent)) {
       val center = getCenterPointOfTextWithinRegion(drawArea, graphics, graphics.getFont(), numberOfBuilds)
       graphics.drawString(numberOfBuilds, center.x, center.y + (center.y / 3)) // nudge down y
     }
@@ -96,12 +97,12 @@ class OvertimeIndicatorS extends LayerUI[JComponent] {
     if ("animate" == event.getPropertyName)
       layer.repaint()
     if ("fade" == event.getPropertyName) {
-      transparency = TransparencyS(event.getNewValue.asInstanceOf[Float])
+      transparency = Transparency(event.getNewValue.asInstanceOf[Float])
       layer.repaint()
     }
   }
 
-  def setVisibilityBasedOn(activity: ActivityS, progress: ProgressS) = activity match {
+  def setVisibilityBasedOn(activity: Activity, progress: Progress) = activity match {
     case Progressing if progress.complete => start()
     case _ => stop()
   }
@@ -109,14 +110,14 @@ class OvertimeIndicatorS extends LayerUI[JComponent] {
   private def start() {
     if (!timer.isRunning) {
       timer.start()
-      fade = new FadeInScala
+      fade = new FadeIn
     }
     fadeTimer.start()
   }
 
   private def stop() {
     if (timer.isRunning)
-      fade = new FadeOutS
+      fade = new FadeOut
     timer.stop()
   }
 

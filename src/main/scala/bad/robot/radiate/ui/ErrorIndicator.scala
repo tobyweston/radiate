@@ -7,10 +7,10 @@ import java.awt._
 import java.awt.geom.Ellipse2D
 import javax.swing._
 import javax.swing.plaf.LayerUI
+import bad.robot.radiate._
+import activity._
 
-import bad.robot.radiate.{ActivityS, Error}
-
-class ErrorIndicatorS extends LayerUI[JComponent] {
+class ErrorIndicator extends LayerUI[JComponent] {
   private var redraw: Boolean = false
 
   override def paint(g: Graphics, component: JComponent) {
@@ -33,7 +33,7 @@ class ErrorIndicatorS extends LayerUI[JComponent] {
     graphics.draw(new Ellipse2D.Double(100, 100, 200, 200))
   }
 
-  def setVisibilityBasedOn(activity: ActivityS) {
+  def setVisibilityBasedOn(activity: Activity) {
     if (activity == Error) redraw = true
   }
 }

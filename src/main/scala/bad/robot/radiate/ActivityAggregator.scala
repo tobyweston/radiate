@@ -1,14 +1,16 @@
 package bad.robot.radiate
 
-object ActivityAggregatorS {
-  def aggregated(statuses: List[ActivityS]) = new ActivityAggregatorS(statuses)
+import activity._
+
+object ActivityAggregator {
+  def aggregated(statuses: List[Activity]) = new ActivityAggregator(statuses)
 }
 
-class ActivityAggregatorS(activities: List[ActivityS]) {
+class ActivityAggregator(activities: List[Activity]) {
 
-  def getActivity: ActivityS = {
+  def getActivity: Activity = {
     if (activities.isEmpty) Idle
-    else activities.reduce[ActivityS] {
+    else activities.reduce[Activity] {
         case (first, second) if first == Error || second == Error => Error
         case (first, second) if first == Busy || second == Busy => Busy
         case (first, second) if first == Progressing || second == Progressing => Progressing

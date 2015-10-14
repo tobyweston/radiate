@@ -7,7 +7,7 @@ import java.lang.String.format
 import javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 import javax.swing._
 
-object ConsoleS {
+object Console {
 
   private def calculateSize(owner: Frame): Dimension = {
     val parent = owner.getSize
@@ -21,16 +21,16 @@ object ConsoleS {
   }
 }
 
-class ConsoleS(owner: Frame) extends TransparentDialogS("", owner) {
+class Console(owner: Frame) extends TransparentDialog("", owner) {
 
-  private val text: JTextArea = new TransparentTextAreaS
+  private val text: JTextArea = new TransparentTextArea
 
   makeResizeable()
   val dialog = getJDialog
-  dialog.setSize(ConsoleS.calculateSize(owner))
+  dialog.setSize(Console.calculateSize(owner))
   dialog.setLocationRelativeTo(owner)
   dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE)
-  dialog.add(new TransparentJScrollPaneS(text))
+  dialog.add(new TransparentJScrollPane(text))
   text.addKeyListener { (event: KeyEvent) => if (event.getKeyCode == VK_C) clear() }
 
   def append(string: String) {

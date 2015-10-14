@@ -1,3 +1,3 @@
 package bad.robot.radiate.monitor
 
-trait MonitoringTaskS extends Runnable with ObservableS
+trait MonitoringTask extends Runnable with Observable

@@ -1,9 +1,9 @@
 package bad.robot.radiate.teamcity
 
 import bad.robot.http.{Header, HttpResponse}
-import bad.robot.radiate.teamcity.JsonResponseS._
+import bad.robot.radiate.teamcity.JsonResponse._
 
-object JsonResponseS {
+object JsonResponse {
   private def isJson(response: HttpResponse): Boolean = {
     import scala.collection.JavaConverters._
     response.getHeaders.asScala.find(json) match {
@@ -17,9 +17,9 @@ object JsonResponseS {
   }
 }
 
-class JsonResponseS(response: HttpResponse) {
+class JsonResponse(response: HttpResponse) {
 
-  if (!isJson(response)) throw new UnexpectedContentTypeS(response)
+  if (!isJson(response)) throw new UnexpectedContentType(response)
 
   def body = response.getContent.asString
 }

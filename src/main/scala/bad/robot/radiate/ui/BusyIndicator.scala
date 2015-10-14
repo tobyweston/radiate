@@ -10,8 +10,9 @@ import java.beans.PropertyChangeEvent
 import javax.swing._
 import javax.swing.plaf.LayerUI
 
-import bad.robot.radiate.{ActivityS, Busy}
 import bad.robot.radiate.ui.FrameRate.videoFramesPerSecond
+import bad.robot.radiate._
+import activity._
 import math._
 
 class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {
@@ -71,7 +72,7 @@ class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {
       fadingOut = false
       fadeCount = 0
       timer = new Timer(videoFramesPerSecond.asFrequencyInMillis, this)
-      timer.start
+      timer.start()
     }
   }
 
@@ -98,9 +99,9 @@ class BusyIndicatorS extends LayerUI[JComponent] with ActionListener {
     if ("tick" == event.getPropertyName) layer.repaint()
   }
 
-  def setVisibilityBasedOn(activity: ActivityS) = activity match {
-    case Busy => start
-    case _ => stop
+  def setVisibilityBasedOn(activity: Activity) = activity match {
+    case Busy => start()
+    case _ => stop()
   }
 
   private def stop() = {

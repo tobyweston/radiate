@@ -1,5 +1,7 @@
 package bad.robot.radiate
 
-trait UnmarshallerS[F, T] {
-  def unmarshall(raw: F): T
+import scalaz.\/
+
+trait Unmarshaller[F, T] {
+  def unmarshall(raw: F): Error \/ T
 }

@@ -1,7 +1,11 @@
 package bad.robot.radiate.monitor
 
-class MultipleBuildsDemoS extends ThreadSafeObservableS with MonitoringTasksFactoryS {
-  def create: List[MonitoringTaskS] = {
-    Stream.continually(new RandomStatusS).take(4 * 4).toList
+import bad.robot.radiate.Error
+import scalaz.\/
+import scalaz.syntax.either._
+
+class MultipleBuildsDemo extends ThreadSafeObservable with MonitoringTasksFactory {
+  def create: Error \/ List[MonitoringTask] = {
+    Stream.continually(new RandomStatus).take(4 * 4).toList.right
   }
 }

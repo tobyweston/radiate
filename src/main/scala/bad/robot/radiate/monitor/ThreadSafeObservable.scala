@@ -4,21 +4,22 @@ import java.util.Arrays.asList
 import java.util.concurrent.CopyOnWriteArrayList
 
 import bad.robot.radiate.FunctionInterfaceOps._
-import bad.robot.radiate.{ActivityS, ProgressS, StatusS}
+import bad.robot.radiate.{Activity, Progress, Status}
+import bad.robot.radiate.Error
 
-class ThreadSafeObservableS extends ObservableS {
+class ThreadSafeObservable extends Observable {
 
-  private val observers = new CopyOnWriteArrayList[ObserverS]
+  private val observers = new CopyOnWriteArrayList[Observer]
 
-  def addObservers(observers: ObserverS*): Boolean = {
+  def addObservers(observers: Observer*): Boolean = {
     this.observers.addAll(asList(observers:_*))
   }
 
-  def addObservers(observers: List[ObserverS]) {
+  def addObservers(observers: List[Observer]) {
     observers.foreach(this.observers.add)
   }
 
-  def removeObservers(observers: ObserverS*): Boolean = {
+  def removeObservers(observers: Observer*): Boolean = {
     this.observers.removeAll(asList(observers))
   }
 
@@ -26,19 +27,23 @@ class ThreadSafeObservableS extends ObservableS {
     observers.clear()
   }
 
-  def notifyObservers(status: StatusS) {
-    observers.forEach((observer: ObserverS) => observer.update(this, status))
+  def notifyObservers(status: Status) {
+    observers.forEach((observer: Observer) => observer.update(this, status))
   }
 
   def notifyObservers(exception: Exception) {
-    observers.forEach((observer: ObserverS) =>  observer.update(this, exception))
+    observers.forEach((observer: Observer) =>  observer.update(this, exception))
   }
 
-  def notifyObservers(information: InformationS) {
-    observers.forEach((observer: ObserverS) =>  observer.update(this, information))
+  def notifyObservers(error: Error) {
+    observers.forEach((observer: Observer) =>  observer.update(this, error))
   }
 
-  def notifyObservers(activity: ActivityS, progress: ProgressS) {
-    observers.forEach((observer: ObserverS) =>  observer.update(this, activity, progress))
+  def notifyObservers(information: Information) {
+    observers.forEach((observer: Observer) =>  observer.update(this, information))
+  }
+
+  def notifyObservers(activity: Activity, progress: Progress) {
+    observers.forEach((observer: Observer) =>  observer.update(this, activity, progress))
   }
 }

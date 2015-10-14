@@ -1,26 +1,18 @@
 package bad.robot.radiate
 
 import java.util.concurrent.ScheduledFuture
-
-import bad.robot.radiate.RestartRequiredS._
 import bad.robot.radiate.monitor._
 
-class MonitoringTasksS(factory: MonitoringTasksFactoryS, monitor: MonitorS) extends Iterable[MonitoringTaskS] {
+class MonitoringTasks(factory: MonitoringTasksFactory, monitor: Monitor) extends Iterable[MonitoringTask] {
 
-  private var tasks = List.empty[MonitoringTaskS]
   private var scheduled = List.empty[ScheduledFuture[_]]
 
-  try {
-    tasks = factory.create
-  } catch {
-    case e: Exception => {
-      factory.notifyObservers(e)
-      factory.notifyObservers(restartRequired)
-    }
-  } finally {
-    if (tasks.isEmpty)
-      factory.notifyObservers(new NothingToMonitorExceptionS)
-  }
+  val tasks = factory.create.valueOr(error => {
+    factory.notifyObservers(error)
+    factory.notifyObservers(RestartRequired())
+    List.empty[MonitoringTask]
+  })
+  if (tasks.isEmpty) factory.notifyObservers(new NothingToMonitorException)
 
   def start() {
     scheduled = monitor.start(tasks)
@@ -30,7 +22,5 @@ class MonitoringTasksS(factory: MonitoringTasksFactoryS, monitor: MonitorS) exte
     monitor.cancel(scheduled)
   }
 
-  def iterator: Iterator[MonitoringTaskS] = {
-    tasks.iterator
-  }
+  def iterator: Iterator[MonitoringTask] = tasks.iterator
 }

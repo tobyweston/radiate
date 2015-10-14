@@ -1,28 +1,29 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.radiate.monitor.{MonitoringTaskS, MonitoringTasksFactoryS, ThreadSafeObservableS}
-import bad.robot.radiate.teamcity.AllProjectsOneTaskPerProjectS._
+import bad.robot.radiate.Error
+import bad.robot.radiate.config.{Config, KnobsConfig}
+import bad.robot.radiate.monitor.{MonitoringTask, MonitoringTasksFactory, ThreadSafeObservable}
+import KnobsConfig._
 
-/** @see [[bad.robot.radiate.monitor.MonitoringTasksFactoryS.multipleProjects]] */
-object AllProjectsOneTaskPerProjectS {
-  private def createTeamCity(configuration: TeamCityConfigurationS): TeamCityS = {
-    val server = new ServerS(configuration.host, configuration.port)
-    new TeamCityS(server, configuration.authorisation, new HttpClientFactoryS().create(configuration), new JsonProjectsUnmarshallerS, new JsonProjectUnmarshallerS, new JsonBuildUnmarshallerS)
-  }
+import scalaz.\/
+import scalaz.syntax.either._
 
-  private def toTasks(configuration: TeamCityConfigurationS): ProjectScala => MonitoringTaskS = {
-    project => new SingleProjectMonitorS(project, configuration)
-  }
-
-  private def nonEmpty: ProjectScala => Boolean = _.buildTypes.nonEmpty
-}
-
-class AllProjectsOneTaskPerProjectS extends ThreadSafeObservableS with MonitoringTasksFactoryS {
-  def create: List[MonitoringTaskS] = {
-    val configuration = YmlConfigurationS.loadOrCreate(new BootstrapTeamCityS, this)
-    val teamcity = createTeamCity(configuration)
-    val projects = configuration.filter(teamcity.retrieveProjects)
-    teamcity.retrieveFullProjects(projects).filter(nonEmpty).map(toTasks(configuration)).toList
+/** @see [[bad.robot.radiate.monitor.MonitoringTasksFactory.multipleProjects]] */
+class AllProjectsOneTaskPerProject extends ThreadSafeObservable with MonitoringTasksFactory {
+  def create: Error \/ List[MonitoringTask] = {
+    for {
+      file      <- load() orElse KnobsConfig.create
+      config    <- Config(file)
+      _         <- store(file)
+      http       = HttpClientFactory().create(config)
+      teamcity   = TeamCity(TeamCityUrl(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+      all       <- teamcity.retrieveProjects
+      projects  <- all.filter(project => config.projects.contains(project.id)).right
+      full      <- teamcity.retrieveFullProjects(projects)
+      filtered  <- full.filter(_.buildTypes.nonEmpty).right
+    } yield {
+      filtered.map(project => new SingleProjectMonitor(project, config))
+    }
   }
 
   override def toString = "monitoring multiple projects"

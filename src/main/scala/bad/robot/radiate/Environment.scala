@@ -1,17 +1,16 @@
 package bad.robot.radiate
 
-object EnvironmentS {
-  def getEnvironmentVariable(variable: String): String = {
-    sys.env.get(variable) match {
-      case Some(value) => value
-      case None => throw new IllegalArgumentException(s"Please set environment variable '$variable'")
-    }
+import bad.robot.radiate.OptionSyntax._
+
+import scalaz.syntax.std.option._
+
+object Environment {
+
+  def getEnvironmentVariable(variable: String): Option[String] = {
+    NonEmptyOption(sys.env.get(variable))
   }
 
   def getEnvironmentVariable(variable: String, defaultValue: String): String = {
-    sys.env.get(variable) match {
-      case Some(value) => value
-      case None => defaultValue
-    }
+    NonEmptyOption(sys.env.get(variable)).some(identity).none(defaultValue)
   }
 }
