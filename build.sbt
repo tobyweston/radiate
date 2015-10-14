@@ -2,9 +2,7 @@ enablePlugins(JavaAppPackaging)
 
 name := "radiate"
 
-version := "2.0"
-
-jarName in assembly := "radiate-1.0.jar"
+assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 
 scalaVersion := "2.11.7"
 
@@ -36,4 +34,21 @@ mappings in Universal := {
   filtered :+ (fatJar -> ("lib/" + fatJar.getName))
 }
 
-scriptClasspath := Seq((jarName in assembly).value)
+scriptClasspath := Seq((assemblyJarName in assembly).value)
+
+import sbtrelease._
+import sbtrelease.ReleaseStateTransformations._
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  // publishArtifacts,
+  setNextVersion,
+  commitNextVersion
+  // pushChanges
+)
