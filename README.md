@@ -8,6 +8,11 @@ It will auto detect your TeamCity projects and aggregate the builds to an overal
 ![](grey-busy.png) ![](green-radial.png) ![](red-radial.png)
 
 
+### Version 2.0 Released!
+
+Version 2.x is a conversion from Java to Scala. The Java version is still available on a branch. Note that the config file format has changed. If you're upgrading from version 1.x, **you'll need to migrate to the new `.cfg` format from `.yml`**. Locate the `radiate.cfg` after first boot and customise as required. See the [Setup]() section below for more details.
+
+
 ### Setup
 
 To setup, simply set the environment property `TEAMCITY_URL` to point to your TeamCity instance.
