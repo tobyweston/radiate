@@ -1,7 +1,7 @@
 # Radiate
 [![](https://travis-ci.org/tobyweston/radiate.png?branch=master)](https://travis-ci.org/tobyweston/radiate)
 
-`radiate` is a TeamCity build monitor written in Scala. It can be run as a Windows **screensaver** or from the desktop.
+The `radiate` app is a TeamCity build monitor written in Scala. It can be run as a Windows **screensaver** or from the desktop.
 
 It will auto detect your TeamCity projects and aggregate the builds to an overall RED or GREEN. Have a look on YouTube for [an introduction video](http://www.youtube.com/watch?v=ZMQn-J435Lk).
 
@@ -10,7 +10,7 @@ It will auto detect your TeamCity projects and aggregate the builds to an overal
 
 ### Version 2.0 Released!
 
-Version 2.x is a conversion from Java to Scala. The Java version is still available on a branch. Note that the config file format has changed. If you're upgrading from version 1.x, **you'll need to migrate to the new `.cfg` format from `.yml`**. Locate the `radiate.cfg` after first boot and customise as required. See the [Setup]() section below for more details.
+Version 2.x is a conversion from Java to Scala. The Java version is still available on a [branch](https://github.com/tobyweston/radiate/tree/java-version). Note that the config file format has changed. If you're upgrading from version 1.x, **you'll need to migrate to the new `.cfg` format from `.yml`**. Locate the `radiate.cfg` after first boot and customise as required. See the [Setup]() section below for more details.
 
 
 ### Setup
@@ -63,7 +63,7 @@ TEAMCITY_PASSWORD | Optional, defaults to guest auth if missing | bob_fossil
 
 ### Download
 
-Download the .exe, .scr or executable jar from the [bad robot repository](http://robotooling.com/maven/bad/robot/radiate/).
+Download the .exe, .scr or executable jar from the [bad robot repository](http://robotooling.com/maven/bad/robot/radiate_2.11/).
 
 
 ### Finer grained views

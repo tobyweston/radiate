@@ -1,6 +1,8 @@
 
 name := "radiate"
 
+organization := "bad.robot"
+
 assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 
 scalaVersion := "2.11.7"
@@ -30,7 +32,7 @@ publishArtifact in(Compile, packageDoc) := false
 
 // publish (see https://github.com/sbt/sbt-assembly)
 
-val publishFolder = "temp/maven/"
+val publishFolder = "/Users/toby/Workspace/robotooling/maven/"
 
 publishTo := Some(Resolver.file("file", new File(publishFolder)))
 
@@ -96,8 +98,8 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  // publishArtifacts,
+  releaseStepTask(publish),
   setNextVersion,
-  commitNextVersion
-  // pushChanges
+  commitNextVersion,
+  pushChanges
 )
