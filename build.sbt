@@ -66,32 +66,6 @@ ProguardKeys.options in Proguard ++= Seq(
       ** MODULE$;
     }
 
-    -keepclassmembernames class scala.concurrent.forkjoin.ForkJoinPool {
-      long eventCount;
-      int  workerCounts;
-      int  runControl;
-      scala.concurrent.forkjoin.ForkJoinPool$WaitQueueNode syncStack;
-      scala.concurrent.forkjoin.ForkJoinPool$WaitQueueNode spareStack;
-    }
-
-    -keepclassmembernames class scala.concurrent.forkjoin.ForkJoinWorkerThread {
-      int base;
-      int sp;
-      int runState;
-    }
-
-    -keepclassmembernames class scala.concurrent.forkjoin.ForkJoinTask {
-      int status;
-    }
-
-    -keepclassmembernames class scala.concurrent.forkjoin.LinkedTransferQueue {
-      scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference head;
-      scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference tail;
-      scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference cleanMe;
-    }
-
-    -keep public class scala.Function*
-
     -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 
   """
