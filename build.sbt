@@ -50,6 +50,7 @@ ProguardKeys.options in Proguard ++= Seq(
   "-dontwarn com.google.code.tempusfugit.**",
   "-dontwarn org.apache.**",
   "-dontwarn scodec.bits.**",
+  "-dontwarn scalaparsers.**",
   "-ignorewarnings",
   "-dontobfuscate",
   "-printusage unused-code.txt",
@@ -65,8 +66,6 @@ ProguardKeys.options in Proguard ++= Seq(
     -keepclassmembers class * {
       ** MODULE$;
     }
-
-    -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 
   """
 )
