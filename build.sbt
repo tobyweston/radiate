@@ -11,7 +11,7 @@ libraryDependencies ++= Seq(
   "io.argonaut" %% "argonaut" % "6.1" % "compile",
   "oncue.knobs" %% "core" % "3.3.0",
   "org.specs2" %% "specs2-core" % "3.6" % "test",
-  "org.scalamock" %% "scalamock-specs2-support" % "3.2.2" % "test" excludeAll(ExclusionRule("org.specs2", "specs2_2.11"))
+  "org.scalamock" %% "scalamock-specs2-support" % "3.2.2" % "test" excludeAll (ExclusionRule("org.specs2", "specs2_2.11"))
 )
 
 resolvers ++= Seq(
@@ -30,9 +30,84 @@ publishArtifact in(Compile, packageDoc) := false
 
 // publish (see https://github.com/sbt/sbt-assembly)
 
-publishTo := Some(Resolver.file("file", new File("temp/maven/")))
+val publishFolder = "temp/maven/"
+
+publishTo := Some(Resolver.file("file", new File(publishFolder)))
 
 addArtifact(artifact in(Compile, assembly), assembly)
+
+
+
+proguardSettings
+
+ProguardKeys.proguardVersion in Proguard := "5.2.1"
+
+ProguardKeys.options in Proguard ++= Seq(
+  "-dontnote",
+  "-dontwarn scala.**",
+  "-dontwarn com.google.code.tempusfugit.**",
+  "-dontwarn org.apache.**",
+  "-dontwarn scodec.bits.**",
+  "-ignorewarnings",
+  "-dontobfuscate",
+  "-printusage unused-code.txt",
+  """
+    -keep public class bad.robot.** {
+      *;
+    }
+
+    -keep public class org.apache.commons.** {
+      *;
+     }
+
+    -keepclassmembers class * {
+      ** MODULE$;
+    }
+
+    -keepclassmembernames class scala.concurrent.forkjoin.ForkJoinPool {
+      long eventCount;
+      int  workerCounts;
+      int  runControl;
+      scala.concurrent.forkjoin.ForkJoinPool$WaitQueueNode syncStack;
+      scala.concurrent.forkjoin.ForkJoinPool$WaitQueueNode spareStack;
+    }
+
+    -keepclassmembernames class scala.concurrent.forkjoin.ForkJoinWorkerThread {
+      int base;
+      int sp;
+      int runState;
+    }
+
+    -keepclassmembernames class scala.concurrent.forkjoin.ForkJoinTask {
+      int status;
+    }
+
+    -keepclassmembernames class scala.concurrent.forkjoin.LinkedTransferQueue {
+      scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference head;
+      scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference tail;
+      scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference cleanMe;
+    }
+
+    -keep public class scala.Function*
+
+    -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+
+  """
+)
+
+ProguardKeys.options in Proguard += ProguardOptions.keepMain("bad.robot.radiate.Main")
+
+javaOptions in(Proguard, ProguardKeys.proguard) := Seq("-Xmx2G")
+
+//exportJars := true
+
+//mappings in(Compile, packageBin) <+= baseDirectory map { base =>
+//  (base / "MANIFEST.MF") -> "META-INF/MANIFEST.MF"
+//}
+
+ProguardKeys.inputs in Proguard := (dependencyClasspath in Compile).value.files
+
+ProguardKeys.filteredInputs in Proguard ++= ProguardOptions.noFilter((packageBin in Compile).value)
 
 
 
