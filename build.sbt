@@ -40,6 +40,8 @@ addArtifact(artifact in(Compile, assembly), assembly)
 
 
 
+// proguard - reduce 30 MB artifact to something like 5.5 MB (https://github.com/sbt/sbt-proguard)
+
 proguardSettings
 
 ProguardKeys.proguardVersion in Proguard := "5.2.1"
@@ -73,12 +75,6 @@ ProguardKeys.options in Proguard ++= Seq(
 ProguardKeys.options in Proguard += ProguardOptions.keepMain("bad.robot.radiate.Main")
 
 javaOptions in(Proguard, ProguardKeys.proguard) := Seq("-Xmx2G")
-
-//exportJars := true
-
-//mappings in(Compile, packageBin) <+= baseDirectory map { base =>
-//  (base / "MANIFEST.MF") -> "META-INF/MANIFEST.MF"
-//}
 
 ProguardKeys.inputs in Proguard := (dependencyClasspath in Compile).value.files
 
