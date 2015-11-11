@@ -22,3 +22,9 @@ To do release, run the following
 
 
 This will prepare the JAR, tag and copy the JAR to a local maven repo. Next step is to publish the repo manually to the internet.
+
+To run an auto-incrementing release (ie from CI), you'd use the following. Unfortunately, I can't figure out how to avoid the `-SNAPSHOT` postfix with `with-defaults`.
+
+    sbt "release with-defaults"
+
+
