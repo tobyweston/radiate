@@ -18,9 +18,10 @@ object Config {
       Url.validate(file.url).toValidationNel |@|
       Username.validate(file.username).toValidationNel |@|
       Password.validate(file.password).toValidationNel |@|
-      Authorisation.validate(file.authorisation, file.username, file.password).toValidationNel
-    ) { (url, username, password, authorisation) =>
-      Config(TeamCityConfig(ServerConfig(url, username, password, authorisation), file.projects), UiConfig(None))
+      Authorisation.validate(file.authorisation, file.username, file.password).toValidationNel |@|
+      EcoMode.validate(file.ecoMode._1, file.ecoMode._2).toValidationNel
+    ) { (url, username, password, authorisation, ecoMode) =>
+      Config(TeamCityConfig(ServerConfig(url, username, password, authorisation), file.projects), UiConfig(ecoMode))
     }
   }
 }
@@ -28,4 +29,4 @@ object Config {
 case class Config(teamcity: TeamCityConfig, ui: UiConfig)
 case class TeamCityConfig(server: ServerConfig, projects: List[String])
 case class ServerConfig(url: URL, username: Option[Username], password: Option[Password], authorisation: Authorisation)
-case class UiConfig(ecoMode: Option[(LocalTime, LocalTime)])
+case class UiConfig(ecoMode: Option[EcoMode])

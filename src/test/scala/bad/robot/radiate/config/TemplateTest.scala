@@ -11,6 +11,7 @@ class TemplateTest extends Specification {
       def password: Option[String] = Some("secret")
       def authorisation: Option[String] = Some("basic")
       def projects: List[String] = List("projectA", "projectB")
+      def ecoMode: (Option[String], Option[String]) = (Some("10:00"), Some("12:00"))
     }) must_==
       """
         |server {
@@ -21,6 +22,13 @@ class TemplateTest extends Specification {
         |}
         |
         |projects = ["projectA", "projectB"]
+        |
+        |ui = {
+        |    eco-mode {
+        |        start = "10:00"
+        |        end = "12:00"
+        |    }
+        |}
         |""".stripMargin
   }
 
@@ -31,6 +39,7 @@ class TemplateTest extends Specification {
       def password: Option[String] = None
       def authorisation: Option[String] = Some("basic")
       def projects: List[String] = List()
+      def ecoMode: (Option[String], Option[String]) = (Some("10:00"), None)
     }) must_==
       """
         |server {
@@ -41,6 +50,14 @@ class TemplateTest extends Specification {
         |}
         |
         |projects = [ ]
+        |
+        |ui = {
+        |    eco-mode {
+        |        # supply *both* start and end time to enable eco mode
+        |        # start = "18:00"  # Uncomment to enable eco mode start time (hh:mm)
+        |        # end = "07:00"    # Uncomment to enable eco mode end time (hh:mm)
+        |    }
+        |}
         |""".stripMargin
   }
 
@@ -51,6 +68,7 @@ class TemplateTest extends Specification {
       def password: Option[String] = None
       def authorisation: Option[String] = None
       def projects: List[String] = List()
+      def ecoMode: (Option[String], Option[String]) = (None, None)
     }) must_==
       """
         |server {
@@ -61,8 +79,15 @@ class TemplateTest extends Specification {
         |}
         |
         |projects = [ ]
+        |
+        |ui = {
+        |    eco-mode {
+        |        # supply *both* start and end time to enable eco mode
+        |        # start = "18:00"  # Uncomment to enable eco mode start time (hh:mm)
+        |        # end = "07:00"    # Uncomment to enable eco mode end time (hh:mm)
+        |    }
+        |}
         |""".stripMargin
   }
-
 
 }
