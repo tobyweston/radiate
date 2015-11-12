@@ -2,6 +2,7 @@ package bad.robot.radiate.ui
 
 import java.awt._
 import java.awt.geom.Rectangle2D
+import java.time.LocalTime
 import javax.swing._
 
 import bad.robot.radiate.monitor.{Information, Observable, Observer}
@@ -97,7 +98,7 @@ class StatusPanel(parent: JFrame, identifier: Int) extends JPanel with Observer 
   }
 
   implicit class ColorOps(color: Color) {
-    def ecoMode = false /** eg, if current time is after 18:00 and before 07:00 */
+    def ecoMode = LocalTime.now.isAfter(LocalTime.of(18, 0)) || LocalTime.now.isBefore(LocalTime.of(7, 0))
 
     def gradiated(endX: Int, endY: Int) = {
       val baseColor = if (ecoMode) color.darken(3) else color
