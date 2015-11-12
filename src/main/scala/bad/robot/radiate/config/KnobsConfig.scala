@@ -37,7 +37,7 @@ object KnobsConfig {
       _username       <- Username.validate(getEnvironmentVariable("TEAMCITY_USERNAME")).leftMap(cause => ConfigurationError(s"Not expecting to see this, no username is still valid. $cause"))
       _password       <- Password.validate(getEnvironmentVariable("TEAMCITY_PASSWORD")).leftMap(cause => ConfigurationError(s"Not expecting to see this, no password is still valid. $cause"))
       _authorisation  <- Authorisation.validate(_username, _password).leftMap(cause => ConfigurationError(s"Not expecting to see this, authorisation is derived from username and password. $cause"))
-      config          = Config(_url, null, _username, _password, _authorisation)
+      config          = Config(TeamCityConfig(ServerConfig(_url, _username, _password, _authorisation), null), UiConfig(None))
       http            = HttpClientFactory().create(config)
       teamcity        = TeamCity(TeamCityUrl(_url), _authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       projects        <- teamcity.retrieveProjects.validation
@@ -45,11 +45,11 @@ object KnobsConfig {
 
     bootstrap.map {
       case (config, _projects) => new ConfigFile {
-        def url = Some(config.url.toExternalForm)
+        def url = Some(config.teamcity.server.url.toExternalForm)
         def projects = _projects.toList
-        def username = config.username.map(_.value)
-        def password = config.password.map(_.value)
-        def authorisation = Some(config.authorisation.name)
+        def username = config.teamcity.server.username.map(_.value)
+        def password = config.teamcity.server.password.map(_.value)
+        def authorisation = Some(config.teamcity.server.authorisation.name)
       }
     }.disjunction
   }

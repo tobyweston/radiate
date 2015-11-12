@@ -1,6 +1,7 @@
 package bad.robot.radiate.config
 
 import java.net.URL
+import java.time.LocalTime
 
 import bad.robot.radiate.{ConfigurationError, Error}
 
@@ -19,10 +20,12 @@ object Config {
       Password.validate(file.password).toValidationNel |@|
       Authorisation.validate(file.authorisation, file.username, file.password).toValidationNel
     ) { (url, username, password, authorisation) =>
-      Config(url, file.projects, username, password, authorisation)
+      Config(TeamCityConfig(ServerConfig(url, username, password, authorisation), file.projects), UiConfig(None))
     }
   }
 }
 
-case class Config(url: URL, projects: List[String], username: Option[Username], password: Option[Password], authorisation: Authorisation)
-
+case class Config(teamcity: TeamCityConfig, ui: UiConfig)
+case class TeamCityConfig(server: ServerConfig, projects: List[String])
+case class ServerConfig(url: URL, username: Option[Username], password: Option[Password], authorisation: Authorisation)
+case class UiConfig(ecoMode: Option[(LocalTime, LocalTime)])
