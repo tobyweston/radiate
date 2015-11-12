@@ -23,7 +23,7 @@ class TemplateTest extends Specification {
         |
         |projects = ["projectA", "projectB"]
         |
-        |ui = {
+        |ui {
         |    eco-mode {
         |        start = "10:00"
         |        end = "12:00"
@@ -51,7 +51,7 @@ class TemplateTest extends Specification {
         |
         |projects = [ ]
         |
-        |ui = {
+        |ui {
         |    eco-mode {
         |        # supply *both* start and end time to enable eco mode
         |        # start = "18:00"  # Uncomment to enable eco mode start time (hh:mm)
@@ -80,7 +80,7 @@ class TemplateTest extends Specification {
         |
         |projects = [ ]
         |
-        |ui = {
+        |ui {
         |    eco-mode {
         |        # supply *both* start and end time to enable eco mode
         |        # start = "18:00"  # Uncomment to enable eco mode start time (hh:mm)
