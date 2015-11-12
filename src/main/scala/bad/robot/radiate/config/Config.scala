@@ -9,8 +9,11 @@ import scalaz.Scalaz._
 import scalaz._
 
 object Config {
+
+  val error = s"There was a problem reading or attempting to create the config file, check ${KnobsConfig.file.getAbsolutePath} for the following;\n"
+
   def apply(file: ConfigFile): Error \/ Config = {
-    validate(file).leftMap(errors => ConfigurationError(errors.list.mkString(", "))).disjunction
+    validate(file).leftMap(errors => ConfigurationError(errors.list.mkString(error, "\n", ""))).disjunction
   }
 
   private def validate(file: ConfigFile) = {

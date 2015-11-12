@@ -18,7 +18,7 @@ object KnobsConfig {
 
   def load(resource: KnobsResource = Required(FileResource(file))): Error \/ ConfigFile = {
     val config = knobs.loadImmutable(resource :: Nil).attemptRun
-    config.leftMap(error => ConfigurationError(error.getMessage)).map(config => new ConfigFile {
+    config.leftMap(error => ConfigurationError(s"There was an error loading config from ${file.getAbsolutePath};\n${error.getMessage}")).map(config => new ConfigFile {
       def url = config.lookup[String]("server.url")
       def projects = config.lookup[List[String]]("projects").getOrElse(List())
       def username = config.lookup[String]("server.username")
