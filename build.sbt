@@ -18,6 +18,7 @@ libraryDependencies ++= Seq(
 
 resolvers ++= Seq(
   "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases",
+  "Oncue Bintray Repo" at "http://dl.bintray.com/oncue/releases",
   "robotooling" at "http://www.robotooling.com/maven"
 )
 
