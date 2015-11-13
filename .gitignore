@@ -4,5 +4,4 @@
 target/
 .idea/libraries/
 .idea/modules/
-.idea/modules.xml
-.idea/scala_compiler.xml
+.idea/

@@ -19,9 +19,9 @@ class AllProjectsMonitor extends NonRepeatingObservable with MonitoringTask {
       config      <- Config(file)
       _           <- store(file)
       http         = HttpClientFactory().create(config)
-      teamcity     = TeamCity(TeamCityUrl(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+      teamcity     = TeamCity(TeamCityUrl(config.teamcity.server.url), config.teamcity.server.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
       all         <- teamcity.retrieveProjects
-      projects    <- all.filter(project => config.projects.contains(project.id)).right
+      projects    <- all.filter(project => config.teamcity.projects.contains(project.id)).right
       monitored   <- projects.map(_.toString).toList.right
       buildTypes  <- teamcity.retrieveBuildTypes(projects)
       builds      <- buildTypes.getBuilds(teamcity)

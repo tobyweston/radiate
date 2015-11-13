@@ -6,4 +6,5 @@ private[config] trait ConfigFile {
   def username: Option[String]
   def password: Option[String]
   def authorisation: Option[String]
+  def ecoMode: (Option[String], Option[String])
 }

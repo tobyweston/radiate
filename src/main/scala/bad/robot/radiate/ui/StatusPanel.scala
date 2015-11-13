@@ -2,6 +2,7 @@ package bad.robot.radiate.ui
 
 import java.awt._
 import java.awt.geom.Rectangle2D
+import java.time.LocalTime
 import javax.swing._
 
 import bad.robot.radiate.monitor.{Information, Observable, Observer}
@@ -14,6 +15,8 @@ import bad.robot.radiate.ui.swing.Text._
 import bad.robot.radiate._
 import activity._
 import org.apache.commons.lang3.StringUtils.abbreviate
+
+import scala.math._
 
 object StatusPanel {
   private val Red = new Color(200, 0, 0)
@@ -80,7 +83,7 @@ class StatusPanel(parent: JFrame, identifier: Int) extends JPanel with Observer 
     val width = getWidth
     val height = getHeight
     val colour = getColorFrom(status)
-    graphics.setPaint(new GradientPaint(0, 0, colour.darker, width, height, colour.brighter))
+    graphics.setPaint(colour.gradiated(width, height))
     graphics.fill(new Rectangle2D.Double(0, 0, width, height))
   }
 
@@ -91,6 +94,20 @@ class StatusPanel(parent: JFrame, identifier: Int) extends JPanel with Observer 
         centerRegionWithinComponent(region, StatusPanel.this)
         drawTextCenteredToRegion(region, graphics, text)
       }
+    }
+  }
+
+  implicit class ColorOps(color: Color) {
+    def ecoMode = LocalTime.now.isAfter(LocalTime.of(18, 0)) || LocalTime.now.isBefore(LocalTime.of(7, 0))
+
+    def gradiated(endX: Int, endY: Int) = {
+      val baseColor = if (ecoMode) color.darken(3) else color
+      new GradientPaint(0, 0, baseColor.darker, endX, endY, baseColor.brighter)
+    }
+
+    def darken(factor: Int = 1): Color = factor match {
+      case 0 => color
+      case n => color.darker.darken(n - 1)
     }
   }
 }

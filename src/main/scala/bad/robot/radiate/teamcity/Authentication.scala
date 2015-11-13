@@ -8,10 +8,10 @@ import bad.robot.radiate.config._
 
 object Authentication {
   def apply(config: Config): BasicAuthentication = {
-    (config.username, config.password) match {
+    (config.teamcity.server.username, config.teamcity.server.password) match {
       case (None, _) => GuestAuthentication
       case (_, None) => GuestAuthentication
-      case (Some(username), Some(password)) => BasicAuthentication(config.url, username, password)
+      case (Some(username), Some(password)) => BasicAuthentication(config.teamcity.server.url, username, password)
     }
   }
 }

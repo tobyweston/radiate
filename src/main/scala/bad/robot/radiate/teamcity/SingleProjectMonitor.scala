@@ -9,7 +9,7 @@ import scalaz.syntax.either._
 
 class SingleProjectMonitor(project: Project, config: Config) extends NonRepeatingObservable with MonitoringTask {
   private val http = HttpClientFactory().create(config)
-  private val teamcity = new TeamCity(new TeamCityUrl(config.url), config.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
+  private val teamcity = new TeamCity(new TeamCityUrl(config.teamcity.server.url), config.teamcity.server.authorisation, http, new JsonProjectsUnmarshaller, new JsonProjectUnmarshaller, new JsonBuildUnmarshaller)
 
   def run() {
     val builds = for {
