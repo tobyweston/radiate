@@ -52,11 +52,15 @@ class KnobsConfigTest extends Specification {
   }
 
   "Example failure messages" >> {
-    load(Required(FileResource(new File("/foo.cfg")))) must be_-\/(ConfigurationError("/foo.cfg (No such file or directory)"))
+    load(Required(FileResource(new File("/foo.cfg")))) must be_-\/.like {
+      case error: ConfigurationError => error.details must contain("/foo.cfg (No such file or directory)")
+    }
     load(Required(FileResource(new File(sys.props("user.home"))))) must be_-\/.like {
       case error: ConfigurationError => error.details must contain(s"${sys.props("user.home")} (Is a directory)")
     }
-    load(Required(ClassPathResource("not/present/radiate.cfg"))) must be_-\/(ConfigurationError("not/present/radiate.cfg not found on classpath"))
+    load(Required(ClassPathResource("not/present/radiate.cfg"))) must be_-\/.like {
+      case error: ConfigurationError => error.details must contain("not/present/radiate.cfg not found on classpath")
+    }
     load(Required(ClassPathResource("bad/robot/radiate/teamcity/bad-example.cfg"))) must be_-\/.like {
       case error: ConfigurationError => error.details must contain("expected configuration")
     }
