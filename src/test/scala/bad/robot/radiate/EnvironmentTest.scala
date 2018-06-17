@@ -1,7 +1,6 @@
 package bad.robot.radiate
 
 import org.specs2.mutable.Specification
-import org.specs2.matcher.SomeMatcher._
 
 class EnvironmentTest extends Specification {
 

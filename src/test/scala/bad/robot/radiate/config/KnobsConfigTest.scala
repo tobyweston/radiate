@@ -5,8 +5,9 @@ import java.io.File
 import bad.robot.radiate.ConfigurationError
 import bad.robot.radiate.config.KnobsConfig._
 import knobs.{ClassPathResource, FileResource, Required}
-import org.specs2.matcher.DisjunctionMatchers._
+import org.specs2.scalaz.DisjunctionMatchers._
 import org.specs2.mutable.Specification
+import scala.concurrent.ExecutionContext.Implicits.global     // todo replace with explicit one
 
 class KnobsConfigTest extends Specification {
 
@@ -15,7 +16,7 @@ class KnobsConfigTest extends Specification {
   }
 
   "Retrieve some configuration items" >> {
-    load(Required(ClassPathResource("bad/robot/radiate/teamcity/example.cfg"))) must be_\/-.like { case config => {
+    load(Required(ClassPathResource("bad/robot/radiate/teamcity/example.cfg"))) must beRightDisjunction.like { case config => {
       config.url must some
       config.username must some
       config.password must some
@@ -25,7 +26,7 @@ class KnobsConfigTest extends Specification {
   }
 
   "Retrieve 'none' for configuration items" >> {
-    load(Required(ClassPathResource("bad/robot/radiate/teamcity/example-empty.cfg"))) must be_\/-.like { case config => {
+    load(Required(ClassPathResource("bad/robot/radiate/teamcity/example-empty.cfg"))) must beRightDisjunction.like { case config => {
       config.url must none
       config.username must none
       config.password must none
@@ -35,7 +36,7 @@ class KnobsConfigTest extends Specification {
   }
 
   "Retrieve the values configuration items" >> {
-    load(Required(ClassPathResource("bad/robot/radiate/teamcity/example.cfg"))) must be_\/-.like { case config => {
+    load(Required(ClassPathResource("bad/robot/radiate/teamcity/example.cfg"))) must beRightDisjunction.like { case config => {
       config.url must_== Some("http://example.com:8111")
       config.username must_== Some("barry")
       config.password must_== Some("secret")
@@ -45,30 +46,27 @@ class KnobsConfigTest extends Specification {
   }
 
   "How are empty values handled" >> {
-    load(Required(ClassPathResource("bad/robot/radiate/teamcity/example-without-user-info.cfg"))) must be_\/-.like { case config => {
+    load(Required(ClassPathResource("bad/robot/radiate/teamcity/example-without-user-info.cfg"))) must beRightDisjunction.like { case config => {
       config.username must some("")
       config.password must some("  ")
     }}
   }
 
   "Example failure messages" >> {
-    load(Required(FileResource(new File("/foo.cfg")))) must be_-\/.like {
+    load(Required(FileResource(new File("/foo.cfg")))) must beLeftDisjunction.like {
       case error: ConfigurationError => error.details must contain("/foo.cfg (No such file or directory)")
     }
-    load(Required(FileResource(new File(sys.props("user.home"))))) must be_-\/.like {
+    load(Required(FileResource(new File(sys.props("user.home"))))) must beLeftDisjunction.like {
       case error: ConfigurationError => error.details must contain(s"${sys.props("user.home")} (Is a directory)")
     }
-    load(Required(ClassPathResource("not/present/radiate.cfg"))) must be_-\/.like {
+    load(Required(ClassPathResource("not/present/radiate.cfg"))) must beLeftDisjunction.like {
       case error: ConfigurationError => error.details must contain("not/present/radiate.cfg not found on classpath")
     }
-    load(Required(ClassPathResource("bad/robot/radiate/teamcity/bad-example.cfg"))) must be_-\/.like {
+    load(Required(ClassPathResource("bad/robot/radiate/teamcity/bad-example.cfg"))) must beLeftDisjunction.like {
       case error: ConfigurationError => error.details must contain("expected configuration")
     }
-    load(Required(ClassPathResource("bad/robot/radiate/teamcity/bad-example-missing-fields.cfg"))) must be_-\/.like {
-      case error: ConfigurationError => error.details must contain("expected '}', comment, newline, or whitespace")
-    }
-    load(Required(ClassPathResource("bad/robot/radiate/teamcity/bad-example-empty.cfg"))) must be_-\/.like {
-      case error: ConfigurationError => error.details must contain("expected bind directive, comment, group directive, import directive,\n    newline, or whitespace")
+    load(Required(ClassPathResource("bad/robot/radiate/teamcity/bad-example-missing-fields.cfg"))) must beLeftDisjunction.like {
+      case error: ConfigurationError => error.details must contain("expected comment, newline, value, or whitespace")
     }
   }
 

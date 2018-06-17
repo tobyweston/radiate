@@ -1,31 +1,37 @@
 package bad.robot.radiate.config
 
 import java.io.{File, PrintWriter}
-import java.net.URL
 
 import bad.robot.radiate.Environment._
 import bad.robot.radiate.UrlSyntax.stringToUrl
 import bad.robot.radiate.teamcity._
-import bad.robot.radiate.{ConfigurationError, Error, UrlValidator}
+import bad.robot.radiate.{ConfigurationError, Error}
+import cats.effect.IO
+import cats.implicits._
 import knobs._
 
 import scalaz.Validation.FlatMap._
+import scalaz.syntax.std.either._
 import scalaz._
-
 object KnobsConfig {
+
+  import scala.concurrent.ExecutionContext.Implicits.global     // todo replace with explicit one
 
   val file = new File(sys.props("user.home") + File.separator + ".radiate" + File.separator + "radiate.cfg")
 
+  private val readConfigFile = (config: knobs.Config) => new ConfigFile {
+    def url = config.lookup[String]("server.url")
+    def projects = config.lookup[List[String]]("projects").getOrElse(List())
+    def username = config.lookup[String]("server.username")
+    def password = config.lookup[String]("server.password")
+    def authorisation = config.lookup[String]("server.authorisation")
+    def ecoMode = (config.lookup[String]("ui.eco-mode.start"), config.lookup[String]("ui.eco-mode.end"))
+  }
+
   def load(resource: KnobsResource = Required(FileResource(file))): Error \/ ConfigFile = {
-    val config = knobs.loadImmutable(resource :: Nil).attemptRun
-    config.leftMap(error => ConfigurationError(s"There was an error loading config from ${file.getAbsolutePath};\n${error.getMessage}")).map(config => new ConfigFile {
-      def url = config.lookup[String]("server.url")
-      def projects = config.lookup[List[String]]("projects").getOrElse(List())
-      def username = config.lookup[String]("server.username")
-      def password = config.lookup[String]("server.password")
-      def authorisation = config.lookup[String]("server.authorisation")
-      def ecoMode = (config.lookup[String]("ui.eco-mode.start"), config.lookup[String]("ui.eco-mode.end"))
-    })
+    knobs.loadImmutable[IO](resource :: Nil).attempt.map(_.leftMap(error => {
+      ConfigurationError(s"There was an error loading config from ${file.getAbsolutePath};\n${error.getMessage}")
+    }).map(readConfigFile)).unsafeRunSync().disjunction
   }
 
   def create: Error \/ ConfigFile = {

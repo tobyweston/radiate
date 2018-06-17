@@ -3,9 +3,9 @@ package bad.robot.radiate.teamcity
 import java.net.URL
 
 import bad.robot.radiate.FunctionInterfaceOps.toHypermedia
-import bad.robot.radiate.config.{Authorisation, BasicAuthorisation, GuestAuthorisation}
-import org.specs2.mutable.Specification
 import bad.robot.radiate.UrlSyntax._
+import bad.robot.radiate.config.{BasicAuthorisation, GuestAuthorisation}
+import org.specs2.mutable.Specification
 
 class TeamCityUrlTest extends Specification {
 

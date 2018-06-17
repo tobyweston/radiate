@@ -2,13 +2,14 @@ package bad.robot.radiate.teamcity
 
 import bad.robot.http.HeaderList._
 import bad.robot.http.HeaderPair._
-import bad.robot.http.HttpResponse
+import bad.robot.http.{Headers, HttpResponse, MessageContent}
 import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
 import bad.robot.radiate.ParseError
-import bad.robot.radiate.specs2.iterableAsResult
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
-import org.specs2.matcher.DisjunctionMatchers._
+import org.specs2.scalaz.DisjunctionMatchers._
+
+import scalaz.{-\/, \/-}
 
 class JsonProjectsUnmarshallerTest extends Specification with IsolatedMockFactory {
 
@@ -31,20 +32,22 @@ class JsonProjectsUnmarshallerTest extends Specification with IsolatedMockFactor
                  |  ]
                  |}""".stripMargin
 
-    (response.getContent _).when().returns(json)
-    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+    (response.getContent _: () => MessageContent).when().returns(json)
+    (response.getHeaders _: () => Headers).when().returns(headers(header("content-type", "application/json")))
 
-    val projects = unmarshaller.unmarshall(response)
-    projects must be_\/-(contain(allOf(
-      Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypes(List())),
-      Project("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel", BuildTypes(List()))
-    ).inOrder))
+    unmarshaller.unmarshall(response) match {
+      case -\/(error)    => ko(error.message)
+      case \/-(projects) => projects must contain(allOf(
+        Project("_Root", "<Root project>", "/guestAuth/app/rest/projects/id:_Root", BuildTypes(List())),
+        Project("simple_excel", "simple-excel", "/guestAuth/app/rest/projects/id:simple_excel", BuildTypes(List()))
+      ))
+    }
 
   }
 
   "Bad JSON" >> {
-    (response.getContent _).when().returns("I'm not even json")
-    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+    (response.getContent _: () => MessageContent).when().returns("I'm not even json")
+    (response.getHeaders _: () => Headers).when().returns(headers(header("content-type", "application/json")))
 
     unmarshaller.unmarshall(response) must be_-\/(ParseError("Unexpected content found: I'm not even json"))
   }

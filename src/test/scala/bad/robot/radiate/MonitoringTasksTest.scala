@@ -2,13 +2,12 @@ package bad.robot.radiate
 
 import java.util.concurrent.ScheduledFuture
 
-import bad.robot.radiate.specs2.monitoringTasksAsResult
-import bad.robot.radiate.scalamock._
-import bad.robot.radiate.RestartRequired._
-import bad.robot.radiate.activity._
 import bad.robot.radiate.monitor._
-import org.scalamock.specs2.{IsolatedMockFactory}
+import bad.robot.radiate.scalamock._
+import bad.robot.radiate.specs2.monitoringTasksAsResult
+import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
+
 import scalaz.-\/
 import scalaz.syntax.either._
 

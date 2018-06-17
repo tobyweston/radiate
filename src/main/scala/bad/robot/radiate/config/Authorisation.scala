@@ -1,9 +1,8 @@
 package bad.robot.radiate.config
 
-import scalaz.{Failure, Success, Validation}
 import bad.robot.radiate.OptionSyntax._
-import scalaz.syntax.std.option._
-import scalaz.Validation.FlatMap._
+
+import scalaz.{Failure, Success, Validation}
 
 sealed trait Authorisation {
   val pathSegment: String

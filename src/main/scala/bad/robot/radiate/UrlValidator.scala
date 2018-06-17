@@ -2,9 +2,8 @@ package bad.robot.radiate
 
 import java.net.URL
 
-import bad.robot.radiate.UrlSyntax._
 import bad.robot.radiate.OptionSyntax.NonEmptyOption
-import knobs.CfgValue
+import bad.robot.radiate.UrlSyntax._
 
 import scalaz.\/
 

@@ -31,7 +31,7 @@ class MonitorTest extends Specification {
 
     val monitor = new ScheduledMonitor(executor)
 
-    (executor.shutdownNow _).expects().returning(asList(waiting)).once
+    (executor.shutdownNow _: () => java.util.List[Runnable]).expects().returning(asList(waiting)).once
     (waiting.cancel _).expects(true).once
 
     monitor.stop
