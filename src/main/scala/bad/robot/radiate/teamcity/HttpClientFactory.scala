@@ -1,8 +1,8 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.http.HttpClient
-import bad.robot.http.HttpClients.anApacheClient
-import bad.robot.http.configuration.HttpTimeout.httpTimeout
+import simplehttp.HttpClient
+import simplehttp.HttpClients.anApacheClient
+import simplehttp.configuration.HttpTimeout.httpTimeout
 import bad.robot.radiate.config.Config
 import com.google.code.tempusfugit.temporal.Duration.minutes
 

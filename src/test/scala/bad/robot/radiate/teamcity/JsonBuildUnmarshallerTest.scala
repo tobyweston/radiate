@@ -1,13 +1,13 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.http.HeaderList._
-import bad.robot.http.HeaderPair._
-import bad.robot.http.HttpResponse
+import simplehttp.HeaderList._
+import simplehttp.HeaderPair._
+import simplehttp.{Headers, HttpResponse, MessageContent}
 import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
 import bad.robot.radiate.ParseError
 import org.scalamock.specs2.IsolatedMockFactory
 import org.specs2.mutable.Specification
-import org.specs2.matcher.DisjunctionMatchers._
+import org.specs2.scalaz.DisjunctionMatchers._
 
 class JsonBuildUnmarshallerTest extends Specification with IsolatedMockFactory {
 
@@ -15,8 +15,8 @@ class JsonBuildUnmarshallerTest extends Specification with IsolatedMockFactory {
   val unmarshaller = new JsonBuildUnmarshaller
 
   "Unmarhsall regular build" >> {
-    (response.getContent _).when().returns(buildJson)
-    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+    (response.getContent _: () => MessageContent).when().returns(buildJson)
+    (response.getHeaders _: () => Headers).when().returns(headers(header("content-type", "application/json")))
 
     val build = unmarshaller.unmarshall(response)
     val buildType = BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example")
@@ -24,8 +24,8 @@ class JsonBuildUnmarshallerTest extends Specification with IsolatedMockFactory {
   }
 
   "Unmarshall a running build" >> {
-    (response.getContent _).when().returns(runningBuildJson)
-    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+    (response.getContent _: () => MessageContent).when().returns(runningBuildJson)
+    (response.getHeaders _: () => Headers).when().returns(headers(header("content-type", "application/json")))
 
     val build = unmarshaller.unmarshall(response)
     val buildType  = BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example")
@@ -34,8 +34,8 @@ class JsonBuildUnmarshallerTest extends Specification with IsolatedMockFactory {
   }
 
   "Unmarshall outdated build" >> {
-    (response.getContent _).when().returns(outdatedBuildJson)
-    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+    (response.getContent _: () => MessageContent).when().returns(outdatedBuildJson)
+    (response.getHeaders _: () => Headers).when().returns(headers(header("content-type", "application/json")))
 
     val build = unmarshaller.unmarshall(response)
     val buildType = BuildType("Example_Qa", "QA", "/guestAuth/app/rest/buildTypes/id:Example_Qa", "Example", "Example")
@@ -44,8 +44,8 @@ class JsonBuildUnmarshallerTest extends Specification with IsolatedMockFactory {
   }
 
   "Bad JSON" >> {
-    (response.getContent _).when().returns("I'm not even json")
-    (response.getHeaders _).when().returns(headers(header("content-type", "application/json")))
+    (response.getContent _: () => MessageContent).when().returns("I'm not even json")
+    (response.getHeaders _: () => Headers).when().returns(headers(header("content-type", "application/json")))
 
     unmarshaller.unmarshall(response) must be_-\/(ParseError("Unexpected content found: I'm not even json"))
   }

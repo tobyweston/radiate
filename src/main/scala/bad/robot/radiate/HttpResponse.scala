@@ -1,7 +1,7 @@
 package bad.robot.radiate
 
 object HttpResponse {
-  def unapply(response: bad.robot.http.HttpResponse): Option[Int] = {
+  def unapply(response: simplehttp.HttpResponse): Option[Int] = {
     Some(response.getStatusCode)
   }
 }

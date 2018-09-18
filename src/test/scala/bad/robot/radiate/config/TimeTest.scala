@@ -2,8 +2,6 @@ package bad.robot.radiate.config
 
 import org.specs2.mutable.Specification
 
-import scalaz.{Failure, Success}
-
 class TimeTest extends Specification {
 
   implicit def tupleToTime(tuple: (String, String)) = Time(tuple._1.toInt, tuple._2.toInt)

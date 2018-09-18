@@ -16,8 +16,6 @@ import bad.robot.radiate._
 import activity._
 import org.apache.commons.lang3.StringUtils.abbreviate
 
-import scala.math._
-
 object StatusPanel {
   private val Red = new Color(200, 0, 0)
   private val Green = new Color(0, 200, 0)

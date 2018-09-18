@@ -10,4 +10,4 @@ object Username {
   }
 }
 
-case class Username (value: String)
+case class Username(value: String)

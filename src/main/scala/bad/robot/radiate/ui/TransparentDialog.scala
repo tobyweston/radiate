@@ -201,7 +201,6 @@ object TransparentDialog {
       try {
         val clazz: Class[_] = Class.forName("com.sun.awt.AWTUtilities")
         val method: Method = clazz.getMethod("setWindowOpaque", classOf[Window], classOf[Boolean])
-        val bool: Boolean = false
         method.invoke(clazz, window)
       } catch {
         case _: Exception => { /* silently ignore */ }

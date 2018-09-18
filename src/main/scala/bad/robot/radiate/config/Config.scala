@@ -1,7 +1,6 @@
 package bad.robot.radiate.config
 
 import java.net.URL
-import java.time.LocalTime
 
 import bad.robot.radiate.{ConfigurationError, Error}
 
@@ -13,7 +12,7 @@ object Config {
   val error = s"There was a problem reading or attempting to create the config file, check ${KnobsConfig.file.getAbsolutePath} for the following;\n"
 
   def apply(file: ConfigFile): Error \/ Config = {
-    validate(file).leftMap(errors => ConfigurationError(errors.list.mkString(error, "\n", ""))).disjunction
+    validate(file).leftMap(errors => ConfigurationError(errors.list.toList.mkString(error, "\n", ""))).disjunction
   }
 
   private def validate(file: ConfigFile) = {

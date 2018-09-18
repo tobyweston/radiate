@@ -2,7 +2,7 @@ package bad.robot.radiate
 
 import java.net.URL
 
-import bad.robot.http.{HttpResponse => SimpleHttpResponse}
+import simplehttp.{HttpResponse => SimpleHttpResponse}
 
 sealed class Error(val message: String)
 

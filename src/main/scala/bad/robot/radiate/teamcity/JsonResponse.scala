@@ -1,6 +1,6 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.http.{Header, HttpResponse}
+import simplehttp.{Header, HttpResponse}
 import bad.robot.radiate.teamcity.JsonResponse._
 
 object JsonResponse {
