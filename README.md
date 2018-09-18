@@ -1,5 +1,5 @@
 # Radiate
-[![](https://travis-ci.org/tobyweston/radiate.png?branch=master)](https://travis-ci.org/tobyweston/radiate)
+![](https://travis-ci.org/tobyweston/radiate.svg?branch=master)
 
 The `radiate` app is a TeamCity build monitor written in Scala. It can be run as a Windows **screensaver** or from the desktop.
 
