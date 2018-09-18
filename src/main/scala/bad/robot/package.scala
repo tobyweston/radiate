@@ -1,7 +1,7 @@
 package bad.robot
 
-import bad.robot.http.configuration.{Username => SimpleHttpUsername}
-import bad.robot.http.configuration.{Password => SimpleHttpPassword}
+import simplehttp.configuration.{Username => SimpleHttpUsername}
+import simplehttp.configuration.{Password => SimpleHttpPassword}
 import bad.robot.radiate.config.{Password, Username}
 
 package object http {

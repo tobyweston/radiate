@@ -1,8 +1,8 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.http.HeaderList._
-import bad.robot.http.HeaderPair._
-import bad.robot.http.{Headers, HttpResponse, MessageContent}
+import simplehttp.HeaderList._
+import simplehttp.HeaderPair._
+import simplehttp.{Headers, HttpResponse, MessageContent}
 import bad.robot.radiate.FunctionInterfaceOps.toMessageContent
 import bad.robot.radiate.ParseError
 import org.scalamock.specs2.IsolatedMockFactory

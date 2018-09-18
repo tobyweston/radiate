@@ -1,7 +1,7 @@
 package bad.robot.radiate.teamcity
 
 import argonaut.Argonaut._
-import bad.robot.http.HttpResponse
+import simplehttp.HttpResponse
 import bad.robot.radiate.Unmarshaller
 import bad.robot.radiate.Error
 import bad.robot.radiate.ParseError

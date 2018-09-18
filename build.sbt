@@ -8,7 +8,7 @@ assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 scalaVersion := "2.12.4"
 
 libraryDependencies ++= Seq(
-  "bad.robot" % "simple-http" % "1.0" % "compile" exclude("junit", "junit"),
+  "com.simple-http" % "simple-http" % "1.3" % "compile" exclude("junit", "junit"),
   "commons-io" % "commons-io" % "1.3.2" % "compile",
   "io.argonaut" %% "argonaut" % "6.2" % "compile",
   "io.verizon.knobs" %% "core" % "6.0.33",
@@ -16,12 +16,6 @@ libraryDependencies ++= Seq(
   "org.specs2" %% "specs2-core" % "4.2.0" % "test",
   "org.typelevel" %% "scalaz-specs2" % "0.5.2" % "test",
   "org.scalamock" %% "scalamock-specs2-support" % "3.6.0" % "test"
-)
-
-resolvers ++= Seq(
-  "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases",
-  "Oncue Bintray Repo" at "http://dl.bintray.com/oncue/releases",
-  "robotooling" at "http://www.robotooling.com/maven"
 )
 
 scalacOptions := Seq("-Xlint", "-Xfatal-warnings", "-deprecation", "-feature", "-language:implicitConversions,reflectiveCalls,higherKinds")

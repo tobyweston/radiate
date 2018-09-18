@@ -4,10 +4,10 @@ import java.net.URL
 
 import bad.robot.UrlMatcher._
 import bad.robot.radiate.UrlSyntax._
-import bad.robot.http.EmptyHeaders._
-import bad.robot.http.HeaderList._
-import bad.robot.http.HeaderPair._
-import bad.robot.http.{Headers, HttpClient, HttpResponse, StringHttpResponse}
+import simplehttp.EmptyHeaders._
+import simplehttp.HeaderList._
+import simplehttp.HeaderPair._
+import simplehttp.{Headers, HttpClient, HttpResponse, StringHttpResponse}
 import bad.robot.radiate.config.GuestAuthorisation
 import bad.robot.radiate.{AggregateError, UnexpectedResponse, Unmarshaller}
 import org.scalamock.specs2.IsolatedMockFactory

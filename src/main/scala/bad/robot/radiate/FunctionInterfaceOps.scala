@@ -3,7 +3,7 @@ package bad.robot.radiate
 import java.util.concurrent.Callable
 import java.util.function.{Supplier, Consumer}
 
-import bad.robot.http.MessageContent
+import simplehttp.MessageContent
 
 // not needed anymore with Scala 2.12
 object FunctionInterfaceOps {

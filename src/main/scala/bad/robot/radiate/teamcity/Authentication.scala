@@ -2,8 +2,8 @@ package bad.robot.radiate.teamcity
 
 import java.net.URL
 
-import bad.robot.http.CommonHttpClient
-import bad.robot.http.configuration.BasicAuthCredentials._
+import simplehttp.CommonHttpClient
+import simplehttp.configuration.BasicAuthCredentials._
 import bad.robot.radiate.config._
 
 object Authentication {

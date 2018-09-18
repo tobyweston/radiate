@@ -1,7 +1,7 @@
 package bad.robot.radiate.teamcity
 
-import bad.robot.http.HeaderPair._
-import bad.robot.http.{Header, HttpResponse}
+import simplehttp.HeaderPair._
+import simplehttp.{Header, HttpResponse}
 import bad.robot.radiate.teamcity.UnexpectedContentType._
 import org.apache.commons.lang3.StringUtils
 
