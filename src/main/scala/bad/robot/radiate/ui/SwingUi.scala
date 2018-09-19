@@ -4,12 +4,12 @@ import java.awt.AWTEvent.KEY_EVENT_MASK
 import java.awt.Toolkit.getDefaultToolkit
 import java.awt.event.AWTEventListener
 import java.awt.event.KeyEvent._
+
 import javax.swing.SwingUtilities.invokeLater
 import javax.swing.UIManager.getSystemLookAndFeelClassName
 import javax.swing._
-
 import bad.robot.radiate.FunctionInterfaceOps.toRunnable
-import bad.robot.radiate._
+import bad.robot.radiate.{Activity, Logging, Progress, Status, Error}
 import bad.robot.radiate.monitor.MonitoringTasksFactory._
 import bad.robot.radiate.monitor._
 import bad.robot.radiate.teamcity.SanitisedException
@@ -32,6 +32,7 @@ class SwingUi(factory: FrameFactory) extends Ui with Observer {
     addAwtEventListener(new RestartS(singleAggregate, VK_A))
     addAwtEventListener(new RestartS(multipleProjects, VK_C))
     addAwtEventListener(new RestartS(multipleBuildsDemo, VK_X))
+    addAwtEventListener(new RestartS(travis, VK_T))
   }
 
   private def addAwtEventListener(listener: AWTEventListener) {
