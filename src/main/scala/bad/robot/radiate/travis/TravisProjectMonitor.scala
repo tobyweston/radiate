@@ -1,25 +1,25 @@
 package bad.robot.radiate.travis
 
+import bad.robot.radiate._
 import bad.robot.radiate.activity.{Busy, Idle}
 import bad.robot.radiate.monitor.{Information, MonitoringTask, NonRepeatingObservable}
-import bad.robot.radiate._
 import com.google.code.tempusfugit.temporal.Duration.minutes
 import simplehttp.HttpClients.anApacheClient
+import simplehttp.MessageContent
 import simplehttp.configuration.HttpTimeout.httpTimeout
-import simplehttp.{MessageContent, Url}
 
 
-class TravisProjectMonitor(projectUrl: String) extends NonRepeatingObservable with MonitoringTask {
+class TravisProjectMonitor(project: Project) extends NonRepeatingObservable with MonitoringTask {
 
   private val http = anApacheClient.`with`(httpTimeout(minutes(2)))
   
   def run(): Unit = {
     notifyObservers(Busy, new NullProgress)
-    val response = http.get(Url.url(projectUrl))
+    val response = http.get(project.toUrl)
     val status = if (response.ok()) parseBuildStatus(response.getContent) else Unknown
     notifyObservers(status)
     notifyObservers(Idle, new NullProgress)
-    notifyObservers(new Information(projectUrl))
+    notifyObservers(new Information(project.toUrl.toExternalForm))
   }
   
   private def parseBuildStatus(content: MessageContent): Status = {
@@ -31,4 +31,6 @@ class TravisProjectMonitor(projectUrl: String) extends NonRepeatingObservable wi
     else
       Unknown
   }
+
+  override def toString: String = s"${project.username.value} (${project.project} ${project.branch})"
 }
