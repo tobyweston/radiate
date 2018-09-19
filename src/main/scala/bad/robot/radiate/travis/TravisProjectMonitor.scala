@@ -12,7 +12,7 @@ import simplehttp.configuration.HttpTimeout.httpTimeout
 class TravisProjectMonitor(project: Project) extends NonRepeatingObservable with MonitoringTask {
 
   private val http = anApacheClient.`with`(httpTimeout(minutes(2)))
-  
+
   def run(): Unit = {
     notifyObservers(Busy, new NullProgress)
     val response = http.get(project.toUrl)
@@ -21,15 +21,14 @@ class TravisProjectMonitor(project: Project) extends NonRepeatingObservable with
     notifyObservers(Idle, new NullProgress)
     notifyObservers(new Information(project.toUrl.toExternalForm))
   }
-  
+
   private def parseBuildStatus(content: MessageContent): Status = {
-    val body = content.asString()
-    if (body.contains("pass"))
-      Ok
-    else if (body.contains("fail"))
-      Broken
-    else
-      Unknown
+    content.asString() match {
+      case body if body.contains("pass")  => Ok
+      case body if body.contains("fail")  => Broken
+      case body if body.contains("error") => Broken
+      case _                              => Unknown
+    }
   }
 
   override def toString: String = s"${project.username.value} (${project.project} ${project.branch})"
