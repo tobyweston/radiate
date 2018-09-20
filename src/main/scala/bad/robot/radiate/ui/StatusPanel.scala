@@ -37,7 +37,7 @@ class StatusPanel(parent: JFrame, identifier: Int) extends JPanel with Observer 
   override def update(source: Observable, status: Status) {
     this.status = status
     this.text = null
-    setToolTipText(abbreviate(s"$identifier. $source", 20))
+    setToolTipText(s"$identifier. $source")
     repaint()
   }
 
