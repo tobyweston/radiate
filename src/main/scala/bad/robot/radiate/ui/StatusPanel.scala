@@ -3,18 +3,16 @@ package bad.robot.radiate.ui
 import java.awt._
 import java.awt.geom.Rectangle2D
 import java.time.LocalTime
-import javax.swing._
 
+import bad.robot.radiate._
+import bad.robot.radiate.activity._
 import bad.robot.radiate.monitor.{Information, Observable, Observer}
 import bad.robot.radiate.ui.StatusPanel._
-import bad.robot.radiate.ui.Transparency.SeventyFivePercent
 import bad.robot.radiate.ui.swing.Composite.{transparentComposite, _}
 import bad.robot.radiate.ui.swing.Percentage.EightyPercent
 import bad.robot.radiate.ui.swing.Region.{getReducedRegion, _}
 import bad.robot.radiate.ui.swing.Text._
-import bad.robot.radiate._
-import activity._
-import org.apache.commons.lang3.StringUtils.abbreviate
+import javax.swing._
 
 object StatusPanel {
   private val Red = new Color(200, 0, 0)
@@ -49,7 +47,9 @@ class StatusPanel(parent: JFrame, identifier: Int) extends JPanel with Observer 
     repaint()
   }
 
-  override def update(source: Observable, information: Information): Unit = () /** ignore information updates **/
+  override def update(source: Observable, information: Information): Unit = {
+    this.text = information.toString
+  } 
 
   override def update(source: Observable, error: Error) {
     update(source, Busy, new NullProgress)
@@ -87,7 +87,7 @@ class StatusPanel(parent: JFrame, identifier: Int) extends JPanel with Observer 
 
   private def updateText(graphics: Graphics2D) {
     if (text != null) {
-      applyWithComposite(graphics, transparentComposite(graphics, SeventyFivePercent)) {
+      applyWithComposite(graphics, transparentComposite(graphics, Transparency(0.10f))) {
         val region = getReducedRegion(StatusPanel.this.getBounds, EightyPercent, EightyPercent)
         centerRegionWithinComponent(region, StatusPanel.this)
         drawTextCenteredToRegion(region, graphics, text)
