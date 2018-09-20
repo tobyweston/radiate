@@ -1,13 +1,13 @@
 <component name="libraryTable">
-  <library name="SBT: log4j:log4j:1.2.16:jar">
+  <library name="sbt: log4j:log4j:1.2.16:jar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/bundles/log4j-1.2.16.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/log4j/log4j/1.2.16/log4j-1.2.16.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/docs/log4j-1.2.16-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/log4j/log4j/1.2.16/log4j-1.2.16-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/srcs/log4j-1.2.16-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/log4j/log4j/1.2.16/log4j-1.2.16-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

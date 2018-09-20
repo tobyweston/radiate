@@ -1,13 +1,13 @@
 <component name="libraryTable">
-  <library name="SBT: com.google.code.tempus-fugit:tempus-fugit:1.1:jar">
+  <library name="sbt: com.google.code.tempus-fugit:tempus-fugit:1.1:jar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.ivy2/cache/com.google.code.tempus-fugit/tempus-fugit/jars/tempus-fugit-1.1.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/com/google/code/tempus-fugit/tempus-fugit/1.1/tempus-fugit-1.1.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.ivy2/cache/com.google.code.tempus-fugit/tempus-fugit/docs/tempus-fugit-1.1-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/com/google/code/tempus-fugit/tempus-fugit/1.1/tempus-fugit-1.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.ivy2/cache/com.google.code.tempus-fugit/tempus-fugit/srcs/tempus-fugit-1.1-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/com/google/code/tempus-fugit/tempus-fugit/1.1/tempus-fugit-1.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
